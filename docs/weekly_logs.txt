@@ -1,0 +1,46 @@
+=== Week 0 (Due 2/12) ===
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 1 (Plan)
+2/13 	1hr	Initialize project with the team.
+2/14 	2hrs	Add basic backend support for express.
+2/14 	2hrs	Creating routing system for the website.
+2/16 	5hrs	Add Transforming Drainage Project's Algorithm
+2/17	5hrs	Add Transforming Drainage Project's Algorithm
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 1 (Plan)
+2/13	2h	Adding the Google Maps API to home page.
+2/15	3h	Adding the Google Maps API to home page.
+2/16	3h	Add GeoJson as a map overlay.
+2/17	3h	Add GeoJson as a map overlay.
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 1 (Plan)
+2/15 	4hrs	Parse daily data files into tables.
+2/18 	6hrs	Dynamically create, delete, or update tables based on present data files.
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 1 (Plan)
+2/13	4hrs	Setup basic page layout
+2/14	2hrs	Create Form Inputs
+2/17	4hrs	Learn how to use Google Graphs
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 1 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+2/12	Finish Sprint 1 Planning Document and Discuss weekly goals
+2/14	Meet with project owners and discuss what will be done during sprint 1
+2/17	Discuss what each member has done on their assigned tasks and finish up week 1 plans
+[Individual Goals]
+Clayton Marshall: Setup repository, add express and routing to backend, write Transforming Drainage Project’s algorithm on server.
+Jonah Heeren: Setup Database, fill it with the provided Transforming Drainage Project’s data, & create mechanism to dynamically update table data.
+Vritant Bhardwaj: Setup containers, inputs and components on the website, go through Google Graph documentation.
+Drew Atkinson: Begin work on the Map integration. Add a map to the home page, and use geoJSON to create a clickable overlay of possible locations on the map
