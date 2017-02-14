@@ -28,6 +28,11 @@
         });
 
         map.data.loadGeoJson('final_index_FeaturesToJSON.json');
+        map.data.setStyle({
+          fillColor: 'white',
+          fillOpacity: 0,
+          strokeWeight: 1
+        });
       }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU&callback=initMap"
