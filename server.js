@@ -5,7 +5,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 //VB TESTING
-app.get("/vb", function(req, res) {
+app.get("/", function(req, res) {
   res.render("index.ejs");
 });
 //VB TESTING
