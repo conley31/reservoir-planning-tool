@@ -17,12 +17,18 @@ function initMap() {
     strokeWeight: 1
   });
 
+  // Registers a click event for a single polygon
+  map.data.addListener('click', function(event) {
+    // TODO: for now just colors it red
+    console.log(event.feature.getProperty('Id'));
+    map.data.overrideStyle(event.feature, {
+      fillColor: 'red',
+      fillOpacity: 1,
+    });
+  });
+
   var locMarker = new google.maps.Marker({
     map: map,
-    icon: {
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 5
-    },
     title: "Your Location"
   });
   // Geolocation for HTML5 compatible browsers
