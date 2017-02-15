@@ -1,0 +1,36 @@
+<% include partials/header %>
+
+<div id="graph-body" class="container">
+  <div class="row">
+    <div id="sidebar" class="col-md-3">
+      <div class="container">
+        <!-- This is where the calculator will go -->
+        <h3>SIDEBAR</h3>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div id="graph-desc" class="col-md-12">
+          <div class="container">
+            <!-- This is where Google Charts will go -->
+            <h3>Graph</h3>
+          </div>
+        </div>
+        <div id="graph" class="col-md-12">
+          <div class="container">
+            <!-- This is where the Graph's description will be printed -->
+            <h3>Graph Description</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="map" class="container">
+  <!-- Map goes here -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU&callback=initMap"
+  type="text/javascript"></script>
+  <script src="/app.js" type="text/javascript"></script>
+</div>
+<% include partials/footer %>
