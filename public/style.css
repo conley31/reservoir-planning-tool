@@ -28,6 +28,13 @@ nav {
   margin: 10px;
 }
 
+#graph-desc {
+  width: 1004px;
+  background: #cccccc;
+  margin: 10px;
+}
+
+
 .container {
   margin: 0 auto;
   width: 1280px;
