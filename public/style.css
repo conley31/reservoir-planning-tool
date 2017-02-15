@@ -34,6 +34,9 @@ nav {
   margin: 10px;
 }
 
+#map-body {
+  display: none;
+}
 
 .container {
   margin: 0 auto;
