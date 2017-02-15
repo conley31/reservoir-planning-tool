@@ -21,6 +21,7 @@
   "homepage": "https://github.com/TransformingDrainageProject/reservoir-planning-tool#readme",
   "dependencies": {
     "body-parser": "1.16.1",
+    "ejs": "2.5.5",
     "express": "4.14.1"
   }
 }
