@@ -20,7 +20,9 @@ function initMap() {
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
     // TODO: for now just colors it red
-    console.log(event.feature.getProperty('Id'));
+    var locId = event.feature.getProperty('Id');
+    console.log(locId);
+    $('#mapselection').text('You selected id: ' + locId);
     map.data.overrideStyle(event.feature, {
       fillColor: 'red',
       fillOpacity: 1,
