@@ -26,41 +26,37 @@ var values = `(ID INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (ID)
 )`
 
+var TableData = [];
+
 var stream = fs.createReadStream("index.csv");
 CSV
-	.fromStream(stream, {headers : ["FID", "ID", "Latitude", "Longitude", "TextFile", "URL"]})
+	.fromStream(stream, {headers : ["FID", , , , "TextFile", ,]})
     .on("data", function(data){
-      connection.query(createTable + "Location" + data["ID"] + " " + values);
-      var nestedStream = nested_fs.createReadStream("daily_files/" + data["TextFile"]);
-      nestedCSV
-        .fromStream(nestedStream, {headers : ["year", "month", "day", "drainflow", "precipitation", "PET"]})
-          .on("data", function(nested_data){
+      TableData.push([data["FID"], data["TextFile"]])
+      //connection.query(createTable + "Location" + data["ID"] + " " + values);
+      
+    })
+    .on("end", function(){
+         while(TableData.length != 0) {
+          var Table = TableData.pop();
+          connection.query(createTable + "Location" + Table[0] + " " + values);
+          var nestedStream = nested_fs.createReadStream("daily_files/" + Table[1]);
+          nestedCSV
+            .fromStream(nestedStream, {headers : ["year", "month", "day", "drainflow", "precipitation", "PET"]})
+            .on("data", function(nested_data){
             var insertValues = { RecordDate: nested_data["year"] + "-" + nested_data["month"] + "-" + nested_data["day"],
                                 Drainflow: nested_data["drainflow"],
                                 Precipitation: nested_data["precipitation"],
                                 PET: nested_data["PET"]};
-            var query = connection.query('INSERT INTO Location' +  data["ID"] + ' SET ?', insertValues, function(err, result) {
-              if(error) {
-                return connection.rollback(function() {
-                  throw error;
-                });
-              }
-              connection.commit(function(err) {
-                if(err) {
-                  return connection.rollback(function() {
-                    throw err;
-                  })
-                }
-              })
-            })
+            var query = connection.query('INSERT INTO Location' +  Table[0] + ' SET ?', insertValues)
           })
           .on("end", function(){
-            console.log("done");
+            
           });
-    })
-    .on("end", function(){
-         console.log("done");
+         }
     });
+
+
 
 
 
