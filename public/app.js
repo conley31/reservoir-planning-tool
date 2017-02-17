@@ -1,5 +1,11 @@
 var map;
 
+//Function runs on window loading
+window.onload = function() {
+  initGraph();
+  initMap();
+};
+
 // Funciton to initialize the Google Map, this gets called by the Google maps API
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
