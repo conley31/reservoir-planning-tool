@@ -16,6 +16,12 @@ nav {
   margin: 10px;
 }
 
+.calculator-input {
+  width: inherit;
+  padding: 3px;
+  background: #222222;
+}
+
 #graph {
   width: 1004px;
   height: 500px;
@@ -34,8 +40,20 @@ nav {
   width: 1280px;
 }
 
+.form-control {
+  font-size: 12px;
+}
+
+.input-group {
+  margin: 1px;
+}
+
+.input-group-addon {
+  font-size: 11px;
+}
+
 footer {
-  position: relative;
+  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
