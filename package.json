@@ -9,7 +9,7 @@
   "scripts": {
 
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db_setup": "pip install -r db/requirements.txt; ./db/setup.py;",
+    "db_setup": "pip install -r db/requirements.txt; python db/setup.py;",
   },
   "repository": {
     "type": "git",
