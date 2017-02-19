@@ -11,7 +11,7 @@ nav {
 }
 
 #sidebar {
-  width: 236px;
+  width: 256px;
   background: #eeeeee;
   margin: 10px;
 }
@@ -23,14 +23,14 @@ nav {
 }
 
 #graph {
-  width: 1004px;
+  width: 984px;
   height: 500px;
   background: #dddddd;
   margin: 10px;
 }
 
 #graph-desc {
-  width: 1004px;
+  width: 984px;
   background: #cccccc;
   margin: 10px;
 }
@@ -53,7 +53,7 @@ nav {
 }
 
 footer {
-  position: absolute;
+  position: relative;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -77,5 +77,6 @@ footer {
   /*margin: 0;
   padding: 0;*/
   height: 500px;
-  width: 1004px;
+  width: 984px;
+  margin: 10px;
 }

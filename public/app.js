@@ -3,7 +3,7 @@ var map;
 //Function runs on window loading
 window.onload = function() {
   initGraph();
-  //initMap();
+  initMap();
 };
 
 // Funciton to initialize the Google Map, this gets called by the Google maps API
