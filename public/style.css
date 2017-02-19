@@ -11,19 +11,26 @@ nav {
 }
 
 #sidebar {
-  width: 236px;
+  width: 256px;
   background: #eeeeee;
   margin: 10px;
 }
 
+.calculator-input {
+  width: inherit;
+  padding: 3px;
+  background: #222222;
+}
+
 #graph {
-  width: 1004px;
+  width: 984px;
+  height: 500px;
   background: #dddddd;
   margin: 10px;
 }
 
 #graph-desc {
-  width: 1004px;
+  width: 984px;
   background: #cccccc;
   margin: 10px;
 }
@@ -33,12 +40,31 @@ nav {
   width: 1280px;
 }
 
+.form-control {
+  font-size: 12px;
+}
+
+.input-group {
+  margin: 1px;
+}
+
+.input-group-addon {
+  font-size: 11px;
+}
+
 footer {
-  position: absolute;
+  position: relative;
   left: 0;
   bottom: 0;
   width: 100%;
+  height: 46px;
   background-color: #efefef;
+  display: flex;
+  align-items: center;
+}
+
+.footer-text {
+  width: inherit;
   text-align: center;
 }
 
@@ -51,4 +77,6 @@ footer {
   /*margin: 0;
   padding: 0;*/
   height: 500px;
+  width: 984px;
+  margin: 10px;
 }
