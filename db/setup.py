@@ -3,6 +3,8 @@
 import MySQLdb as db
 import csv
 import json
+import os.path
+  
 
 with open('config.json') as json_data:
     config = json.load(json_data)
@@ -11,6 +13,13 @@ host = config.get("host")
 user = config.get("user")
 password = config.get("password")
 db = config.get("db")
+log_locaiton = config.get("logLocation")
+
+try:
+  log = open(log_locaiton, "a+")
+except IOError as err:
+  print("IO error: {0}".format(err))
+  sys.exit(1)
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
               (ID INT NOT NULL AUTO_INCREMENT,
@@ -46,7 +55,8 @@ try:
       print "Created Table: Location{}".format(row[0])
 
 except db.Error, e:
-  print "Error %d: %s" % (e.args[0],e.args[1])
+  print "Error %d - %s" % (e.args[0],e.args[1])
+
   sys.exit(1)
 finally:    
   if con:    

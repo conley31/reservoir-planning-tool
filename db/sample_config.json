@@ -2,5 +2,6 @@
   "host":"localhost",
   "user":"your_user",
   "password":"your_password_here",
-  "db":"TDP"
+  "db":"TDP",
+  "logLocation":".db.log"
 }
