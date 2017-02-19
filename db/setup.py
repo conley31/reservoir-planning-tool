@@ -1,8 +1,16 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import MySQLdb as db
 import csv
+import json
+
+with open('config.json') as json_data:
+    config = json.load(json_data)
+
+host = config.get("host")
+user = config.get("user")
+password = config.get("password")
+db = config.get("db")
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
               (ID INT NOT NULL AUTO_INCREMENT,
@@ -28,7 +36,7 @@ def ParseDailyData(cur, id, textFile):
       cur.execute(insert.format(id, date, row[3], row[4], row[5]))
 
 try:
-  con = db.connect('localhost', 'root', 'PxrhjGtvWwC4^X%Z', 'TDP');
+  con = db.connect(host, user, password, db);
   cur = con.cursor()
   with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
