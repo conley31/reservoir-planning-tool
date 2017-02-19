@@ -4,26 +4,29 @@ Notes: This file exports the algorithm developed by the Transforming Drainage Pr
 
  */
 
-module.exports = function(pondVolSmallest, pondVolLargest, pondVolIncrement, pondDepth){		//TODO: add last argument.
+module.exports = function(pondVolSmallest, pondVolLargest, pondVolIncrement, pondDepth, maxSoilMoisture, irrigationArea, irrigationDepth){		//TODO: add last argument.
 	const seepageVolumeDay = 0.01; //ft
-	const numberOfIncrements = (pondVolLargest - pondVolSmallest)/pondVolIncrement;		//TODO:specify on front-end that the increment can't be zero.
+	const numberOfIncrements = (pondVolLargest - pondVolSmallest)/pondVolIncrement;		//specify on front-end that the increment can't be zero.
 
 	for(i = 0; i < numberOfIncrements; i++){
 		var pondVolume = pondVolSmallest + (i * pondVolIncrement);
-		var pondArea = pondVolume/pondDepth;						//TODO: specify on front-end that the pondDepth can't be zero.
+		var pondArea = pondVolume/pondDepth;						//specify on front-end that the pondDepth can't be zero.
 
 
-
+		var soilMoistureDepthDayPrev = maxSoilMoisture;
 		//The following should be done for every year, month, day and requires inputs from the database.
 
-		var precipDay = //from database;
+		var precipDepthDay = //from database;
+		var evapDepthDay = //from database;
+		var irrigationVolDay = //from db;
+		var waterVolDay = //from db;
 		var pondPrecipVolDay = percipDay * pondArea;
-		MaxSoilMoistureDepth = INPUT;
-		var SoilMoistureDepthDay = SoilMoistureDepthDay +PrecipDepthDay – EvaporationDepthDay;	//TODO: still waiting on frankenb to tell me if this is the correct statement.
-		if(SoilMoistureDepthDay < 0.5*MaxSoilMoistureDepth){
-			IrrigationVolDay=IrrigDepth*FieldArea;
+		var soilMoistureDepthDay = soilMoistureDepthDayPrev + precipDepthDay – evapDepthDay;	//TODO: still waiting on frankenb to tell me if this is the correct statement.
+		if(soilMoistureDepthDay < 0.5*maxSoilMoisture){
+			irrigationVolDay = irrigationDepth * irrigationArea;
+
 			//CHECK WITH FRANKENB TO MAKE SURE THIS IF STATEMENT SHOULD BE NESTED.
-			if(IrrigationVolDay > WaterVolDay){
+			if(irrigationVolDay > waterVolDay){
 				DeficitVolDay = (IrrigationVolDay – WaterVolDay)/PondArea;
 				else{
 					DeficitVolDay = 0;
@@ -43,6 +46,9 @@ module.exports = function(pondVolSmallest, pondVolLargest, pondVolIncrement, pon
 				BypassFlow=0
 			}
 		PondWaterDepthDay = WaterVolDay/PondArea	
+
+		//update soilMoistureDepthDayPrev before loop ends
+		soilMoistureDepthDayPrev = soilMoistureDepthDay;
 
 			//REST OF THE ALGORITHM IS WRITING TO FILES.
 	}
