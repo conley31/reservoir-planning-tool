@@ -10,18 +10,18 @@ with open('config.json') as json_data:
 host = config.get("host")
 user = config.get("user")
 password = config.get("password")
-db = config.get("db")
-log_locaiton = config.get("logLocation")
+database = config.get("db")
+log_location = config.get("logLocation")
 
 try:
-  log = open(log_locaiton, "rb+")
+  log = open(log_location, "rb+")
 except IOError as err:
   print("IO error: {0}".format(err))
   sys.exit(1)
 
 stream = csv.reader(log, delimiter='>')
 for row in stream:
-  if row[0] == 'CREATE':
+  if row[0] == 'CREATED':
     print("Database already created. Exiting...")
     sys.exit(1)
 
@@ -50,7 +50,7 @@ def ParseDailyData(cur, id, textFile):
       cur.execute(insert.format(id, date, row[3], row[4], row[5]))
 
 try:
-  con = db.connect(host, user, password, db);
+  con = db.connect(host, user, password, database)
   cur = con.cursor()
   with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
@@ -66,5 +66,5 @@ except db.Error, e:
 finally:    
   if con:    
     con.close()
-  log.write("CREATE>" + time.strftime("%c") + "\n")
+  log.write("CREATED>" + time.strftime("%c") + "\n")
 
