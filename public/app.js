@@ -3,7 +3,7 @@ var map;
 //Function runs on window loading
 window.onload = function() {
   initGraph();
-  initMap();
+  //initMap();
 };
 
 // Funciton to initialize the Google Map, this gets called by the Google maps API
@@ -26,12 +26,11 @@ function initMap() {
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
     // TODO: for now just colors it red
-    var locId = event.feature.getProperty('Id');
-    console.log(locId);
-    $('#mapselection').text('You selected id: ' + locId);
+    var locationId = event.feature.getProperty('Id');
+    selectLocation(locationId);
     map.data.overrideStyle(event.feature, {
-      fillColor: 'red',
-      fillOpacity: 1,
+      fillColor: 'green',
+      fillOpacity: 0.8
     });
   });
 
@@ -46,7 +45,9 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+
       locMarker.setPosition(pos);
+      console.log(getFeatureByPosition(map, pos));
     });
   }
 }
@@ -94,3 +95,16 @@ function initGraph() {
       chart.draw(data, options);
     }
 }
+
+var getFeatureByPosition = function(map, latLng) {
+  var feature = null;
+  map.data.forEach(function(f) {
+    if (f.containsLocation(latLng)) {
+      feature = f;
+    }
+  });
+  return feature;
+};
+var selectLocation = function(locationId) {
+      $('#mapselection').text('You selected id: ' + locationId);
+};
