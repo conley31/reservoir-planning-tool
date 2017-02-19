@@ -7,8 +7,8 @@ $(document).ready(function() {
 });
 
 /*
-*   Maps
-*/
+ *   Maps
+ */
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -24,6 +24,12 @@ var initMap = function() {
     fillColor: 'white',
     fillOpacity: 0,
     strokeWeight: 1
+  });
+
+  map.addListener('zoom_changed', function() {
+    if (map.getZoom() < 6) {
+      map.setZoom(6);
+    }
   });
 
   // Registers a click event for a single polygon
@@ -65,8 +71,8 @@ var selectLocation = function(feature) {
 };
 
 /*
-*   Charting
-*/
+ *   Charting
+ */
 
 var drawChart = function() {
 
