@@ -44,3 +44,89 @@ Clayton Marshall: Setup repository, add express and routing to backend, write Tr
 Jonah Heeren: Setup Database, fill it with the provided Transforming Drainage Project’s data, & create mechanism to dynamically update table data.
 Vritant Bhardwaj: Setup containers, inputs and components on the website, go through Google Graph documentation.
 Drew Atkinson: Begin work on the Map integration. Add a map to the home page, and use geoJSON to create a clickable overlay of possible locations on the map
+
+=== Week 1 (Due 2/19) ===
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 1 (Summary)
+2/13 	1hr	Created and initialized the git repo.
+2/14 	2hrs	Add basic backend support for express.
+2/14 	2hrs	Creating routing system for the website.
+2/18 	6hrs	Add Transforming Drainage Project's Algorithm (Project Owners have
+updated algorithm, so I will be meeting with them within the next week
+to update what I currently have.)
+
+Week 2 (Plan)
+2/19 	3hrs	Look through updated algorithm documents and make necessary changes
+that I can make without assistance of project owner’s.
+2/20	6hrs	Accept form data form the front-end, parse it and pass it into the TDP algorithm.
+2/21 	1hr	Meet with project owners to discuss algorithm updates.(Meeting date has
+not    been decided.)
+2/24	0.5h	Work with Jonah to add the database query into the algorithm.
+
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 1 (Summary)
+2/12	2h	Helped set up repository, added Google Map with JSON overlay
+2/13	2h 	Added geolocation on the map using the JS web API
+2/15	2h	Worked on styling of the website and making the map fit
+2/19	4h	Worked on selection of the map, so it highlights the correct area that was clicked
+		Restrict the zoom level of the map to remedy slow rendering
+Week 2 (Plan)
+2/20	3h	Write a method to find map features by lat/long
+2/21	3h	Add Google Geolocation api for searching locations by address
+2/23
+
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 1 (Summary)
+2/15	1hr	Got MySQL setup on my laptop and added initial setup.
+2/16	4hr	Learning node and experimenting with parsing nested CSVs. The result of which was realizing that node was not the appropriate solution for DB setup due to its asynchronous nature. It tried to open 12000 CSVs at the same time which caused heap overflows.
+2/17	2hr	Fixed data files to make them CSVs that had a common delimiter. Note: Not in git because this is 3GBs of text files.
+2/17	2hr	Experimenting with whether bash would be a faster option to build the database. Since every SQL statement required auth, it seemed slower and less efficient than using the python libs.
+2/17	3hr	Wrote the database setup script in python
+
+Week 2 (Plan)
+2/19	5hr	Writing the update script for the DB.
+2/22	2hr	Provide interface for querying partial daily data.
+2/23	1hr	Continue working on interface for querying partial daily data.
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 1 (Summary)
+2/13	3hr	Went through Google Charts documentation and quick guide
+2/14	4hr	Setup basic layout for the website
+2/17	1hr	Setup example google chart as placeholder
+2/18	2hr	Created calculator form inputs
+Week 2 (Plan)
+2/20	4hr	Setup graph to accept calculated inputs
+2/24	2hr	Add mock data to graphs
+2/25	4hr	Prepare calculated region data for graphing
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 1 (Summary) (Scrum master: Drew Atkinson)
+Overall Progress Summary: This week we have worked on building the core components of the project. The basic layout of the website has been setup. The database has been initialized with data from our project owners. We have laid out the mapping service on the front-end and added an overlay with possible locations and added the ability to select a location. The graphs are ready to be put into the website. Lastly, the backend routing was taken care of and the algorithm that all of our data will flow through has been written.
+2/12	1.5 hrs   Finished Sprint 1 Planning Document and Discuss weekly goals
+2/14	2hrs  Met with project owners and discuss what will be done during sprint 1.
+         (Got updates on project specifics regarding design of algorithm and inputs
+           from user)
+2/17	1hr  Discussed what each member had done on their assignments and what was left
+ to be done. Began planning for upcoming week as well.
+
+Week 2 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+2/20	Meet to discuss database schema
+2/21 	(Clayton) Meet with project owner to discuss algorithm
+2/24	Weekly Scrum meeting
+[Individual Goals]
+Clayton: Finish the updated algorithm and allow for user’s form data to be added as input.
+Vritant: Setup up google charts to take in data similar to that stored in the database.
+Jonah: Finish database update script and add query endpoints.
