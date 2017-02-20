@@ -15,8 +15,11 @@ log_location = config.get("logLocation")
 
 check_table = """ SELECT COUNT(*)
             FROM information_schema.tables
-            WHERE table_name = '{}';
-            """
+            WHERE table_name = '{}';"""
+
+get_tables = """SELECT TABLE_NAME 
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='TDP';"""
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
               (ID INT NOT NULL AUTO_INCREMENT,
@@ -24,20 +27,28 @@ make_table = """CREATE TABLE IF NOT EXISTS Location{}
               Drainflow FLOAT DEFAULT NULL,
               Precipitation FLOAT DEFAULT NULL,
               PET FLOAT DEFAULT NULL,
-              PRIMARY KEY (ID);
-              )"""
+              PRIMARY KEY (ID)
+              );"""
 
 insert = """INSERT INTO Location{} 
           (RecordedDate, Drainflow, Precipitation, PET)
           VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
 
-def addTable(table_name, DataFileName):
-  try:
-    cur.execute(make_table.format(table_name))
-  except db.Error as e:
-    print "Error %d - %s".format(e.args[0], e.args[1])
-    log.write("Error:" + "%d - %s".format(e.args[0], e.args[1]) + "\n")
-    sys.exit(1)
+def toStrDate(year, month, day):
+  return (year + "-" + month + "-" + day)
+
+def ParseDailyData(table_id, textFile):
+  with open('daily_files/' + textFile, 'rb') as csvfile:
+    stream = csv.reader(csvfile, delimiter=',')
+    for row in stream:
+      date = toStrDate(row[0],row[1],row[2])
+      cur.execute(insert.format(table_id, date, row[3], row[4], row[5]))
+      con.commit()
+
+def addTable(table_id, DataFileName):
+    cur.execute(make_table.format(table_id))
+    com.commit()
+    ParseDailyData(table_id, DataFileName)
 
 
 def checkTable(table_name):
@@ -61,17 +72,18 @@ def getLastUpdateTime():
       last_update = dt.strptime(row[1], "%a %b %d %H:%M:%S %Y")
   return last_update
 
-def updateFromIndex():
+def addNewFromIndex():
   with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       if not checkTable('Location' + row[0]):
-        try:
-          addTable('Location' + row[0], row[4])
-        except db.Error, e:
-          print "Error %d - %s".format(e.args[0], e.args[1])
-          log.write("Error:" + "%d - %s".format(e.args[0], e.args[1]) + "\n")
-          sys.exit(1)
+          addTable(row[0], row[4])
+          print("added new location")
+
+def removeOldTables():
+  table_names = cur.execute(get_tables)
+  for row in cur:
+    print row
 
 def update():
   if dbCreated:
@@ -79,7 +91,9 @@ def update():
     last_updated = getLastUpdateTime()
     index_last_modify = dt.fromtimestamp(os.path.getmtime('index.csv'))
     if index_last_modify > last_updated:
-      updateFromIndex()
+      print("Updating from index")
+      addNewFromIndex()
+      removeOldTables()
     else:
       print "No changes to index.csv"
     print index_last_modify
@@ -93,4 +107,4 @@ except IOError as err:
 con = db.connect(host, user, password, database)
 cur = con.cursor()
 update()
-con.close()
+
