@@ -14,7 +14,8 @@ app.route("/")
 .post(bodyParser.urlencoded({ extended: false }), function(req, res){
 	console.log(req.body);
 	//handle and pass inputs into the TDPAlg
-	res.status(200).end();
+	//res.status(200).end();
+  res.end();
 });
 
 app.get('*', (req, resp)=>{
