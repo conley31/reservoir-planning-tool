@@ -58,3 +58,4 @@ typings/
 .env
 
 db/daily_files
+db/config.json
