@@ -7,8 +7,14 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/", function(req, res) {
+app.route("/")
+.get(function(req, res) {
   res.render("index.ejs");
+})
+.post(bodyParser.urlencoded({ extended: false }), function(req, res){
+	console.log(req.body);
+	//handle and pass inputs into the TDPAlg
+	res.status(200).end();
 });
 
 app.get('*', (req, resp)=>{
