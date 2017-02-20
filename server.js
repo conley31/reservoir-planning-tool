@@ -1,15 +1,24 @@
 const PORT = process.env.PORT || 3000;
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+
+//var TDPAlg = require('./TDPAlg.js');
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/", function(req, res) {
+app.route("/")
+.get(function(req, res) {
   res.render("index.ejs");
+})
+.post(bodyParser.urlencoded({ extended: false }), function(req, res){
+	console.log(req.body);
+	//handle and pass inputs into the TDPAlg
+	res.status(200).end();
 });
 
-app.get('*', (req, resp) => {
-	resp.send('Page not found you bafoon.', 404);
+app.get('*', (req, resp)=>{
+	resp.status(404).send('Page not found you bafoon.');
 });
 
 app.listen(PORT, function(){
