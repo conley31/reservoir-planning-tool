@@ -14,9 +14,10 @@ database = config.get("db")
 log_location = config.get("logLocation")
 
 try:
-  log = open(log_location, "rb+")
+  log = open(log_location, "wb+")
 except IOError as err:
   print("IO error: {0}".format(err))
+  log.write("IO error: {0}".format(err))
   sys.exit(1)
 
 stream = csv.reader(log, delimiter='>')
@@ -27,12 +28,11 @@ for row in stream:
 
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
-              (ID INT NOT NULL AUTO_INCREMENT,
-              RecordedDate Date DEFAULT NULL,
+              (RecordedDate Date NOT NULL,
               Drainflow FLOAT DEFAULT NULL,
               Precipitation FLOAT DEFAULT NULL,
               PET FLOAT DEFAULT NULL,
-              PRIMARY KEY (ID)
+              PRIMARY KEY (RecordedDate)
               )"""
 
 insert = """INSERT INTO Location{} 
@@ -60,8 +60,8 @@ try:
       print "Created Table: Location{}".format(row[0])
 
 except db.Error, e:
-  print "Error %d - %s".format(e.args[0], e.args[1])
-  log.write("Error:" + "%d - %s".format(e.args[0], e.args[1]) + "\n")
+  print "Error {} - {}".format(e.args[0], e.args[1])
+  log.write("Error:" + "{} - {}".format(e.args[0], e.args[1]) + "\n")
   sys.exit(1)
 finally:    
   if con:    
