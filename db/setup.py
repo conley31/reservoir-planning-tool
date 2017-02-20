@@ -63,8 +63,9 @@ except db.Error, e:
   print "Error {} - {}".format(e.args[0], e.args[1])
   log.write("Error:" + "{} - {}".format(e.args[0], e.args[1]) + "\n")
   sys.exit(1)
-finally:    
-  if con:    
+finally:   
+  if con:
+    con.commit()
     con.close()
   log.write("CREATED>" + time.strftime("%c") + "\n")
 
