@@ -22,8 +22,7 @@ FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='TDP';"""
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
-              (ID INT NOT NULL AUTO_INCREMENT,
-              RecordedDate Date DEFAULT NULL,
+              (RecordedDate Date NOT NULL,
               Drainflow FLOAT DEFAULT NULL,
               Precipitation FLOAT DEFAULT NULL,
               PET FLOAT DEFAULT NULL,
@@ -47,7 +46,7 @@ def ParseDailyData(table_id, textFile):
 
 def addTable(table_id, DataFileName):
     cur.execute(make_table.format(table_id))
-    com.commit()
+    con.commit()
     ParseDailyData(table_id, DataFileName)
 
 
