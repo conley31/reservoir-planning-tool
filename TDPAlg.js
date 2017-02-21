@@ -2,81 +2,128 @@
    -------TDPAlg.js**-------
 Notes: This file exports the algorithm developed by the Transforming Drainage Project.
 
+All variable that are preceeded by an underscore are from form inputs
 */
-
-module.exports = function(pondVolSmallest, pondVolLargest, pondVolIncrement, pondDepth, maxSoilMoisture, irrigationArea, irrigationDepth){		//TODO: add last argument.
+module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity){		//TODO: add last argument.
 	const seepageVolDay = 0.01; //ft
-	const numberOfIncrements = (pondVolLargest - pondVolSmallest)/pondVolIncrement;		//specify on front-end that the increment can't be zero.
+	const numberOfIncrements = (_pondVolLargest - _pondVolSmallest)/_pondVolIncrement;		//specify on front-end that the increment can't be zero.
 
 	for(i = 0; i < numberOfIncrements; i++){
-		var pondVol = pondVolSmallest + (i * pondVolIncrement);
-		var pondArea = pondVol/pondDepth;						//specify on front-end that the pondDepth can't be zero.
+		var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
+		var pondArea = pondVol/pondDepth;	//specify on front-end that the pondDepth can't be zero.
 
+		/*
+		**********************************************
+					     ANNUAL VALUES 
+		**********************************************
+		*/
+		var inflowVolYear = 0;
+		var evapVolYear = 0;
+		var seepageVolYear = 0;
+		var irrigationVolYear = 0;
+		var bypassVolYear = 0;
+		var deficitVolYear = 0;
 
-		var soilMoistureDepthDayPrev = maxSoilMoisture;
-		var waterVolDayPrev = //TODO: what should the default here be?
+		/*
+		**********************************************
+					     DAILY VALUES
+		**********************************************
+		*/
 
-		//The following should be done for every year, month, day and requires inputs from the database.
-		var precipDepthDay = //from database;
-		var evapDepthDay = //from database;
-		var irrigationVolDay = //from db;
-		var waterVolDay = //from db;
+		var precipDepthDay; //from database;
+		var evapDepthDay; //from database;
+		var waterVolDay; //from db;
 		var pondPrecipVolDay = percipDay * pondArea;
+		var inflowVolDay; //from db;		
 		var soilMoistureDepthDay = soilMoistureDepthDayPrev + precipDepthDay – evapDepthDay;
-		var deficitVolDay;
-		var inflowVolDay = //from db;
+		var irrigationVolDay;
+		var deficitVolDay;	
 
-		if(soilMoistureDepthDay < 0.5*maxSoilMoisture){
+		/*
+		**********************************************
+					     DAY-1 VALUES
+		***********************************************
+		*/
+		var soilMoistureDepthDayPrev = _maxSoilMoisture;
+		var pondWaterVolDayPrev = _pondDepth * pondArea;
+
+		/*
+		********************************************************************************************************
+		
+			THE FOLLOWING SHOULD BE RUN FOR EVERY DAY,MONTH, AND YEAR. ONLY WRITING OUT DAILY AND ANNUAL DATA.
+
+		********************************************************************************************************
+		*/
+
+
+		if(soilMoistureDepthDay < (0.5*_availableWaterCapacity)){
 			irrigationVolDay = irrigationDepth * irrigationArea;
-			//CHECK WITH FRANKENB TO MAKE SURE THIS IF STATEMENT SHOULD BE NESTED.
 			if(irrigationVolDay > waterVolDay){
 				deficitVolDay = (irrigationVolDay – waterVolDay)/PondArea;
 			}
 			else{
 				deficitVolDay = 0;
 			}
-
 		}
 
-		//I DO NOT KNOW WHAT SHE WAS GOING FOR HERE.
-		Read EvaporationVolDay //read from regional input file?????
-		//what is the difference between evapVolDay and evapDepthDay????
-		var waterVolDay = waterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay – evapVolDay;
+		/* Need to query database for evalVolDay or read from inputted CSV */
+		var evapVolDay;
+		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay – evapVolDay);
 
-		var bypassFlow, bypassFlowVolDay; 	//what is the difference here or are they the same?
+		var bypassFlowVolDay;
 
-		if(WaterVolDay > PondVol){
-			bypassFlowVolDay= waterVolDay – pondVol;
-			waterVolDay = pondVol;
+		if(pondWaterVolDay > pondVol){
+			bypassFlowVolDay = pondWaterVolDay – pondVol;
+			pondWaterVolDay = pondVol;
 		}
 		else{
-			bypassFlow=0
+			bypassFlowVolDay=0
 		}
 
 		pondWaterDepthDay = waterVolDay/pondArea;
 
+		/*
+		**************************************************************************************************************
 
-		//update the prev
+			  							WRITE OUT ALL DAILY INFORMATION HERE.
+
+		(Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay)
+
+		***************************************************************************************************************
+		*/
+
+		//update the (day-1) variables
 		soilMoistureDepthDayPrev = soilMoistureDepthDay;
 		waterVolDayPrev = waterVolDay;
 
-	//Write out daily outputs:
-	//Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay
-
-		/*******Calculate annual values*******/
-		var inflowVolYear = inflowVolYear + inflowVolDay;	//inflowVolYear should not be in its defintion.
-		var evapVolYear = evapVolYear + evapVolDay; 		//again, evapVolYear should not be in its definition.
-		var seepageVolYear = seepageVolYear + seepageVolDay;	//I thought this was constant.
-		var irrigationVolYear = irrigationVolYear + irrigationVolDay;	//I'm assuming all of these are for the year-1
-		var bypassVolYear = bypassVolYear + bypassVolDay
-		var deficitVolYear = deficitVolYear + (deficitVolDay*pondArea);
 		/*
-		#for storage deficit, daily is as a depth, yearly is as a volume. 
+		**************************************************************************************************************
+
+					  THIS MARKS THE END OF THE DAILY COUNTS. UPDATE THE ANNUAL VALUES.
+
+		***************************************************************************************************************
 		*/
 
-}
+
+		/*******Calculate annual values*******/
+
+		inflowVolYear += inflowVolDay;	
+		evapVolYear += evapVolDay; 		
+		seepageVolYear += seepageVolDay;	
+		irrigationVolYear += irrigationVolDay;	
+		bypassVolYear += bypassVolDay
+		deficitVolYear += (deficitVolDay*pondArea);
+
+		/*
+		**************************************************************************************************************
+
+					  				   WRITE OUT ALL ANNUAL INFORMATION HERE.
+		(Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay)
+
+		***************************************************************************************************************
+		*/
 
 
-
+	}
 
 }
