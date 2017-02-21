@@ -63,16 +63,16 @@ module.exports = function(pondVolSmallest, pondVolLargest, pondVolIncrement, pon
 	//Write out daily outputs:
 	//Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay
 
-/*******Calculate annual values*******/
-var inflowVolYear = inflowVolYear + inflowVolDay;	//inflowVolYear should not be in its defintion.
-var evapVolYear = evapVolYear + evapVolDay; 		//again, evapVolYear should not be in its definition.
-var seepageVolYear = seepageVolYear + seepageVolDay;	//I thought this was constant.
-var irrigationVolYear = irrigationVolYear + irrigationVolDay;	//I'm assuming all of these are for the year-1
-var bypassVolYear = bypassVolYear + bypassVolDay
-var deficitVolYear = deficitVolYear + (deficitVolDay*pondArea);
-/*
-#for storage deficit, daily is as a depth, yearly is as a volume. 
-*/
+		/*******Calculate annual values*******/
+		var inflowVolYear = inflowVolYear + inflowVolDay;	//inflowVolYear should not be in its defintion.
+		var evapVolYear = evapVolYear + evapVolDay; 		//again, evapVolYear should not be in its definition.
+		var seepageVolYear = seepageVolYear + seepageVolDay;	//I thought this was constant.
+		var irrigationVolYear = irrigationVolYear + irrigationVolDay;	//I'm assuming all of these are for the year-1
+		var bypassVolYear = bypassVolYear + bypassVolDay
+		var deficitVolYear = deficitVolYear + (deficitVolDay*pondArea);
+		/*
+		#for storage deficit, daily is as a depth, yearly is as a volume. 
+		*/
 
 }
 
