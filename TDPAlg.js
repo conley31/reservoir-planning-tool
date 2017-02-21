@@ -2,7 +2,7 @@
    -------TDPAlg.js**-------
 Notes: This file exports the algorithm developed by the Transforming Drainage Project.
 
-All variable that are preceeded by an underscore are from form inputs
+All variable that are preceded by an underscore are from form inputs
 */
 module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity){		//TODO: add last argument.
 	const seepageVolDay = 0.01; //ft
