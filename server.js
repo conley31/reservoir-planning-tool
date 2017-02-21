@@ -13,6 +13,7 @@ app.route("/")
 })
 .post(bodyParser.urlencoded({ extended: false }), function(req, res){
 	console.log(req.body);
+	//call TDPAlg.js here
 	res.end();
 });
 
