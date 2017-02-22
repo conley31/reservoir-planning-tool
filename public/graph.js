@@ -37,7 +37,7 @@ var drawChart = function() {
       title: 'Box Office Earnings in First Two Weeks of Opening',
       subtitle: 'in millions of dollars (USD)'
     },
-    width: 900,
+    width: 984,
     height: 500
   };
 

@@ -27,6 +27,7 @@ nav {
   height: 500px;
   background: #dddddd;
   margin: 10px;
+  padding: 0;
 }
 
 #graph-desc {
