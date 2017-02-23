@@ -14,28 +14,17 @@ password = config.get("password")
 database = config.get("db")
 log_location = config.get("logLocation")
 
-def toStrDate(year, month, day):
-  return (year + "-" + month + "-" + day)
+def getID(locationStr):
+  return locationStr[8:]
 
-def ParseDailyData(table_id, textFile):
-  with open('daily_files/' + textFile, 'rb') as csvfile:
+def idExistsInIndex(LocationID):
+  idFound = False
+  with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
-      date = toStrDate(row[0],row[1],row[2])
-      cur.execute(insert.format(table_id, date, row[3], row[4], row[5]))
-      con.commit()
-
-def addTable(table_id, DataFileName):
-    cur.execute(make_table.format(table_id))
-    con.commit()
-    ParseDailyData(table_id, DataFileName)
-
-
-def checkTable(table_name):
-  cur.execute(check_table.format(table_name))
-  if cur.fetchone()[0] == 1:
-    return True
-  return False
+      if row[0] == LocationID:
+        idFound = True
+  return idFound
 
 def dbCreated():
   log.seek(0)
@@ -54,6 +43,28 @@ def getLastUpdateTime():
       last_update = dt.strptime(row[1], "%a %b %d %H:%M:%S %Y")
   return last_update
 
+def toStrDate(year, month, day):
+  return (year + "-" + month + "-" + day)
+
+def ParseDailyData(table_id, textFile):
+  with open('daily_files/' + textFile, 'rb') as csvfile:
+    stream = csv.reader(csvfile, delimiter=',')
+    for row in stream:
+      date = toStrDate(row[0],row[1],row[2])
+      cur.execute(insert.format(table_id, date, row[3], row[4], row[5]))
+      con.commit()
+
+def addTable(table_id, DataFileName):
+    cur.execute(make_table.format(table_id))
+    con.commit()
+    ParseDailyData(table_id, DataFileName)
+
+def checkTable(table_name):
+  cur.execute(check_table.format(table_name))
+  if cur.fetchone()[0] == 1:
+    return True
+  return False
+
 def addNewFromIndex():
   with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
@@ -61,18 +72,6 @@ def addNewFromIndex():
       if not checkTable('Location' + row[0]):
           addTable(row[0], row[4])
           print("added new location")
-
-def getID(locationStr):
-  return locationStr[8:]
-
-def idExistsInIndex(LocationID):
-  idFound = False
-  with open('index.csv', 'rb') as csvfile:
-    stream = csv.reader(csvfile, delimiter=',')
-    for row in stream:
-      if row[0] == LocationID:
-        idFound = True
-  return idFound
 
 def removeOldTables():
   table_names = cur.execute(get_tables)
@@ -122,4 +121,8 @@ cur = con.cursor()
 update()
 log.close()
 log = open(log_location, "a+")
+
+if con:
+  con.commit()
+  con.close()
 log.write("UPDATED>" + time.strftime("%c"))

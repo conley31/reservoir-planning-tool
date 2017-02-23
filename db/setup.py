@@ -13,6 +13,17 @@ password = config.get("password")
 database = config.get("db")
 log_location = config.get("logLocation")
 
+def toStrDate(year, month, day):
+  return (year + "-" + month + "-" + day)
+
+def ParseDailyData(table_id, textFile):
+  with open('daily_files/' + textFile, 'rb') as csvfile:
+    stream = csv.reader(csvfile, delimiter=',')
+    for row in stream:
+      date = toStrDate(row[0],row[1],row[2])
+      cur.execute(insert.format(table_id, date, row[3], row[4], row[5]))
+      con.commit()
+
 try:
   log = open(log_location, "wb+")
 except IOError as err:
@@ -26,32 +37,18 @@ for row in stream:
     print("Database already created. Exiting...")
     sys.exit(1)
 
-def toStrDate(year, month, day):
-  return (year + "-" + month + "-" + day)
+con = db.connect(host, user, password, database)
+cur = con.cursor()
 
-def ParseDailyData(cur, id, textFile):
-  with open(textFile, 'rb') as csvfile:
-    stream = csv.reader(csvfile, delimiter=',')
-    for row in stream:
-      date = toStrDate(row[0],row[1],row[2])
-      cur.execute(insert.format(id, date, row[3], row[4], row[5]))
+with open('index.csv', 'rb') as csvfile:
+  stream = csv.reader(csvfile, delimiter=',')
+  for row in stream:
+    cur.execute(make_table.format(row[0]))
+    ParseDailyData(row[0], row[4])
+    print "Created Table: Location{}".format(row[0])
+   
+if con:
+  con.commit()
+  con.close()
 
-try:
-  con = db.connect(host, user, password, database)
-  cur = con.cursor()
-  with open('index.csv', 'rb') as csvfile:
-    stream = csv.reader(csvfile, delimiter=',')
-    for row in stream:
-      cur.execute(make_table.format(row[0]))
-      ParseDailyData(cur, row[0], "daily_files/" + row[4])
-      print "Created Table: Location{}".format(row[0])
-
-except db.Error, e:
-  print "Error {} - {}".format(e.args[0], e.args[1])
-  log.write("Error:" + "{} - {}".format(e.args[0], e.args[1]) + "\n")
-  sys.exit(1)
-finally:   
-  if con:
-    con.commit()
-    con.close()
-  log.write("CREATED>" + time.strftime("%c") + "\n")
+log.write("CREATED>" + time.strftime("%c") + "\n")
