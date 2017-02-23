@@ -26,12 +26,14 @@ make_table = """CREATE TABLE IF NOT EXISTS Location{}
               Drainflow FLOAT DEFAULT NULL,
               Precipitation FLOAT DEFAULT NULL,
               PET FLOAT DEFAULT NULL,
-              PRIMARY KEY (ID)
+              PRIMARY KEY (RecordedDate)
               );"""
 
 insert = """INSERT INTO Location{} 
           (RecordedDate, Drainflow, Precipitation, PET)
           VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
+
+drop_table = "DROP TABLE Location{};"
 
 def toStrDate(year, month, day):
   return (year + "-" + month + "-" + day)
@@ -79,10 +81,25 @@ def addNewFromIndex():
           addTable(row[0], row[4])
           print("added new location")
 
+def getID(locationStr):
+  return locationStr[8:]
+
+def idExistsInIndex(LocationID):
+  idFound = False
+  with open('index.csv', 'rb') as csvfile:
+    stream = csv.reader(csvfile, delimiter=',')
+    for row in stream:
+      if row[0] == LocationID:
+        idFound = True
+  return idFound
+
 def removeOldTables():
   table_names = cur.execute(get_tables)
   for row in cur:
-    print row
+    locationID = getID(row[0])
+    if(not idExistsInIndex(locationID)):
+      cur.execute(drop_table.format(locationID))
+      print "Removed Table: Location" + locationID
 
 def update():
   if dbCreated:
