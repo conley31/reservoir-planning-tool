@@ -59,3 +59,4 @@ typings/
 
 db/daily_files
 db/config.json
+config/config.json

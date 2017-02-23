@@ -1,12 +1,9 @@
 var mysql = require('mysql');
+var nconf = require('nconf');
 
-// TODO: replace this with rconf
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'TDP'
-});
+nconf.file({ file: "./config/config.json"});
+
+var connection = mysql.createConnection(nconf.get('mysql'));
 
 connection.connect();
 
@@ -21,5 +18,7 @@ var getLocationById = function(Id) {
   });
 
 };
+
+// getLocationById(1);
 
 module.exports = getLocationById;
