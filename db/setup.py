@@ -2,7 +2,7 @@
 
 import MySQLdb as db
 import csv, json, time, sys, os.path
-  
+from sql_statements import *
 
 with open('config.json') as json_data:
     config = json.load(json_data)
@@ -25,19 +25,6 @@ for row in stream:
   if row[0] == 'CREATED':
     print("Database already created. Exiting...")
     sys.exit(1)
-
-
-make_table = """CREATE TABLE IF NOT EXISTS Location{}
-              (RecordedDate Date NOT NULL,
-              Drainflow FLOAT DEFAULT NULL,
-              Precipitation FLOAT DEFAULT NULL,
-              PET FLOAT DEFAULT NULL,
-              PRIMARY KEY (RecordedDate)
-              )"""
-
-insert = """INSERT INTO Location{} 
-          (RecordedDate, Drainflow, Precipitation, PET)
-          VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
 
 def toStrDate(year, month, day):
   return (year + "-" + month + "-" + day)
@@ -68,4 +55,3 @@ finally:
     con.commit()
     con.close()
   log.write("CREATED>" + time.strftime("%c") + "\n")
-

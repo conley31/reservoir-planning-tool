@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 import MySQLdb as db
-import csv, json, datetime, os, sys
+import csv, json, datetime, os, sys, time
 from datetime import datetime as dt
+from sql_statements import *
 
 with open('config.json') as json_data:
   config = json.load(json_data)
@@ -12,28 +13,6 @@ user = config.get("user")
 password = config.get("password")
 database = config.get("db")
 log_location = config.get("logLocation")
-
-check_table = """ SELECT COUNT(*)
-            FROM information_schema.tables
-            WHERE table_name = '{}';"""
-
-get_tables = """SELECT TABLE_NAME 
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='TDP';"""
-
-make_table = """CREATE TABLE IF NOT EXISTS Location{}
-              (RecordedDate Date NOT NULL,
-              Drainflow FLOAT DEFAULT NULL,
-              Precipitation FLOAT DEFAULT NULL,
-              PET FLOAT DEFAULT NULL,
-              PRIMARY KEY (RecordedDate)
-              );"""
-
-insert = """INSERT INTO Location{} 
-          (RecordedDate, Drainflow, Precipitation, PET)
-          VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
-
-drop_table = "DROP TABLE Location{};"
 
 def toStrDate(year, month, day):
   return (year + "-" + month + "-" + day)
@@ -59,6 +38,7 @@ def checkTable(table_name):
   return False
 
 def dbCreated():
+  log.seek(0)
   stream = csv.reader(log, delimiter='>')
   for row in stream:
     if row[0] == 'CREATED':
@@ -66,6 +46,7 @@ def dbCreated():
   return False
 
 def getLastUpdateTime():
+  log.seek(0)
   stream = csv.reader(log, delimiter='>')
   last_update = dt(1984, 1, 1)
   for row in stream:
@@ -97,22 +78,38 @@ def removeOldTables():
   table_names = cur.execute(get_tables)
   for row in cur:
     locationID = getID(row[0])
-    if(not idExistsInIndex(locationID)):
+    if not idExistsInIndex(locationID):
       cur.execute(drop_table.format(locationID))
+      con.commit()
       print "Removed Table: Location" + locationID
+
+def checkDataFile(locationID, fileName):
+  data_last_modified = dt.fromtimestamp(os.path.getmtime("daily_files/" + fileName))
+  print "data last modified: " + str(data_last_modified)
+  print "Last update time: " + str(getLastUpdateTime())
+  if data_last_modified > getLastUpdateTime():
+    cur.execute(drop_table.format(locationID))
+    con.commit()
+    addTable(locationID, fileName)
+    print "Updated table: Location" + locationID
+
+def updateFromDataFiles():
+  with open('index.csv', 'rb') as csvfile:
+    stream = csv.reader(csvfile, delimiter=',')
+    for row in stream:
+      checkDataFile(row[0], row[4])
 
 def update():
   if dbCreated:
     print("Database was created")
-    last_updated = getLastUpdateTime()
     index_last_modify = dt.fromtimestamp(os.path.getmtime('index.csv'))
-    if index_last_modify > last_updated:
+    if index_last_modify > getLastUpdateTime():
       print("Updating from index")
       addNewFromIndex()
       removeOldTables()
     else:
       print "No changes to index.csv"
-    print index_last_modify
+    updateFromDataFiles()
 
 try:
   log = open(log_location, "rb+")
@@ -123,4 +120,6 @@ except IOError as err:
 con = db.connect(host, user, password, database)
 cur = con.cursor()
 update()
-
+log.close()
+log = open(log_location, "a+")
+log.write("UPDATED>" + time.strftime("%c"))
