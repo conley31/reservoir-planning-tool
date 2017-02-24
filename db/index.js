@@ -36,24 +36,21 @@ exports.getLocationById = function(Id) {
 };
 
 /**
- *  getLocationById -  Gets a Location's data given a location id and a date range
- *  Dates are expected as string in format YYYY-MM-DD
+ *  getPETById -  Gets a Location's evaporation data given a location id
  *
  *  Return - Array of Rows -
  *  [{
  *    RecordedDate: 1980-10-05T04:00:00.000Z,
- *    Drainflow: 0,
- *    Precipitation: 0,
  *    PET: 4.5055
  *  }]
  *
  */
-exports.getLocationForDateRange = function(Id, startDate, endDate) {
+exports.getPETById = function(Id) {
   return new Promise(function(resolve, reject) {
-    if(!Number.isInteger(Id) || isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
-      reject(new Error('Type Error: Expected Types are Int, Date as Str, Date as Str'));
+    if (!Number.isInteger(Id)) {
+      reject(new Error('Location Id must be a number'));
     }
-    connection.query('SELECT * FROM ?? WHERE RecordedDate >= ? AND RecordedDate <= ?', ['Location' + Id, startDate, endDate], function(error, results, fields) {
+    connection.query('SELECT RecordedDate, PET FROM ??', 'Location' + Id, function(error, results, fields) {
       if (error) {
         reject(error);
       }
@@ -63,7 +60,7 @@ exports.getLocationForDateRange = function(Id, startDate, endDate) {
 };
 
 /**
- *  getLocationById -  Gets a Location's data given a location id and a date range
+ *  getLocationForDateRange -  Gets a Location's data given a location id and a date range
  *  Dates are expected as string in format YYYY-MM-DD
  *
  *  Return - Array of Rows -
