@@ -5,14 +5,14 @@ import csv, json, datetime, os, sys, time
 from datetime import datetime as dt
 from sql_statements import *
 
-with open('config.json') as json_data:
+with open('../config/config.json') as json_data:
   config = json.load(json_data)
 
-host = config.get("host")
-user = config.get("user")
-password = config.get("password")
-database = config.get("db")
-log_location = config.get("logLocation")
+host = config.get("mysql").get("host")
+user = config.get("mysql").get("user")
+password = config.get("mysql").get("password")
+database = config.get("mysql").get("database")
+log_location = config.get("mysql").get("logLocation")
 
 def getID(locationStr):
   return locationStr[8:]

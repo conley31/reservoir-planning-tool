@@ -4,14 +4,14 @@ import MySQLdb as db
 import csv, json, time, sys, os.path
 from sql_statements import *
 
-with open('config.json') as json_data:
+with open('../config/config.json') as json_data:
     config = json.load(json_data)
 
-host = config.get("host")
-user = config.get("user")
-password = config.get("password")
-database = config.get("db")
-log_location = config.get("logLocation")
+host = config.get("mysql").get("host")
+user = config.get("mysql").get("user")
+password = config.get("mysql").get("password")
+database = config.get("mysql").get("database")
+log_location = config.get("mysql").get("logLocation")
 
 def toStrDate(year, month, day):
   return (year + "-" + month + "-" + day)
