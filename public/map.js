@@ -18,7 +18,9 @@ var initMap = function() {
   map.data.setStyle({
     fillColor: 'white',
     fillOpacity: 0,
-    strokeWeight: 1
+    strokeWeight: 1,
+    strokeColor: 'blue',
+    strokeOpacity: 0.1
   });
 
   map.addListener('zoom_changed', function() {
@@ -31,8 +33,8 @@ var initMap = function() {
   map.data.addListener('click', function(event) {
     selectLocation(event.feature);
     map.data.overrideStyle(event.feature, {
-      fillColor: 'green',
-      fillOpacity: 0.8
+      fillColor: 'blue',
+      fillOpacity: 0.2
     });
   });
 
