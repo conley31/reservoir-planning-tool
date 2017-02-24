@@ -71,7 +71,7 @@ def addNewFromIndex():
     for row in stream:
       if not checkTable('Location' + row[0]):
           addTable(row[0], row[4])
-          print("added new location")
+          print("added new Location" + row[0])
 
 def removeOldTables():
   table_names = cur.execute(get_tables)
@@ -84,8 +84,6 @@ def removeOldTables():
 
 def checkDataFile(locationID, fileName):
   data_last_modified = dt.fromtimestamp(os.path.getmtime("daily_files/" + fileName))
-  print "data last modified: " + str(data_last_modified)
-  print "Last update time: " + str(getLastUpdateTime())
   if data_last_modified > getLastUpdateTime():
     cur.execute(drop_table.format(locationID))
     con.commit()
@@ -109,6 +107,7 @@ def update():
     else:
       print "No changes to index.csv"
     updateFromDataFiles()
+    log.write("\nUPDATED>" + time.strftime("%c"))
 
 try:
   log = open(log_location, "rb+")
@@ -119,10 +118,7 @@ except IOError as err:
 con = db.connect(host, user, password, database)
 cur = con.cursor()
 update()
-log.close()
-log = open(log_location, "a+")
 
 if con:
   con.commit()
   con.close()
-log.write("UPDATED>" + time.strftime("%c"))
