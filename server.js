@@ -15,7 +15,7 @@ app.route("/")
 	console.log(req.body);
 	//handle and pass inputs into the TDPAlg
 	//res.status(200).end();
-  res.end();
+  res.status(200);
 });
 
 app.get('*', (req, resp)=>{
