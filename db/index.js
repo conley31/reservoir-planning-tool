@@ -23,7 +23,6 @@ exports.getLocationById = function(Id) {
   });
 };
 
-//
 /**
  *  getLocationById -  Gets a Location's data given a location id and a date range
  *  Dates are expected as string in format YYYY-MM-DD
