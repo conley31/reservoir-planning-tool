@@ -23,3 +23,5 @@ db/daily_files
 
 # Project Config File
 config/config.json
+
+*.pyc
