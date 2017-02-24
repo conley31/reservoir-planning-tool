@@ -1,5 +1,5 @@
 
-$( "form" ).submit(function( event ) {
-  event.preventDefault();
-  console.log( $( this ).serializeArray() );
-});
+// $( "form" ).submit(function( event ) {
+//   event.preventDefault();
+//   console.log( $( this ).serializeArray() );
+// });
