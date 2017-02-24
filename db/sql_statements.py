@@ -19,3 +19,5 @@ insert = """INSERT INTO Location{}
           VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
 
 drop_table = "DROP TABLE Location{};"
+
+drop_database = "DROP DATABASE {};"
