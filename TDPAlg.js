@@ -1,16 +1,16 @@
 /*
    -------TDPAlg.js**-------
-Notes: This file exports the algorithm developed by the Transforming Drainage Project.
-
-All variable that are preceded by an underscore are from form inputs
+Notes: 
+-This file exports the algorithm developed by the Transforming Drainage Project.
+-All variables that are preceded by an underscore are from form inputs
 */
-module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity){		//TODO: add last argument.
-	const seepageVolDay = 0.01; //ft
+var db = require('./db');
+module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId){		//TODO: add last argument.
+	const seepageVolDay = 0.01;
 	const numberOfIncrements = (_pondVolLargest - _pondVolSmallest)/_pondVolIncrement;		//specify on front-end that the increment can't be zero.
 
-	for(i = 0; i < numberOfIncrements; i++){
-		var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
-		var pondArea = pondVol/pondDepth;	//specify on front-end that the pondDepth can't be zero.
+	var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
+	var pondArea = pondVol/pondDepth;	//specify on front-end that the pondDepth can't be zero.
 
 		/*
 		**********************************************
@@ -29,12 +29,16 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 					     DAILY VALUES
 		**********************************************
 		*/
-
-		var precipDepthDay; //from database;
-		var evapDepthDay; //from database;
+		db.getLocationById(_locationId).then(function(data){
+		for(j = 0; j < data.length; j++){
+		var precipDepthDay = data[j].Precipitation; //from database;
+		var evapDepthDay = data[j].PET; //from database;
 		var waterVolDay; //from db;
 		var pondPrecipVolDay = percipDay * pondArea;
 		var inflowVolDay; //from db;		
+		var bypassFlowVolDay;
+		var evapVolDay;
+		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay – evapVolDay);
 		var soilMoistureDepthDay = soilMoistureDepthDayPrev + precipDepthDay – evapDepthDay;
 		var irrigationVolDay;
 		var deficitVolDay;	
@@ -67,10 +71,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		}
 
 		/* Need to query database for evalVolDay or read from inputted CSV */
-		var evapVolDay;
-		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay – evapVolDay);
 
-		var bypassFlowVolDay;
 
 		if(pondWaterVolDay > pondVol){
 			bypassFlowVolDay = pondWaterVolDay – pondVol;
@@ -113,6 +114,9 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		irrigationVolYear += irrigationVolDay;	
 		bypassVolYear += bypassVolDay
 		deficitVolYear += (deficitVolDay*pondArea);
+
+	}
+});
 
 		/*
 		**************************************************************************************************************
