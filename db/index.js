@@ -8,7 +8,7 @@ nconf.file({
 
 var connection = mysql.createConnection(nconf.get('mysql'));
 
-var getLocationById = function(Id) {
+exports.getLocationById = function(Id) {
   connection.connect();
   return new Promise(function(resolve, reject) {
     if (!Number.isInteger(Id)) {
@@ -22,5 +22,3 @@ var getLocationById = function(Id) {
     });
   });
 };
-
-module.exports = getLocationById;
