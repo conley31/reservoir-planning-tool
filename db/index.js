@@ -12,7 +12,7 @@ exports.getLocationById = function(Id) {
   connection.connect();
   return new Promise(function(resolve, reject) {
     if (!Number.isInteger(Id)) {
-      reject(null);
+      reject(new Error('Location Id must be a number'));
     }
     connection.query('SELECT * FROM ??', 'Location' + Id, function(error, results, fields) {
       if (error) {
