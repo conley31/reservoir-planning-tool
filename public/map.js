@@ -21,6 +21,7 @@ var initMap = function() {
     strokeWeight: 1
   });
 
+  // Enforces a zoom level between 6 and 11
   map.addListener('zoom_changed', function() {
     if (map.getZoom() < 6) {
       map.setZoom(6);
@@ -28,6 +29,23 @@ var initMap = function() {
       map.setZoom(11);
     }
   });
+
+  // Limit map to a certain area
+  var bounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(37, -98), // TODO: Add this to the config file
+    new google.maps.LatLng(49, -77)
+  );
+  map.addListener('dragend', function() {
+    if (bounds.contains(map.getCenter())) {
+      return;
+    }
+    var center = map.getCenter();
+    if (center.lng() < bounds.getNorthEast().lng()) x = bounds.getNorthEast().lng();
+    if (center.lng() > bounds.getNorthEast().lat()) x = bounds.getNorthEast().lat();
+    if (center.lat() < bounds.getSouthWest().lng()) y = bounds.getSouthWest().lng();
+    if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
+    map.setCenter(new google.maps.LatLng(y, x));
+  })
 
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
