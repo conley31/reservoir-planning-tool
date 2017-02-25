@@ -11,10 +11,10 @@ $( "form" ).submit(function( event ) {
     url: '/',
     data: $( this ).serializeArray(),
     success: function() {
-      alert('HUZZAH');
+      console.log("AJAX success");
     },
     error:function() {
-      alert('well crap');
+      console.log("AJAX failed");
     }
   });
 });
