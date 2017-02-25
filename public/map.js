@@ -24,6 +24,8 @@ var initMap = function() {
   map.addListener('zoom_changed', function() {
     if (map.getZoom() < 6) {
       map.setZoom(6);
+    } else if (map.getZoom() > 11) {
+      map.setZoom(11);
     }
   });
 
