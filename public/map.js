@@ -8,7 +8,7 @@ var selectedFeature;
 var initMap = function() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
-      lat: 41.8781,
+      lat: 41.8781, // Center at Chicago
       lng: -87.6298
     },
     zoom: 6
@@ -71,6 +71,29 @@ var initMap = function() {
       locMarker.setPosition(pos);
     });
   }
+
+  // Create the search box and link it to the UI element.
+  var input = document.getElementById('places-input');
+  var searchBox = new google.maps.places.SearchBox(input, {
+    bounds: bounds
+  });
+
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener('bounds_changed', function() {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+      return;
+    }
+    console.log(places);
+    locMarker.setPosition(places[0].geometry.location);
+    map.setCenter(places[0].geometry.location);
+    map.setZoom(11);
+  });
 };
 
 var selectLocation = function(feature) {
