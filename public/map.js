@@ -45,7 +45,7 @@ var initMap = function() {
     if (center.lat() < bounds.getSouthWest().lng()) y = bounds.getSouthWest().lng();
     if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
     map.setCenter(new google.maps.LatLng(y, x));
-  })
+  });
 
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
