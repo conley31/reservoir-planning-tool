@@ -20,7 +20,7 @@ var initMap = function() {
     fillOpacity: 0,
     strokeWeight: 1,
     strokeColor: 'blue',
-    strokeOpacity: 0.1
+    strokeOpacity: 0.12
   });
 
   map.addListener('zoom_changed', function() {
