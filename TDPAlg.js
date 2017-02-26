@@ -14,6 +14,8 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 
 	var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
 	var pondArea = pondVol/pondDepth;	//specify on front-end that the pondDepth can't be zero.
+	var allAnnuals = [];
+
 	for(var i = 0; i < _pondVolIncrement; i++){
 		/*
 		**********************************************
@@ -32,12 +34,12 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 					     DAILY VALUES
 		**********************************************
 		*/
+		var numOfRows;
 		db.getLocationById(_locationId).then(function(data){
 
+		numOfRows = data.length;
 		//Loop through all sets of data for each day.
-		var currentYear;
 		for(var j = 0; j < data.length; j++){
-
 		var inflowVolDay = data[j].Drainflow; //DOUBLE CHECK THAT THIS IS CORRECT;
 		var precipDepthDay = data[j].Precipitation;
 		var evapDepthDay = data[j].PET; 
@@ -126,8 +128,6 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 	}
 });
 
-	}
-
 		/*
 		**************************************************************************************************************
 
@@ -136,6 +136,11 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 
 		***************************************************************************************************************
 		*/
+
+		allAnnuals.push([(inflowVolYear/numOfRows), (evapVolYear/numOfRows), (seepageVolDay/numOfRows), (irrigationVolYear/numOfRows), (bypassVolYear/numOfRows), (deficitVolYear/numOfRows)]);
+
+	}
+
 
 
 	}
