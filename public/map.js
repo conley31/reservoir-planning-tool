@@ -51,7 +51,7 @@ var initMap = function() {
 
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
-    selectLocation(event.feature);
+    selectFeature(event.feature);
     map.data.overrideStyle(event.feature, {
       fillColor: 'blue',
       fillOpacity: 0.2
@@ -84,21 +84,25 @@ var initMap = function() {
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
   });
-
+  // Listen for a new place from the search box
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
     if (places.length === 0) {
       return;
     }
-    console.log(places);
+    // Center on the map and zoom in
     locMarker.setPosition(places[0].geometry.location);
     map.setCenter(places[0].geometry.location);
     map.setZoom(11);
   });
 };
 
-var selectLocation = function(feature) {
+var selectLocation = function(location) {
+  // TODO
+};
+
+var selectFeature = function(feature) {
   map.data.overrideStyle(selectedFeature, {
     fillColor: 'white',
     fillOpacity: 0,
