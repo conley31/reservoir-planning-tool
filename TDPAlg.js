@@ -45,19 +45,18 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		***********************************************
 		*/
 		var soilMoistureDepthDayPrev = _maxSoilMoisture;
-		//SHOULD THIS BE _pondDepth or _pondDepthInitial????
 		var pondWaterVolDayPrev = _pondDepthInitial * pondArea;
 
 		/* LOOP THROUGH EVERY DAY */
 
 		for(var j = 0; j < data.length; j++){
 
-		var inflowVolDay = data[j].Drainflow; //DOUBLE CHECK THAT THIS IS CORRECT;
+		var inflowVolDay = data[j].Drainflow; 
 		var precipDepthDay = data[j].Precipitation;
 		var evapDepthDay = data[j].PET; 
 
 
-		var irrigationVolDay;
+		var irrigationVolDay = 0;
 		var deficitVolDay;	
 		var bypassFlowVolDay;
 
