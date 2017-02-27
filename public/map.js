@@ -99,7 +99,6 @@ var initMap = function() {
 };
 
 var selectLocation = function(location) {
-  // TODO
 };
 
 var selectFeature = function(feature) {
