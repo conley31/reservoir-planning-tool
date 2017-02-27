@@ -5,6 +5,7 @@ polygons = require('./public/final_index_FeaturesToJSON.json');
 // Re-format array
 var featuresArray = _.map(polygons.features, f => {
   return {
+    // Lower right-hand corner of the polygon
     pos: {
       lat: f.geometry.coordinates[0][0][1],
       lng: f.geometry.coordinates[0][0][0]
@@ -13,15 +14,13 @@ var featuresArray = _.map(polygons.features, f => {
   };
 });
 
-
-
 var features = _.groupBy(featuresArray, f => {
-  return f.pos.lat;
+  return f.pos.lng;
 });
 
 for (var i = 0; i < features.length; i++) {
   features[i] = _.sortBy(features[i], f => {
-    return f.pos.lng;
+    return f.pos.lat;
   });
 }
 
