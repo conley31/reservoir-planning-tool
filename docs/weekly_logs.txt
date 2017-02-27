@@ -130,3 +130,87 @@ Week 2 (Plan) (Scrum master: Drew Atkinson)
 Clayton: Finish the updated algorithm and allow for user’s form data to be added as input.
 Vritant: Setup up google charts to take in data similar to that stored in the database.
 Jonah: Finish database update script and add query endpoints.
+
+=== Week 2 (Due 2/26) ===
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 2 (Summary)
+2/21 	1hr	Meet with project owners to discuss algorithm updates.(Meeting date has
+not    been decided.)
+2/21 	3hrs	Look through updated algorithm documents and make necessary changes
+based on meeting with project owners.
+2/20	3hrs	Accept form data form the front-end, parse it and pass it into the TDP algorithm.
+2/24	1h	Work with Drew to add the database query into the algorithm. Write looping
+	        	structure to account for data from every day of every year.
+
+Week 3 (Plan)
+2/26	2hrs	Work on organizing outputs of algorithm to be passed back to the client
+for graphing.
+2/28	5hrs	Test algorithm with example inputs and outputs from project owners.
+3/1	1.5hrs	Work with Vritant to correctly pass data to the client so that he may begin graph
+	testing.
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 2 (Summary)
+2/20	3h	Set up MySQL and MySQL-python on local machine and imported files
+		Met with team to fix small issues and work out format for the database queries
+		Individually Started database queries by location
+2/23	2h	Added nconf library, discussed config file schema with Jonah
+		Finished database call function by using Javascript promises and node exports
+2/24	3h	Met with team, added new db function
+added boundary enforcement of map panning
+2/25	2h	Add google places search box to search for a location and zoom the map to it
+Week 3 (Plan)
+2/27	2h	function to search through all polygons and get the Location id given coordinates
+2/28	2h	Continue on map search function
+3/1	2h	Finish location selection function in map
+3/2	4h 	Add Location Id to Ajax call to server
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 2 (Summary)
+2/19	3.5h	Began working on DB update script
+2/20	0.5h	Reworked Schema and bug fix in setup script
+2/23	2h	Finished DB update script
+2/24	1h	Created DB Teardown script
+2/24	2h	Wrote the interface for querying a location with a partial date range given.
+Week 3 (Plan)
+3/1	3h	Verify user uploaded CSV files.
+3/2	2h	Finish user CSV validation.
+3/3	4h	Interlace missing user daily data with TDP data for a given location.
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 2 (Summary)
+2/20	2h	Setup form to send calculator input to backend
+2/24	5h	Setup Ajax to send and receive data to and from backend.
+2/25	3h	Setup mock data to be sent from backend to graph as response.
+Week 3 (Plan)
+2/28	4h	Improve user interface.
+3/1	2h	Work with Clayton on correctly receiving data from the server to begin graph
+testing.
+3/2	2h	Begin graph testing.
+3/2	2h	Add improvements to UX and graph.
+
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 2 (Summary) (Scrum master: Drew Atkinson)
+Overall Progress Summary: This week we began grouping together the components each team member had created in the first week. The client is now able to send form input data to the server. The graph now gets the data it displays from the server. The server is now able pass the form inputs through to the algorithm and get all annual values as an outputted array. We can now query the database from node.js. You can search for an address or place and the google maps will zoom. There is also a script to update and teardown the database.
+2/20	2h	Fixed small integration issues, discussed database query format
+2/25	1h	Discussed Acceptance Criteria, fixed Ajax calls, Database schema
+Week 3 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+3/3	1h	Pre-demo Weekly Scrum meeting, go over Acceptance criteria
+3/3	0.5h 	Demo Meeting with Tori
+[Individual Goals]
+Clayton: Format outputs from server to be used for graphing on the client. Begin testing
+  algorithm outputs.
+Vritant: Work on improving the UI and UX. Parse JSON sent from backend to display data in the Graph.
+Drew: Add method to get a location id by coordinates, Add location id to server AJAX call
+Jonah: Handle user uploaded CSVs and interlace missing data with TDP’s daily data.
