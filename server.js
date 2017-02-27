@@ -13,6 +13,7 @@ app.route("/")
 .post(bodyParser.urlencoded({ extended: false }), function(req, res){
 
 console.log(req.body);
+var _ = req.body;
   jason_data ={
     "graph": [
         {
@@ -34,7 +35,8 @@ console.log(req.body);
                 }
         },
         {
-          "array": [
+          "array":TDPAlg(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity) 
+          /*[
                   [1, 37.8, 80.8],
                   [2, 30.9, 69.5],
                   [3, 25.4, 57],
@@ -49,7 +51,7 @@ console.log(req.body);
                   [12, 6.6, 8.4],
                   [13, 4.8, 6.3],
                   [14, 4.2, 6.2]
-              ]
+              ]*/
         }
     ]
 };

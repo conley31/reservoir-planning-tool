@@ -7,7 +7,7 @@ Notes:
 "use strict";
 
 var db = require('./db');
-module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId){		//TODO: add last argument.
+module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth,_pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId){		//TODO: add last argument.
 	var allAnnuals = [];	
 	const seepageVolDay = 0.01;
 	const numberOfIncrements = (_pondVolLargest - _pondVolSmallest)/_pondVolIncrement;		//specify on front-end that the increment can't be zero.
@@ -33,24 +33,11 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 					     DAILY VALUES
 		**********************************************
 		*/
+
 		var numOfRows;
 		db.getLocationById(_locationId).then(function(data){
 
 		numOfRows = data.length;
-		//Loop through all sets of data for each day.
-		for(var j = 0; j < data.length; j++){
-		var inflowVolDay = data[j].Drainflow; //DOUBLE CHECK THAT THIS IS CORRECT;
-		var precipDepthDay = data[j].Precipitation;
-		var evapDepthDay = data[j].PET; 
-
-		var pondPrecipVolDay = (percipDay * pondArea);
-		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
-		var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-
-		var irrigationVolDay;
-		var deficitVolDay;	
-		var bypassFlowVolDay;
-		var evapVolDay;
 
 		/*
 		**********************************************
@@ -58,29 +45,40 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		***********************************************
 		*/
 		var soilMoistureDepthDayPrev = _maxSoilMoisture;
-		var pondWaterVolDayPrev = _pondDepth * pondArea;
+		//SHOULD THIS BE _pondDepth or _pondDepthInitial????
+		var pondWaterVolDayPrev = _pondDepthInitial * pondArea;
 
-		/*
-		********************************************************************************************************
+		/* LOOP THROUGH EVERY DAY */
+
+		for(var j = 0; j < data.length; j++){
+
+		var inflowVolDay = data[j].Drainflow; //DOUBLE CHECK THAT THIS IS CORRECT;
+		var precipDepthDay = data[j].Precipitation;
+		var evapDepthDay = data[j].PET; 
+
+
+		var irrigationVolDay;
+		var deficitVolDay;	
+		var bypassFlowVolDay;
+
+		/* Need to query database for evalVolDay or read from inputted CSV */
+		var evapVolDay;
 		
-			THE FOLLOWING SHOULD BE RUN FOR EVERY DAY,MONTH, AND YEAR. ONLY WRITING OUT DAILY AND ANNUAL DATA.
-
-		********************************************************************************************************
-		*/
+		var pondPrecipVolDay = (percipDay * pondArea);
+		var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
 
 
 		if(soilMoistureDepthDay < (0.5*_availableWaterCapacity)){
-			irrigationVolDay = irrigationDepth * irrigationArea;
+			irrigationVolDay = _irrigationDepth * _irrigationArea;
 			if(irrigationVolDay > waterVolDay){
-				deficitVolDay = (irrigationVolDay - waterVolDay)/PondArea;
+				deficitVolDay = (irrigationVolDay - waterVolDay)/pondArea;
 			}
 			else{
 				deficitVolDay = 0;
 			}
 		}
-
-		/* Need to query database for evalVolDay or read from inputted CSV */
-
+		//STILL NEED TO UPDATE IRRIGATIONVOLDAY IF THE ABOVE IF STATEMENT BREAKS.	
+		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
 		if(pondWaterVolDay > pondVol){
 			bypassFlowVolDay = pondWaterVolDay - pondVol;
