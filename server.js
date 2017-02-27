@@ -14,7 +14,7 @@ app.route("/")
 
 console.log(req.body);
 var _ = req.body;
-  jason_data ={
+ var graph_data ={
     "graph": [
         {
           "line": {
@@ -36,7 +36,9 @@ var _ = req.body;
         },
         {
           "array":TDPAlg(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity) 
-          /*[
+          /*
+          Example Format:
+          [
                   [1, 37.8, 80.8],
                   [2, 30.9, 69.5],
                   [3, 25.4, 57],
@@ -55,8 +57,7 @@ var _ = req.body;
         }
     ]
 };
-  //res.status(400).json(jason_data);
-  res.json(jason_data);
+  res.json(graph_data);
 });
 
 app.get('*', (req, resp)=>{
