@@ -86,3 +86,16 @@ var selectLocation = function(feature) {
 
   $('#mapselection').text('You selected id: ' + selectedFeature.getProperty('Id'));
 };
+
+var toggleText = 0;
+
+$('#map-submit').click(function() {
+  $('#map').toggleClass('hide');
+  if(toggleText == 0) {
+    $('#map-submit').text('Select Another Location');
+    toggleText = 1;
+  } else {
+    $('#map-submit').text('Confirm Selection');
+  }
+  $('#graph-body').toggleClass('hide');
+});
