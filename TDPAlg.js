@@ -13,7 +13,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 	const numberOfIncrements = (_pondVolLargest - _pondVolSmallest)/_pondVolIncrement;		//specify on front-end that the increment can't be zero.
 	
 
-	for(var i = 0; i < _numberOfIncrements; i++){
+	for(var i = 0; i < numberOfIncrements; i++){
 		var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
 		var pondArea = pondVol/_pondDepth;	//specify on front-end that the _pondDepth can't be zero.
 		/*
