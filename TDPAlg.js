@@ -65,7 +65,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		
 		var pondPrecipVolDay = (precipDepthDay * pondArea);
 		var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+		var pondWaterVolDay;
 
 
 		if(soilMoistureDepthDay < (0.5*_availableWaterCapacity)){
@@ -83,7 +83,6 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		else{
 			pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 		}
-		//STILL NEED TO UPDATE IRRIGATIONVOLDAY IF THE ABOVE IF STATEMENT BREAKS.	
 
 		if(pondWaterVolDay > pondVol){
 			bypassFlowVolDay = pondWaterVolDay - pondVol;
