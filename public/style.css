@@ -6,7 +6,6 @@ html, body {
 
 nav {
   padding: 1rem;
-  background-color: #efefef;
   text-align: center;
 }
 
@@ -17,7 +16,6 @@ nav {
 
 #sidebar {
   width: 256px;
-  /*background: #eeeeee;*/
   margin: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -60,7 +58,8 @@ input[type="number"] {
 }
 
 .input-group {
-  margin: 5px;
+  margin: 5px auto;
+  color: #0054a6;
 }
 
 .input-group .form-control {
@@ -80,15 +79,17 @@ input[type="number"] {
   width: 60px;
 }
 
-*:focus {
-    outline: none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
 #basic-addon2 {
   padding: 5px;
+}
+
+#submit {
+  margin: 5px;
+}
+
+#submit .btn {
+  background-color: #0054a6;
+  color: white;
 }
 
 footer {
