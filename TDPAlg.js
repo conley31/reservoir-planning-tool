@@ -61,9 +61,9 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		var bypassFlowVolDay;
 
 		/* Need to query database for evalVolDay or read from inputted CSV */
-		var evapVolDay;
+		var evapVolDay = 1;	//temporary value for testing otuput.
 		
-		var pondPrecipVolDay = (percipDay * pondArea);
+		var pondPrecipVolDay = (percipDepthDay * pondArea);
 		var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
 
 
