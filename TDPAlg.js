@@ -25,7 +25,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		var evapVolYear = 0;
 		var seepageVolYear = 0;
 		var irrigationVolYear = 0;
-		var bypassVolYear = 0;
+		var bypassFlowVolYear = 0;
 		var deficitVolYear = 0;
 
 		/*
@@ -63,31 +63,37 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		/* Need to query database for evalVolDay or read from inputted CSV */
 		var evapVolDay = 1;	//temporary value for testing otuput.
 		
-		var pondPrecipVolDay = (percipDepthDay * pondArea);
+		var pondPrecipVolDay = (precipDepthDay * pondArea);
 		var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
+		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
 
 		if(soilMoistureDepthDay < (0.5*_availableWaterCapacity)){
 			irrigationVolDay = _irrigationDepth * _irrigationArea;
-			if(irrigationVolDay > waterVolDay){
-				deficitVolDay = (irrigationVolDay - waterVolDay)/pondArea;
+			pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+
+			if(irrigationVolDay > pondWaterVolDay){
+				deficitVolDay = (irrigationVolDay - pondWaterVolDay)/pondArea;
 			}
 			else{
 				deficitVolDay = 0;
 			}
 		}
+		//set pondWaterVolDay with an irrigationVolDay of zero.
+		else{
+			pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+		}
 		//STILL NEED TO UPDATE IRRIGATIONVOLDAY IF THE ABOVE IF STATEMENT BREAKS.	
-		var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
 		if(pondWaterVolDay > pondVol){
 			bypassFlowVolDay = pondWaterVolDay - pondVol;
 			pondWaterVolDay = pondVol;
 		}
 		else{
-			bypassFlowVolDay=0
+			bypassFlowVolDay = 0;
 		}
 
-		pondWaterDepthDay = waterVolDay/pondArea;
+		pondWaterDepthDay = pondWaterVolDay/pondArea;
 
 		/*
 		**************************************************************************************************************
@@ -101,7 +107,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 
 		//update the (day-1) variables
 		soilMoistureDepthDayPrev = soilMoistureDepthDay;
-		waterVolDayPrev = waterVolDay;
+		pondWaterVolDayPrev = pondWaterVolDay;
 
 		/*
 		**************************************************************************************************************
@@ -118,7 +124,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		evapVolYear += evapVolDay; 		
 		seepageVolYear += seepageVolDay;	
 		irrigationVolYear += irrigationVolDay;	
-		bypassVolYear += bypassVolDay
+		bypassFlowVolYear += bypassFlowVolDay;
 		deficitVolYear += (deficitVolDay*pondArea);
 
 	}
