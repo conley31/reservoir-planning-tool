@@ -10,7 +10,7 @@ $( "form" ).submit(function( event ) {
   console.log( $( this ).serializeArray() );
   $.ajax({
     type: 'POST',
-    url: '/',
+    url: '/calculate',
     data: $( this ).serializeArray(),
     success: function(data) {
       graphData = data.graph;
