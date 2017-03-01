@@ -10,10 +10,17 @@ nav {
   text-align: center;
 }
 
+#logo img {
+    height: 54px;
+    width: auto;
+}
+
 #sidebar {
   width: 256px;
-  background: #eeeeee;
+  /*background: #eeeeee;*/
   margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .calculator-input {
@@ -45,12 +52,43 @@ nav {
   font-size: 12px;
 }
 
+/*hide input spin button*/
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
 .input-group {
-  margin: 1px;
+  margin: 5px;
+}
+
+.input-group .form-control {
+  border-style: none;
+  border-radius: 0;
+  background-color: #cdedf6;
+  color: #061826;
+  width: 170px;
 }
 
 .input-group-addon {
+  border-style: none;
+  border-radius: 0;
+  background-color: #5eb1bf;
+  color: white;
   font-size: 11px;
+  width: 60px;
+}
+
+*:focus {
+    outline: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+#basic-addon2 {
+  padding: 5px;
 }
 
 footer {
@@ -68,7 +106,6 @@ footer {
   width: inherit;
   text-align: center;
 }
-
 
 /**
  * Map
