@@ -3,6 +3,7 @@
  */
 var map;
 var selectedFeature;
+var selectedLocationId;
 
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
@@ -110,5 +111,6 @@ var selectFeature = function(feature) {
 
   selectedFeature = feature;
 
-  $('#mapselection').text('You selected id: ' + selectedFeature.getProperty('Id'));
+  // $('#mapselection').text('You selected id: ' + selectedFeature.getProperty('Id'));
+  selectedLocationId = selectedFeature.getProperty('Id');
 };
