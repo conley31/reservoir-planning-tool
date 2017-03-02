@@ -14,6 +14,7 @@ app.post('/calculate', bodyParser.urlencoded({ extended: false }), function(req,
 
 console.log(req.body);
 var _ = req.body;
+TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity).then(function(data){
  var graph_data ={
     "graph": [
         {
@@ -35,9 +36,7 @@ var _ = req.body;
                 }
         },
         {
-          "array": TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity).then(function(data){
-          	return data;
-          });
+          "array": data //return value from TDPAlg.js
           
          /* Example Format:
           [
@@ -62,6 +61,8 @@ var _ = req.body;
 };
 
 res.json(graph_data);
+
+});
 
 });
 
