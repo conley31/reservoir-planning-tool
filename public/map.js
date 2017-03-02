@@ -89,13 +89,19 @@ var selectLocation = function(feature) {
 
 var toggleText = 0;
 
-$('#map-submit').click(function() {
-  $('#map').toggleClass('hide');
+$('#form-submit').click(function() {
   if(toggleText == 0) {
-    $('#map-submit').text('Select Another Location');
+    $('#map').fadeOut('slow', function() {
+      $('#graph-body').fadeIn('slow');
+      $('#map-submit').text('Select Another Location');
+    });
     toggleText = 1;
   } else {
-    $('#map-submit').text('Confirm Selection');
+    $('#graph-body').fadeOut('slow', function() {
+      $('#map').fadeIn('slow');
+      $('#map-submit').text('Confirm Selection');
+    });
+    toggleText = 0;
   }
-  $('#graph-body').toggleClass('hide');
+
 });

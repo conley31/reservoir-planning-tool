@@ -42,7 +42,7 @@ var drawChart = function() {
       subtitle: 'in millions of dollars (USD)'
     },
     width: 984,
-    height: 500
+    height: 400
   };
 
   var chart = new google.charts.Line(document.getElementById('graph'));
