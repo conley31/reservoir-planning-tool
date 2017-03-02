@@ -91,7 +91,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 			bypassFlowVolDay = 0;
 		}
 
-		pondWaterDepthDay = pondWaterVolDay/pondArea;
+		var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
 		/*
 		**************************************************************************************************************
@@ -137,7 +137,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 		***************************************************************************************************************
 		*/
 
-		allAnnuals.push([pondVol,(inflowVolYear/numOfRows), (evapVolYear/numOfRows), (seepageVolDay/numOfRows), (irrigationVolYear/numOfRows), (bypassVolYear/numOfRows), (deficitVolYear/numOfRows)]);
+		allAnnuals.push([pondVol,(inflowVolYear/numOfRows), (evapVolYear/numOfRows), (seepageVolDay/numOfRows), (irrigationVolYear/numOfRows), (bypassFlowVolYear/numOfRows), (deficitVolYear/numOfRows)]);
 
 	}
 
