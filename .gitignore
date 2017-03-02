@@ -24,4 +24,8 @@ db/daily_files
 # Project Config File
 config/config.json
 
+# Python compiled files
 *.pyc
+
+# Linter config
+.jshintrc

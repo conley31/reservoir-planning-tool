@@ -3,12 +3,13 @@
  */
 var map;
 var selectedFeature;
+var selectedLocationId;
 
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
-      lat: 41.8781,
+      lat: 41.8781, // Center at Chicago
       lng: -87.6298
     },
     zoom: 6
@@ -51,7 +52,7 @@ var initMap = function() {
 
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
-    selectLocation(event.feature);
+    selectFeature(event.feature);
     map.data.overrideStyle(event.feature, {
       fillColor: 'blue',
       fillOpacity: 0.2
@@ -73,9 +74,35 @@ var initMap = function() {
       locMarker.setPosition(pos);
     });
   }
+
+  // Create the search box and link it to the UI element.
+  var input = document.getElementById('places-input');
+  var searchBox = new google.maps.places.SearchBox(input, {
+    bounds: bounds
+  });
+
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener('bounds_changed', function() {
+    searchBox.setBounds(map.getBounds());
+  });
+  // Listen for a new place from the search box
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+      return;
+    }
+    // Center on the map and zoom in
+    locMarker.setPosition(places[0].geometry.location);
+    map.setCenter(places[0].geometry.location);
+    map.setZoom(11);
+  });
 };
 
-var selectLocation = function(feature) {
+var selectLocation = function(location) {
+};
+
+var selectFeature = function(feature) {
   map.data.overrideStyle(selectedFeature, {
     fillColor: 'white',
     fillOpacity: 0,
@@ -84,13 +111,13 @@ var selectLocation = function(feature) {
 
   selectedFeature = feature;
 
-  $('#mapselection').text('You selected id: ' + selectedFeature.getProperty('Id'));
+  selectedLocationId = selectedFeature.getProperty('Id');
 };
 
 var toggleText = 0;
 
 $('#map-submit').click(function() {
-  if(toggleText == 0) {
+  if(toggleText === 0) {
     $('#map').fadeOut('slow', function() {
       $('#graph-body').fadeIn('slow');
       $('#form-data').fadeIn('slow');

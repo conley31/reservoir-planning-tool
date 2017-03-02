@@ -5,19 +5,29 @@ $(document).ready(function() {
 
 graphData = [];
 
-$( "form" ).submit(function( event ) {
+$("form").submit(function(event) {
   event.preventDefault();
-  console.log( $( this ).serializeArray() );
+
+  var data = {
+    locationId: selectedLocationId
+  };
+  var formArray = $(this).serializeArray();
+  for (var i = 0; i < formArray.length; i++) {
+    // Try to parse it as a number, else return the value as is (empty forms will return empty strings)
+    data[formArray[i].name] = Number.parseFloat(formArray[i].value) || formArray[i].value;
+  }
+
   $.ajax({
     type: 'POST',
     url: '/calculate',
-    data: $( this ).serializeArray(),
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    dataType: 'json',
     success: function(data) {
       graphData = data.graph;
-      console.log(graphData[3].array);
       initGraph();
     },
-    error:function() {
+    error: function() {
       console.log("AJAX failed");
     }
   });
