@@ -6,20 +6,23 @@ Notes:
 */
 
 var db = require('./db');
-module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId) { //TODO: add last argument.
-  var allAnnuals = [];
-  const seepageVolDay = 0.01;
-  const numberOfIncrements = (_pondVolLargest - _pondVolSmallest) / _pondVolIncrement; //specify on front-end that the increment can't be zero.
 
-
-  for (var i = 0; i < numberOfIncrements; i++) {
-  	var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
-    var pondArea = pondVol / _pondDepth; //specify on front-end that the _pondDepth can't be zero.
+module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId) { //TODO: add last argument.
+	return new Promise(function(resolve, reject){
+		db.getLocationById(_locationId).then(function(data) {
+			var numOfRows = data.length;
+			var allAnnuals = [];
+			const seepageVolDay = 0.01;
+			const numberOfIncrements = (_pondVolLargest - _pondVolSmallest) / _pondVolIncrement;
+			for (var i = 0; i < numberOfIncrements; i++) {
+				var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
+				var pondArea = pondVol / _pondDepth;
     /*
     **********************************************
     			     ANNUAL VALUES
     **********************************************
     */
+
     var inflowVolYear = 0;
     var evapVolYear = 0;
     var seepageVolYear = 0;
@@ -27,17 +30,6 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
     var bypassFlowVolYear = 0;
     var deficitVolYear = 0;
 
-    /*
-    **********************************************
-    			     DAILY VALUES
-    **********************************************
-    */
-
-    var numOfRows;
-
-    db.getLocationById(_locationId).then(function(data) {
-
-    	numOfRows = data.length;
 
       /*
       **********************************************
@@ -49,34 +41,38 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 
       /* LOOP THROUGH EVERY DAY */
 
-      for (var j = 0; j < data.length; j++) {
+    for (var j = 0; j < data.length; j++) {
+    /*
+    **********************************************
+    			     DAILY VALUES
+    **********************************************
+    */
 
-      	var inflowVolDay = data[j].Drainflow;
-      	var precipDepthDay = data[j].Precipitation;
-      	var evapDepthDay = data[j].PET;
+    var inflowVolDay = data[j].Drainflow;
+    var precipDepthDay = data[j].Precipitation;
+    var evapDepthDay = data[j].PET;
+
+    var irrigationVolDay = 0;
+    var deficitVolDay;
+    var bypassFlowVolDay;
+
+    var evapVolDay = evapDepthDay * pondArea;
+
+    var pondPrecipVolDay = (precipDepthDay * pondArea);
+    var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
+    var pondWaterVolDay;
 
 
-      	var irrigationVolDay = 0;
-      	var deficitVolDay;
-      	var bypassFlowVolDay;
+    if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
+    	irrigationVolDay = _irrigationDepth * _irrigationArea;
+    	pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
-      	var evapVolDay = evapDepthDay * pondArea;
-
-      	var pondPrecipVolDay = (precipDepthDay * pondArea);
-      	var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-      	var pondWaterVolDay;
-
-
-      	if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
-      		irrigationVolDay = _irrigationDepth * _irrigationArea;
-      		pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
-
-      		if (irrigationVolDay > pondWaterVolDay) {
-      			deficitVolDay = (irrigationVolDay - pondWaterVolDay) / pondArea;
-      		} else {
-      			deficitVolDay = 0;
-      		}
-      	}
+    	if (irrigationVolDay > pondWaterVolDay) {
+    		deficitVolDay = (irrigationVolDay - pondWaterVolDay) / pondArea;
+    	} else {
+    		deficitVolDay = 0;
+    	}
+    }
         //set pondWaterVolDay with an irrigationVolDay of zero.
         else {
         	pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
@@ -85,7 +81,9 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
         if (pondWaterVolDay > pondVol) {
         	bypassFlowVolDay = pondWaterVolDay - pondVol;
         	pondWaterVolDay = pondVol;
-        } else {
+        } 
+
+        else {
         	bypassFlowVolDay = 0;
         }
 
@@ -122,24 +120,28 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
         irrigationVolYear += irrigationVolDay;
         bypassFlowVolYear += bypassFlowVolDay;
         deficitVolYear += (deficitVolDay * pondArea);
-
-    }
-
-  	allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
-});
-
     /*
     **************************************************************************************************************
 
     			  				   WRITE OUT ALL ANNUAL INFORMATION HERE.
-    (Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay)
+    (Write Date, InflowVolYear, EvaporationVolYear, SeepageVolYear, IrrigationVolYear, BypassVolYear, PondWaterDepthYear)
 
     ***************************************************************************************************************
     */
+}
+
+allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
 
 }
 
+resolve (allAnnuals);
 
-return allAnnuals;
+});
+
+});
+
 
 };
+
+
+
