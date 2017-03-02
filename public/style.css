@@ -8,18 +8,33 @@ html, body {
 nav {
   padding: 1rem;
   text-align: center;
+  border-radius: 0;
+}
+
+.navbar {
+  background-color: #211a1e;
+  border-radius: 0;
+}
+
+#main {
+    width: 100%;
+    min-height: 95vh;
 }
 
 #logo img {
-    height: 54px;
+    height: 50px;
     width: auto;
 }
 
 #sidebar {
   width: 256px;
-  margin: 10px;
+  margin: 0 10px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+#form-data {
+    display: none;
 }
 
 .calculator-input {
@@ -28,16 +43,25 @@ nav {
   background: #222222;
 }
 
+#map {
+  /*margin: 0;
+  padding: 0;*/
+  height: 540px;
+  width: 984px;
+  margin: 10px;
+}
+
 #graph-body {
   display: none;
 }
 
 #graph {
   width: 984px;
-  height: 400px;
-  background: #dddddd;
-  margin: 0 10px;
+  height: 440px;
+  margin: 10px;
   padding: 0;
+  float: none;
+  vertical-align:  middle;
 }
 
 #graph-desc {
@@ -50,7 +74,7 @@ nav {
   position: relative;
   margin: 0 auto;
   width: 1280px;
-  padding-bottom: 46px; /*height of footer*/
+  padding-bottom: 36px; /*height of footer*/
 }
 
 .form-control {
@@ -90,19 +114,21 @@ input[type="number"] {
   padding: 5px;
 }
 
-#submit .btn {
+button {
+  margin: 10px 0;
   background-color: #0054a6;
   color: white;
 }
 
 footer {
-  position: absolute;
+  position: relative;
   z-index: 10;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 46px;
-  background-color: #efefef;
+  height: 36px;
+  background-color: #5eb1bf;
+  color: white;
   display: flex;
   align-items: center;
 }
@@ -110,16 +136,4 @@ footer {
 .footer-text {
   width: inherit;
   text-align: center;
-}
-
-/**
- * Map
- */
-
-#map {
-  /*margin: 0;
-  padding: 0;*/
-  height: 500px;
-  width: 984px;
-  margin: 10px;
 }

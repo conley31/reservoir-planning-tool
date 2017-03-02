@@ -89,16 +89,18 @@ var selectLocation = function(feature) {
 
 var toggleText = 0;
 
-$('#form-submit').click(function() {
+$('#map-submit').click(function() {
   if(toggleText == 0) {
     $('#map').fadeOut('slow', function() {
       $('#graph-body').fadeIn('slow');
+      $('#form-data').fadeIn('slow');
       $('#map-submit').text('Select Another Location');
     });
     toggleText = 1;
   } else {
     $('#graph-body').fadeOut('slow', function() {
       $('#map').fadeIn('slow');
+      $('#form-data').fadeOut('slow');
       $('#map-submit').text('Confirm Selection');
     });
     toggleText = 0;
