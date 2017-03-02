@@ -19,7 +19,7 @@ $("form").submit(function(event) {
 
   $.ajax({
     type: 'POST',
-    url: '/',
+    url: '/calculate',
     data: data,
     success: function(data) {
       graphData = data.graph;
@@ -51,7 +51,7 @@ var drawChart = function() {
       subtitle: 'in millions of dollars (USD)'
     },
     width: 984,
-    height: 500
+    height: 440
   };
 
   var chart = new google.charts.Line(document.getElementById('graph'));
