@@ -111,14 +111,13 @@ var selectFeature = function(feature) {
 
   selectedFeature = feature;
 
-  // $('#mapselection').text('You selected id: ' + selectedFeature.getProperty('Id'));
   selectedLocationId = selectedFeature.getProperty('Id');
 };
 
 var toggleText = 0;
 
 $('#map-submit').click(function() {
-  if(toggleText == 0) {
+  if(toggleText === 0) {
     $('#map').fadeOut('slow', function() {
       $('#graph-body').fadeIn('slow');
       $('#form-data').fadeIn('slow');

@@ -23,7 +23,6 @@ $("form").submit(function(event) {
     data: data,
     success: function(data) {
       graphData = data.graph;
-      console.log(graphData[3].array);
       initGraph();
     },
     error: function() {
