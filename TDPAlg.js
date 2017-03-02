@@ -133,7 +133,7 @@ module.exports = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, 
 
     ***************************************************************************************************************
     */
-
+    console.log('Number of Rows: '+numOfRows);
     allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
 
   }
