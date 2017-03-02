@@ -4,41 +4,33 @@
 
   <body>
     <% include partials/header %>
-      <div class="container">
-        <div class="row" id="map-row">
-          <div id="sidebar" class="col-md-3">
-            <div class="container">
-              <!-- This is where the search will go and selected ID will be shown -->
-              <h3>SIDEBAR</h3>
-              <p id="mapselection"></p>
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div class="row">
-              <div id="map" class="col-md-12">
-                <!-- This is where Google Maps will go -->
-                <h3>Map</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="graph-body">
-          <div class="row">
+      <div id="main">
+        <div class="container">
+          <div class="row" id="map-row">
             <div id="sidebar" class="col-md-3">
+                <!-- This is where the search will go and selected ID will be shown -->
+                <p id="mapselection"></p>
+                <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
                 <!-- This is where calculator input goes -->
-                <% include calculator-input %>
+                <div id="form-data">
+                  <% include calculator-input %>
+                </div>
             </div>
             <div class="col-md-9">
               <div class="row">
-                <div id="graph" class="col-md-12">
-                    <!-- This is where Google Charts will go -->
-                    <h3>Graph</h3>
+                <div id="map" class="col-md-12">
+                  <!-- This is where Google Maps will go -->
                 </div>
-                <div id="graph-desc" class="col-md-12">
-                  <div class="container">
-                    <!-- This is where the Graph's description will be printed -->
-                    <h3>Graph Description</h3>
+                <div id="graph-body">
+                  <div id="graph" class="col-md-12 text-center">
+                      <!-- This is where Google Charts will go -->
+                      <h5>Entery data into the inputs and press submit to see a graph of the data</h5>
+                  </div>
+                  <div id="graph-desc" class="col-md-12">
+                    <div class="container">
+                      <!-- This is where the Graph's description will be printed -->
+                      <h3>Graph Description</h3>
+                    </div>
                   </div>
                 </div>
               </div>

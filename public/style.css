@@ -2,18 +2,39 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 nav {
   padding: 1rem;
-  background-color: #efefef;
   text-align: center;
+  border-radius: 0;
+}
+
+.navbar {
+  background-color: #211a1e;
+  border-radius: 0;
+}
+
+#main {
+    width: 100%;
+    min-height: 95vh;
+}
+
+#logo img {
+    height: 50px;
+    width: auto;
 }
 
 #sidebar {
   width: 256px;
-  background: #eeeeee;
-  margin: 10px;
+  margin: 0 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#form-data {
+    display: none;
 }
 
 .calculator-input {
@@ -22,12 +43,25 @@ nav {
   background: #222222;
 }
 
+#map {
+  /*margin: 0;
+  padding: 0;*/
+  height: 540px;
+  width: 984px;
+  margin: 10px;
+}
+
+#graph-body {
+  display: none;
+}
+
 #graph {
   width: 984px;
-  height: 500px;
-  background: #dddddd;
+  height: 440px;
   margin: 10px;
   padding: 0;
+  float: none;
+  vertical-align:  middle;
 }
 
 #graph-desc {
@@ -37,29 +71,64 @@ nav {
 }
 
 .container {
+  position: relative;
   margin: 0 auto;
   width: 1280px;
+  padding-bottom: 36px; /*height of footer*/
 }
 
 .form-control {
   font-size: 12px;
 }
 
+/*hide input spin button*/
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
 .input-group {
-  margin: 1px;
+  margin: 5px auto;
+  color: #0054a6;
+}
+
+.input-group .form-control {
+  border-style: none;
+  border-radius: 0;
+  background-color: #cdedf6;
+  color: #061826;
+  width: 170px;
 }
 
 .input-group-addon {
+  border-style: none;
+  border-radius: 0;
+  background-color: #5eb1bf;
+  color: white;
   font-size: 11px;
+  width: 60px;
+}
+
+#basic-addon2 {
+  padding: 5px;
+}
+
+button {
+  margin: 10px 0;
+  background-color: #0054a6;
+  color: white;
 }
 
 footer {
   position: relative;
+  z-index: 10;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 46px;
-  background-color: #efefef;
+  height: 36px;
+  background-color: #5eb1bf;
+  color: white;
   display: flex;
   align-items: center;
 }
@@ -67,17 +136,4 @@ footer {
 .footer-text {
   width: inherit;
   text-align: center;
-}
-
-
-/**
- * Map
- */
-
-#map {
-  /*margin: 0;
-  padding: 0;*/
-  height: 500px;
-  width: 984px;
-  margin: 10px;
 }
