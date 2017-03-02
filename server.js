@@ -5,16 +5,17 @@ var app = express();
 var TDPAlg = require('./TDPAlg.js');
 
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
 app.get('/', function(req, res){
  res.render("index.ejs");
 });
 
-app.post('/calculate', bodyParser.urlencoded({ extended: false }), function(req, res){
+app.post('/calculate', function(req, res){
 
 console.log(req.body);
 var _ = req.body;
-TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity).then(function(data){
+TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth,_.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId).then(function(data){
  var graph_data ={
     "graph": [
         {
@@ -37,7 +38,7 @@ TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth
         },
         {
           "array": data //return value from TDPAlg.js
-          
+
          /* Example Format:
           [
                   [1, 37.8, 80.8],

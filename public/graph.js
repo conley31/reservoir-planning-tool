@@ -20,7 +20,9 @@ $("form").submit(function(event) {
   $.ajax({
     type: 'POST',
     url: '/calculate',
-    data: data,
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    dataType: 'json',
     success: function(data) {
       graphData = data.graph;
       initGraph();
