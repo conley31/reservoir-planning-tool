@@ -1,9 +1,15 @@
 var csv = require('fast-csv');
 var fs = require('fs');
+var db = require('./db');
 
-function verifyUserCSV(userStream) {
-  csv
-    .fromStream(userStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+var dateTrack = null;
+
+module.exports.verifyAndBlendUserCSV = function(id, inStream) {
+  return new Promise(function(resolve, reject) {
+    var buffer = [];
+    var blendedArray = [];
+    csv
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
     .validate(function(data) {
       return (isValidDate(data["Day"], data["Month"], data["Year"]) &&
               isValidNumber(data["Drainflow"]) &&
@@ -11,14 +17,63 @@ function verifyUserCSV(userStream) {
               isValidNumber(data["PET"]));
     })
     .on("data-invalid", function(data, index) {
-      throw new Error('Line ' + (index + 1) + ': ' + data["Year"]
+      reject('Line ' + (index + 1) + ': ' + data["Year"]
                       + ',' + data["Month"]
                       + ',' + data["Day"]
                       + ',' + data["Drainflow"]
                       + ',' + data["Precipitation"]
                       + ',' + data["PET"]);
     })
-};
+    .on("data", function(data) {
+      buffer.push(data);
+    })
+    .on("end", function() {
+      var dataCursor;
+      db.getLocationById(id).then(function(data) {
+        var locationIndex = seek(data, buffer[0]);
+        for(var i = 0; i < buffer.length - 1; i++) {
+          blendedArray.push(buffer[i])
+          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1])
+          locationIndex = response[0];
+          blendedArray = blendedArray.concat(response[1]);
+        }
+        blendedArray.push(buffer[buffer.length - 1]);
+      });
+    });
+  });
+  resolve(blendedArray);
+}
+
+function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
+  var index = startIndex;
+  startDate = new Date(userRowStart["Year"], userRowStart["Month"], userRowStart["Day"]);
+  endDate = new Date(userRowEnd["Year"], userRowEnd["Month"], userRowEnd["Day"]);
+  var arr = [];
+  while(index < sqlRows.length && sqlRows[index]["RecordedDate"] < endDate) {
+    if(sqlRows[index]["RecordedDate"] > startDate) {
+      arr.push(formattedHash(sqlRows[index]));
+    }
+    ++index;
+  }
+  return [index, arr];
+}
+
+function formattedHash(sqlRow) {
+  var row = {"Year": sqlRow["RecordedDate"].getFullYear().toString(),
+             "Month": (sqlRow["RecordedDate"].getMonth()).toString(),
+             "Day": sqlRow["RecordedDate"].getDate().toString(),
+             "Drainflow": sqlRow["Drainflow"],
+             "Precipitation": sqlRow["Precipitation"],
+             "PET": sqlRow["PET"]}
+  return row;
+}
+
+function seek(rows, firstbuf) {
+  var i = 0;
+  while(rows[i]["RecordedDate"] < new Date(firstbuf["Year"], firstbuf["Month"] - 1, firstbuf["Day"]))
+    i++;
+  return ++i;
+}
 
 function isValidDate(day, month, year) {
   if(Number(day) != day)
@@ -46,11 +101,19 @@ function isValidNumber(n) {
   return (!isNaN(n) && Number(n) >= 0)
 }
 
-
-var stream = fs.createReadStream("db/daily_files/Daily_48.9375_-99.1875.txt");
-try {
-  verifyUserCSV(stream)
+Date.prototype.addDays = function(days) {
+  var d = new Date(this.valueOf());
+  d.setDate(d.getDate() + days);
+  return d;
 }
-catch (e) {
-  console.log(e);
+
+Date.prototype.toShortString = function() {
+  var yyyy = this.getFullYear().toString();
+  var mm = (this.getMonth()+1).toString();
+  var dd  = this.getDate().toString();
+
+  var mmChars = mm.split('');
+  var ddChars = dd.split('');
+
+  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
 }
