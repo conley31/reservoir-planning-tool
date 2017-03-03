@@ -33,13 +33,25 @@ nav {
   padding-right: 10px;
 }
 
+#map-submit {
+  display: none;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+.form-group {
+  margin: 5px 0;
+}
+
 #form-data {
     display: none;
 }
 
 .calculator-input {
   width: inherit;
-  padding: 3px;
+  padding: 0 3px;
   background: #222222;
 }
 
@@ -89,8 +101,9 @@ input[type="number"] {
 }
 
 .input-group {
-  margin: 5px auto;
+  margin: 1px auto;
   color: #0054a6;
+  box-shadow: none;
 }
 
 .input-group .form-control {
@@ -118,6 +131,13 @@ button {
   margin: 10px 0;
   background-color: #0054a6;
   color: white;
+}
+
+.btn:hover {
+  color: #eee;
+  -webkit-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
+  -moz-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
+  box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
 footer {
