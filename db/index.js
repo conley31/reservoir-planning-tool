@@ -111,7 +111,7 @@ exports.getLocationForDateRange = (Id, startDate, endDate) => {
 // Close the pool connection with the database, with an optional callback
 exports.close = cb => {
   pool.end(function(err) {
-    console.log('Database connection closed');
+    console.log('Database pool ended');
     if (err) throw err;
     if (cb) cb();
   });
