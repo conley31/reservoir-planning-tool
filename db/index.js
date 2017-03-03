@@ -6,8 +6,8 @@ nconf.file({
   file: "./config/config.json"
 });
 
-var connection = mysql.createConnection(nconf.get('mysql'));
-connection.connect();
+// Create a MySQL connection pool
+var pool = mysql.createPool(nconf.get('mysql'));
 
 /**
  *  getLocationById -  Gets a Location's data given a location id
@@ -21,16 +21,25 @@ connection.connect();
  *  }]
  *
  */
-exports.getLocationById = function(Id) {
-  return new Promise(function(resolve, reject) {
-    if (!Number.isInteger(Id)) {
-      reject(new Error('Location Id must be a number'));
-    }
-    connection.query('SELECT * FROM ??', 'Location' + Id, function(error, results, fields) {
-      if (error) {
-        reject(error);
+exports.getLocationById = Id => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        connection.release();
+        reject(err);
       }
-      resolve(results);
+      else if (!Number.isInteger(Id)) {
+        reject(new Error('Location Id must be a number'));
+      } else {
+        connection.query('SELECT * FROM ??', 'Location' + Id, function(error, results, fields) {
+          connection.release();
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        });
+      }
     });
   });
 };
@@ -45,16 +54,24 @@ exports.getLocationById = function(Id) {
  *  }]
  *
  */
-exports.getPETById = function(Id) {
-  return new Promise(function(resolve, reject) {
-    if (!Number.isInteger(Id)) {
-      reject(new Error('Location Id must be a number'));
-    }
-    connection.query('SELECT RecordedDate, PET FROM ??', 'Location' + Id, function(error, results, fields) {
-      if (error) {
-        reject(error);
+exports.getPETById = Id => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        connection.release();
+        reject(err);
+      } else if (!Number.isInteger(Id)) {
+        reject(new Error('Location Id must be a number'));
+      } else {
+        connection.query('SELECT RecordedDate, PET FROM ??', 'Location' + Id, function(error, results, fields) {
+          connection.release();
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        });
       }
-      resolve(results);
     });
   });
 };
@@ -72,16 +89,33 @@ exports.getPETById = function(Id) {
  *  }]
  *
  */
-exports.getLocationForDateRange = function(Id, startDate, endDate) {
-  return new Promise(function(resolve, reject) {
-    if(!Number.isInteger(Id) || isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
-      reject(new Error('Type Error: Expected Types are Int, Date as Str, Date as Str'));
-    }
-    connection.query('SELECT * FROM ?? WHERE RecordedDate >= ? AND RecordedDate <= ?', ['Location' + Id, startDate, endDate], function(error, results, fields) {
-      if (error) {
-        reject(error);
+exports.getLocationForDateRange = (Id, startDate, endDate) => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        connection.release();
+        reject(err);
+      } else if (!Number.isInteger(Id) || isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
+        reject(new Error('Type Error: Expected Types are Int, Date as Str, Date as Str'));
+      } else {
+        connection.query('SELECT * FROM ?? WHERE RecordedDate >= ? AND RecordedDate <= ?', ['Location' + Id, startDate, endDate], function(error, results, fields) {
+          connection.release();
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        });
       }
-      resolve(results);
     });
+  });
+};
+
+// Close the pool connection with the database, with an optional callback
+exports.close = cb => {
+  pool.end(function(err) {
+    console.log('Database connection closed');
+    if (err) throw err;
+    if (cb) cb();
   });
 };
