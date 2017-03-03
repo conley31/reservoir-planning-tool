@@ -4,6 +4,21 @@ var db = require('./db');
 
 var dateTrack = null;
 
+/**
+ *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data 
+ *
+ *  Return - Array of Rows -
+ *  [{
+ *    Year: '1981',
+      Month: '1',
+      Day: '7',
+      Drainflow: 1.0755,
+      Precipitation: 2.38,
+      PET: 1.6041
+ *  }, ...]
+ *
+ */
+
 module.exports.verifyAndBlendUserCSV = function(id, inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
@@ -44,6 +59,22 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
   });
 }
 
+/**
+ *  fillGaps -  Checks for any date gaps between userRowStart and userRowEnd.
+ *              If gaps exist, then rows are returned from sqlRows data if they exist.
+ *
+ *  Return - Array of startIndex for sqlRows and Rows to fill gaps -
+ *  [2074, {
+ *    Year: '1981',
+      Month: '1',
+      Day: '7',
+      Drainflow: 1.0755,
+      Precipitation: 2.38,
+      PET: 1.6041
+ *  }, ...]
+ *
+ */
+
 function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   var index = startIndex;
   startDate = new Date(userRowStart.Year, userRowStart.Month, userRowStart.Day);
@@ -58,6 +89,21 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
+/**
+ *  formattedHash -  Changes sqlRow to match CSV format
+ *
+ *  Return - A formatted hash -
+ *  {
+ *    "Year": "2000",
+      "Month": "11",
+      "Day": "43",
+      "Drainflow": "1.2321",
+      "Precipitation": "9.342",
+      "PET": "3.21323"
+ *  }
+ *
+ */
+
 function formattedHash(sqlRow) {
   var row = {"Year": sqlRow.RecordedDate.getFullYear().toString(),
              "Month": (sqlRow.RecordedDate.getMonth()).toString(),
@@ -68,9 +114,17 @@ function formattedHash(sqlRow) {
   return row;
 }
 
-function seek(rows, firstbuf) {
+/**
+ *  seek -  Finds the first date in an array(rows) that is equal to or greater than
+ *          the first row(firstBuf) date from the user uploaded CSV.
+ *
+ *  Return - int of the index in rows where date is greater.
+ *
+ */
+
+function seek(rows, firstBuf) {
   var i = 0;
-  while(rows[i].RecordedDate < new Date(firstbuf.Year, firstbuf.Month - 1, firstbuf.Day))
+  while(rows[i].RecordedDate < new Date(firstBuf.Year, firstBuf.Month - 1, firstBuf.Day))
     i++;
   return ++i;
 }
