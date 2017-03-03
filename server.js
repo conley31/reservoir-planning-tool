@@ -94,4 +94,3 @@ var exitHandler = function() {
 
 process.on('SIGINT', exitHandler);
 process.on('SIGTERM', exitHandler);
-process.on('uncaughtException', exitHandler);
