@@ -78,12 +78,7 @@ var server = app.listen(PORT, function() {
 });
 
 var exitHandler = function() {
-  db.close(function() {
-    server.close(function() {
-      console.log('Server and Databse closed');
-      process.exit();
-    });
-  });
+  db.close(process.exit);
 
   setTimeout(function() {
     console.error("Could not close connections in time, forcefully shutting down");
@@ -94,4 +89,3 @@ var exitHandler = function() {
 
 process.on('SIGINT', exitHandler);
 process.on('SIGTERM', exitHandler);
-process.on('uncaughtException', exitHandler);
