@@ -25,7 +25,6 @@ exports.getLocationById = Id => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
         reject(err);
       }
       else if (!Number.isInteger(Id)) {
@@ -58,7 +57,6 @@ exports.getPETById = Id => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
         reject(err);
       } else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
@@ -93,7 +91,6 @@ exports.getLocationForDateRange = (Id, startDate, endDate) => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
         reject(err);
       } else if (!Number.isInteger(Id) || isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
         reject(new Error('Type Error: Expected Types are Int, Date as Str, Date as Str'));
@@ -114,7 +111,7 @@ exports.getLocationForDateRange = (Id, startDate, endDate) => {
 // Close the pool connection with the database, with an optional callback
 exports.close = cb => {
   pool.end(function(err) {
-    console.log('Database connection closed');
+    console.log('Database pool ended');
     if (err) throw err;
     if (cb) cb();
   });
