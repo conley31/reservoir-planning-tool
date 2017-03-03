@@ -23,14 +23,17 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     var blendedArray = [];
+
     csv
     .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
               isValidNumber(data.Drainflow) &&
               isValidNumber(data.Precipitation) &&
               isValidNumber(data.PET));
     })
+
     .on("data-invalid", function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year
                       + ',' + data.Month
@@ -42,8 +45,10 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     .on("data", function(data) {
       buffer.push(data);
     })
+
     .on("end", function() {
       var dataCursor;
+      
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
         for(var i = 0; i < buffer.length - 1; i++) {
@@ -52,6 +57,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
           locationIndex = response[0];
           blendedArray = blendedArray.concat(response[1]);
         }
+
         blendedArray.push(buffer[buffer.length - 1]);
         resolve(blendedArray);
       });
@@ -80,12 +86,14 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   startDate = new Date(userRowStart.Year, userRowStart.Month, userRowStart.Day);
   endDate = new Date(userRowEnd.Year, userRowEnd.Month, userRowEnd.Day);
   var arr = [];
+
   while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
     if(sqlRows[index].RecordedDate > startDate) {
       arr.push(formattedHash(sqlRows[index]));
     }
     ++index;
   }
+  
   return [index, arr];
 }
 
