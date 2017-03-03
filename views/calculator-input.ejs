@@ -1,4 +1,11 @@
 <form id="calculator-input" method="POST" action="/">
+  <!-- Temporarily commented while we figure out the UI, keep the input element so that gmaps can move it on to the map -->
+  <!-- <div id="location-inputs" class="form-group">
+    <label class="input-group">Location</label> -->
+    <!-- <div class="input-group"> -->
+      <input id="places-input" class="" type="text" placeholder="Input place or address">
+    <!-- </div>
+  </div> -->
   <div id="reservoir-inputs" class="form-group">
     <label class="input-group">Pond Volume</label>
     <div class="input-group">
@@ -49,12 +56,6 @@
     <div class="input-group">
       <input type="number" step="any" min = "0" class="form-control" name="availableWaterCapacity" placeholder="Available Water Capacity" aria-describedby="basic-addon2">
       <span class="input-group-addon" id="basic-addon2">inches</span>
-    </div>
-  </div>     
-  <div id="location-inputs" class="form-group">
-    <div class="input-group">
-      <label>Location</label>
-      <input id="places-input" class="form-control" type="text" placeholder="Input place or address">
     </div>
   </div>
 
