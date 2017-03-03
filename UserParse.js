@@ -4,7 +4,7 @@ var db = require('./db');
 
 var dateTrack = null;
 
-function verifyAndBlendUserCSV(id, inStream) {
+module.exports.verifyAndBlendUserCSV = function(id, inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     var blendedArray = [];
@@ -17,12 +17,12 @@ function verifyAndBlendUserCSV(id, inStream) {
               isValidNumber(data.PET));
     })
     .on("data-invalid", function(data, index) {
-      reject('Line ' + (index + 1) + ': ' + data.Year
+      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year
                       + ',' + data.Month
                       + ',' + data.Day
                       + ',' + data.Drainflow
                       + ',' + data.Precipitation
-                      + ',' + data.PET);
+                      + ',' + data.PET));
     })
     .on("data", function(data) {
       buffer.push(data);
@@ -38,11 +38,10 @@ function verifyAndBlendUserCSV(id, inStream) {
           blendedArray = blendedArray.concat(response[1]);
         }
         blendedArray.push(buffer[buffer.length - 1]);
-        console.log(blendedArray);
+        resolve(blendedArray);
       });
     });
   });
-  resolve(blendedArray);
 }
 
 function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
@@ -81,10 +80,10 @@ function isValidDate(day, month, year) {
     return false;
 
   if(Number(month) != month)
-    return false
+    return false;
 
   if(Number(year) != year)
-    return false
+    return false;
 
   if(year < 1900 || year > 3000 || month < 1 || month > 12)
     return false;
@@ -99,14 +98,14 @@ function isValidDate(day, month, year) {
 }
 
 function isValidNumber(n) {
-  return (!isNaN(n) && Number(n) >= 0)
+  return (!isNaN(n) && Number(n) >= 0);
 }
 
 Date.prototype.addDays = function(days) {
   var d = new Date(this.valueOf());
   d.setDate(d.getDate() + days);
   return d;
-}
+};
 
 Date.prototype.toShortString = function() {
   var yyyy = this.getFullYear().toString();
@@ -117,7 +116,4 @@ Date.prototype.toShortString = function() {
   var ddChars = dd.split('');
 
   return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
-}
-
-var inStream = fs.createReadStream("db/daily_files/Daily_48.9375_-99.1875.txt");
-var rows = verifyAndBlendUserCSV(4, inStream);
+};
