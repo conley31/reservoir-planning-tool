@@ -17,7 +17,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
-        var pondArea = pondVol / _pondDepth;
+        var pondArea = pondVol/_pondDepth;
         /*
         **********************************************
         			     ANNUAL VALUES
@@ -87,7 +87,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
             bypassFlowVolDay = 0;
           }
 
-          var pondWaterDepthDay = pondWaterVolDay / pondArea;
+          var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
           /*
           **************************************************************************************************************
