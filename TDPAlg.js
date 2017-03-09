@@ -24,12 +24,12 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
         **********************************************
         */
 
-        var inflowVolYear = 0;
-        var evapVolYear = 0;
-        var seepageVolYear = 0;
-        var irrigationVolYear = 0;
-        var bypassFlowVolYear = 0;
-        var deficitVolYear = 0;
+        var inflowVolTotal = 0;
+        var evapVolTotal = 0;
+        var seepageVolTotal = 0;
+        var irrigationVolTotal = 0;
+        var bypassFlowVolTotal = 0;
+        var deficitVolTotal = 0;
 
 
         /*
@@ -114,12 +114,12 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           /*******Calculate annual values*******/
 
-          inflowVolYear += inflowVolDay;
-          evapVolYear += evapVolDay;
-          seepageVolYear += seepageVolDay;
-          irrigationVolYear += irrigationVolDay;
-          bypassFlowVolYear += bypassFlowVolDay;
-          deficitVolYear += (deficitVolDay * pondArea);
+          inflowVolTotal += inflowVolDay;
+          evapVolTotal+= evapVolDay;
+          seepageVolTotal += seepageVolDay;
+          irrigationVolTotal+= irrigationVolDay;
+          bypassFlowVolTotal += bypassFlowVolDay;
+          deficitVolTotal += (deficitVolDay * pondArea);
           /*
           **************************************************************************************************************
 
