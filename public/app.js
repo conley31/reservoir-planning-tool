@@ -7,12 +7,12 @@ $('#map-submit').click(function() {
         $('#prompt').text('Please Enter Inputs');
       });
   } else {
-    $('#graph-body').fadeOut('slow', function() {
-      $('#map').fadeIn('slow');
-      $('#form-data').fadeOut('slow');
-      $('#map-submit').text('Please Enter Inputs');
-      $('#prompt').text('Please Select a Location');
-    });
+      $('#graph-body').fadeOut('slow', function() {
+        $('#map').fadeIn('slow');
+        $('#form-data').fadeOut('slow');
+        $('#map-submit').text('Please Enter Inputs');
+        $('#prompt').text('Please Select a Location');
+      });
     toggleText = 0;
   }
 

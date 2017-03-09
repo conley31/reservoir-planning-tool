@@ -140,6 +140,24 @@ button {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
+hr.divider {
+  border-top: 1px solid #8c8b8b;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+hr.divider:after {
+  content: 'or';
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  padding: 0 10px;
+  background: #FFFFFF;
+  color: #8c8b8b;
+  font-size: 18px;
+}
+
 footer {
   position: relative;
   z-index: 10;
