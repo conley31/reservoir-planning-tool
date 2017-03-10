@@ -9,6 +9,10 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended : true,
+    limit: '5mb'
+}));
 
 app.get('/', function(req, res) {
   res.render("index.ejs");
@@ -16,7 +20,7 @@ app.get('/', function(req, res) {
 
 app.post('/calculate', function(req, res) {
 
-  console.log(req.body);
+  console.log(req);
   var _ = req.body;
   TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId).then(function(data) {
     var graph_data = {

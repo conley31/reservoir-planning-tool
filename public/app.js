@@ -25,3 +25,14 @@ $('#form-submit').click(function() {
     toggleText = 1;
   });
 });
+
+$('#upload_submit').click(function() {
+  $('#divider').fadeOut('fast', function() {
+    $('#upload_submit').fadeOut('fast', function() {
+      $('#form-data').fadeIn('fast', function() {
+        $('#prompt').text('Please Enter Inputs');
+      });
+    });
+  });
+  $('#file-div').fadeIn();
+});
