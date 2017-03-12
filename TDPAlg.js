@@ -143,10 +143,11 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
-    if(_locationId && _locationId !== "undefined")
+    if(Number.isInteger(_locationId))
       resolve(db.getLocationById(_locationId));
-    if(stream && stream !== "undefined")
+    if(stream && stream !== "undefined") {
       resolve(userparse.readUserCSV(stream));
+    }
     reject(new Error('Neither LocationID nor Stream are valid'));
   });
 }
