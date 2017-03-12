@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var csv = require('fast-csv'),
   fs = require('fs'),
   db = require('./db');
@@ -18,12 +19,12 @@ module.exports.readUserCSV = function(inStream) {
               isValidNumber(data.PET));
     })
     .on("data-invalid", function(data, index) {
-      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year
-                      + ',' + data.Month
-                      + ',' + data.Day
-                      + ',' + data.Drainflow
-                      + ',' + data.Precipitation
-                      + ',' + data.PET));
+      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
+                      ',' + data.Month +
+                      ',' + data.Day +
+                      ',' + data.Drainflow +
+                      ',' + data.Precipitation +
+                      ',' + data.PET));
     })
     .on("data", function(data) {
       buffer.push(data);
@@ -65,12 +66,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     })
 
     .on("data-invalid", function(data, index) {
-      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year
-                      + ',' + data.Month
-                      + ',' + data.Day
-                      + ',' + data.Drainflow
-                      + ',' + data.Precipitation
-                      + ',' + data.PET));
+      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
+                      ',' + data.Month +
+                      ',' + data.Day +
+                      ',' + data.Drainflow +
+                      ',' + data.Precipitation +
+                      ',' + data.PET));
     })
     .on("data", function(data) {
       buffer.push(data);

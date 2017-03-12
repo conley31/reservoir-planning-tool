@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const PORT = process.env.PORT || 3000;
 var express = require('express'),
   bodyParser = require('body-parser'),

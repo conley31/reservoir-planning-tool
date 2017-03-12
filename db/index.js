@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var mysql = require('mysql');
 var nconf = require('nconf');
 
