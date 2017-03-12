@@ -1,8 +1,38 @@
-var csv = require('fast-csv');
-var fs = require('fs');
-var db = require('./db');
+var csv = require('fast-csv'),
+  fs = require('fs'),
+  db = require('./db');
 
 var dateTrack = null;
+
+
+module.exports.readUserCSV = function(inStream) {
+  return new Promise(function(resolve, reject) {
+    var buffer = []
+    csv
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+
+    .validate(function(data) {
+      return (isValidDate(data.Day, data.Month, data.Year) &&
+              isValidNumber(data.Drainflow) &&
+              isValidNumber(data.Precipitation) &&
+              isValidNumber(data.PET));
+    })
+    .on("data-invalid", function(data, index) {
+      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year
+                      + ',' + data.Month
+                      + ',' + data.Day
+                      + ',' + data.Drainflow
+                      + ',' + data.Precipitation
+                      + ',' + data.PET));
+    })
+    .on("data", function(data) {
+      buffer.push(data);
+    })
+    .on("end", function() {
+      resolve(buffer);
+    })
+  });
+}
 
 /**
  *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data 

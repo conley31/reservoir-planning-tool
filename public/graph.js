@@ -19,13 +19,11 @@ $("form").submit(function(event) {
     //data[formArray[i].name] = Number.parseFloat(formArray[i].value) || formArray[i].value;
   }
 
-
-  console.log(formData.toString());
-
   $.ajax({
     type: 'POST',
     url: '/calculate',
     data: formData,
+    contentType: false,
     processData: false,
     success: function(data) {
       graphData = data.graph;
