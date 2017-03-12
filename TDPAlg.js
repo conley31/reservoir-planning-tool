@@ -146,6 +146,6 @@ function pullData(_locationId, stream) {
       resolve(db.getLocationById(_locationId));
     if(stream && stream !== "undefined")
       resolve(userparse.readUserCSV(stream));
-    reject();
+    reject(new Error('Neither LocationID nor Stream are valid'));
   });
 }
