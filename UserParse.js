@@ -7,7 +7,7 @@ var dateTrack = null;
 
 module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
-    var buffer = []
+    var buffer = [];
     csv
     .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
 
@@ -30,12 +30,12 @@ module.exports.readUserCSV = function(inStream) {
     })
     .on("end", function() {
       resolve(buffer);
-    })
+    });
   });
-}
+};
 
 /**
- *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data 
+ *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data
  *
  *  Return - Array of Rows -
  *  [{
@@ -78,12 +78,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
     .on("end", function() {
       var dataCursor;
-      
+
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
         for(var i = 0; i < buffer.length - 1; i++) {
-          blendedArray.push(buffer[i])
-          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1])
+          blendedArray.push(buffer[i]);
+          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
           locationIndex = response[0];
           blendedArray = blendedArray.concat(response[1]);
         }
@@ -93,7 +93,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       });
     });
   });
-}
+};
 
 /**
  *  fillGaps -  Checks for any date gaps between userRowStart and userRowEnd.
@@ -123,7 +123,7 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
     }
     ++index;
   }
-  
+
   return [index, arr];
 }
 
@@ -148,7 +148,7 @@ function formattedHash(sqlRow) {
              "Day": sqlRow.RecordedDate.getDate().toString(),
              "Drainflow": sqlRow.Drainflow,
              "Precipitation": sqlRow.Precipitation,
-             "PET": sqlRow.PET}
+             "PET": sqlRow.PET};
   return row;
 }
 
@@ -179,7 +179,7 @@ function isValidDate(day, month, year) {
 
   if(year < 1900 || year > 3000 || month < 1 || month > 12)
     return false;
-  
+
   var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
   if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))

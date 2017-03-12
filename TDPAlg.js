@@ -136,7 +136,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
       }
       resolve(allAnnuals);
-    })
+    });
     });
 };
 

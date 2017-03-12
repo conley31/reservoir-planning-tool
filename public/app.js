@@ -21,7 +21,7 @@ $('#map-submit').click(function() {
 $('#form-submit').click(function() {
   $('#map').fadeOut('slow', function() {
     $('#graph-body').fadeIn('slow');
-    $('#map-submit').text('select another location')
+    $('#map-submit').text('select another location');
     toggleText = 1;
   });
 });

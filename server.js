@@ -25,8 +25,8 @@ app.post('/calculate', function(req, res) {
 
   var _ = [];
   var stream;
-  var form = new formidable.IncomingForm().parse(req)
-  form.uploadDir = "/tmp/"
+  var form = new formidable.IncomingForm().parse(req);
+  form.uploadDir = "/tmp/";
   form
     .on('fileBegin', function(name, file) {
         file.path = '/tmp/' + file.name;
@@ -89,7 +89,7 @@ app.post('/calculate', function(req, res) {
       res.json(graph_data);
 
       });
-  })
+  });
 
 });
 
