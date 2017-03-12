@@ -23,9 +23,9 @@ def ParseDailyData(table_id, textFile):
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       date = toStrDate(row[0],row[1],row[2])
-      dfInches = row[3] * 0.INCH_FACTOR
-      precipInches = row[4] * INCH_FACTOR
-      PETInches = row[5] * INCH_FACTOR
+      dfInches = float(row[3]) * INCH_FACTOR
+      precipInches = float(row[4]) * INCH_FACTOR
+      PETInches = float(row[5]) * INCH_FACTOR
       cur.execute(insert.format(table_id, date, dfInches, precipInches, PETInches))
       con.commit()
 
