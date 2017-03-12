@@ -132,7 +132,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
         }
 
         //allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
-        allAnnuals.push([(pondVol), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
+        allAnnuals.push([pondVol, (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
 
       }
       resolve(allAnnuals);
