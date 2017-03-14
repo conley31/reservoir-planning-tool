@@ -2,6 +2,7 @@ var toggleText = 0;
 
 $('#map-submit').click(function() {
   if(toggleText === 0) {
+      $(this).fadeOut('fast');
       $('#form-data').fadeIn('slow', function() {
         // $('#map-submit').text('Select Another Location');
         $('#prompt').text('Please Enter Inputs');
@@ -10,8 +11,8 @@ $('#map-submit').click(function() {
       $('#graph-body').fadeOut('slow', function() {
         $('#map').fadeIn('slow');
         $('#form-data').fadeOut('slow');
-        $('#map-submit').text('Please Enter Inputs');
         $('#prompt').text('Please Select a Location');
+        $(this).text('Confirm Selection');
       });
     toggleText = 0;
   }
@@ -21,7 +22,8 @@ $('#map-submit').click(function() {
 $('#form-submit').click(function() {
   $('#map').fadeOut('slow', function() {
     $('#graph-body').fadeIn('slow');
-    $('#map-submit').text('select another location');
+    $('#map-submit').fadeIn('fast');
+    $('#map-submit').text('Select Another Location');
     toggleText = 1;
   });
 });

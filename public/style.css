@@ -26,14 +26,7 @@ nav {
     min-height: 95vh;
 }
 
-#logo img {
-    height: 50px;
-    width: auto;
-}
-
 #sidebar {
-  /*width: 256px;*/
-  margin: 0 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -67,8 +60,8 @@ hr {
 #map {
   /*margin: 0;
   padding: 0;*/
-  height: 540px;
-  width: 984px;
+  height: 720px;
+  width: 1260px;
   margin: 10px;
 }
 
@@ -77,8 +70,8 @@ hr {
 }
 
 #graph {
-  width: 984px;
-  height: 440px;
+  width: 1260px;
+  height: 720px;
   margin: 10px;
   padding: 0;
   float: none;
