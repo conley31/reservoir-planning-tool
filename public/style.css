@@ -27,7 +27,7 @@ nav {
 }
 
 #sidebar {
-  width: 256px;
+  /*width: 256px;*/
   margin: 0 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -111,7 +111,7 @@ input[type="number"] {
   border-radius: 0;
   background-color: #cdedf6;
   color: #061826;
-  width: 170px;
+  /*width: 170px;*/
 }
 
 .input-group-addon {
@@ -120,7 +120,7 @@ input[type="number"] {
   background-color: #5eb1bf;
   color: white;
   font-size: 11px;
-  width: 60px;
+  /*width: 60px;*/
 }
 
 #basic-addon2 {
@@ -128,7 +128,7 @@ input[type="number"] {
 }
 
 button {
-  margin: 10px 0;
+  /*margin: 10px 0;*/
   background-color: #0054a6;
   color: white;
 }
