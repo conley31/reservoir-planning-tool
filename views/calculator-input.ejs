@@ -9,7 +9,7 @@
   <div id="reservoir-inputs" class="form-group">
     <label class="input-group">Pond Inputs</label>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Smallest Pond Volume <h5>
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Largest Pond Volume <h5>
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Pond Volume Increments<h5>
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Pond Depth<h5>
@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Maximum Soil Moisture Content <h5>
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Irrigation Area <h5>
@@ -87,7 +87,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Irrigation Depth <h5>
@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-xs-12 text-center">
             <h5> Available Water Capacity <h5>
@@ -113,41 +113,53 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5> Drained Area <h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <br>
+    <br>
 
     <div class="row">
-      <label class="input-group">Upload your own data</label>
-      <br>
-      <div class="col-md-8">
-        <div class="input-group" id="file-div">
-          <label class="input-group-btn">
-            <span class="btn btn-primary">
-                Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
-            </span>
-          </label>
-          <input type="text" class="form-control" readonly>
-        </div>
+      <label class="input-group">Use your own data</label>
+
+      <div class="col-md-2 col-md-offset-5">
+        <button id="uploadButton" class="btn btn-block"> upload </button>
       </div>
-      <div class="col-md-4">
-        <div id="submit">
-          <button id='form-submit'type="submit" class="btn btn-primary btn-block">Submit</button>
-       </div>
-     </div>
+      <span id="uploadForm">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <h5> Upload CSV <h5>
+            </div>
+            <div class="col-xs-12">
+              <div class="input-group" id="file-div">
+                <label class="input-group-btn">
+                  <span class="btn btn-primary">
+                      Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
+                  </span>
+                </label>
+                <input type="text" class="form-control" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <h5> Drained Area <h5>
+            </div>
+            <div class="col-xs-12">
+              <div class="input-group">
+                <input type="number" step="any" min = "0" class="form-control" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </span>
     </div>
+    <br>
+    <div id="submit">
+      <button id='form-submit'type="submit" class="btn">Submit</button>
+   </div>
   </div>
 </form>

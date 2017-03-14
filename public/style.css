@@ -33,6 +33,10 @@ nav {
   padding-right: 10px;
 }
 
+#uploadForm {
+  display: none;
+}
+
 #map-submit {
   display: none;
 }

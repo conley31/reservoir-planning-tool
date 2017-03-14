@@ -36,3 +36,10 @@ $('#upload_submit').click(function() {
   });
   $('#file-div').fadeIn();
 });
+
+$('#uploadButton').click(function() {
+  $(this).fadeOut('fast', function() {
+    $('#uploadForm').fadeIn("slow", function(){
+    });
+  });
+});
