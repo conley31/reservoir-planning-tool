@@ -7,8 +7,9 @@
       <div id="main">
         <div class="container">
           <div class="row" id="map-row">
-            <div id="map" class="col-md-12">
+            <div id="map-container" class="col-md-12">
               <!-- This is where Google Maps will go -->
+              <div id="map"></div>
             </div>
             <div id="sidebar" class="col-lg-12">
                 <p id="prompt">Please select a location on the map</p>
@@ -17,10 +18,9 @@
                 </div> -->
                 <!-- This is where the search will go and selected ID will be shown -->
                 <p id="mapselection"></p>
-                <button id='map-submit' type="button" class="btn">Confirm Selection</button>
+                <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
                 <!-- This is where calculator input goes -->
                 <div id="form-data">
-                  <hr>
                   <% include calculator-input %>
                 </div>
             </div>
