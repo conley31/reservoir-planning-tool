@@ -9,10 +9,10 @@ $('#map-submit').click(function() {
       });
   } else {
       $('#graph-body').fadeOut('slow', function() {
-        $('#map').fadeIn('slow');
+        $('#map-container').fadeIn('slow');
         $('#form-data').fadeOut('slow');
         $('#prompt').text('Please Select a Location');
-        $(this).text('Confirm Selection');
+        $('#map-submit').fadeOut("fast");
       });
     toggleText = 0;
   }
@@ -20,7 +20,7 @@ $('#map-submit').click(function() {
 });
 
 $('#form-submit').click(function() {
-  $('#map').fadeOut('slow', function() {
+  $('#map-container').fadeOut('slow', function() {
     $('#graph-body').fadeIn('slow');
     $('#map-submit').fadeIn('fast');
     $('#map-submit').text('Select Another Location');
