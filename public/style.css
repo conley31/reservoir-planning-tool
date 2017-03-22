@@ -49,7 +49,7 @@ button {
 
 .card-container {
   width: 80vw;
-  min-width: 1024;
+  min-width: 1024px;
   position: relative;
   margin: 0 auto;
   padding-bottom: 36px;
@@ -62,7 +62,7 @@ button {
 }
 
 #map-container {
-  height: 670px;
+  height: 80vh;
   width: inherit;
   background: #357cce;
 }
@@ -70,7 +70,7 @@ button {
 #map {
   /*margin: 0;
   padding: 0;*/
-  height: 670px;
+  height: inherit;
   width: inherit;
 }
 
@@ -147,7 +147,7 @@ input[type="number"] {
 
 #graph {
   width: inherit;
-  height: 670px;
+  height: 80vh;
   margin: 10px;
   padding: 0;
   float: none;
@@ -155,8 +155,7 @@ input[type="number"] {
 }
 
 #graph-desc {
-  width: 984px;
-  background: #cccccc;
+  width: inherit;
   margin: 10px;
 }
 
