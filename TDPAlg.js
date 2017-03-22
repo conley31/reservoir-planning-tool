@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 /*
    -------TDPAlg.js**-------
 Notes:
@@ -5,12 +6,13 @@ Notes:
 -All variables that are preceded by an underscore are from form inputs
 */
 
-var db = require('./db');
+var db = require('./db'),
+userparse = require('./UserParse');
 
-module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId) { //TODO: add last argument.
+module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, stream) { //TODO: add last argument.
   return new Promise(function(resolve, reject) {
-    db.getLocationById(_locationId).then(function(data) {
-      var numOfDays = data.length;
+    pullData(_locationId, stream).then(function(data){
+      var numOfRows = data.length;
       var allAnnuals = [];
       const seepageVolDay = 0.01; //feet
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
@@ -32,7 +34,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
         /*
         **********************************************
-        			     DAY-1 VALUES
+                   DAY-1 VALUES
         ***********************************************
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
@@ -43,7 +45,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
         for (var j = 0; j < data.length; j++) {
           /*
           **********************************************
-          			     DAILY VALUES
+                     DAILY VALUES
           **********************************************
           */
           var inflowVolDay = data[j].Drainflow;
@@ -82,6 +84,18 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
+<<<<<<< HEAD
+=======
+          /*
+          **************************************************************************************************************
+
+                            WRITE OUT ALL DAILY INFORMATION HERE.
+
+          (Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay)
+
+          ***************************************************************************************************************
+          */
+>>>>>>> 9a339ae8ce8f33696ddab52a000cf13466073782
 
           //update the (day-1) variables
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
@@ -90,7 +104,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
           /*
           **************************************************************************************************************
 
-          			  THIS MARKS THE END OF THE DAILY COUNTS. UPDATE THE ANNUAL VALUES.
+                  THIS MARKS THE END OF THE DAILY COUNTS. UPDATE THE ANNUAL VALUES.
 
           ***************************************************************************************************************
           */
@@ -98,12 +112,20 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           /*******Calculate totals for every day in database*******/
 
+<<<<<<< HEAD
           inflowVolTotal += inflowVolDay;
           evapVolTotal+= evapVolDay;
           seepageVolTotal += seepageVolDay;
           irrigationVolTotal+= irrigationVolDay;
           bypassFlowVolTotal += bypassFlowVolDay;
           deficitVolTotal += (deficitVolDay * pondArea);
+=======
+                             WRITE OUT ALL ANNUAL INFORMATION HERE.
+          (Write Date, InflowVolYear, EvaporationVolYear, SeepageVolYear, IrrigationVolYear, BypassVolYear, PondWaterDepthYear)
+
+          ***************************************************************************************************************
+          */
+>>>>>>> 9a339ae8ce8f33696ddab52a000cf13466073782
         }
         /***** THE COMMENTED REGION BELOW CONTAINS AVGS FOR ALL VALUES ******/
         //allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
@@ -111,12 +133,18 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
         allAnnuals.push([pondVol, (bypassFlowVolYear / numOfDays), (deficitVolYear / numOfDays)]);
 
       }
-
       resolve(allAnnuals);
-
     });
-
-  });
-
-
+    });
 };
+
+function pullData(_locationId, stream) {
+  return new Promise(function(resolve, reject) {
+    if(Number.isInteger(_locationId))
+      resolve(db.getLocationById(_locationId));
+    if(stream && stream !== "undefined") {
+      resolve(userparse.readUserCSV(stream));
+    }
+    reject(new Error('Neither LocationID nor Stream are valid'));
+  });
+}

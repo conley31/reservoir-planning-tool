@@ -14,6 +14,8 @@ password = config.get("mysql").get("password")
 database = config.get("mysql").get("database")
 log_location = config.get("mysql").get("logLocation")
 
+INCH_FACTOR = 0.03937007874
+
 def getID(locationStr):
   return locationStr[8:]
 
@@ -51,7 +53,10 @@ def ParseDailyData(table_id, textFile):
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       date = toStrDate(row[0],row[1],row[2])
-      cur.execute(insert.format(table_id, date, row[3], row[4], row[5]))
+      dfInches = float(row[3]) * INCH_FACTOR
+      precipInches = float(row[4]) * INCH_FACTOR
+      PETInches = float(row[5]) * INCH_FACTOR
+      cur.execute(insert.format(table_id, date, dfInches, precipInches, PETInches))
       con.commit()
 
 def addTable(table_id, DataFileName):

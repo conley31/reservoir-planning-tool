@@ -8,21 +8,22 @@ graphData = [];
 $("form").submit(function(event) {
   event.preventDefault();
 
-  var data = {
-    locationId: selectedLocationId
-  };
+  var formData = new FormData();
+  formData.append('file', $('input[type=file]')[0].files[0]);
+  formData.append('locationId', selectedLocationId);
+
   var formArray = $(this).serializeArray();
   for (var i = 0; i < formArray.length; i++) {
     // Try to parse it as a number, else return the value as is (empty forms will return empty strings)
-    data[formArray[i].name] = Number.parseFloat(formArray[i].value) || formArray[i].value;
+    formData.append(formArray[i].name, Number.parseFloat(formArray[i].value) || formArray[i].value);
   }
 
   $.ajax({
     type: 'POST',
     url: '/calculate',
-    data: JSON.stringify(data),
-    contentType: "application/json",
-    dataType: 'json',
+    data: formData,
+    contentType: false,
+    processData: false,
     success: function(data) {
       graphData = data.graph;
       initGraph();

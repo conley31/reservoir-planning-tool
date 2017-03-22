@@ -13,3 +13,11 @@
 <!-- For Google Maps -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU&libraries=places&callback=initMap" type="text/javascript"></script>
 <!--  -->
+<script type="text/javascript">
+	$(document).on('change', ':file', function() {
+    var input = $(this);
+    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    $(this).parents('.input-group').find(':text').val(label);
+  });
+</script>
+
