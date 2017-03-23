@@ -84,8 +84,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
-<<<<<<< HEAD
-=======
           /*
           **************************************************************************************************************
 
@@ -95,7 +93,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           ***************************************************************************************************************
           */
->>>>>>> 9a339ae8ce8f33696ddab52a000cf13466073782
 
           //update the (day-1) variables
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
@@ -112,21 +109,14 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           /*******Calculate totals for every day in database*******/
 
-<<<<<<< HEAD
           inflowVolTotal += inflowVolDay;
           evapVolTotal+= evapVolDay;
           seepageVolTotal += seepageVolDay;
           irrigationVolTotal+= irrigationVolDay;
           bypassFlowVolTotal += bypassFlowVolDay;
           deficitVolTotal += (deficitVolDay * pondArea);
-=======
-                             WRITE OUT ALL ANNUAL INFORMATION HERE.
-          (Write Date, InflowVolYear, EvaporationVolYear, SeepageVolYear, IrrigationVolYear, BypassVolYear, PondWaterDepthYear)
-
-          ***************************************************************************************************************
-          */
->>>>>>> 9a339ae8ce8f33696ddab52a000cf13466073782
         }
+        
         /***** THE COMMENTED REGION BELOW CONTAINS AVGS FOR ALL VALUES ******/
         //allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
 
