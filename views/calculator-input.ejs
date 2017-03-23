@@ -1,4 +1,4 @@
-<form id="calculator-input" method="POST" action="/">
+<form id="calculator-input" method="POST" action="/" enctype="multipart/form-data">
   <!-- Temporarily commented while we figure out the UI, keep the input element so that gmaps can move it on to the map -->
   <!-- <div id="location-inputs" class="form-group">
     <label class="input-group">Location</label> -->
@@ -22,8 +22,6 @@
       <input type="number" step="any" min = "0" class="form-control" name="pondVolIncrement" placeholder="Increment" aria-describedby="basic-addon2">
       <span class="input-group-addon" id="basic-addon2">acre-foot</span>
     </div>
-
-    <br>
 
     <label class="input-group">Pond Volume (in acre-feet)</label>
     <div class="input-group">
@@ -59,8 +57,20 @@
     </div>
   </div>
 
+  <br />
+
+  <div class="input-group" id="file-div" style="display: none;">
+    <label class="input-group-btn">
+      <span class="btn btn-primary">
+          Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
+      </span>
+    </label>
+    <input type="text" class="form-control" style="width: 147px;" readonly>
+  </div>
+
+
   <div id="submit">
-    <button id='form-submit'type="submit" class="btn btn-block">Submit</button>
+    <button id='form-submit'type="submit" class="btn btn-primary btn-block">Submit</button>
  </div>
 
 </form>

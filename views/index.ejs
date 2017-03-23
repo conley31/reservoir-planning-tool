@@ -8,11 +8,17 @@
         <div class="container">
           <div class="row" id="map-row">
             <div id="sidebar" class="col-md-3">
+                <p id="prompt">Please select a location on the map</p>
+                <div id='csv-upload'>
+                  <hr id="divider" class="divider">
+                  <button id="upload_submit" type="button" class="btn btn-block">Upload your data</button>
+                </div>
                 <!-- This is where the search will go and selected ID will be shown -->
                 <p id="mapselection"></p>
                 <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
                 <!-- This is where calculator input goes -->
                 <div id="form-data">
+                  <hr>
                   <% include calculator-input %>
                 </div>
             </div>
@@ -24,7 +30,7 @@
                 <div id="graph-body">
                   <div id="graph" class="col-md-12 text-center">
                       <!-- This is where Google Charts will go -->
-                      <h5>Entery data into the inputs and press submit to see a graph of the data</h5>
+                      <h5>Graph</h5>
                   </div>
                   <div id="graph-desc" class="col-md-12">
                     <div class="container">

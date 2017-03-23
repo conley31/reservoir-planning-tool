@@ -214,3 +214,84 @@ Clayton: Format outputs from server to be used for graphing on the client. Begin
 Vritant: Work on improving the UI and UX. Parse JSON sent from backend to display data in the Graph.
 Drew: Add method to get a location id by coordinates, Add location id to server AJAX call
 Jonah: Handle user uploaded CSVs and interlace missing data with TDP’s daily data.
+
+=== Week 3 (Due 3/5) ===
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 3 (Summary)
+2/26	2hrs	Rewrote output of the Transforming Drainage Project Algorithm in the form of
+		a promise in order to return correct outputs.
+2/27	1hr	Worked on organizing outputs of algorithm to be passed back to the client
+for graphing.
+3/1	1.5hrs	Work with Vritant to correctly pass data to the client so that he may begin
+graph testing.
+
+Week 4 (Plan)
+3/7	4hrs	Use project owner’s test data and expected outputs to determine accuracy of
+		the algorithm and decide how we want to continue with scaling the main graph.
+3/8	3hrs	Learn how to use testing tools for node.js
+3/10	3hrs	Begin writing test cases
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 3 (Summary)
+2/26	0.5h	Changed selectLocation method for new selection process
+2/27	2h	Began work on sorting the polygons in order to search through them efficiently
+2/28	2h	Added the result of selectLocation to the POST request
+3/1	2.5h 	Met with Clayton and Vritant to help with asynchronous execution of algorithm
+3/2	2h	Helped Jonah with promises, move location search
+		Added MySQL connection pool to all methods of db javascript
+3/3	1h	Met with team and made final pre-demo fixes of exit handler
+
+Week 4 (Plan)
+3/7	4h 	Begin AWS setup for Elastic Beanstalk server
+3/8	3h	Work on script to sort and search through polygons
+3/9	3h	Finish Deployment to server
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 3 (Summary)
+3/1    	4 hours	 Wrote the validation for user uploaded CSVs
+3/2	6 hours	 Wrote the blending portion that interweaves TDP’s data with user data
+Week 4 (Plan)
+3/9	2 hours	 Create UI for Uploading user files
+3/10  	4 hours	 Post Request with CSV
+3/11	1 hour	 	 Finish post request
+3/12 	3 hours	 Begin processing of user CSV
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 3 (Summary)
+2/29	2hr	Added styles to the homepage
+3/1	3hr	Continued to add styles to the page
+3/2	2hr	Worked with clayton to receive data and began Graph testing
+3/2	3hr	Improved User Experience of the website
+Week 4 (Plan)
+3/8	4hr	Improve JSON Parsing
+3/10	3hr	Make UI adaptive for tablets
+3/11	3hr	Make UI responsive for Desktops
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 3 (Summary) (Scrum master: Drew Atkinson)
+3/1	2.5h	Drew, Clayton, Vritant met to implement the algorithm and discuss UI
+3/2	0.5h	Jonah and Drew met to handle promises in DB call
+3/3	1h	Whole team met for weekly Scrum and final fixes before the demo
+
+Week 4 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+3/7	1h	Project meeting with project owners in ABE 212 at 4:30
+		Discussing UX changes, Deployment  to AWS, Algorithm tests,
+and Units/graph explanations
+3/7	1h	Team meeting to revise planning doc based on feedback from owners
+
+[Individual Goals]
+Drew: Setup the MySQL server on AWS to have a single source of data for testing
+Clayton: Begin testing current implementation of TDP algorithm. Learn testing framework.
+Vritant: Improve JSON parsing and make UI adaptive and responsive
+Jonah: Allow users to upload CSVs, post them to the backend and process them.

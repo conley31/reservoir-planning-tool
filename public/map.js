@@ -113,25 +113,8 @@ var selectFeature = function(feature) {
   selectedFeature = feature;
 
   selectedLocationId = selectedFeature.getProperty('Id');
+
+  $('#csv-upload').fadeOut('fast', function() {
+    $('#map-submit').fadeIn('slow');
+  });
 };
-
-var toggleText = 0;
-
-$('#map-submit').click(function() {
-  if(toggleText === 0) {
-    $('#map').fadeOut('slow', function() {
-      $('#graph-body').fadeIn('slow');
-      $('#form-data').fadeIn('slow');
-      $('#map-submit').text('Select Another Location');
-    });
-    toggleText = 1;
-  } else {
-    $('#graph-body').fadeOut('slow', function() {
-      $('#map').fadeIn('slow');
-      $('#form-data').fadeOut('slow');
-      $('#map-submit').text('Confirm Selection');
-    });
-    toggleText = 0;
-  }
-
-});
