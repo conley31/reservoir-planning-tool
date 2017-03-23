@@ -3,7 +3,8 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background: white;
+  /*background: #222222;*/
+  background: #eee;
 }
 
 nav {
@@ -36,6 +37,10 @@ button {
   color: white;
 }
 
+hr {
+  margin: 10px 0;
+}
+
 .btn {
   border-radius: 0;
 }
@@ -61,7 +66,14 @@ button {
 .card {
   display: block;
   width: inherit;
-  margin: 10px 0;
+  margin: 20px 0;
+}
+
+.card-shadow {
+  z-index: 3;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  -moz-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
 }
 
 #map-container {
@@ -71,8 +83,6 @@ button {
 }
 
 #map {
-  /*margin: 0;
-  padding: 0;*/
   height: inherit;
   width: inherit;
 }
@@ -86,14 +96,10 @@ button {
   padding: 0 3px;
 }
 
-hr {
-  margin: 10px 0;
-}
-
 .form-group {
-  padding: 15px;
-  padding-bottom: 0;
   background: #357cce;
+  padding: 20px;
+  padding-bottom: 0;
   color: white;
   margin-bottom: 0;
 }
@@ -102,8 +108,10 @@ hr {
     display: none;
 }
 
-.form-control {
-  font-size: 12px;
+.input-group {
+  margin: 0 auto;
+  padding: 0 10px;
+  box-shadow: none;
 }
 
 /*hide input spin button*/
@@ -113,16 +121,11 @@ input[type="number"] {
     appearance: textfield;
 }
 
-.input-group {
-  margin: 1px auto;
-  box-shadow: none;
-}
-
 .input-group .form-control {
   border-style: none;
   border-radius: 0;
   background-color: white;
-  width: 200px;
+  /*width: 200px;*/
 }
 
 .input-group-addon {
@@ -131,7 +134,7 @@ input[type="number"] {
   background-color: #24578c;
   color: white;
   font-size: 11px;
-  width: 60px;
+  /*width: 60px;*/
 }
 
 #basic-addon2 {
@@ -142,6 +145,10 @@ input[type="number"] {
   display: none;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.form-control {
+  font-size: 12px;
 }
 
 #graph-body {

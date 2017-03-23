@@ -6,7 +6,7 @@
     <% include partials/header %>
       <div id="main">
         <div class="card-container">
-            <div id="map-container" class="card">
+            <div id="map-container" class="card card-shadow">
               <!-- This is where Google Maps will go -->
               <div id="map"></div>
             </div>
@@ -16,13 +16,13 @@
               <p id="mapselection"></p>
               <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
             </div>
-            <div id="form-card" class="card">
+            <div id="form-card" class="card card-shadow">
                 <!-- This is where calculator input goes -->
                 <div id="form-data">
                   <% include calculator-input %>
                 </div>
             </div>
-            <div class="card">
+            <div class="card card-shadow">
                 <div id="graph-body">
                   <div id="graph" class="card text-center">
                       <!-- This is where Google Charts will go -->
@@ -34,6 +34,7 @@
                   </div>
                 </div>
             </div>
+
         </div>
       </div>
       <% include partials/footer %>

@@ -64,6 +64,7 @@ var initGraph = function() {
   google.charts.setOnLoadCallback(drawChart);
 };
 
+//Resizes Graph on window resize 
 $(window).smartresize(function () {
   if(data && options && chart) {
     chart.draw(data, options);
