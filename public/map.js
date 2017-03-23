@@ -101,6 +101,10 @@ var initMap = function() {
 };
 
 var selectLocation = function(location) {
+  $.ajax({
+    type: 'POST',
+    url: '/locations',
+  });
 };
 
 var selectFeature = function(feature) {

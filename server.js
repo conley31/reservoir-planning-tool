@@ -8,6 +8,7 @@ var express = require('express'),
 
 var db = require('./db');
 var TDPAlg = require('./TDPAlg.js');
+var polygons = require('./polygons');
 var app = express();
 
 
@@ -92,6 +93,10 @@ app.post('/calculate', function(req, res) {
       });
   });
 
+});
+
+app.post('/locations', (req, res) => {
+  res.json({locaitonId: 1});
 });
 
 app.get('*', (req, resp) => {

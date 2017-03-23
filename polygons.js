@@ -24,6 +24,9 @@ for (var i = 0; i < features.length; i++) {
   });
 }
 
+exports.getLocation = (pos) => {
+    // TODO
+};
 
 exports.getFeatures = () => {
   return features;
