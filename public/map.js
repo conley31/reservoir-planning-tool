@@ -1,13 +1,12 @@
 /*
  *   Maps
  */
-var map;
 var selectedFeature;
 var selectedLocationId;
 
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
-  map = new google.maps.Map(document.getElementById('map'), {
+  var map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 41.8781, // Center at Chicago
       lng: -87.6298
@@ -15,7 +14,7 @@ var initMap = function() {
     zoom: 6
   });
 
-  map.data.loadGeoJson('final_index_FeaturesToJSON.json');
+  map.data.loadGeoJson('/final_index_FeaturesToJSON.json');
   map.data.setStyle({
     fillColor: 'white',
     fillOpacity: 0,
