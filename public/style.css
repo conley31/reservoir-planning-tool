@@ -3,17 +3,22 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background: #eee;
 }
 
 nav {
-  padding: 1rem;
   text-align: center;
   border-radius: 0;
 }
 
 .navbar {
-  background-color: #211a1e;
+  background-color: #222222;
   border-radius: 0;
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 2rem;
 }
 
 #main {
@@ -21,116 +26,22 @@ nav {
     min-height: 95vh;
 }
 
-#logo img {
-    height: 50px;
-    width: auto;
+h5 {
+  color: white;
 }
 
-#sidebar {
-  width: 256px;
-  margin: 0 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-#map-submit {
-  display: none;
+button {
+  /*margin: 10px 0;*/
+  background-color: #0054a6;
+  color: white;
 }
 
 hr {
   margin: 10px 0;
 }
 
-.form-group {
-  margin: 5px 0;
-}
-
-#form-data {
-    display: none;
-}
-
-.calculator-input {
-  width: inherit;
-  padding: 0 3px;
-  background: #222222;
-}
-
-#map {
-  /*margin: 0;
-  padding: 0;*/
-  height: 540px;
-  width: 984px;
-  margin: 10px;
-}
-
-#graph-body {
-  display: none;
-}
-
-#graph {
-  width: 984px;
-  height: 440px;
-  margin: 10px;
-  padding: 0;
-  float: none;
-  vertical-align:  middle;
-}
-
-#graph-desc {
-  width: 984px;
-  background: #cccccc;
-  margin: 10px;
-}
-
-.container {
-  position: relative;
-  margin: 0 auto;
-  width: 1280px;
-  padding-bottom: 36px; /*height of footer*/
-}
-
-.form-control {
-  font-size: 12px;
-}
-
-/*hide input spin button*/
-input[type="number"] {
-    -moz-appearance: textfield;
-    -webkit-appearance: textfield;
-    appearance: textfield;
-}
-
-.input-group {
-  margin: 1px auto;
-  color: #0054a6;
-  box-shadow: none;
-}
-
-.input-group .form-control {
-  border-style: none;
+.btn {
   border-radius: 0;
-  background-color: #cdedf6;
-  color: #061826;
-  width: 170px;
-}
-
-.input-group-addon {
-  border-style: none;
-  border-radius: 0;
-  background-color: #5eb1bf;
-  color: white;
-  font-size: 11px;
-  width: 60px;
-}
-
-#basic-addon2 {
-  padding: 5px;
-}
-
-button {
-  margin: 10px 0;
-  background-color: #0054a6;
-  color: white;
 }
 
 .btn:hover {
@@ -138,6 +49,119 @@ button {
   -webkit-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   -moz-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
+}
+
+.card-container {
+  width: 80vw;
+  position: relative;
+  margin: 0 auto;
+  padding-bottom: 36px;
+}
+
+.card {
+  display: block;
+  width: inherit;
+  margin: 20px 0;
+}
+
+.card-shadow {
+  z-index: 3;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  -moz-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+}
+
+#map-container {
+  height: 80vh;
+  width: inherit;
+  background: #357cce;
+}
+
+#map {
+  height: inherit;
+  width: inherit;
+}
+
+#map-submit {
+  display: none;
+}
+
+.calculator-input {
+  width: inherit;
+  padding: 0 3px;
+}
+
+.form-group {
+  background: #357cce;
+  padding: 20px;
+  padding-bottom: 0;
+  color: white;
+  margin-bottom: 0;
+}
+
+#form-data {
+    display: none;
+}
+
+.input-group {
+  margin: 0 auto;
+  padding: 0 10px;
+  box-shadow: none;
+}
+
+/*hide input spin button*/
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+.input-group .form-control {
+  border-style: none;
+  border-radius: 0;
+  background-color: white;
+  /*width: 200px;*/
+}
+
+.input-group-addon {
+  border-style: none;
+  border-radius: 0;
+  background-color: #24578c;
+  color: white;
+  font-size: 11px;
+  /*width: 60px;*/
+}
+
+#basic-addon2 {
+  padding: 5px;
+}
+
+#uploadForm {
+  display: none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-control {
+  font-size: 12px;
+}
+
+#graph-body {
+  display: none;
+}
+
+#graph {
+  width: inherit;
+  height: 80vh;
+  margin: 10px;
+  padding: 0;
+  float: none;
+  vertical-align:  middle;
+}
+
+#graph-desc {
+  width: inherit;
+  margin: 10px;
 }
 
 hr.divider {
@@ -165,8 +189,7 @@ footer {
   bottom: 0;
   width: 100%;
   height: 36px;
-  background-color: #5eb1bf;
-  color: white;
+  background-color: #0277bd;
   display: flex;
   align-items: center;
 }
@@ -174,4 +197,14 @@ footer {
 .footer-text {
   width: inherit;
   text-align: center;
+}
+
+footer h5 {
+  color: #eee;
+}
+
+@media only screen and (max-width: 1260px) {
+  .card-container {
+    width: 98vw;
+  }
 }
