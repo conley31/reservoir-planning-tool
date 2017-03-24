@@ -114,7 +114,5 @@ var selectFeature = function(feature) {
 
   selectedLocationId = selectedFeature.getProperty('Id');
 
-  $('#csv-upload').fadeOut('fast', function() {
-    $('#map-submit').fadeIn('slow');
-  });
+  $('#map-submit').fadeIn('slow');
 };
