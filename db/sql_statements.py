@@ -18,8 +18,11 @@ insert = """INSERT INTO Location{}
           (RecordedDate, Drainflow, Precipitation, PET)
           VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});"""
 
+select_from = """SELECT *
+                 FROM {};"""
+
 drop_table = "DROP TABLE Location{};"
 
 drop_database = "DROP DATABASE {};"
 
-show_tables = "SHOW TABLES"
+show_tables = "SHOW TABLES;"
