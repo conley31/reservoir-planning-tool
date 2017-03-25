@@ -44,7 +44,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
                      DAILY VALUES
           **********************************************
           */
-
           var currentDate = data[j].RecordedDate;
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth(); 
@@ -59,7 +58,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
-          var bypassFlowVolDay;
 
           var evapVolDay = evapDepthDay * pondArea;
 
@@ -78,7 +76,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
           //update water volume in pond
           var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
-          //calculate bypass
+          var bypassFlowVolDay;
           if (pondWaterVolDay > pondVol) {
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
@@ -120,8 +118,8 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
 
-
-          /* 
+          /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
+          -------------------------------------------------------------------------------------------------------------- 
           inflowVolTotal += inflowVolDay;
           evapVolTotal+= evapVolDay;
           seepageVolTotal += seepageVolDay;
@@ -132,6 +130,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
         }
 
       }
+      //consider sending back an object with the first graphs data already calculated.
       resolve(allYears);
     });
     });
