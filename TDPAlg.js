@@ -13,7 +13,6 @@ var userparse = require('./UserParse');
 function monthlyData(){
   this.bypassFlow = 0;
   this.deficit = 0; 
-  this.pondDepth = 0;
 }
 
 module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
@@ -21,24 +20,12 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
     pullData(_locationId, _csvFileStream).then(function(data){
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);      
       var numOfRows = data.length;
-      var allYears = [];
-      var allAnnuals = [];
+      var allYears = []; 
       const seepageVolDay = 0.01; //feet
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         var pondArea = pondVol/_pondDepth;
-        /*
-        **********************************************
-        			     TOTAL VALUES
-        **********************************************
-        */
-        var inflowVolTotal = 0;
-        var evapVolTotal = 0;
-        var seepageVolTotal = 0;
-        var irrigationVolTotal = 0;
-        var bypassFlowVolTotal = 0;
-        var deficitVolTotal = 0;
 
         /*
         **********************************************
@@ -87,6 +74,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
           	}
           }
+
           //update water volume in pond
           var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
@@ -116,14 +104,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
           pondWaterVolDayPrev = pondWaterVolDay;
 
-          /*
-          **************************************************************************************************************
-
-                  THIS MARKS THE END OF THE DAILY COUNTS. UPDATE THE ANNUAL VALUES.
-
-          ***************************************************************************************************************
-          */
-
 
           //updated allYears at the current year at the current increment and at the current month.
           if(typeof allYears[currentYear - initialYear] == "undefined"){
@@ -138,26 +118,21 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
           //update monthly values here 
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
 
 
-          //why are they updating all these values? they aren't used.
-          //they may just want this information written out to a file
+          /* 
           inflowVolTotal += inflowVolDay;
           evapVolTotal+= evapVolDay;
           seepageVolTotal += seepageVolDay;
           irrigationVolTotal+= irrigationVolDay;
           bypassFlowVolTotal += bypassFlowVolDay;
           deficitVolTotal += (deficitVolDay * pondArea);
+          */
         }
 
-        /***** THE COMMENTED REGION BELOW CONTAINS AVGS FOR ALL VALUES ******/
-        //allAnnuals.push([pondVol, (inflowVolYear / numOfRows), (evapVolYear / numOfRows), (seepageVolDay / numOfRows), (irrigationVolYear / numOfRows), (bypassFlowVolYear / numOfRows), (deficitVolYear / numOfRows)]);
-
-        allAnnuals.push([pondVol, (bypassFlowVolYear / numOfDays), (deficitVolYear / numOfDays)]);
-
       }
-      resolve(allAnnuals);
+      resolve(allYears);
     });
     });
 };
