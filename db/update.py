@@ -122,7 +122,8 @@ except IOError as err:
 
 con = db.connect(host, user, password, database)
 cur = con.cursor()
-update()
+if __name__ == '__main__':
+    update()
 
 if con:
   con.commit()

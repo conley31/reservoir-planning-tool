@@ -8,7 +8,7 @@ from nose.plugins.attrib import attr
 from db import sql_statements
 import MySQLdb as db
 
-with open('../../config/config.json') as json_data:
+with open('../config/config.json') as json_data:
     config = json.load(json_data)
 
 host = config.get("mysql").get("host")
@@ -23,7 +23,7 @@ cur = con.cursor()
 INCH_FACTOR = 0.03937007874
 
 index_rows = []
-with open('../index.csv', 'rb') as csvfile:
+with open('index.csv', 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
         index_rows.append(row)
@@ -60,7 +60,7 @@ def test_tables_equal():
 def assert_table(loc_id):
     cur.execute(sql_statements.select_from.format(str('Location' + index_rows[loc_id][1])))
     rows = cur.fetchall()
-    with open('../daily_files/' + index_rows[loc_id][4], 'rb') as csvfile:
+    with open('daily_files/' + index_rows[loc_id][4], 'rb') as csvfile:
       stream = csv.reader(csvfile, delimiter=',')
       for row in stream:
           date = datetime.date(int(row[0]), int(row[1]), int(row[2]))
