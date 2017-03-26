@@ -62,7 +62,9 @@ allYearsAveragedByMonth(specificPondVolume){
 	}	
 
 	for(i = 0; i < outputArray.length; i++){
-		outputArray[i][0] = increments[i];
+		//set each month to numerical value starting from 0		
+		outputArray[i][0] = i;
+		
 		outputArray[i][1] /= allYears.length;
 		outputArray[i][2] /= allYears.length;
 	}
@@ -83,6 +85,7 @@ allMonthsByYear(specificPondVolume, specificYear){
 	}
 
 	for(var i = 0; i < outputArray.length; i++){
-		outputArray[i][0] = increments[i];
+		//set each month to numerical value starting from 0
+		outputArray[i][0] = i;
 	}
 }
