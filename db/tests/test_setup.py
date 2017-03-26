@@ -1,5 +1,10 @@
+##USAGE
+##For general cases: nosetests -a '!slow'
+##For complete validation of DB: nosetests -a '!fast'
+
 import csv, json, time, sys, os.path, datetime
 from nose.tools import assert_equals
+from nose.plugins.attrib import attr
 from db import sql_statements
 import MySQLdb as db
 
@@ -52,10 +57,10 @@ def test_tables_equal():
     tables = cur.fetchall()
     assert_equals(len(index_rows), len(tables))
 
-def test_table_first():
-    cur.execute(sql_statements.select_from.format(str('Location' + index_rows[0][1])))
+def assert_table(loc_id):
+    cur.execute(sql_statements.select_from.format(str('Location' + index_rows[loc_id][1])))
     rows = cur.fetchall()
-    with open('../daily_files/' + index_rows[0][4], 'rb') as csvfile:
+    with open('../daily_files/' + index_rows[loc_id][4], 'rb') as csvfile:
       stream = csv.reader(csvfile, delimiter=',')
       for row in stream:
           date = datetime.date(int(row[0]), int(row[1]), int(row[2]))
@@ -64,3 +69,13 @@ def test_table_first():
           PET = float('%.6f'%(INCH_FACTOR * float(row[5])))
           test_row = (date, drainflow, precipitation, PET)
           assert(compare_rows(test_row, rows))
+
+@attr('fast')
+def test_important_tables():
+    assert_table(0)
+    assert_table(len(index_rows) - 1)
+
+@attr('slow')
+def test_all_tables():
+    for i in range(0, len(index_rows)):
+        assert_table(i)
