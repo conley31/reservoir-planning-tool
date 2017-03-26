@@ -4,9 +4,10 @@
 
 /*this is more or less pseudocode as I don't know exactly where each of these will be called.*/
 
-//the below two variables can be grabbed from TDPAlg.js
+//the below variables can be grabbed from TDPAlg.js
 var allYears =
 var increments = 
+var initialYear = 
 
 
 function allYearsAveraged(){
@@ -30,7 +31,7 @@ function allYearsAveraged(){
 		outputArray[i][1] /= allYears.length;
 		outputArray[i][2] /= allYears.length;
 	}
-	
+
 	/*output array will be formatted like this...
 		there will be an array for every increment. The exact volumes will need to be calculated elsewhere probably.
 	[
@@ -47,20 +48,41 @@ allYearsAveragedByMonth(specificPondVolume){
 	//need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
-	outputArray.fill([],0);	
+	outputArray.fill([0,0,0],0);	
+
+	var currentIncrement = increments.findIndex((vol)=>{
+		return vol === specificPondVolume;
+	});
 
 	for(var i = 0; i < allYears.length; i++){
-			for(var k = 0; k < allYears[i][j].length; k++){
-				outputArray[j][0] += allYears[i][j][k].bypassFlowVol;
-				outputArray[j][1] += allYears[i][j][k].deficitVol;
-			}
+		for(var k = 0; k < allYears[i][currentIncrement].length; k++){
+			outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
+			outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
+		}
 	}	
 
-
+	for(i = 0; i < outputArray.length; i++){
+		outputArray[i][0] = increments[i];
+		outputArray[i][1] /= allYears.length;
+		outputArray[i][2] /= allYears.length;
+	}
 }
 
 allMonthsByYear(specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
+	var outputArray = new Array(12);	//this array will be contain an array for every month
+	outputArray.fill([0,0,0],0);	
 
-	
+	var currentIncrement = increments.findIndex((vol)=>{
+		return vol === specificPondVolume;
+	});
+	var yearIndex = specificYear - initialYear;
+	for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
+		outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
+		outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
+	}
+
+	for(var i = 0; i < outputArray.length; i++){
+		outputArray[i][0] = increments[i];
+	}
 }

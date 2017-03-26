@@ -15,7 +15,9 @@ function monthlyData(){
   this.deficitVol = 0; 
 }
 
-module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
+module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, 
+_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
+
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);      
@@ -75,7 +77,6 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
           	}
           }
 
-          //update water volume in pond
           var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
           var bypassFlowVolDay;
@@ -133,7 +134,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
       }
       //consider sending back an object with the first graphs data already calculated.
-      resolve({ graphData: allYears, incData: increments });
+      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
     });
 };
