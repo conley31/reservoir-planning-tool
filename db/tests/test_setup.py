@@ -2,7 +2,7 @@
 ##For general cases: nosetests -a '!slow'
 ##For complete validation of DB: nosetests -a '!fast'
 
-import csv, json, time, sys, os.path, datetime
+import csv, json, datetime
 from nose.tools import assert_equals
 from nose.plugins.attrib import attr
 from db import sql_statements
