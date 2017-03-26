@@ -11,8 +11,8 @@ var userparse = require('./UserParse');
 
 //monthlyData will be an object that is used inside of allYears
 function monthlyData(){
-  this.bypassFlow = 0;
-  this.deficit = 0; 
+  this.bypassFlowVol = 0;
+  this.deficitVol = 0; 
 }
 
 module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
@@ -21,10 +21,12 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);      
       var numOfRows = data.length;
       var allYears = []; 
+      var increments = [];
       const seepageVolDay = 0.01; //feet
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
+        increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
 
         /*
@@ -131,7 +133,7 @@ module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrem
 
       }
       //consider sending back an object with the first graphs data already calculated.
-      resolve(allYears);
+      resolve({ graphData: allYears, incData: increments });
     });
     });
 };
