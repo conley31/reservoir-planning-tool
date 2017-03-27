@@ -35,16 +35,16 @@ function allYearsAveraged(){
 	/*output array will be formatted like this...
 		there will be an array for every increment. The exact volumes will need to be calculated elsewhere probably.
 	[
-	[pondVol, 1,2],	//bypassFlowVol = 1 deficitVol = 2
-	[pondVol, 2,4],
-	[pondVol, 3,6]
+		[pondVol, 1,2],	//bypassFlowVol = 1 deficitVol = 2
+		[pondVol, 2,4],
+		[pondVol, 3,6]
 	]
 
 	*/
 	return outputArray;
 }
 
-allYearsAveragedByMonth(specificPondVolume){
+function allYearsAveragedByMonth(specificPondVolume){
 	//need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
@@ -70,7 +70,7 @@ allYearsAveragedByMonth(specificPondVolume){
 	}
 }
 
-allMonthsByYear(specificPondVolume, specificYear){
+function allMonthsByYear(specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	outputArray.fill([0,0,0],0);	
