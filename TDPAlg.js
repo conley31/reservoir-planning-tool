@@ -6,7 +6,7 @@ Notes:
 -All variables that are preceded by an underscore are from form inputs
 */
 
-var db = require('./db'),
+var db = require('./db');
 var userparse = require('./UserParse');
 
 //monthlyData will be an object that is used inside of allYears
@@ -108,7 +108,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           //updated allYears at the current year at the current increment and at the current month.
           if(typeof allYears[currentYear - initialYear] == "undefined"){
-              allYears[current-initialYear] = []; 
+              allYears[currentYear - initialYear] = []; 
           }
           if(typeof allYears[currentYear - initialYear][i] == "undefined"){
               allYears[currentYear - initialYear][i] = [];
