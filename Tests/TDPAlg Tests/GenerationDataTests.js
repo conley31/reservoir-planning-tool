@@ -43,7 +43,6 @@ for(var i = 0; i < allYears2.length; i++){
 var incs = [2,4,6];
 
 var allYears3 = new Array(5);
-//allYears3.fill([ [], [], [] ], 0);
 fillArr(allYears3, 3, true);
 
 for(var i = 0; i < allYears3.length; i++){
@@ -96,6 +95,7 @@ for(var i = 0; i < allYears6.length; i++){
 	}
 }
 
+console.log(a.allMonthsByYear(allYears2, [2,4], 1980, 4, 1980));
 
 describe('Testing Graph 1 Generation: Average of all Years', function(){
 	it('Should return a linear set.', function(){
@@ -106,9 +106,18 @@ describe('Testing Graph 1 Generation: Average of all Years', function(){
 		chai.deepEqual(a.allYearsAveraged(allYears2, [2,4]), [[2, 78, 66], [4, 78, 66]]);
 	});
 	
-	it('Should return a set where each bypassFlowVol is set depding the current increment.', function(){
+	it('Should return a set where each bypassFlowVol is set depding the current increment for allYears3.', function(){
 		chai.deepEqual(a.allYearsAveraged(allYears3, [2, 4, 6]), [[2, 60, 33], [4, 60, 16.5], [6,60 ,11]]);
 	});
+
+	it('Should return a set where each bypassFlowVol is the same for all pondVolumes in allYears5.', function(){
+		chai.deepEqual(a.allYearsAveraged(allYears5, [2, 4, 6]), [ [ 2, 66, 78 ], [ 4, 66, 78 ], [ 6, 66, 78 ] ]);
+	});
+
+	it('Should return a set where each deficitVol is 0 increment for allYears6', function(){
+		chai.deepEqual(a.allYearsAveraged(allYears6, [2, 4, 6]), [ [ 2, 96, 0 ], [ 4, 108, 0 ], [ 6, 120, 0 ] ]);
+	});
+
 
 });
 
@@ -117,7 +126,12 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 	it('Tests if two increments return the same values.', function(){
 		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2,4,6], 4),a.allYearsByPondVolume(allYears4, [2,4,6], 6) );
 	});
-	
+	it('Tests if two increments return the same values.', function(){
+		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2,4,6], 2),a.allYearsByPondVolume(allYears4, [2,4,6], 4) );
+	});
+	it('Tests if two increments return the same values.', function(){
+		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2,4,6], 2),a.allYearsByPondVolume(allYears4, [2,4,6], 6) );
+	});
 	it('Should return a set containing all values of 2.', function(){
 		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2, 4, 6], 2), 
 		[ [ 0, 2, 2 ],
@@ -155,7 +169,24 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 });
 
 	describe('Testing Graph 3 Generation: Output months of a particular year at a particular volume.', function(){
-		it('Should return a single year array.', function(){
+		it('Should return a single year array for PondVolume of 4.', function(){
+			chai.deepEqual(a.allMonthsByYear(allYears2, [2,4], 1980, 4, 1980), [ [ 0, 1, 0 ],
+				[ 1, 2, 1 ],
+				[ 2, 3, 2 ],
+				[ 3, 4, 3 ],
+				[ 4, 5, 4 ],
+				[ 5, 6, 5 ],
+				[ 6, 7, 6 ],
+				[ 7, 8, 7 ],
+				[ 8, 9, 8 ],
+				[ 9, 10, 9 ],
+				[ 10, 11, 10 ],
+				[ 11, 12, 11 ] ]
+
+				);
+		});
+
+		it('Should return a single year array for PondVolume of 4.', function(){
 			chai.deepEqual(a.allMonthsByYear(allYears5, [2,4,6], 1980, 4, 1980), [ [ 0, 0, 1 ],
 				[ 1, 1, 2 ],
 				[ 2, 2, 3 ],
@@ -170,7 +201,21 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 				[ 11, 11, 12 ] ]
 				);
 		});
-
+		it('Should return a single year array for PondVolume of 2.', function(){
+			chai.deepEqual(a.allMonthsByYear(allYears5, [2,4,6], 1980, 2, 1980), [ [ 0, 0, 1 ],
+				[ 1, 1, 2 ],
+				[ 2, 2, 3 ],
+				[ 3, 3, 4 ],
+				[ 4, 4, 5 ],
+				[ 5, 5, 6 ],
+				[ 6, 6, 7 ],
+				[ 7, 7, 8 ],
+				[ 8, 8, 9 ],
+				[ 9, 9, 10 ],
+				[ 10, 10, 11 ],
+				[ 11, 11, 12 ] ]
+				);
+		});
 		it('Tests two years that have have identical months.', function(){
 			chai.deepEqual(a.allMonthsByYear(allYears5, [2, 4, 6], 1980, 2, 1980), a.allMonthsByYear(allYears5, [2,4,6], 1980, 2, 1982));
 		});
@@ -190,7 +235,7 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 				[ 10, 15, 0 ],
 				[ 11, 16, 0 ] ]
 
-			);
+				);
 		});
 		
 	});
