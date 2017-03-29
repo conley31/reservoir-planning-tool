@@ -1,4 +1,4 @@
-=== Week 0 (Due 2/12) ===
+Week 0 (Due 2/12)
 === Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
 Name: Clayton Marshall
 
@@ -45,7 +45,8 @@ Jonah Heeren: Setup Database, fill it with the provided Transforming Drainage Pr
 Vritant Bhardwaj: Setup containers, inputs and components on the website, go through Google Graph documentation.
 Drew Atkinson: Begin work on the Map integration. Add a map to the home page, and use geoJSON to create a clickable overlay of possible locations on the map
 
-=== Week 1 (Due 2/19) ===
+
+Week 1 (Due 2/19)
 === Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
 Name: Clayton Marshall
 
@@ -113,7 +114,7 @@ Week 2 (Plan)
 
 === Weekly Team Report (Team 16: Reservoir Planning Tool) ===
 Week 1 (Summary) (Scrum master: Drew Atkinson)
-Overall Progress Summary: This week we have worked on building the core components of the project. The basic layout of the website has been setup. The database has been initialized with data from our project owners. We have laid out the mapping service on the front-end and added an overlay with possible locations and added the ability to select a location. The graphs are ready to be put into the website. Lastly, the backend routing was taken care of and the algorithm that all of our data will flow through has been written.
+Overall Progress Summary: This week we have worked on building the core components of the project. The basic layout of the website has been set up. The database has been initialized with data from our project owners. We have laid out the mapping service on the front-end and added an overlay with possible locations and added the ability to select a location. The graphs are ready to be put into the website. Lastly, the backend routing was taken care of and the algorithm that all of our data will flow through has been written.
 2/12	1.5 hrs   Finished Sprint 1 Planning Document and Discuss weekly goals
 2/14	2hrs  Met with project owners and discuss what will be done during sprint 1.
          (Got updates on project specifics regarding design of algorithm and inputs
@@ -131,7 +132,7 @@ Clayton: Finish the updated algorithm and allow for user’s form data to be add
 Vritant: Setup up google charts to take in data similar to that stored in the database.
 Jonah: Finish database update script and add query endpoints.
 
-=== Week 2 (Due 2/26) ===
+Week 2 (Due 2/26)
 === Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
 Name: Clayton Marshall
 
@@ -215,7 +216,8 @@ Vritant: Work on improving the UI and UX. Parse JSON sent from backend to displa
 Drew: Add method to get a location id by coordinates, Add location id to server AJAX call
 Jonah: Handle user uploaded CSVs and interlace missing data with TDP’s daily data.
 
-=== Week 3 (Due 3/5) ===
+
+Week 3 (Due 3/5)
 === Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
 Name: Clayton Marshall
 
@@ -295,3 +297,160 @@ Drew: Setup the MySQL server on AWS to have a single source of data for testing
 Clayton: Begin testing current implementation of TDP algorithm. Learn testing framework.
 Vritant: Improve JSON parsing and make UI adaptive and responsive
 Jonah: Allow users to upload CSVs, post them to the backend and process them.
+
+Week 4 (Due 3/12)
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 4 (Summary)
+3/8	2hrs	Met with Vritant to discuss how the data flow will work between client and server
+for each graph.
+3/9	3hrs	Learn how to use testing tools for node.js
+3/11	4hrs	Begin writing the algorithm for each individual graph.
+
+
+
+
+
+Week 5 (Plan)
+3/19	4hrs	Get test cases from project owners and begin testing the accuracy of the
+algorithm.
+3/21	3hrs	Begin writing my own tests using Mocha.
+3/22	4hrs	Continue working with Vritant to get the graph data to the client as efficiently as
+		possible.
+
+
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 4 (Summary)
+3/9	1h	Had a meeting with Ben and Larry @TDP to discuss deployment strategy
+3/9	1h	Began installing and configuring AWS web server for deployment
+3/12 	3h	Continued work on configuring AWS web server
+Week 5 (Plan)
+3/15	3h	Work on Polygon sorting algorithm
+3/16	2h	Create endpoint for polygon sorting algorithm
+3/21	3h	Integrate algorithm with front end
+3/22	2h 	Finalize and test algorithm
+3/23	2h	Create a setup script for deployment
+3/25	3h	Begin setting up Purdue-hosted server
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 4 (Summary)
+3/9	7hrs	Created the UI for uploading User CSV files and posted CSVs to backend using AJAX.
+3/11	5hrs	Processed form data with formidable and then passed it into TDP algorithm.
+3/12	1hr	DB conversion from mm to in.
+
+Week 5 (Plan)
+3/22	2hrs	Learn testing frameworks for node and python
+3/24	8hrs	Create testing for DB setup, update, and remove
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 4 (Summary)
+3/8	2hrs	Met with Clayton to discuss how the data flow will work between client and server
+for each graph.
+
+Week 5 (Plan)
+3/14	4hr	Make UI adaptive for tablets
+3/16	4hr	Make UI responsive for Desktops
+3/21	6hr	Redesign UI
+3/22	4hr	Implement new JSON parsing on client side
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 4 (Summary) (Scrum master: Drew Atkinson)
+3/7	1h	Met with project owners to discuss current progress, design changes
+Week 5 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+3/31	1h	Weekly Scrum Meeting
+
+[Individual Goals]
+Clayton: Finish algorithm implementation for all graphs. Learn to use Mocha to run
+   project owner test cases.
+Jonah: Learn Python and Node testing frameworks, write testing for DB scripts
+Drew: Finish the Polygon sorting algorithm, begin deployment work on Purdue-hosted server if it is available
+Vritant: Make final version of UI, ensure server-client communication works
+
+
+Week 5 (Due 3/26)
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 5 (Summary)
+3/19	2hrs	Planning algorithm output organization
+3/21	3hrs	Implemented new output schema into TDPAlg.js
+3/22	5hrs	Wrote functions to take the output array from TDPAlg.js and build correct arrays
+		needed for graphing
+
+Week 6 (Plan)
+3/27	2.5 hrs Write Mocha js test cases for the three functions written to make use of
+		the output from TDPAlg.js.
+3/29	4hrs	(Hopefully)Get test cases from project owners and begin testing all outputs.
+3/31	2hrs	Work and getting CSV inputs from Jonah and pass them into TDPAlg and adjust
+		current algorithm for inputs by CSV and not just the database.
+
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 5 (Summary)
+3/22	2h	Added an endpoint to the polygon sort function
+3/23	3h	Investigate Map Memory leak issue
+2/26	4h	Work on Polygon sort algorithm
+Week 6 (Plan)
+2/27	3h	Finish Polygon sort algorithm
+2/28	2h 	Integrate polygon sort with the front end
+2/29	3h	Solve Memory leak issue
+2/30	3h	Work on Server Setup Script
+3/1	5h	Finish Database and server setup
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 5 (Summary)
+3/24	1hr	Added order by clause to queries to ensure RecordedDate is always ordered properly.
+3/25	1hr	Learned nose testing framework for testing .py DB scripts.
+3/25	6hrs	Started to add testing for DB setup and Update.
+Week 6 (Plan)
+3/30	2hrs	Finish DB testing
+3/30	2hrs	Make necessary changes to user CSV uploads
+3/31	1hr	Learn Mocha for Node testing
+3/31	4hrs	Test Node DB exports
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 5 (Summary)
+3/14	4hr	Redesigned UI
+3/15	4hr	Redesigned UI
+3/21	8hr	Make UI responsive for Desktops and Tablets
+
+Week 6 (Plan)
+3/27	2hr 	Improve JSON parsing on client side
+3/27	2hr	Plan client-server communication with Clayton
+3/31	4hr	Implement client-server communication for multiple graphs
+4/2	4hr	Start implementing multiple graphs
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 5 (Summary) (Scrum master: Drew Atkinson)
+[Meetings]
+2/22	1h	Weekly scrum meeting
+Important Progress: Redesigned the UI, finished database testing framework, begun on Mocha.js testing, planned out HTTP request schema for graph outputs
+Week 6 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+2/29	1h	Weekly Scrum meeting
+
+[Individual Goals]
+Clayton: Fully test algorithm outputs and begin adjusting current code to allow CSV inputs
+  alongside inputs from database.
+Jonah: Continue to add more testing to DB setup/update and DB access protocols.
+Vritant: Implement functionality of multiple graphs on client side
+Drew: Get caught up on hours, finalize deploy if server is available, finish polygon sort function, fix memory leak issues
