@@ -13,14 +13,25 @@ password = config.get("mysql").get("password")
 database = 'testTDP'
 log_location = config.get("mysql").get("logLocation")
 
+con = db.connect(host, user, password)
+cur = con.cursor()
+cur.execute('CREATE DATABASE IF NOT EXISTS testTDP;')
+con.close()
 con = db.connect(host, user, password, database)
 cur = con.cursor()
 
-def test_to_str_date():
-    str_date = update.toStrDate('1995', '10', '24')
-    assert_equals(str_date, '1995-10-24')
+class TestUpdate(object):
+    @classmethod
+    def setup_class(self):
+        setupdb.database = 'testTDP'
+        setupdb.index_file = 'tests/index.csv'
+        cur.execute(sql_statements.select_table_count.format(database))
+        if cur.fetchone() > 0:
+            print("You got more tables")
+        else:
+            print("Still need to setup tables.")
+            setupdb.setupDB()
 
-def setup_func():
-    setupdb.database = 'testTDP'
-    setupdb.index_file = 'tests/index.csv'
-    setupdb.setupDB()
+    def test_to_str_date(self):
+        str_date = update.toStrDate('1995', '10', '24')
+        assert_equals(str_date, '1995-10-24')

@@ -26,3 +26,7 @@ drop_table = "DROP TABLE Location{};"
 drop_database = "DROP DATABASE {};"
 
 show_tables = "SHOW TABLES;"
+
+select_table_count = """SELECT COUNT(*)
+                        FROM information_schema.tables
+                        WHERE table_schema = '{}';"""
