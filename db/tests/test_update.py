@@ -25,13 +25,37 @@ class TestUpdate(object):
     def setup_class(self):
         setupdb.database = 'testTDP'
         setupdb.index_file = 'tests/index.csv'
+        setupdb.log_location = 'tests/.db.log'
         cur.execute(sql_statements.select_table_count.format(database))
-        if cur.fetchone() > 0:
-            print("You got more tables")
+        if cur.fetchone()[0] > 0:
+            print("Tables are already setup for testTDP")
         else:
-            print("Still need to setup tables.")
             setupdb.setupDB()
 
     def test_to_str_date(self):
         str_date = update.toStrDate('1995', '10', '24')
         assert_equals(str_date, '1995-10-24')
+
+    def test_id_exists_in_index(self):
+        update.index_file = 'tests/index.csv'
+        assert update.idExistsInIndex('3')
+
+    def test_id_doesnt_exists_in_index(self):
+        update.index_file = 'tests/index.csv'
+        assert update.idExistsInIndex('12') == False
+
+    def test_was_dbCreated(self):
+        update.log_location = 'tests/.db.log'
+        assert update.dbCreated()
+
+    def test_db_not_Created(self):
+        update.log_location = 'tests/.fakedb.log'
+        assert update.dbCreated()
+
+    def test_update_index_addition(self):
+        index = open('index.csv', 'a')
+        index.write('\n6,6,36.1875,-90.0625,Daily_36.1875_-90.0625.txt,http://nevada.agriculture.purdue.edu/drains/Daily_36.1875_-90.0625.txt')
+        index.close()
+        update.update()
+        cur.execute(sql_statements.check_table.format(database, 'Location6'))
+        assert cur.fetchone()[0] == 1

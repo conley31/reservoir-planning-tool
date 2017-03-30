@@ -1,6 +1,8 @@
-check_table = """ SELECT COUNT(*)
-            FROM information_schema.tables
-            WHERE table_name = '{}';"""
+check_table = """ SELECT *
+                  FROM information_schema.tables
+                  WHERE table_schema = '{}'
+                  AND table_name = '{}'
+                  LIMIT 1;"""
 
 get_tables = """SELECT TABLE_NAME
                 FROM INFORMATION_SCHEMA.TABLES

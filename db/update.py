@@ -15,13 +15,17 @@ database = config.get("mysql").get("database")
 log_location = config.get("mysql").get("logLocation")
 
 INCH_FACTOR = 0.03937007874
+index_file = 'index.csv'
+
+con = None
+cur = None
 
 def getID(locationStr):
   return locationStr[8:]
 
 def idExistsInIndex(LocationID):
   idFound = False
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       if row[0] == LocationID:
@@ -65,13 +69,13 @@ def addTable(table_id, DataFileName):
     ParseDailyData(table_id, DataFileName)
 
 def checkTable(table_name):
-  cur.execute(check_table.format(table_name))
+  cur.execute(check_table.format(database, table_name))
   if cur.fetchone()[0] == 1:
     return True
   return False
 
 def addNewFromIndex():
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       if not checkTable('Location' + row[0]):
@@ -96,12 +100,14 @@ def checkDataFile(locationID, fileName):
     print "Updated table: Location" + locationID
 
 def updateFromDataFiles():
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       checkDataFile(row[0], row[4])
 
 def update():
+  con = db.connect(host, user, password, database)
+  cur = con.cursor()
   if dbCreated:
     print("Database was created")
     index_last_modify = dt.fromtimestamp(os.path.getmtime('index.csv'))
@@ -120,11 +126,12 @@ except IOError as err:
   print("IO error: {0}".format(err))
   sys.exit(1)
 
-con = db.connect(host, user, password, database)
-cur = con.cursor()
-if __name__ == '__main__':
-    update()
 
-if con:
-  con.commit()
-  con.close()
+if __name__ == '__main__':
+  con = db.connect(host, user, password, database)
+  cur = con.cursor()
+  update()
+
+  if con:
+    con.commit()
+    con.close()
