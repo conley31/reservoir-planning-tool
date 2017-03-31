@@ -95,7 +95,37 @@ for(var i = 0; i < allYears6.length; i++){
 	}
 }
 
-console.log(a.allMonthsByYear(allYears2, [2,4], 1980, 4, 1980));
+var allYears7 = new Array(2);
+//allYears.fill([[],[]],0);
+fillArr(allYears7, 2, true);
+
+for(var i = 0; i < allYears7.length; i++){
+	for(var j = 0; j < allYears7[i].length; j++){
+		for(var k = 0; k < 12; k++){
+			if(i === 1 && j === 0){
+				//intentional undefined slot.
+			}
+			else{
+				allYears7[i][j][k] = {bypassFlowVol: 1, deficitVol: 2};
+			}
+		}
+	}
+}
+
+var allYears8 = new Array(5);
+//allYears4.fill([ [], [], [] ], 0);
+fillArr(allYears8, 3, true);
+
+for(var i = 0; i < allYears8.length; i++){
+	for(var j = 0; j < allYears8[i].length; j++){
+		for(var k = 0; k < 12; k++){
+			if(i % 2 == 0){
+				allYears8[i][j][k] = {bypassFlowVol: 1, deficitVol:1};
+			}
+		}
+	}
+}
+
 
 describe('Testing Graph 1 Generation: Average of all Years', function(){
 	it('Should return a linear set.', function(){
@@ -241,4 +271,82 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 	});
 
 
-	
+console.log(a.allMonthsByYear(allYears8, [2, 4, 6], 1980, 2, 1981));
+
+
+describe('Test all graphs with potentially undefined data', function(){
+		it('Should contain two subarrays where the first subarray has half the values of array 2. (allYearsAveraged)', function(){
+			chai.deepEqual(a.allYearsAveraged(allYears7, [2,4]), [ 	[2, 6, 12], [4, 12, 24] ]);
+		});
+		it('Tests having undefined values for a given year (allYearsAveraged).', function(){
+			chai.deepEqual(a.allYearsAveraged(allYears8, [2,4, 6]), [ 	[2, 7.2, 7.2], [4, 7.2, 7.2], [6, 7.2, 7.2] ]);
+		});
+		it('Should contain two subarrays where the first subarray has half the values of array 2. (allYearsAveraged)', function(){
+			chai.deepEqual(a.allYearsByPondVolume(allYears7, [2,4], 2), [ [ 0, 0.5, 1 ],
+				[ 1, 0.5, 1 ],
+				[ 2, 0.5, 1 ],
+				[ 3, 0.5, 1 ],
+				[ 4, 0.5, 1 ],
+				[ 5, 0.5, 1 ],
+				[ 6, 0.5, 1 ],
+				[ 7, 0.5, 1 ],
+				[ 8, 0.5, 1 ],
+				[ 9, 0.5, 1 ],
+				[ 10, 0.5, 1 ],
+				[ 11, 0.5, 1 ] ]);
+		});
+
+		it('Tests undefined years. (allYearsByPondVolume)', function(){
+			chai.deepEqual(a.allYearsByPondVolume(allYears8, [2,4,6], 4), [ [ 0, 0.6, 0.6 ],
+				[ 1, 0.6, 0.6 ],
+				[ 2, 0.6, 0.6 ],
+				[ 3, 0.6, 0.6 ],
+				[ 4, 0.6, 0.6 ],
+				[ 5, 0.6, 0.6 ],
+				[ 6, 0.6, 0.6 ],
+				[ 7, 0.6, 0.6 ],
+				[ 8, 0.6, 0.6 ],
+				[ 9, 0.6, 0.6 ],
+				[ 10, 0.6, 0.6 ],
+				[ 11, 0.6, 0.6 ] ]
+				)
+		});
+
+		it('Should contain subarrays containing all zero values aside from pondVolume. (allMonthsByYear)', function(){
+			chai.deepEqual(a.allMonthsByYear(allYears7, [2,4], 1980, 2, 1981), [ [ 0, 0, 0 ],
+				[ 1, 0, 0 ],
+				[ 2, 0, 0 ],
+				[ 3, 0, 0 ],
+				[ 4, 0, 0 ],
+				[ 5, 0, 0 ],
+				[ 6, 0, 0 ],
+				[ 7, 0, 0 ],
+				[ 8, 0, 0 ],
+				[ 9, 0, 0 ],
+				[ 10, 0, 0 ],
+				[ 11, 0, 0 ] ]
+				);
+		});
+
+		it('Tests undefined years. Should contain all zeros in subarrays.(allMonthsByYear)', function(){
+			chai.deepEqual(a.allMonthsByYear(allYears8, [2,4,6], 1980, 2, 1981), [ [ 0, 0, 0 ],
+				[ 1, 0, 0 ],
+				[ 2, 0, 0 ],
+				[ 3, 0, 0 ],
+				[ 4, 0, 0 ],
+				[ 5, 0, 0 ],
+				[ 6, 0, 0 ],
+				[ 7, 0, 0 ],
+				[ 8, 0, 0 ],
+				[ 9, 0, 0 ],
+				[ 10, 0, 0 ],
+				[ 11, 0, 0 ] ]
+
+				);
+		});
+
+
+		
+	});
+
+

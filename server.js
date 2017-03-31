@@ -4,22 +4,29 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   formidable = require('formidable'),
   util = require('util'),
-  fs = require('fs');
+  fs = require('fs'),
+  nconf = require('nconf');
 
 var db = require('./db');
 var TDPAlg = require('./TDPAlg.js');
 var app = express();
 
+// Set up config file
+nconf.file({
+  file: "./config/config.json"
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended : false,
-    limit: '5mb'
+  extended: false,
+  limit: '5mb'
 }));
-
+app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
-  res.render("index.ejs");
+  res.render("index.ejs", {
+    googleMapsKey: nconf.get("google_maps").key
+  });
 });
 
 app.post('/calculate', function(req, res) {
@@ -30,16 +37,16 @@ app.post('/calculate', function(req, res) {
   form.uploadDir = "/tmp/";
   form
     .on('fileBegin', function(name, file) {
-        file.path = '/tmp/' + file.name;
+      file.path = '/tmp/' + file.name;
     })
     .on('file', function(name, file) {
-        stream = fs.createReadStream('/tmp/' + file.name);
+      stream = fs.createReadStream('/tmp/' + file.name);
     })
     .on('field', function(name, field) {
-        _[name] = Number(field);
+      _[name] = Number(field);
     })
     .on('error', function(err) {
-        next(err);
+      next(err);
     })
     .on('end', function() {
       TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth, 
@@ -89,10 +96,10 @@ app.post('/calculate', function(req, res) {
         ]
       };
 
-      res.json(graph_data);
+        res.json(graph_data);
 
       });
-  });
+    });
 
 });
 
