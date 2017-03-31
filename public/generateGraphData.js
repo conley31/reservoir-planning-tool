@@ -18,21 +18,28 @@ exports.allYearsAveraged = function(allYears, increments){
 	fillThree(outputArray);
 	//Add every months data from each year to the appropriate volume increment
 	for(var i = 0; i < allYears.length; i++){	
-		for(var j = 0; j < allYears[i].length; j++){
-			for(var k = 0; k < allYears[i][j].length; k++){
-				outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
-				outputArray[j][2] += allYears[i][j][k].deficitVol;
+		if(typeof allYears[i] !== "undefined"){
+			for(var j = 0; j < allYears[i].length; j++){
+				if(typeof allYears[i][j] !== "undefined"){
+					for(var k = 0; k < allYears[i][j].length; k++){
+						if(typeof allYears[i][j][k] !== "undefined"){
+							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
+							outputArray[j][2] += allYears[i][j][k].deficitVol;
+						}
+					}
+				}
 			}
 		}
 	}
 
 	for(i = 0; i < outputArray.length; i++){
-		outputArray[i][0] = increments[i];
-		outputArray[i][1] /= allYears.length;
-		outputArray[i][2] /= allYears.length;
+		if(typeof outputArray[i] !== "undefined"){
+			outputArray[i][0] = increments[i];
+			outputArray[i][1] /= allYears.length;
+			outputArray[i][2] /= allYears.length;
+		}
 	}
-		
-	
+
 	return outputArray;
 }
 
@@ -48,17 +55,23 @@ exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume
 	});
 
 	for(var i = 0; i < allYears.length; i++){
-		for(var k = 0; k < allYears[i][currentIncrement].length; k++){
-			outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
-			outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
+		if(typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
+			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
+				if(typeof allYears[i][currentIncrement][k] !== "undefined"){
+					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
+					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
+				}
+			}
 		}
 	}	
 
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0		
-		outputArray[i][0] = i;	
-		outputArray[i][1] /= allYears.length;
-		outputArray[i][2] /= allYears.length;
+		if(typeof outputArray[i] !== "undefined"){
+			outputArray[i][0] = i;	
+			outputArray[i][1] /= allYears.length;
+			outputArray[i][2] /= allYears.length;
+		}
 	}
 
 	return outputArray;
@@ -73,14 +86,22 @@ exports.allMonthsByYear = function(allYears, increments, initialYear, specificPo
 		return vol === specificPondVolume;
 	});
 	var yearIndex = specificYear - initialYear;
-	for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
-		outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
-		outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
+
+	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
+
+		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
+			if(typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
+				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
+				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
+			}
+		}
 	}
 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
-		outputArray[i][0] = i;
+		if(typeof outputArray[i] !== "undefined"){
+			outputArray[i][0] = i;
+		}
 	}
 
 	return outputArray;
