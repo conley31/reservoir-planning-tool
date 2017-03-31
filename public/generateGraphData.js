@@ -41,7 +41,7 @@ exports.allYearsAveraged = function(allYears, increments){
 	}
 
 	return outputArray;
-}
+};
 
 
 exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume){
@@ -75,7 +75,7 @@ exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume
 	}
 
 	return outputArray;
-}
+};
 
 exports.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
@@ -105,5 +105,5 @@ exports.allMonthsByYear = function(allYears, increments, initialYear, specificPo
 	}
 
 	return outputArray;
-}
+};
 
