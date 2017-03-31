@@ -67,17 +67,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           var pondPrecipVolDay = (precipDepthDay * pondArea);
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-
+          var pondWaterVolDay;
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
             irrigationVolDay = _irrigationDepth * _irrigationArea;
+            pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
-          	}
+            }
           }
 
-          var pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+
 
           var bypassFlowVolDay;
           if (pondWaterVolDay > pondVol) {
@@ -108,14 +109,14 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           //updated allYears at the current year at the current increment and at the current month.
           if(typeof allYears[currentYear - initialYear] == "undefined"){
-              allYears[currentYear - initialYear] = []; 
+            allYears[currentYear - initialYear] = []; 
           }
           if(typeof allYears[currentYear - initialYear][i] == "undefined"){
-              allYears[currentYear - initialYear][i] = [];
+            allYears[currentYear - initialYear][i] = [];
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] == "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-          }
+         }
 
           //update monthly values here 
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
@@ -136,7 +137,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
-    });
+});
 };
 
 function pullData(_locationId, stream) {
