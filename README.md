@@ -20,10 +20,10 @@
 
 `ID, FID,LAT,LONG,FILENAME.txt,http://nevada.agriculture.purdue.edu/drains/FILENAME.txt`
 
-### `npm run db_update`
+#### `npm run db_update`
 - Takes any changes to `db/index.csv` and updates their respective table_names
 
-### `npm run db_destroy`
+#### `npm run db_destroy`
 - Destroys the database
 
 ## Folder Structure and important files
