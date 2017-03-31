@@ -38,3 +38,4 @@
 - `TDPAlg.js`: Main Algorithm to calculate reservoir sizing
 - `UserParse.js`: Parsing of user-submitted csv files
 - `package.json`: Node.js dependencies
+- `tests/`: Test scripts for components inside of TDPAlg.js
