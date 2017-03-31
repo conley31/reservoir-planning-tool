@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db_setup": "pip2 install -r db/requirements.txt; python db/setup.py;",
     "db_update": "pip2 install -r db/requirements.txt; python db/update.py;",
-    "db_destroy": "pip2 install -r db/requirements.txt; python db/remove.py;"
+    "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;"
   },
   "repository": {
     "type": "git",
