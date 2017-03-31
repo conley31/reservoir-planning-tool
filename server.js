@@ -1,11 +1,12 @@
 /*jshint esversion: 6 */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 var express = require('express'),
   bodyParser = require('body-parser'),
   formidable = require('formidable'),
   util = require('util'),
   fs = require('fs'),
-  nconf = require('nconf');
+  nconf = require('nconf'),
+  morgan = require('morgan');
 
 var db = require('./db');
 var TDPAlg = require('./TDPAlg.js');
@@ -16,6 +17,7 @@ nconf.file({
   file: "./config/config.json"
 });
 
+app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
