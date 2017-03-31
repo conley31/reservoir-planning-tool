@@ -31,7 +31,7 @@ exports.getLocationById = Id => {
       else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
       } else {
-        connection.query('SELECT * FROM ??', 'Location' + Id, function(error, results, fields) {
+        connection.query('SELECT * FROM ?? Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
           connection.release();
           if (error) {
             reject(error);
@@ -62,7 +62,7 @@ exports.getPETById = Id => {
       } else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
       } else {
-        connection.query('SELECT RecordedDate, PET FROM ??', 'Location' + Id, function(error, results, fields) {
+        connection.query('SELECT RecordedDate, PET FROM ?? Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
           connection.release();
           if (error) {
             reject(error);
@@ -96,7 +96,7 @@ exports.getLocationForDateRange = (Id, startDate, endDate) => {
       } else if (!Number.isInteger(Id) || isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
         reject(new Error('Type Error: Expected Types are Int, Date as Str, Date as Str'));
       } else {
-        connection.query('SELECT * FROM ?? WHERE RecordedDate >= ? AND RecordedDate <= ?', ['Location' + Id, startDate, endDate], function(error, results, fields) {
+        connection.query('SELECT * FROM ?? WHERE RecordedDate >= ? AND RecordedDate <= ? Order BY RecordedDate', ['Location' + Id, startDate, endDate], function(error, results, fields) {
           connection.release();
           if (error) {
             reject(error);

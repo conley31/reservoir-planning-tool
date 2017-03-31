@@ -8,10 +8,11 @@
 
 <script src="/app.js" type="text/javascript"></script>
 <script src="/map.js" type="text/javascript"></script>
+<script src="/smartresize.js" type="text/javascript"></script>
 <script src="/graph.js" type="text/javascript"></script>
 
 <!-- For Google Maps -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU&libraries=places&callback=initMap" type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsKey %>&libraries=places&callback=initMap" type="text/javascript"></script>
 <!--  -->
 <script type="text/javascript">
 	$(document).on('change', ':file', function() {
@@ -20,4 +21,3 @@
     $(this).parents('.input-group').find(':text').val(label);
   });
 </script>
-

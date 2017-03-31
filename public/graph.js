@@ -1,9 +1,7 @@
-//Function runs on window loading
-$(document).ready(function() {
-  //initGraph();
-});
-
 graphData = [];
+var data;
+var options;
+var chart;
 
 $("form").submit(function(event) {
   event.preventDefault();
@@ -41,22 +39,20 @@ $("form").submit(function(event) {
 
 var drawChart = function() {
 
-  var data = new google.visualization.DataTable();
+  data = new google.visualization.DataTable();
   data.addColumn('number', 'Pond Volume');
   data.addColumn('number', 'Bypass Volume');
   data.addColumn('number', 'Storage Deficit');
   data.addRows(graphData[3].array);
 
-  var options = {
+  options = {
     chart: {
       title: 'Box Office Earnings in First Two Weeks of Opening',
       subtitle: 'in millions of dollars (USD)'
-    },
-    width: 984,
-    height: 440
+    }
   };
 
-  var chart = new google.charts.Line(document.getElementById('graph'));
+  chart = new google.charts.Line(document.getElementById('graph'));
 
   chart.draw(data, options);
 };
@@ -67,3 +63,10 @@ var initGraph = function() {
   });
   google.charts.setOnLoadCallback(drawChart);
 };
+
+//Resizes Graph on window resize 
+$(window).smartresize(function () {
+  if(data && options && chart) {
+    chart.draw(data, options);
+  }
+});
