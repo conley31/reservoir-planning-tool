@@ -12,6 +12,9 @@ $("form").submit(function(event) {
 
   var formArray = $(this).serializeArray();
   for (var i = 0; i < formArray.length; i++) {
+
+    //TODO add checks for values being passed through
+
     // Try to parse it as a number, else return the value as is (empty forms will return empty strings)
     formData.append(formArray[i].name, Number.parseFloat(formArray[i].value) || formArray[i].value);
   }
@@ -64,9 +67,13 @@ var initGraph = function() {
   google.charts.setOnLoadCallback(drawChart);
 };
 
-//Resizes Graph on window resize 
+//Resizes Graph on window resize
 $(window).smartresize(function () {
   if(data && options && chart) {
     chart.draw(data, options);
   }
 });
+
+var allYearGraph = function() {
+
+}

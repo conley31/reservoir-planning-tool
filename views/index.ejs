@@ -6,35 +6,52 @@
     <% include partials/header %>
       <div id="main">
         <div class="card-container">
-            <div id="map-container" class="card card-shadow">
-              <!-- This is where Google Maps will go -->
-              <div id="map"></div>
+          <div id="map-container" class="card card-shadow">
+            <!-- This is where Google Maps will go -->
+            <div id="map"></div>
+          </div>
+          <div class="card" style="margin-top: 10px;">
+            <p id="prompt">Please select a location on the map</p>
+            <!-- This is where the search will go and selected ID will be shown -->
+            <p id="mapselection"></p>
+            <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
+          </div>
+          <div id="form-card" class="card card-shadow">
+            <!-- This is where calculator input goes -->
+            <div id="form-data">
+              <% include calculator-input %>
             </div>
-            <div class="card" style="margin-top: 10px;">
-              <p id="prompt">Please select a location on the map</p>
-              <!-- This is where the search will go and selected ID will be shown -->
-              <p id="mapselection"></p>
-              <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
+          </div>
+          <div class="card card-shadow">
+            <div id="graph-body">
+              <div id="graph" class="card text-center">
+                  <!-- This is where Google Charts will go -->
+                  <h5>Graph</h5>
+              </div>
+              <div id="graph-desc" class="card">
+                  <!-- This is where the Graph's description will be printed -->
+                  <h3>Graph Description</h3>
+              </div>
             </div>
-            <div id="form-card" class="card card-shadow">
-                <!-- This is where calculator input goes -->
-                <div id="form-data">
-                  <% include calculator-input %>
-                </div>
-            </div>
-            <div class="card card-shadow">
-                <div id="graph-body">
-                  <div id="graph" class="card text-center">
-                      <!-- This is where Google Charts will go -->
-                      <h5>Graph</h5>
-                  </div>
-                  <div id="graph-desc" class="card">
-                      <!-- This is where the Graph's description will be printed -->
-                      <h3>Graph Description</h3>
-                  </div>
-                </div>
-            </div>
-
+          </div>
+          <div id="pond-inc-card" class="card">
+              <h5>Select Pond Increment to Graph</h5>
+              <select id="pond-inc-dropdown">
+               <option value="volvo">1</option>
+               <option value="volvo">2</option>
+               <option value="volvo">3</option>
+              </select>
+              <button id="pond-inc-submit" class="btn"> submit </button>
+          </div>
+          <div id="year-card" class="card">
+              <h5>Select Year to Graph</h5>
+              <select id="year-dropdown">
+               <option value="volvo">1996</option>
+               <option value="volvo">1997</option>
+               <option value="volvo">1998</option>
+              </select>
+              <button id="year-submit" class="btn"> submit </button>
+          </div>
         </div>
       </div>
       <% include partials/footer %>
