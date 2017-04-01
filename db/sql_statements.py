@@ -6,7 +6,7 @@ check_table = """ SELECT *
 
 get_tables = """SELECT TABLE_NAME
                 FROM INFORMATION_SCHEMA.TABLES
-                WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='TDP';"""
+                WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='{}';"""
 
 make_table = """CREATE TABLE IF NOT EXISTS Location{}
               (RecordedDate Date NOT NULL,

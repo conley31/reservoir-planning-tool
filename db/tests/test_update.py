@@ -46,16 +46,23 @@ class TestUpdate(object):
 
     def test_was_dbCreated(self):
         update.log_location = 'tests/.db.log'
+        update.configureLog()
         assert update.dbCreated()
 
     def test_db_not_Created(self):
         update.log_location = 'tests/.fakedb.log'
-        assert update.dbCreated()
+        update.configureLog()
+        assert update.dbCreated() == False
 
     def test_update_index_addition(self):
-        index = open('index.csv', 'a')
-        index.write('\n6,6,36.1875,-90.0625,Daily_36.1875_-90.0625.txt,http://nevada.agriculture.purdue.edu/drains/Daily_36.1875_-90.0625.txt')
+        update.database = 'testTDP'
+        update.log_location = 'tests/.db.log'
+        update.index_file = 'tests/index.csv'
+        index = open('tests/index.csv', 'a')
+        index.write('6,6,36.1875,-90.0625,Daily_36.1875_-90.0625.txt,http://nevada.agriculture.purdue.edu/drains/Daily_36.1875_-90.0625.txt\n')
         index.close()
+        update.configureMySQL()
+        update.configureLog()
         update.update()
         cur.execute(sql_statements.check_table.format(database, 'Location6'))
-        assert cur.fetchone()[0] == 1
+        assert cur.fetchone() != None

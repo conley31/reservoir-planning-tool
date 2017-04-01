@@ -19,6 +19,20 @@ index_file = 'index.csv'
 
 con = None
 cur = None
+log = None
+
+def configureLog():
+    global log
+    try:
+      log = open(log_location, "rb+")
+    except IOError as err:
+      print("IO error: {0}".format(err))
+      sys.exit(1)
+
+def configureMySQL():
+    global con, cur
+    con = db.connect(host, user, password, database)
+    cur = con.cursor()
 
 def getID(locationStr):
   return locationStr[8:]
@@ -33,6 +47,7 @@ def idExistsInIndex(LocationID):
   return idFound
 
 def dbCreated():
+  global log
   log.seek(0)
   stream = csv.reader(log, delimiter='>')
   for row in stream:
@@ -70,9 +85,7 @@ def addTable(table_id, DataFileName):
 
 def checkTable(table_name):
   cur.execute(check_table.format(database, table_name))
-  if cur.fetchone()[0] == 1:
-    return True
-  return False
+  return cur.fetchone() != None
 
 def addNewFromIndex():
   with open(index_file, 'rb') as csvfile:
@@ -83,7 +96,7 @@ def addNewFromIndex():
           print("added new Location" + row[0])
 
 def removeOldTables():
-  table_names = cur.execute(get_tables)
+  table_names = cur.execute(get_tables.format(database))
   for row in cur:
     locationID = getID(row[0])
     if not idExistsInIndex(locationID):
@@ -106,11 +119,9 @@ def updateFromDataFiles():
       checkDataFile(row[0], row[4])
 
 def update():
-  con = db.connect(host, user, password, database)
-  cur = con.cursor()
   if dbCreated:
     print("Database was created")
-    index_last_modify = dt.fromtimestamp(os.path.getmtime('index.csv'))
+    index_last_modify = dt.fromtimestamp(os.path.getmtime(index_file))
     if index_last_modify > getLastUpdateTime():
       print("Updating from index")
       addNewFromIndex()
@@ -118,7 +129,7 @@ def update():
     else:
       print "No changes to index.csv"
     updateFromDataFiles()
-    log.write("\nUPDATED>" + time.strftime("%c"))
+    log.write("UPDATED>" + time.strftime("%c"))
 
 try:
   log = open(log_location, "rb+")
@@ -128,8 +139,7 @@ except IOError as err:
 
 
 if __name__ == '__main__':
-  con = db.connect(host, user, password, database)
-  cur = con.cursor()
+  configureMySQL()
   update()
 
   if con:
