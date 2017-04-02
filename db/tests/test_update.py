@@ -33,6 +33,7 @@ class TestUpdate(object):
         setupdb.database = 'testTDP'
         setupdb.index_file = 'tests/index.csv'
         setupdb.log_location = 'tests/.db.log'
+        cur.execute('CREATE DATABASE IF NOT EXISTS testTDP;')
         cur.execute(sql_statements.select_table_count.format(database))
         if cur.fetchone()[0] > 0:
             print("Tables are already setup for testTDP")

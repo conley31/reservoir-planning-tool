@@ -25,8 +25,10 @@ def configureLog():
     global log
     try:
         log = open(log_location, 'rb+')
-    except IOError as err:
+    except IOError:
         log = open(log_location, 'w')
+        log.close()
+        log = open(log_location, 'rb+')
 
 def configureMySQL():
     global con, cur

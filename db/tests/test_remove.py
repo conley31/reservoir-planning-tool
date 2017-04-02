@@ -10,7 +10,7 @@ host = config.get("mysql").get("host")
 user = config.get("mysql").get("user")
 password = config.get("mysql").get("password")
 database = 'testTDP'
-log_location = config.get("mysql").get("logLocation")
+log_location = 'tests/.db.log'
 
 con = db.connect(host, user, password)
 cur = con.cursor()
@@ -22,9 +22,9 @@ cur = con.cursor()
 class TestDestroy(object):
     @classmethod
     def setup_class(self):
-        setupdb.database = 'testTDP'
+        setupdb.database = database
         setupdb.index_file = 'tests/index.csv'
-        setupdb.log_location = 'tests/.db.log'
+        setupdb.log_location = log_location
         cur.execute(sql_statements.select_table_count.format(database))
         if cur.fetchone()[0] > 0:
             print("Tables are already setup for testTDP")
@@ -32,6 +32,12 @@ class TestDestroy(object):
             setupdb.setupDB()
 
     def test_erase_log(self):
-        remove.log_location = 'tests/.db.log'
+        remove.log_location = log_location
         remove.eraseLog()
         assert_equals(os.path.isfile('tests/.db.log'), False)
+
+    def test_drop_db(self):
+        remove.database = database
+        remove.dropDB()
+        cur.execute(sql_statements.select_table_count.format(database))
+        assert_equals(cur.fetchone()[0], 0)
