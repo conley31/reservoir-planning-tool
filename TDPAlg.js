@@ -15,7 +15,7 @@ function monthlyData(){
   this.deficitVol = 0; 
 }
 
-module.exports.calc = function(_pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, 
+module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, 
 _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
 
   return new Promise(function(resolve, reject) {
@@ -25,6 +25,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       var allYears = []; 
       var increments = [];
       const seepageVolDay = 0.01; //feet
+      var initialYear = null;
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
@@ -39,8 +40,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
 
-        var initialYear = null;
-
+      
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -52,11 +52,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth(); 
 
+          //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
+
           if(initialYear == null){
             initialYear = currentYear;
           }
 
-          var inflowVolDay = data[j].Drainflow;
+          var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
 
@@ -67,17 +69,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           var pondPrecipVolDay = (precipDepthDay * pondArea);
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-          var pondWaterVolDay;
+          var pondWaterVolDay = pondWaterVolDayPrev;
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
             irrigationVolDay = _irrigationDepth * _irrigationArea;
-            pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
           }
 
+
+          pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
 
           var bypassFlowVolDay;
