@@ -11,6 +11,7 @@
 3. Copy the example config file to a new file `cp config/config.example.json config/config.json`
 4. Create a MySQL Database; Fill In Database, Username, and password to `config.json,`
 5. Run Database setup scripts
+6. Run the server with `npm start`, or use `pm2 start processes.yml`
 
 ## Database Scripts
 
