@@ -40,10 +40,8 @@ def ParseDailyData(table_id, textFile):
 def setupDB():
     try:
       log = open(log_location, "wb+")
-    except IOError as err:
-      print("IO error: {0}".format(err))
-      log.write("IO error: {0}".format(err))
-      sys.exit(1)
+    except IOError:
+      log = open(log_location, 'w')
 
     con = db.connect(host, user, password, database)
     cur = con.cursor()

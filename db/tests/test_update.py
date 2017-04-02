@@ -1,6 +1,5 @@
 import csv, json, datetime, os, time
 from nose.tools import assert_equals
-from nose.plugins.attrib import attr
 from db import sql_statements, update, setupdb
 import MySQLdb as db
 
@@ -50,7 +49,7 @@ class TestUpdate(object):
 
     def test_id_doesnt_exists_in_index(self):
         update.index_file = 'tests/index.csv'
-        assert update.idExistsInIndex('12') == False
+        assert_equals(update.idExistsInIndex('12'), False)
 
     def test_was_dbCreated(self):
         update.log_location = 'tests/.db.log'
@@ -60,7 +59,7 @@ class TestUpdate(object):
     def test_db_not_Created(self):
         update.log_location = 'tests/.fakedb.log'
         update.configureLog()
-        assert update.dbCreated() == False
+        assert_equals(update.dbCreated(), False)
 
     def test_update_index_addition(self):
         update.database = 'testTDP'
@@ -86,4 +85,4 @@ class TestUpdate(object):
         update.configureLog()
         update.update()
         cur.execute(sql_statements.check_table.format(database, 'Location6'))
-        assert cur.fetchone() == None
+        assert_equals(cur.fetchone(), None)

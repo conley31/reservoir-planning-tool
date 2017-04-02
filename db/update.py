@@ -24,10 +24,9 @@ log = None
 def configureLog():
     global log
     try:
-      log = open(log_location, "rb+")
+        log = open(log_location, 'rb+')
     except IOError as err:
-      print("IO error: {0}".format(err))
-      sys.exit(1)
+        log = open(log_location, 'w')
 
 def configureMySQL():
     global con, cur
@@ -122,8 +121,6 @@ def update():
   if dbCreated:
     print("Database was created")
     index_last_modify = dt.fromtimestamp(os.path.getmtime(index_file))
-    print index_last_modify
-    print getLastUpdateTime()
     if index_last_modify > getLastUpdateTime():
       print("Updating from index")
       addNewFromIndex()
@@ -134,10 +131,11 @@ def update():
     log.write('UPDATED>' + time.strftime("%c") + '\n')
 
 try:
-  log = open(log_location, "rb+")
-except IOError as err:
-  print("IO error: {0}".format(err))
-  sys.exit(1)
+  log = open(log_location, 'rb+')
+except IOError:
+  log = open(log_location, 'w')
+  log.close()
+  log = open(log_location, 'rb+')
 
 
 if __name__ == '__main__':
