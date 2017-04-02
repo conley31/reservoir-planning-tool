@@ -1,3 +1,5 @@
+
+
 graphData = [];
 var data;
 var options;
@@ -26,8 +28,9 @@ $("form").submit(function(event) {
     contentType: false,
     processData: false,
     success: function(data) {
-      graphData = data.graph;
-      initGraph();
+      // graphData = data.graph;
+      // initGraph();
+      GraphOne(data.graph);
     },
     error: function() {
       console.log("AJAX failed");
@@ -41,22 +44,6 @@ $("form").submit(function(event) {
  */
 
 var drawChart = function() {
-
-  data = new google.visualization.DataTable();
-  data.addColumn('number', 'Pond Volume');
-  data.addColumn('number', 'Bypass Volume');
-  data.addColumn('number', 'Storage Deficit');
-  data.addRows(graphData[3].array);
-
-  options = {
-    chart: {
-      title: 'Box Office Earnings in First Two Weeks of Opening',
-      subtitle: 'in millions of dollars (USD)'
-    }
-  };
-
-  chart = new google.charts.Line(document.getElementById('graph'));
-
   chart.draw(data, options);
 };
 
@@ -74,6 +61,20 @@ $(window).smartresize(function () {
   }
 });
 
-var allYearGraph = function() {
+var GraphOne = function(array) {
+  data = new google.visualization.DataTable();
+  data.addColumn('number', 'Pond Volume');
+  data.addColumn('number', 'Bypass Volume');
+  data.addColumn('number', 'Storage Deficit');
+  data.addRows(allYearsAveraged(array.graphData, array.incData));
 
+  options = {
+    chart: {
+      title: 'Bypass Flow and Storage Deficit VS Pond Volume',
+      subtitle: 'in tbd scale'
+    }
+  };
+
+  chart = new google.charts.Line(document.getElementById('graph-1'));
+  initGraph();
 }
