@@ -26,6 +26,9 @@
 #### `npm run db_destroy`
 - Destroys the database
 
+## Testing Scripts
+#### `npm test tests/<test folder>`
+
 ## Folder Structure and important files
 - `config/`: Configuration Files
 - `db/`: Database management python scripts and Node interface
