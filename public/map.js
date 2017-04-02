@@ -53,10 +53,6 @@ var initMap = function() {
   // Registers a click event for a single polygon
   map.data.addListener('click', function(event) {
     selectFeature(event.feature);
-    map.data.overrideStyle(event.feature, {
-      fillColor: 'blue',
-      fillOpacity: 0.2
-    });
   });
 
   var locMarker = new google.maps.Marker({
@@ -97,21 +93,21 @@ var initMap = function() {
     locMarker.setPosition(places[0].geometry.location);
     map.setCenter(places[0].geometry.location);
     map.setZoom(11);
-  });
-};
-
-var selectLocation = function(location) {
-  $.ajax({
-    type: 'POST',
-    url: '/locations',
+    selectLocation(places[0].geometry.location);
   });
 };
 
 var selectFeature = function(feature) {
+  // Old selectedFeature to white
   map.data.overrideStyle(selectedFeature, {
     fillColor: 'white',
     fillOpacity: 0,
     strokeWeight: 1
+  });
+  // new feature to blue
+  map.data.overrideStyle(feature, {
+    fillColor: 'blue',
+    fillOpacity: 0.2
   });
 
   selectedFeature = feature;
@@ -119,4 +115,19 @@ var selectFeature = function(feature) {
   selectedLocationId = selectedFeature.getProperty('Id');
 
   $('#map-submit').fadeIn('slow');
+};
+
+var selectLocation = function(location) {
+  $.ajax({
+    type: 'POST',
+    url: '/locations',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(location)
+  }).done(function(response) {
+    if (response) {
+      var feature = map.data.getFeatureById(response.id);
+      selectFeature(map.data.getFeatureById(response.id));
+    }
+  });
 };

@@ -52,9 +52,9 @@ app.post('/calculate', function(req, res) {
       next(err);
     })
     .on('end', function() {
-      TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth, 
+      TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
-          
+
       var graph_data = {
         "graph": [{
             "line": {
@@ -107,7 +107,11 @@ app.post('/calculate', function(req, res) {
 });
 
 app.post('/locations', (req, res) => {
-  res.json({locaitonId: 1});
+  var location = polygons.getLocation(req.body);
+  if (!location) {
+    res.sendStatus(404);
+  }
+  res.json(location);
 });
 
 app.get('*', (req, resp) => {

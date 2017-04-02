@@ -35,7 +35,7 @@ exports.getLocation = (pos) => {
       var list = features[lngs[i]];
       for (var j = 0; j < list.length; j++) {
         if (list[j].pos.lat >= pos.lat) {
-          return list[j];
+          return list[j - 1];
         }
       }
     }
@@ -46,7 +46,7 @@ exports.getFeatures = () => {
   return features;
 };
 
-console.log(exports.getLocation({
-  lat: 40.4259,
-  lng: -89.9081
-}));
+// console.log(exports.getLocation({
+//   lat: 40.4259,
+//   lng: -89.9081
+// }));
