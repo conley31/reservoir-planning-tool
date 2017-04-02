@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "db_setup": "pip2 install -r db/requirements.txt; python db/setup.py;",
     "db_update": "pip2 install -r db/requirements.txt; python db/update.py;",
     "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;"
@@ -24,12 +24,15 @@
   "homepage": "https://github.com/TransformingDrainageProject/reservoir-planning-tool#readme",
   "dependencies": {
     "body-parser": "1.16.1",
+    "chai": "3.5.0",
     "ejs": "2.5.5",
     "express": "4.14.1",
-    "mysql": "2.13.0",
-    "nconf": "0.8.4",
-    "fast-csv": "2.3.1",
     "express-fileupload": "0.1.2",
-    "formidable": "1.1.1"
+    "fast-csv": "2.3.1",
+    "formidable": "1.1.1",
+    "mocha": "3.2.0",
+    "morgan": "^1.8.1",
+    "mysql": "2.13.0",
+    "nconf": "0.8.4"
   }
 }

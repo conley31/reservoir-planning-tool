@@ -26,6 +26,9 @@
 #### `npm run db_destroy`
 - Destroys the database
 
+## Testing Scripts
+#### `npm test tests/<test folder>`
+
 ## Folder Structure and important files
 - `config/`: Configuration Files
 - `db/`: Database management python scripts and Node interface
@@ -38,3 +41,4 @@
 - `TDPAlg.js`: Main Algorithm to calculate reservoir sizing
 - `UserParse.js`: Parsing of user-submitted csv files
 - `package.json`: Node.js dependencies
+- `tests/`: Test scripts for components inside of TDPAlg.js
