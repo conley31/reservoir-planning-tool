@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 var csv = require('fast-csv'),
   fs = require('fs'),
-  db = require('./db');
+  db = require('../db');
 
 var dateTrack = null;
 

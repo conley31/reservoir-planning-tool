@@ -9,8 +9,8 @@ var express = require('express'),
   morgan = require('morgan');
 
 var db = require('./db');
-var TDPAlg = require('./TDPAlg.js');
-var polygons = require('./polygons');
+var TDPAlg = require('./util/TDPAlg.js');
+var polygons = require('./util/polygons');
 var app = express();
 
 // Set up config file
