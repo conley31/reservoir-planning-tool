@@ -41,6 +41,7 @@
 - `util`: Misc. Backend functions
 - `util/TDPAlg.js`: Main Algorithm to calculate reservoir sizing
 - `util/UserParse.js`: Parsing of user-submitted csv files
-- `util/polygons`: Function to retrieve the id of a polygon given coordinates
+- `util/polygons.js`: Function to retrieve the id of a polygon given coordinates
 - `package.json`: Node.js dependencies
 - `tests/`: Test scripts for components inside of TDPAlg.js
+- `processes.yml`: Process definition for PM2 process manager
