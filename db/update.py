@@ -122,6 +122,8 @@ def update():
   if dbCreated:
     print("Database was created")
     index_last_modify = dt.fromtimestamp(os.path.getmtime(index_file))
+    print index_last_modify
+    print getLastUpdateTime()
     if index_last_modify > getLastUpdateTime():
       print("Updating from index")
       addNewFromIndex()
@@ -129,7 +131,7 @@ def update():
     else:
       print "No changes to index.csv"
     updateFromDataFiles()
-    log.write("UPDATED>" + time.strftime("%c"))
+    log.write('UPDATED>' + time.strftime("%c") + '\n')
 
 try:
   log = open(log_location, "rb+")

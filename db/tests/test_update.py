@@ -1,4 +1,4 @@
-import csv, json, datetime, os
+import csv, json, datetime, os, time
 from nose.tools import assert_equals
 from nose.plugins.attrib import attr
 from db import sql_statements, update, setupdb
@@ -19,6 +19,14 @@ cur.execute('CREATE DATABASE IF NOT EXISTS testTDP;')
 con.close()
 con = db.connect(host, user, password, database)
 cur = con.cursor()
+
+def removeLastLine():
+    log = open("tests/index.csv")
+    lines = log.readlines()
+    log.close()
+    log = open("tests/index.csv",'w')
+    log.writelines([item for item in lines[:-1]])
+    log.close()
 
 class TestUpdate(object):
     @classmethod
@@ -58,6 +66,7 @@ class TestUpdate(object):
         update.database = 'testTDP'
         update.log_location = 'tests/.db.log'
         update.index_file = 'tests/index.csv'
+        time.sleep(1)
         index = open('tests/index.csv', 'a')
         index.write('6,6,36.1875,-90.0625,Daily_36.1875_-90.0625.txt,http://nevada.agriculture.purdue.edu/drains/Daily_36.1875_-90.0625.txt\n')
         index.close()
@@ -66,3 +75,15 @@ class TestUpdate(object):
         update.update()
         cur.execute(sql_statements.check_table.format(database, 'Location6'))
         assert cur.fetchone() != None
+
+    def test_update_index_removal(self):
+        update.database = 'testTDP'
+        update.log_location = 'tests/.db.log'
+        update.index_file = 'tests/index.csv'
+        time.sleep(1)
+        removeLastLine()
+        update.configureMySQL()
+        update.configureLog()
+        update.update()
+        cur.execute(sql_statements.check_table.format(database, 'Location6'))
+        assert cur.fetchone() == None
