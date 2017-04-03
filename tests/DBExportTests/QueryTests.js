@@ -31,7 +31,7 @@ it('should get data within a date range for an ID', function() { // no done
   return db.getLocationForDateRange(5, '1981-01-01', '1990-01-01').then(function(data){
       for(i = 0; i < data.length; i++) {
         expect(data[i].RecordedDate).to.satisfy(function(date) { return date > Date.parse('1980-12-31'); });
-        expect(data[i].RecordedDate).to.satisfy(function(date2) { return date2 < Date.parse('1990-01-02'); });
+        expect(data[i].RecordedDate).to.satisfy(function(date) { return date < Date.parse('1990-01-02'); });
       }
   });
 });
