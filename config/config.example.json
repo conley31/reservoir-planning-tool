@@ -5,5 +5,8 @@
         "password": "",
         "database": "TDP",
         "logLocation": ".db.log"
+    },
+    "google_maps": {
+        "key": "AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU"
     }
 }

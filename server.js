@@ -1,25 +1,35 @@
 /*jshint esversion: 6 */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 var express = require('express'),
   bodyParser = require('body-parser'),
   formidable = require('formidable'),
   util = require('util'),
-  fs = require('fs');
+  fs = require('fs'),
+  nconf = require('nconf'),
+  morgan = require('morgan');
 
 var db = require('./db');
 var TDPAlg = require('./TDPAlg.js');
+var polygons = require('./polygons');
 var app = express();
 
+// Set up config file
+nconf.file({
+  file: "./config/config.json"
+});
 
+app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended : false,
-    limit: '5mb'
+  extended: false,
+  limit: '5mb'
 }));
-
+app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
-  res.render("index.ejs");
+  res.render("index.ejs", {
+    googleMapsKey: nconf.get("google_maps").key
+  });
 });
 
 app.post('/calculate', function(req, res) {
@@ -30,19 +40,21 @@ app.post('/calculate', function(req, res) {
   form.uploadDir = "/tmp/";
   form
     .on('fileBegin', function(name, file) {
-        file.path = '/tmp/' + file.name;
+      file.path = '/tmp/' + file.name;
     })
     .on('file', function(name, file) {
-        stream = fs.createReadStream('/tmp/' + file.name);
+      stream = fs.createReadStream('/tmp/' + file.name);
     })
     .on('field', function(name, field) {
-        _[name] = Number(field);
+      _[name] = Number(field);
     })
     .on('error', function(err) {
-        next(err);
+      next(err);
     })
     .on('end', function() {
-      TDPAlg.calc(_.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth, _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
+      TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
+        _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
+
       var graph_data = {
         "graph": [{
             "line": {
@@ -82,16 +94,24 @@ app.post('/calculate', function(req, res) {
                      [13, 4.8, 6.3],
                      [14, 4.2, 6.2]
                  ]
-                 */
+            */
           }
         ]
       };
 
-      res.json(graph_data);
+        res.json(graph_data);
 
       });
-  });
+    });
 
+});
+
+app.post('/locations', (req, res) => {
+  var location = polygons.getLocation(req.body);
+  if (!location) {
+    res.sendStatus(404);
+  }
+  res.json(location);
 });
 
 app.get('*', (req, resp) => {
