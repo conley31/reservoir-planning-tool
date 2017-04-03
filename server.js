@@ -53,8 +53,7 @@ app.post('/calculate', function(req, res) {
     .on('end', function() {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
-
-      console.log(data);    
+  
       res.send(data); //return value from TDPAlg.js
 
             /* Example Format:

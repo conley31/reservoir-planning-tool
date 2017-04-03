@@ -62,6 +62,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
 
+          // console.log(inflowVolDay);
+          // console.log(precipDepthDay);
+          // console.log(evapDepthDay);
+
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
 
@@ -131,6 +135,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           // console.log(currentYear - initialYear);
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
+          console.log(allYears[currentYear - initialYear][i][currentMonth].deficitVol);
 
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
