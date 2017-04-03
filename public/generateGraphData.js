@@ -18,11 +18,11 @@ generateGraphData.allYearsAveraged = function(allYears, increments){
 	fillThree(outputArray);
 	//Add every months data from each year to the appropriate volume increment
 	for(var i = 0; i < allYears.length; i++){
-		if(!allYears[i] && typeof allYears[i] !== "undefined"){
+		if(allYears[i] && typeof allYears[i] !== "undefined"){
 			for(var j = 0; j < allYears[i].length; j++){
-				if(!allYears[i][j] && typeof allYears[i][j] !== "undefined"){
+				if(allYears[i][j] && typeof allYears[i][j] !== "undefined"){
 					for(var k = 0; k < allYears[i][j].length; k++){
-						if(!allYears[i][j][k] && typeof allYears[i][j][k] !== "undefined"){
+						if(allYears[i][j][k] && typeof allYears[i][j][k] !== "undefined"){
 							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
 							outputArray[j][2] += allYears[i][j][k].deficitVol;
 						}
