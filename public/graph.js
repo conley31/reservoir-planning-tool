@@ -1,5 +1,3 @@
-
-
 graphData = [];
 var data;
 var options;
@@ -30,7 +28,8 @@ $("form").submit(function(event) {
     success: function(data) {
       // graphData = data.graph;
       // initGraph();
-      GraphOne(data.graph);
+      console.log(data);
+      GraphOne(data);
     },
     error: function() {
       console.log("AJAX failed");
@@ -44,6 +43,19 @@ $("form").submit(function(event) {
  */
 
 var drawChart = function() {
+  data = new google.visualization.DataTable();
+  data.addColumn('number', 'Pond Volume');
+  data.addColumn('number', 'Bypass Volume');
+  data.addColumn('number', 'Storage Deficit');
+  data.addRows(graphData[3]);
+  options = {
+    chart: {
+      title: 'Bypass Flow and Storage Deficit VS Pond Volume',
+      subtitle: 'in tbd scale'
+    }
+  };
+
+  chart = new google.charts.Line(document.getElementById('graph-1'));
   chart.draw(data, options);
 };
 
@@ -62,19 +74,8 @@ $(window).smartresize(function () {
 });
 
 var GraphOne = function(array) {
-  data = new google.visualization.DataTable();
-  data.addColumn('number', 'Pond Volume');
-  data.addColumn('number', 'Bypass Volume');
-  data.addColumn('number', 'Storage Deficit');
-  data.addRows(allYearsAveraged(array.graphData, array.incData));
-
-  options = {
-    chart: {
-      title: 'Bypass Flow and Storage Deficit VS Pond Volume',
-      subtitle: 'in tbd scale'
-    }
-  };
-
-  chart = new google.charts.Line(document.getElementById('graph-1'));
+  graphData[3] = generateGraphData.allYearsAveraged(array.graphData, array.incData);
+  graphData[4] = "graph-1";
+  console.log(graphData[3]);
   initGraph();
 }
