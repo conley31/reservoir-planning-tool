@@ -32,12 +32,12 @@ class TestDestroy(object):
             setupdb.setupDB()
 
     def test_erase_log(self):
-        remove.log_location = log_location
-        remove.eraseLog()
+        destroy.log_location = log_location
+        destroy.eraseLog()
         assert_equals(os.path.isfile('tests/.db.log'), False)
 
     def test_drop_db(self):
-        remove.database = database
-        remove.dropDB()
+        destroy.database = database
+        destroy.dropDB()
         cur.execute(sql_statements.select_table_count.format(database))
         assert_equals(cur.fetchone()[0], 0)
