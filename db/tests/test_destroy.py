@@ -1,6 +1,6 @@
 import csv, json, datetime, os, time
 from nose.tools import assert_equals
-from db import sql_statements, setupdb, remove
+from db import sql_statements, setupdb, destroy
 import MySQLdb as db
 
 with open('../config/config.json') as json_data:
