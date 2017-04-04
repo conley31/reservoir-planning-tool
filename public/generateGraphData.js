@@ -7,6 +7,15 @@ var generateGraphData = {};
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
 		array[i] = new Array(3);
+		//[pondVol, bypassFlow, deficit]
+		array[i].fill(0, 0);
+	}
+}
+
+function fillFour(array){
+	for(var i = 0; i < array.length; i++){
+		array[i] = new Array(4);
+		//[pondVol, bypassFlow, deficit, pondWaterDepth]
 		array[i].fill(0, 0);
 	}
 }
@@ -48,7 +57,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	//need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
-	fillThree(outputArray);
+	fillFour(outputArray);
 
 	var currentIncrement = increments.findIndex((vol)=>{
 		return vol === specificPondVolume;
@@ -60,6 +69,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 				if(typeof allYears[i][currentIncrement][k] !== "undefined"){
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
+					outputArray[k][3] += allYears[i][currentIncrement][k].pondWaterDepth;
 				}
 			}
 		}
@@ -71,6 +81,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			outputArray[i][0] = i;
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
+			outputArray[i][3] /= allYears.length;
 		}
 	}
 
@@ -80,7 +91,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will be contain an array for every month
-	fillThree(outputArray);
+	fillFour(outputArray);
 
 	var currentIncrement = increments.findIndex((vol)=>{
 		return vol === specificPondVolume;
@@ -93,6 +104,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 			if(typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
+				outputArray[k][3] += allYears[yearIndex][currentIncrement][k].pondWaterDepth;
 			}
 		}
 	}

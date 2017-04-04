@@ -13,6 +13,7 @@ var userparse = require('./UserParse');
 function monthlyData(){
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
+  this.pondWaterDepth = 0;
 }
 
 module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -130,7 +131,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
+          
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
