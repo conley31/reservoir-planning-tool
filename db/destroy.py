@@ -13,19 +13,25 @@ password = config.get("mysql").get("password")
 database = config.get("mysql").get("database")
 log_location = config.get("mysql").get("logLocation")
 
-try:
-  os.remove(log_location)
-except OSError as err:
-  print("OS error: {0}".format(err))
-  sys.exit(1)
+def eraseLog():
+    try:
+        os.remove(log_location)
+    except OSError as err:
+        print("Log appears to already be deleted")
 
-con = db.connect(host, user, password, database)
-cur = con.cursor()
+def dropDB():
+    con = db.connect(host, user, password, database)
+    cur = con.cursor()
 
-print("Preparing to drop database: {}".format(database))
-cur.execute(drop_database.format(database))
-print("{} database has been dropped.".format(database))
+    print("Preparing to drop database: {}".format(database))
+    cur.execute(drop_database.format(database))
+    print("{} database has been dropped.".format(database))
 
-if con:
-  con.commit()
-  con.close()
+    if con:
+        con.commit()
+        con.close()
+
+
+if __name__ == '__main__':
+    eraseLog()
+    dropDB()

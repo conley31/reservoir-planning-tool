@@ -454,3 +454,84 @@ Clayton: Fully test algorithm outputs and begin adjusting current code to allow 
 Jonah: Continue to add more testing to DB setup/update and DB access protocols.
 Vritant: Implement functionality of multiple graphs on client side
 Drew: Get caught up on hours, finalize deploy if server is available, finish polygon sort function, fix memory leak issues
+
+Week 6 (Due 4/2)
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 6 (Summary)
+3/27	3 hrs   Wrote test cases for the three functions written to make use of
+		the output from TDPAlg.js.
+3/31	2.5hrs	Continued debugging TDPAlg.calc. Data continues returning all zeros.
+4/1	3hrs	Continued debugging TDPAlg.calc.
+Week 7 (Plan)
+4/3	2.5hrs	Meet with Vritant find the source of the zeros in all of our data.
+4/5	4hrs	On the off chance the project owners give us test cases and expected results,
+	            write the test cases using Mocha and compare our current results with expected.
+4/7 	4hrs	Add support for writing daily info to CSV and accepting CSV inputs in TDPAlg.
+
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 6 (Summary)
+3/29	2h	Begin Documentation, add readme, google maps key as config option
+3/30	3h	Begin Web Server setup: VPN, install dependencies
+3/31	4h	Set up Nginx proxy, initialize database, set up pm2
+4/1	4h	Finish server setup, Finish Polygon sort/getLocationId function
+4/2	3h	Add getLocationId function to the search box, rearrange files
+Week 7 (Plan)
+4/4	2h	Get daily algorithm outputs to assemble CSV
+4/5	3h	Assemble CSV
+4/6	3h	Continue Assemble CSV work
+4/7	3h	Integrate with front end and make CSV downloadable
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 6 (Summary)
+3/30	4hrs	Added more tests to update DB
+4/1	2hrs	Added more tests to remove DB
+4/2	1hr	Finished up remove DB testing and making sure all tests execute independently
+4/2	1hr	Learned chai testing framework
+4/2	4hrs	Start testing node DB exports
+Week 7 (Plan)
+4/6	2hrs 	Make necessary changes to user CSV uploads
+4/6	4hrs	Finish testing node DB exports
+4/7	1hr	Integrate python tests within npm tests
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 6 (Summary)
+3/27	2.5hrs	Met with Clayton to debug client-server com
+3/31	3.5hrs	Planned implementation of 3 graphs
+4/1	4hrs	Started implementation of 3 graphs
+
+Week 7 (Plan)
+4/3	2.5hrs	Meet with Clayton to fix graph display
+4/3	3.5hrs	Finish implementation of multiple graphs
+4/5 	4hrs	Add animations
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 6 (Summary) (Scrum master: Drew Atkinson)
+3/31	1h	Weekly Scrum meeting, worked out communication between backend and graphs
+4/1	2h	Vritant and Drew worked together on front end
+
+Week 7 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+4/3	2.5h	Vritant and Clayton
+4/4	1h	Meet with Project Owners
+4/7	1h	Scrum Meeting/Final Meeting to prepare for demo
+4/7	0.5h	Demo with Tori
+
+[Individual Goals]
+Clayton: Finish debugging TDPAlg.js and help Vritant make use of its output on client. Begin
+	  testing our data output using project owners examples if provided, and add support for
+	  CSV inputs.
+Vritant: Three graphs should be displayed with at least mock data. UI components should have animation.
+Jonah: Make CSV upload changes and finish node db tests.
+Drew: Assemble CSV from algorithm output and make downloadable, finalize deployment

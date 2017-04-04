@@ -6,7 +6,7 @@ Notes:
 -All variables that are preceded by an underscore are from form inputs
 */
 
-var db = require('./db');
+var db = require('../db');
 var userparse = require('./UserParse');
 
 //monthlyData will be an object that is used inside of allYears
@@ -21,7 +21,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
+<<<<<<< HEAD:TDPAlg.js
 
+=======
+>>>>>>> master:util/TDPAlg.js
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
@@ -44,6 +47,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var initialYear = null;
 
 
+<<<<<<< HEAD:TDPAlg.js
+=======
+
+>>>>>>> master:util/TDPAlg.js
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -57,7 +64,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
 
-          if(initialYear == null){
+          if(initialYear === null){
             initialYear = currentYear;
           }
 
@@ -118,7 +125,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           //updated allYears at the current year at the current increment and at the current month.
+<<<<<<< HEAD:TDPAlg.js
           if(typeof allYears[currentYear - initialYear] === "undefined"){
+=======
+          if(typeof allYears[currentYear - initialYear] == "undefined"){
+>>>>>>> master:util/TDPAlg.js
             allYears[currentYear - initialYear] = [];
           }
           if(typeof allYears[currentYear - initialYear][i] === "undefined"){
@@ -127,12 +138,16 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
 
+<<<<<<< HEAD:TDPAlg.js
           }
 
+=======
+          //update monthly values here
+>>>>>>> master:util/TDPAlg.js
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
-          
+
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
@@ -146,7 +161,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
       }
 
-      
+
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
