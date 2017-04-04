@@ -13,6 +13,7 @@ var userparse = require('./UserParse');
 function monthlyData(){
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
+  this.pondWaterDepth = 0;
 }
 
 module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -20,6 +21,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
+
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
@@ -40,6 +42,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
         var initialYear = null;
+
 
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
@@ -123,19 +126,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-         }
-         if(currentYear-initialYear == 0){
-          //  console.log(allYears[currentYear - initialYear]);
-          //  console.log(allYears[currentYear - initialYear][i]);
-          //  console.log(allYears[currentYear - initialYear][i][currentMonth]);
-         }
 
-          //update monthly values here
-          // console.log(initialYear);
-          // console.log(currentYear - initialYear);
+          }
+
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
+          
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
@@ -148,6 +145,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         }
 
       }
+
+      
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
