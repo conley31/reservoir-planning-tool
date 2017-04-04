@@ -82,16 +82,8 @@ var GraphOne = function() {
   graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume'
   graphData[5] = 'in tbd scale'
   graphData[6] = "graph-1";
-  addIncDropdown(array.incData, '#pond-inc-dropdown');
+  addIncDropdown(array.incData);
   initGraph();
-}
-
-var addIncDropdown = function(array, id) {
-  var dropdown = $(id);
-  for(var i = 0; i < array.length; i++) {
-    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
-    dropdown.append($("<option></option>").val("arr[i]").html(array[i]));
-  }
 }
 
 var graphTwo = function(pondIncrement) {
@@ -105,5 +97,25 @@ var graphTwo = function(pondIncrement) {
   graphData[5] = 'in tbd scale';
   graphData[6] = "graph-2";
   console.log(graphData[3]);
+  addYearDropdown();
+  $("#year-card").fadeIn('fast');
   drawChart();
+}
+
+var addIncDropdown = function(array) {
+  var dropdown = $('#pond-inc-dropdown');
+  dropdown.find('option').remove()
+  for(var i = 0; i < array.length; i++) {
+    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
+    dropdown.append($("<option></option>").val(array[i]).html(array[i]));
+  }
+}
+
+var addYearDropdown = function() {
+  var dropdown = $('#year-dropdown');
+  dropdown.find('option').remove()
+  for(var i = 1980; i < 2010; i++) {
+    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
+    dropdown.append($("<option></option>").val(i).html(i));
+  }
 }
