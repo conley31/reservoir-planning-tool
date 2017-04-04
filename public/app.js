@@ -8,9 +8,11 @@ $('#map-submit').click(function() {
         $('#prompt').text('Please Enter Inputs');
       });
   } else {
-      $('#graph-body').fadeOut('slow', function() {
+      $('#graph-body').fadeOut('fast', function() {
+        $("#pond-inc-card").fadeOut('fast');
         $('#map-container').fadeIn('slow');
-        $('#form-data').fadeOut('slow');
+        $('#form-data').fadeOut('fast');
+        $('#graph2-body').fadeOut('fast');
         $('#prompt').text('Please Select a Location');
         $('#map-submit').fadeOut("fast");
       });
@@ -24,6 +26,7 @@ $('#form-submit').click(function() {
     $('#graph-body').fadeIn('slow');
     $('#map-submit').fadeIn('fast');
     $('#map-submit').text('Select Another Location');
+    $("#pond-inc-card").fadeIn('slow');
     toggleText = 1;
   });
 });
@@ -48,5 +51,6 @@ $('#uploadButton').click(function() {
 
 $('#pond-inc-submit').click(function() {
   var selected = $('#pond-inc-dropdown').val();
+  $('#graph2-body').fadeIn('slow');
   graphTwo(selected);
 });

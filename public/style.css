@@ -146,7 +146,7 @@ input[type="number"] {
   font-size: 12px;
 }
 
-#graph-body {
+#graph-body, #graph2-body, #graph3-body {
   display: none;
 }
 
@@ -207,4 +207,10 @@ footer h5 {
   .card-container {
     width: 98vw;
   }
+}
+
+#pond-inc-card, #year-card {
+  display: none;
+  background: #357cce;
+  padding: 10px;
 }

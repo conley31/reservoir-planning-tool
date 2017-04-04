@@ -6,22 +6,25 @@
     <% include partials/header %>
       <div id="main">
         <div class="card-container">
+
+          <!-- Map -->
           <div id="map-container" class="card card-shadow">
-            <!-- This is where Google Maps will go -->
             <div id="map"></div>
           </div>
+
+          <!-- Prompt and Submit below map -->
           <div class="card" style="margin-top: 10px;">
-            <!-- <p id="prompt">Please select a location on the map</p> -->
-            <!-- This is where the search will go and selected ID will be shown -->
-            <!-- <p id="mapselection"></p> -->
             <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
           </div>
+
+          <!-- Form Input -->
           <div id="form-card" class="card card-shadow">
-            <!-- This is where calculator input goes -->
             <div id="form-data">
               <% include calculator-input %>
             </div>
           </div>
+
+          <!-- First Graph -->
           <div class="card card-shadow">
             <div id="graph-body">
               <div id="graph-1" class="card text-center">
@@ -34,24 +37,28 @@
               </div>
             </div>
           </div>
+
+          <!-- Dropdown for pond increment -->
           <div id="pond-inc-card" class="card">
               <h5>Select Pond Increment to Graph</h5>
               <select id="pond-inc-dropdown">
               </select>
               <button id="pond-inc-submit" class="btn"> submit </button>
           </div>
+
+          <!-- Second Graph -->
           <div class="card card-shadow">
             <div id="graph2-body">
               <div id="graph-2" class="card text-center">
-                  <!-- This is where Google Charts will go -->
                   <h5>Graph</h5>
               </div>
               <div id="graph-desc" class="card">
-                  <!-- This is where the Graph's description will be printed -->
                   <h3>Graph Description</h3>
               </div>
             </div>
           </div>
+
+          <!-- Dropdown for years -->
           <div id="year-card" class="card">
               <h5>Select Year to Graph</h5>
               <select id="year-dropdown">
@@ -61,14 +68,14 @@
               </select>
               <button id="year-submit" class="btn"> submit </button>
           </div>
+
+          <!-- Third Graph -->
           <div class="card card-shadow">
-            <div id="graph-body">
+            <div id="graph3-body">
               <div id="graph-3" class="card text-center">
-                  <!-- This is where Google Charts will go -->
                   <h5>Graph</h5>
               </div>
               <div id="graph-desc" class="card">
-                  <!-- This is where the Graph's description will be printed -->
                   <h3>Graph Description</h3>
               </div>
             </div>
