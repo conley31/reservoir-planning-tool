@@ -12,19 +12,28 @@ var userparse = require('./UserParse');
 //monthlyData will be an object that is used inside of allYears
 function monthlyData(){
   this.bypassFlowVol = 0;
-  this.deficitVol = 0; 
+  this.deficitVol = 0;
 }
 
-module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial, 
+module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
 _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
+<<<<<<< HEAD
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);      
       var allYears = []; 
       var increments = [];
       const seepageVolDay = 0.01; //feet
       
+=======
+      const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
+      var numOfRows = data.length;
+      var allYears = [];
+      var increments = [];
+      const seepageVolDay = 0.01; //feet
+
+>>>>>>> vritant
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
@@ -38,8 +47,12 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
-
         var initialYear = null;
+
+<<<<<<< HEAD
+        var initialYear = null;
+=======
+>>>>>>> vritant
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -49,7 +62,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           */
           var currentDate = data[j].RecordedDate;
           var currentYear = currentDate.getFullYear();
-          var currentMonth = currentDate.getMonth(); 
+          var currentMonth = currentDate.getMonth();
 
           //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
 
@@ -60,6 +73,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
+
+          // console.log(inflowVolDay);
+          // console.log(precipDepthDay);
+          // console.log(evapDepthDay);
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
@@ -86,7 +103,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if (pondWaterVolDay > pondVol) {
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
-          } 
+          }
 
           else {
             bypassFlowVolDay = 0;
@@ -110,23 +127,36 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           //updated allYears at the current year at the current increment and at the current month.
-          if(typeof allYears[currentYear - initialYear] == "undefined"){
-            allYears[currentYear - initialYear] = []; 
+          if(typeof allYears[currentYear - initialYear] === "undefined"){
+            allYears[currentYear - initialYear] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i] == "undefined"){
+          if(typeof allYears[currentYear - initialYear][i] === "undefined"){
             allYears[currentYear - initialYear][i] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i][currentMonth] == "undefined"){
+          if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
+<<<<<<< HEAD
           }
 
           //update monthly values here
 
+=======
+         }
+         if(currentYear-initialYear == 0){
+          //  console.log(allYears[currentYear - initialYear]);
+          //  console.log(allYears[currentYear - initialYear][i]);
+          //  console.log(allYears[currentYear - initialYear][i][currentMonth]);
+         }
+
+          //update monthly values here
+          // console.log(initialYear);
+          // console.log(currentYear - initialYear);
+>>>>>>> vritant
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
 
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
-          -------------------------------------------------------------------------------------------------------------- 
+          --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
           evapVolTotal+= evapVolDay;
           seepageVolTotal += seepageVolDay;
