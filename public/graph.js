@@ -42,6 +42,7 @@ $("form").submit(function(event) {
  *   Charting
  */
 
+//Draws graph onto div
 var drawChart = function() {
   data = new google.visualization.DataTable();
   var i = 0;
@@ -60,6 +61,7 @@ var drawChart = function() {
   chart.draw(data, options);
 };
 
+//For first grpah
 var initGraph = function() {
   google.charts.load('current', {
     'packages': ['line']
@@ -74,6 +76,7 @@ $(window).smartresize(function () {
   }
 });
 
+//Create graph 1
 var GraphOne = function() {
   array = receivedArray;
   graphData = [];
@@ -88,6 +91,7 @@ var GraphOne = function() {
   initGraph();
 }
 
+//Create graph 2
 var graphTwo = function(pondIncrement) {
   currentPondIncrement = pondIncrement;
   graphData = [];
@@ -104,6 +108,7 @@ var graphTwo = function(pondIncrement) {
   drawChart();
 }
 
+//Create graph 3
 var graphThree = function(year) {
   graphData = [];
   graphData[0] = 'Months';
@@ -117,6 +122,7 @@ var graphThree = function(year) {
   drawChart();
 }
 
+//Populate pond increment dropdown
 var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
   dropdown.find('option').remove()
@@ -126,6 +132,7 @@ var addIncDropdown = function(array) {
   }
 }
 
+//Populate year dropdown
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
   dropdown.find('option').remove()
