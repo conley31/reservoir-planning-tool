@@ -76,6 +76,18 @@ $(window).smartresize(function () {
 var GraphOne = function(array) {
   graphData[3] = generateGraphData.allYearsAveraged(array.graphData, array.incData);
   graphData[4] = "graph-1";
-  console.log(graphData[3]);
+  addIncDropdown(array.incData, '#pond-inc-dropdown');
   initGraph();
+}
+
+var addIncDropdown = function(array, id) {
+  var dropdown = $(id);
+  for(var i = 0; i < array.length; i++) {
+    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
+    dropdown.append($("<option></option>").val("arr[i]").html(array[i]));
+  }
+}
+
+var graphTwo = function(array) {
+
 }
