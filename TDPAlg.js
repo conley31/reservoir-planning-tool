@@ -135,7 +135,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           // console.log(currentYear - initialYear);
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-          console.log(allYears[currentYear - initialYear][i][currentMonth].deficitVol);
 
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------

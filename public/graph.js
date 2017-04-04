@@ -2,7 +2,7 @@ graphData = [];
 var data;
 var options;
 var chart;
-
+var receivedArray;
 $("form").submit(function(event) {
   event.preventDefault();
 
@@ -26,10 +26,8 @@ $("form").submit(function(event) {
     contentType: false,
     processData: false,
     success: function(data) {
-      // graphData = data.graph;
-      // initGraph();
-      console.log(data);
-      GraphOne(data);
+      receivedArray = data;
+      GraphOne();
     },
     error: function() {
       console.log("AJAX failed");
@@ -44,18 +42,19 @@ $("form").submit(function(event) {
 
 var drawChart = function() {
   data = new google.visualization.DataTable();
-  data.addColumn('number', 'Pond Volume');
-  data.addColumn('number', 'Bypass Volume');
-  data.addColumn('number', 'Storage Deficit');
-  data.addRows(graphData[3]);
+  var i = 0;
+  while(typeof graphData[i] == "string") {
+    data.addColumn('number', graphData[i++]);
+  }
+  data.addRows(graphData[i++]);
   options = {
     chart: {
-      title: 'Bypass Flow and Storage Deficit VS Pond Volume',
-      subtitle: 'in tbd scale'
+      title: graphData[i++],
+      subtitle: graphData[i++]
     }
   };
 
-  chart = new google.charts.Line(document.getElementById('graph-1'));
+  chart = new google.charts.Line(document.getElementById(graphData[i]));
   chart.draw(data, options);
 };
 
@@ -73,9 +72,16 @@ $(window).smartresize(function () {
   }
 });
 
-var GraphOne = function(array) {
+var GraphOne = function() {
+  array = receivedArray;
+  graphData = [];
+  graphData[0] = 'Pond Volume';
+  graphData[1] = 'Bypass Volume';
+  graphData[2] = 'Storage Deficit';
   graphData[3] = generateGraphData.allYearsAveraged(array.graphData, array.incData);
-  graphData[4] = "graph-1";
+  graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume'
+  graphData[5] = 'in tbd scale'
+  graphData[6] = "graph-1";
   addIncDropdown(array.incData, '#pond-inc-dropdown');
   initGraph();
 }
@@ -88,6 +94,16 @@ var addIncDropdown = function(array, id) {
   }
 }
 
-var graphTwo = function(array) {
-
+var graphTwo = function(pondIncrement) {
+  graphData = [];
+  graphData[0] = 'Months';
+  // graphData[1] = 'Pond Depth';
+  graphData[1] = 'Bypass (Cumulative)';
+  graphData[2] = 'Deficit (Cumulative)';
+  graphData[3] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, pondIncrement);
+  graphData[4] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + pondIncrement;
+  graphData[5] = 'in tbd scale';
+  graphData[6] = "graph-2";
+  console.log(graphData[3]);
+  drawChart();
 }

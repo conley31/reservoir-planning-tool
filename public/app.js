@@ -45,3 +45,8 @@ $('#uploadButton').click(function() {
     });
   });
 });
+
+$('#pond-inc-submit').click(function() {
+  var selected = $('#pond-inc-dropdown').val();
+  graphTwo(selected);
+});
