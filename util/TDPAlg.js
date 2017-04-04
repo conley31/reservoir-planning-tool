@@ -21,16 +21,12 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
-<<<<<<< HEAD:TDPAlg.js
 
-=======
->>>>>>> master:util/TDPAlg.js
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
       var increments = [];
       const seepageVolDay = 0.01; //feet
-
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
@@ -46,11 +42,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
         var initialYear = null;
 
-
-<<<<<<< HEAD:TDPAlg.js
-=======
-
->>>>>>> master:util/TDPAlg.js
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -125,11 +116,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           //updated allYears at the current year at the current increment and at the current month.
-<<<<<<< HEAD:TDPAlg.js
           if(typeof allYears[currentYear - initialYear] === "undefined"){
-=======
-          if(typeof allYears[currentYear - initialYear] == "undefined"){
->>>>>>> master:util/TDPAlg.js
             allYears[currentYear - initialYear] = [];
           }
           if(typeof allYears[currentYear - initialYear][i] === "undefined"){
@@ -137,13 +124,9 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-
-<<<<<<< HEAD:TDPAlg.js
           }
 
-=======
           //update monthly values here
->>>>>>> master:util/TDPAlg.js
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
