@@ -8,11 +8,19 @@ $('#map-submit').click(function() {
         $('#prompt').text('Please Enter Inputs');
       });
   } else {
-      $('#graph-body').fadeOut('slow', function() {
-        $('#map-container').fadeIn('slow');
-        $('#form-data').fadeOut('slow');
-        $('#prompt').text('Please Select a Location');
+      $('#graph-body').fadeOut('fast', function() {
+
+        //Remove all cards that are on the screen
+        $("#pond-inc-card").fadeOut('fast');
+        $("#year-card").fadeOut('fast');
+        $('#form-data').fadeOut('fast');
+        $('#graph2-body').fadeOut('fast');
+        $('#graph3-body').fadeOut('fast');
         $('#map-submit').fadeOut("fast");
+
+        //show map and change prompt
+        $('#prompt').text('Please Select a Location');
+        $('#map-container').fadeIn('slow');
       });
     toggleText = 0;
   }
@@ -24,6 +32,7 @@ $('#form-submit').click(function() {
     $('#graph-body').fadeIn('slow');
     $('#map-submit').fadeIn('fast');
     $('#map-submit').text('Select Another Location');
+    $("#pond-inc-card").fadeIn('slow');
     toggleText = 1;
   });
 });
@@ -44,4 +53,16 @@ $('#uploadButton').click(function() {
     $('#uploadForm').fadeIn("slow", function(){
     });
   });
+});
+
+$('#pond-inc-submit').click(function() {
+  var selected = $('#pond-inc-dropdown').val();
+  $('#graph2-body').fadeIn('slow');
+  graphTwo(selected);
+});
+
+$('#year-submit').click(function() {
+  var selected = $('#year-dropdown').val();
+  $('#graph3-body').fadeIn('slow');
+  graphThree(selected);
 });
