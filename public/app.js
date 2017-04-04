@@ -10,9 +10,11 @@ $('#map-submit').click(function() {
   } else {
       $('#graph-body').fadeOut('fast', function() {
         $("#pond-inc-card").fadeOut('fast');
+        $("#year-card").fadeOut('fast');
         $('#map-container').fadeIn('slow');
         $('#form-data').fadeOut('fast');
         $('#graph2-body').fadeOut('fast');
+        $('#graph3-body').fadeOut('fast');
         $('#prompt').text('Please Select a Location');
         $('#map-submit').fadeOut("fast");
       });
@@ -53,4 +55,10 @@ $('#pond-inc-submit').click(function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow');
   graphTwo(selected);
+});
+
+$('#year-submit').click(function() {
+  var selected = $('#year-dropdown').val();
+  $('#graph3-body').fadeIn('slow');
+  graphThree(selected);
 });

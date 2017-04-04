@@ -3,6 +3,8 @@ var data;
 var options;
 var chart;
 var receivedArray;
+var currentPondIncrement
+
 $("form").submit(function(event) {
   event.preventDefault();
 
@@ -87,18 +89,31 @@ var GraphOne = function() {
 }
 
 var graphTwo = function(pondIncrement) {
+  currentPondIncrement = pondIncrement;
   graphData = [];
   graphData[0] = 'Months';
-  // graphData[1] = 'Pond Depth';
-  graphData[1] = 'Bypass (Cumulative)';
-  graphData[2] = 'Deficit (Cumulative)';
-  graphData[3] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, pondIncrement);
-  graphData[4] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + pondIncrement;
-  graphData[5] = 'in tbd scale';
-  graphData[6] = "graph-2";
-  console.log(graphData[3]);
+  graphData[1] = 'Pond Water Depth';
+  graphData[2] = 'Bypass (Cumulative)';
+  graphData[3] = 'Deficit (Cumulative)';
+  graphData[4] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, pondIncrement);
+  graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + pondIncrement;
+  graphData[6] = 'in tbd scale';
+  graphData[7] = "graph-2";
   addYearDropdown();
   $("#year-card").fadeIn('fast');
+  drawChart();
+}
+
+var graphThree = function(year) {
+  graphData = [];
+  graphData[0] = 'Months';
+  graphData[1] = 'Pond Water Depth';
+  graphData[2] = 'Bypass (Cumulative)';
+  graphData[3] = 'Deficit (Cumulative)';
+  graphData[4] = generateGraphData.allMonthsByYear(array.graphData, array.incData, array.initialYear, currentPondIncrement, year);
+  graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondIncrement;
+  graphData[6] = 'in tbd scale';
+  graphData[7] = "graph-3";
   drawChart();
 }
 
