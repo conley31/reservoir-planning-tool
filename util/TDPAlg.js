@@ -129,7 +129,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           //update monthly values here
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
+          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepthDay += pondWaterDepthDay;
 
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
@@ -143,7 +143,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         }
 
       }
-
 
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
