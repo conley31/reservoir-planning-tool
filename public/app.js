@@ -9,12 +9,18 @@ $('#map-submit').click(function() {
       });
   } else {
       $('#graph-body').fadeOut('fast', function() {
+
+        //Remove all cards that are on the screen
         $("#pond-inc-card").fadeOut('fast');
-        $('#map-container').fadeIn('slow');
+        $("#year-card").fadeOut('fast');
         $('#form-data').fadeOut('fast');
         $('#graph2-body').fadeOut('fast');
-        $('#prompt').text('Please Select a Location');
+        $('#graph3-body').fadeOut('fast');
         $('#map-submit').fadeOut("fast");
+
+        //show map and change prompt
+        $('#prompt').text('Please Select a Location');
+        $('#map-container').fadeIn('slow');
       });
     toggleText = 0;
   }
@@ -53,4 +59,10 @@ $('#pond-inc-submit').click(function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow');
   graphTwo(selected);
+});
+
+$('#year-submit').click(function() {
+  var selected = $('#year-dropdown').val();
+  $('#graph3-body').fadeIn('slow');
+  graphThree(selected);
 });

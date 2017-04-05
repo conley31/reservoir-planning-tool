@@ -15,13 +15,32 @@ database = config.get("mysql").get("database")
 log_location = config.get("mysql").get("logLocation")
 
 INCH_FACTOR = 0.03937007874
+index_file = 'index.csv'
+
+con = None
+cur = None
+log = None
+
+def configureLog():
+    global log
+    try:
+        log = open(log_location, 'rb+')
+    except IOError:
+        log = open(log_location, 'w')
+        log.close()
+        log = open(log_location, 'rb+')
+
+def configureMySQL():
+    global con, cur
+    con = db.connect(host, user, password, database)
+    cur = con.cursor()
 
 def getID(locationStr):
   return locationStr[8:]
 
 def idExistsInIndex(LocationID):
   idFound = False
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       if row[0] == LocationID:
@@ -29,6 +48,7 @@ def idExistsInIndex(LocationID):
   return idFound
 
 def dbCreated():
+  global log
   log.seek(0)
   stream = csv.reader(log, delimiter='>')
   for row in stream:
@@ -65,13 +85,11 @@ def addTable(table_id, DataFileName):
     ParseDailyData(table_id, DataFileName)
 
 def checkTable(table_name):
-  cur.execute(check_table.format(table_name))
-  if cur.fetchone()[0] == 1:
-    return True
-  return False
+  cur.execute(check_table.format(database, table_name))
+  return cur.fetchone() != None
 
 def addNewFromIndex():
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       if not checkTable('Location' + row[0]):
@@ -79,7 +97,7 @@ def addNewFromIndex():
           print("added new Location" + row[0])
 
 def removeOldTables():
-  table_names = cur.execute(get_tables)
+  table_names = cur.execute(get_tables.format(database))
   for row in cur:
     locationID = getID(row[0])
     if not idExistsInIndex(locationID):
@@ -96,7 +114,7 @@ def checkDataFile(locationID, fileName):
     print "Updated table: Location" + locationID
 
 def updateFromDataFiles():
-  with open('index.csv', 'rb') as csvfile:
+  with open(index_file, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       checkDataFile(row[0], row[4])
@@ -104,7 +122,7 @@ def updateFromDataFiles():
 def update():
   if dbCreated:
     print("Database was created")
-    index_last_modify = dt.fromtimestamp(os.path.getmtime('index.csv'))
+    index_last_modify = dt.fromtimestamp(os.path.getmtime(index_file))
     if index_last_modify > getLastUpdateTime():
       print("Updating from index")
       addNewFromIndex()
@@ -112,18 +130,20 @@ def update():
     else:
       print "No changes to index.csv"
     updateFromDataFiles()
-    log.write("\nUPDATED>" + time.strftime("%c"))
+    log.write('UPDATED>' + time.strftime("%c") + '\n')
 
 try:
-  log = open(log_location, "rb+")
-except IOError as err:
-  print("IO error: {0}".format(err))
-  sys.exit(1)
+  log = open(log_location, 'rb+')
+except IOError:
+  log = open(log_location, 'w')
+  log.close()
+  log = open(log_location, 'rb+')
 
-con = db.connect(host, user, password, database)
-cur = con.cursor()
-update()
 
-if con:
-  con.commit()
-  con.close()
+if __name__ == '__main__':
+  configureMySQL()
+  update()
+
+  if con:
+    con.commit()
+    con.close()

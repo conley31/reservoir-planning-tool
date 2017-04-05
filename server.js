@@ -9,7 +9,8 @@ var express = require('express'),
   morgan = require('morgan');
 
 var db = require('./db');
-var TDPAlg = require('./TDPAlg.js');
+var TDPAlg = require('./util/TDPAlg.js');
+var polygons = require('./util/polygons');
 var app = express();
 
 // Set up config file
@@ -54,9 +55,7 @@ app.post('/calculate', function(req, res) {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
 
-          
             res.send(data);
-
 
             /* Example Format:
              [
@@ -74,12 +73,20 @@ app.post('/calculate', function(req, res) {
                      [12, 6.6, 8.4],
                      [13, 4.8, 6.3],
                      [14, 4.2, 6.2]
-            */ 
+            */
 
       });
-        
+
     });
 
+});
+
+app.post('/locations', (req, res) => {
+  var location = polygons.getLocation(req.body);
+  if (!location) {
+    res.sendStatus(404);
+  }
+  res.json(location);
 });
 
 app.get('*', (req, resp) => {

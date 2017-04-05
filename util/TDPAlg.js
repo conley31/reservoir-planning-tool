@@ -6,7 +6,7 @@ Notes:
 -All variables that are preceded by an underscore are from form inputs
 */
 
-var db = require('./db');
+var db = require('../db');
 var userparse = require('./UserParse');
 
 //monthlyData will be an object that is used inside of allYears
@@ -28,7 +28,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       var increments = [];
       const seepageVolDay = 0.01; //feet
 
-
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
@@ -43,7 +42,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
         var initialYear = null;
 
-
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -57,7 +55,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
 
-          if(initialYear == null){
+          if(initialYear === null){
             initialYear = currentYear;
           }
 
@@ -126,13 +124,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-
           }
 
+          //update monthly values here
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
+<<<<<<< HEAD:TDPAlg.js
           allYears[currentYear - initialYear][i][currentMonth].pondWaterDepthDay += pondWaterDepthDay;
           
+=======
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
+
+>>>>>>> ca46cb6afb1a8a9ece990041a0ea813c17aaf6db:util/TDPAlg.js
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
@@ -146,6 +149,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
       }
 
+<<<<<<< HEAD:TDPAlg.js
+=======
+
+>>>>>>> ca46cb6afb1a8a9ece990041a0ea813c17aaf6db:util/TDPAlg.js
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
