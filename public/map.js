@@ -12,6 +12,7 @@ var initMap = function() {
       lat: 41.8781, // Center at Chicago
       lng: -87.6298
     },
+    scrollwheel: false,
     zoom: 6
   });
 
