@@ -99,7 +99,7 @@ var initMap = function() {
 
   //remove buffer after map is loaded
   google.maps.event.addListener(map, 'idle', function(){
-    $("#buffer-container").fadeOut('slow');
+    $("#buffer-container").fadeOut('fast');
   });
 };
 

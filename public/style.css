@@ -53,6 +53,7 @@ hr {
 
 .card-container {
   width: 80vw;
+  height: auto;
   position: relative;
   margin: 0 auto;
   padding-bottom: 36px;
@@ -61,7 +62,9 @@ hr {
 .card {
   display: block;
   width: inherit;
+  height: auto;
   margin: 20px 0;
+  overflow: hidden;
 }
 
 .card-shadow {
@@ -78,8 +81,8 @@ hr {
 }
 
 #map {
-  height: inherit;
   width: inherit;
+  height: inherit;
   position:relative;
   z-index:500;
 }
@@ -229,7 +232,7 @@ footer h5 {
     margin: auto;
     margin-top: 30vh;
     border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    border-top: 16px solid #357cce; /* Blue */
     border-radius: 50%;
     width: 120px;
     height: 120px;

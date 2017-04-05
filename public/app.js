@@ -7,6 +7,9 @@ $('#map-submit').click(function() {
         // $('#map-submit').text('Select Another Location');
         $('#prompt').text('Please Enter Inputs');
       });
+      $('html, body').animate({
+        scrollTop: $("#form-data").offset().top
+      }, 3000, 'easeOutExpo');
   } else {
       $('#graph-body').fadeOut('fast', function() {
 
