@@ -95,6 +95,11 @@ var initMap = function() {
     map.setZoom(11);
     selectLocation(places[0].geometry.location);
   });
+
+  //remove buffer after map is loaded
+  google.maps.event.addListener(map, 'idle', function(){
+    $("#buffer-container").fadeOut('slow');
+  });
 };
 
 var selectFeature = function(feature) {
