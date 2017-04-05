@@ -40,6 +40,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
+        console.log("###pondWaterVolDayPrev###:", pondWaterVolDayPrev);
         var initialYear = null;
 
         /* LOOP THROUGH EVERY DAY */
@@ -63,9 +64,9 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
 
-          // console.log(inflowVolDay);
-          // console.log(precipDepthDay);
-          // console.log(evapDepthDay);
+          console.log("inflowVolDay:", inflowVolDay);
+          console.log("precipDepthDay:",precipDepthDay);
+          console.log("evapDepthDay:",evapDepthDay);
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
@@ -86,10 +87,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
-
+          if(pondWaterVolDay < 0){
+            pondWaterVolDay = 0;
+          }
 
           var bypassFlowVolDay;
           if (pondWaterVolDay > pondVol) {
+            console.log("bypassFlowVolDay should be equal to:", pondWaterVolDay - pondVol);
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
@@ -99,6 +103,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
+          console.log("!!!!pondWaterVolDay!!!!:", pondWaterVolDay);
+          console.log("pondWaterDepthDay =", pondWaterDepthDay);
 
           /*
           **************************************************************************************************************
