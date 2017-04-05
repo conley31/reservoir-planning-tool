@@ -129,13 +129,9 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           //update monthly values here
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-<<<<<<< HEAD:TDPAlg.js
-          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepthDay += pondWaterDepthDay;
-          
-=======
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
 
->>>>>>> ca46cb6afb1a8a9ece990041a0ea813c17aaf6db:util/TDPAlg.js
+
           /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
           --------------------------------------------------------------------------------------------------------------
           inflowVolTotal += inflowVolDay;
@@ -149,10 +145,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
       }
 
-<<<<<<< HEAD:TDPAlg.js
-=======
-
->>>>>>> ca46cb6afb1a8a9ece990041a0ea813c17aaf6db:util/TDPAlg.js
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
     });
