@@ -1,5 +1,5 @@
 _ = require('lodash');
-polygons = require('./public/final_index_FeaturesToJSON.json');
+polygons = require('../public/final_index_FeaturesToJSON.json');
 
 // Re-format array
 var featuresArray = _.map(polygons.features, f => {

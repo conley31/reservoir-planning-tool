@@ -3,7 +3,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background: #eee;
+  background: white;
 }
 
 nav {
@@ -146,11 +146,11 @@ input[type="number"] {
   font-size: 12px;
 }
 
-#graph-body {
+#graph-body, #graph2-body, #graph3-body {
   display: none;
 }
 
-#graph {
+#graph-1, #graph-2, #graph-3 {
   width: inherit;
   height: 80vh;
   margin: 10px;
@@ -207,4 +207,10 @@ footer h5 {
   .card-container {
     width: 98vw;
   }
+}
+
+#pond-inc-card, #year-card {
+  display: none;
+  background: #357cce;
+  padding: 10px;
 }

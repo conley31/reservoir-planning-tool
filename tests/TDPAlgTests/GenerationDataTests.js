@@ -271,8 +271,6 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 	});
 
 
-console.log(a.allMonthsByYear(allYears8, [2, 4, 6], 1980, 2, 1981));
-
 
 describe('Test all graphs with potentially undefined data', function(){
 		it('Should contain two subarrays where the first subarray has half the values of array 2. (allYearsAveraged)', function(){

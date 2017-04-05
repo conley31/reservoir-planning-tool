@@ -55,27 +55,7 @@ app.post('/calculate', function(req, res) {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
 
-      var graph_data = {
-        "graph": [{
-            "line": {
-              "type": "number",
-              "axis": "Pond Volume"
-            }
-          },
-          {
-            "line": {
-              "type": "number",
-              "axis": "Bypass Volume"
-            }
-          },
-          {
-            "line": {
-              "type": "number",
-              "axis": "Storage Deficit"
-            }
-          },
-          {
-            "array": data //return value from TDPAlg.js
+            res.send(data);
 
             /* Example Format:
              [
@@ -93,15 +73,10 @@ app.post('/calculate', function(req, res) {
                      [12, 6.6, 8.4],
                      [13, 4.8, 6.3],
                      [14, 4.2, 6.2]
-                 ]
             */
-          }
-        ]
-      };
-
-        res.json(graph_data);
 
       });
+
     });
 
 });
