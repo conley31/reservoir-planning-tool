@@ -43,13 +43,17 @@ $("form").submit(function(event) {
  */
 
 //Draws graph onto div
+//Takes inputs from graphData filled in graphOne(), graphTwo() and graphThree()
 var drawChart = function() {
   data = new google.visualization.DataTable();
   var i = 0;
+  //add axis descriptions
   while(typeof graphData[i] == "string") {
     data.addColumn('number', graphData[i++]);
   }
+  //add array of data
   data.addRows(graphData[i++]);
+  //add options
   options = {
     chart: {
       title: graphData[i++],
@@ -127,7 +131,6 @@ var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
   dropdown.find('option').remove()
   for(var i = 0; i < array.length; i++) {
-    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
     dropdown.append($("<option></option>").val(array[i]).html(array[i]));
   }
 }
@@ -137,7 +140,6 @@ var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
   dropdown.find('option').remove()
   for(var i = 1980; i < 2010; i++) {
-    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
     dropdown.append($("<option></option>").val(i).html(i));
   }
 }
