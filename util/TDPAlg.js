@@ -56,7 +56,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
 
-          if(initialYear == null){
+          if(initialYear === null){
             initialYear = currentYear;
           }
 
