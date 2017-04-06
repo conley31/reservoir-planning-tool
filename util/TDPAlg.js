@@ -89,7 +89,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
-            //console.log("bypassFlowVolDay should be equal to:", pondWaterVolDay - pondVol);
+            
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
