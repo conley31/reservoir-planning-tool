@@ -35,6 +35,7 @@ $("form").submit(function(event) {
       console.log("AJAX failed");
     }
   });
+
 });
 
 
@@ -137,9 +138,8 @@ var addIncDropdown = function(array) {
 //Populate year dropdown
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
-  dropdown.find('option').remove()
-  i = receivedArray.initialYear;
+  dropdown.find('option').remove();
   for(var i = 1980; i < 2010; i++) {
-    dropdown.append($("<option></option>").val(i).html(i));
+      dropdown.append($("<option></option>").val(i).html(i));
   }
 }
