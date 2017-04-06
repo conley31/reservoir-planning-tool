@@ -8,7 +8,6 @@ Notes:
 
 var db = require('../db');
 var userparse = require('./UserParse');
-var dailyData;
 
 //monthlyData will be an object that is used inside of allYears
 function monthlyData(){
@@ -22,7 +21,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
-      dailyData = [];
+      var dailyData = {};
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
@@ -33,6 +32,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
+        dailyData[pondVol] = [];
 
         /*
         **********************************************
@@ -110,13 +110,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           ***************************************************************************************************************
           */
-          dailyData.push({
+          dailyData[pondVol].push({
             date: currentDate,
             inflowVol: inflowVolDay,
-            evaporationVol: evaporationVolDay,
+            evaporationVol: evapVolDay,
             seepageVol: seepageVolDay,
             irrigationVol: irrigationVolDay,
-            bypassVol: bypassVolDay,
+            bypassVol: bypassFlowVolDay,
             pondWaterDepth: pondWaterDepthDay
           });
 
@@ -156,12 +156,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
       //consider sending back an object with the first graphs data already calculated.
-      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
+      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
 });
 };
-
-exports.getDailyData = () => { return dailyData; };
 
 // TODO document this method
 function pullData(_locationId, stream) {
