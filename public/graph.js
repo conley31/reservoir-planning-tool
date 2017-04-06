@@ -29,6 +29,7 @@ $("form").submit(function(event) {
     processData: false,
     success: function(data) {
       receivedArray = data;
+      console.log(data);
       GraphOne();
     },
     error: function() {
