@@ -85,8 +85,8 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			outputArray[i][3] /= allYears.length;
 		}
 	}
-	console.log(allYears);
-	console.log(outputArray);
+	// console.log(allYears);
+	// console.log(outputArray);
 
 	return outputArray;
 };
@@ -101,8 +101,6 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	});
 	var yearIndex = specificYear - initialYear;
 
-	console.log("currentIncrement: ", currentIncrement, "typeof currentIncrement = ", typeof currentIncrement);
-	console.log("yearIndex:", yearIndex, "typeof specificYear", typeof specificYear, "typeof initialYear", initialYear);
 
 	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
 
