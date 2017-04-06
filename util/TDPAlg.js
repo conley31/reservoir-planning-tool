@@ -16,22 +16,23 @@ function monthlyData(){
   this.pondWaterDepth = 0;
 }
 
-module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
+exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
 _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
-
+      var dailyData = {};
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
-      var numOfRows = data.length;
       var allYears = [];
       var increments = [];
       const seepageVolDay = 0.01; //feet
+      var initialYear = null;
 
       for (var i = 0; i < numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
+        dailyData[pondVol] = [];
 
         /*
         **********************************************
@@ -40,7 +41,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
-        var initialYear = null;
+        
 
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
@@ -49,7 +50,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
                      DAILY VALUES
           **********************************************
           */
-          var currentDate = data[j].RecordedDate;
+          var currentDate = data[j].RecordedDate; // Javascript Date object
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth();
 
@@ -62,10 +63,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
-
-          // console.log(inflowVolDay);
-          // console.log(precipDepthDay);
-          // console.log(evapDepthDay);
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
@@ -86,16 +83,15 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
-
-
-          var bypassFlowVolDay;
-          if (pondWaterVolDay > pondVol) {
-            bypassFlowVolDay = pondWaterVolDay - pondVol;
-            pondWaterVolDay = pondVol;
+          if(pondWaterVolDay < 0){
+            pondWaterVolDay = 0;
           }
 
-          else {
-            bypassFlowVolDay = 0;
+          var bypassFlowVolDay = 0;
+          if (pondWaterVolDay > pondVol) {
+            
+            bypassFlowVolDay = pondWaterVolDay - pondVol;
+            pondWaterVolDay = pondVol;
           }
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
@@ -109,6 +105,15 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           ***************************************************************************************************************
           */
+          dailyData[pondVol].push({
+            date: currentDate,
+            inflowVol: inflowVolDay,
+            evaporationVol: evapVolDay,
+            seepageVol: seepageVolDay,
+            irrigationVol: irrigationVolDay,
+            bypassVol: bypassFlowVolDay,
+            pondWaterDepth: pondWaterDepthDay
+          });
 
           //update the (day-1) variables
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
@@ -116,6 +121,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           //updated allYears at the current year at the current increment and at the current month.
+
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
           }
@@ -125,32 +131,23 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
-
+         
           //update monthly values here
-          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += (deficitVolDay * pondArea);
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += pondWaterDepthDay;
 
-          /*The original document said to update all of the below. Only two of them are ever used in the graphs though.
-          --------------------------------------------------------------------------------------------------------------
-          inflowVolTotal += inflowVolDay;
-          evapVolTotal+= evapVolDay;
-          seepageVolTotal += seepageVolDay;
-          irrigationVolTotal+= irrigationVolDay;
-          bypassFlowVolTotal += bypassFlowVolDay;
-          deficitVolTotal += (deficitVolDay * pondArea);
-          */
+          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
         }
 
       }
 
-
       //consider sending back an object with the first graphs data already calculated.
-      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
+      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
 });
 };
 
+// TODO document this method
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(Number.isInteger(_locationId))
