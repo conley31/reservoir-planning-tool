@@ -32,7 +32,6 @@ $('#map-submit').click(function() {
 
 $('#form-submit').click(function() {
   $('#map-container').fadeOut('slow', function() {
-    $('#graph-body').fadeIn('slow');
     $('#map-submit').fadeIn('fast');
     $('#map-submit').text('Select Another Location');
     $("#pond-inc-card").fadeIn('slow');
