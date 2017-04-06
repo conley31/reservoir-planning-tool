@@ -58,15 +58,16 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
-
+	
 	var currentIncrement = increments.findIndex((vol)=>{
 		return vol === specificPondVolume;
 	});
 
+
 	for(var i = 0; i < allYears.length; i++){
-		if(typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
+		if(allYears[i][currentIncrement] && typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
-				if(typeof allYears[i][currentIncrement][k] !== "undefined"){
+				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== "undefined"){
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
 					outputArray[k][3] += allYears[i][currentIncrement][k].pondWaterDepth;
@@ -84,6 +85,8 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			outputArray[i][3] /= allYears.length;
 		}
 	}
+	// console.log(allYears);
+	// console.log(outputArray);
 
 	return outputArray;
 };
@@ -98,10 +101,11 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	});
 	var yearIndex = specificYear - initialYear;
 
+
 	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
 
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
-			if(typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
+			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
 				outputArray[k][3] += allYears[yearIndex][currentIncrement][k].pondWaterDepth;
