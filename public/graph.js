@@ -3,7 +3,7 @@ var data;
 var options;
 var chart;
 var receivedArray;
-var currentPondIncrement
+var currentPondVolume;
 
 $("form").submit(function(event) {
   event.preventDefault();
@@ -82,28 +82,27 @@ $(window).smartresize(function () {
 
 //Create graph 1
 var GraphOne = function() {
-  array = receivedArray;
   graphData = [];
   graphData[0] = 'Pond Volume';
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit';
-  graphData[3] = generateGraphData.allYearsAveraged(array.graphData, array.incData);
+  graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
   graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume'
   graphData[5] = 'in tbd scale'
   graphData[6] = "graph-1";
-  addIncDropdown(array.incData);
+  addIncDropdown(receivedArray.incData);
   initGraph();
 }
 
 //Create graph 2
 var graphTwo = function(pondIncrement) {
-  currentPondIncrement = pondIncrement;
+  currentPondVolume = pondIncrement;
   graphData = [];
   graphData[0] = 'Months';
   graphData[1] = 'Pond Water Depth';
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, pondIncrement);
+  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, pondIncrement);
   graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + pondIncrement;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-2";
@@ -119,8 +118,8 @@ var graphThree = function(year) {
   graphData[1] = 'Pond Water Depth';
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allMonthsByYear(array.graphData, array.incData, array.initialYear, currentPondIncrement, year);
-  graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondIncrement;
+  graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.initialYear, currentPondVolume, year);
+  graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondVolume;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-3";
   drawChart();
@@ -139,6 +138,7 @@ var addIncDropdown = function(array) {
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
   dropdown.find('option').remove()
+  i = receivedArray.initialYear;
   for(var i = 1980; i < 2010; i++) {
     dropdown.append($("<option></option>").val(i).html(i));
   }
