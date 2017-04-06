@@ -16,12 +16,12 @@ function monthlyData(){
   this.pondWaterDepth = 0;
 }
 
-module.exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
+exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
 _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
-
+      var dailyData = {};
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
@@ -32,6 +32,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
+        dailyData[pondVol] = [];
 
         /*
         **********************************************
@@ -49,7 +50,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
                      DAILY VALUES
           **********************************************
           */
-          var currentDate = data[j].RecordedDate;
+          var currentDate = data[j].RecordedDate; // Javascript Date object
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth();
 
@@ -109,6 +110,15 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           ***************************************************************************************************************
           */
+          dailyData[pondVol].push({
+            date: currentDate,
+            inflowVol: inflowVolDay,
+            evaporationVol: evapVolDay,
+            seepageVol: seepageVolDay,
+            irrigationVol: irrigationVolDay,
+            bypassVol: bypassFlowVolDay,
+            pondWaterDepth: pondWaterDepthDay
+          });
 
           //update the (day-1) variables
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
@@ -146,11 +156,12 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
       //consider sending back an object with the first graphs data already calculated.
-      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear });
+      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
 });
 };
 
+// TODO document this method
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(Number.isInteger(_locationId))
