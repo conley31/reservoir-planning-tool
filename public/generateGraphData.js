@@ -101,10 +101,13 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	});
 	var yearIndex = specificYear - initialYear;
 
+	console.log("currentIncrement: ", currentIncrement, "typeof currentIncrement = ", typeof currentIncrement);
+	console.log("yearIndex:", yearIndex, "typeof specificYear", typeof specificYear, "typeof initialYear", initialYear);
+
 	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
 
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
-			if(typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
+			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
 				outputArray[k][3] += allYears[yearIndex][currentIncrement][k].pondWaterDepth;
