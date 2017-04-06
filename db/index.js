@@ -27,8 +27,7 @@ exports.getLocationById = Id => {
     pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
-      }
-      else if (!Number.isInteger(Id)) {
+      } else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
       } else {
         connection.query('SELECT * FROM ?? Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
@@ -107,6 +106,11 @@ exports.getLocationForDateRange = (Id, startDate, endDate) => {
       }
     });
   });
+};
+
+// Returns the current MySQL pool
+exports.getPool = () => {
+  return pool;
 };
 
 // Close the pool connection with the database, with an optional callback

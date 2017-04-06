@@ -11,6 +11,7 @@ var express = require('express'),
   morgan = require('morgan'),
   csv = require('fast-csv'),
   session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var db = require('./db');
 var TDPAlg = require('./util/TDPAlg.js');
@@ -25,7 +26,11 @@ nconf.file({
 /*
  * Express Middleware and Server Configuration
  */
-app.use(morgan('combined')); // Enable logging
+if (app.get('env') === 'production') {
+  app.use(morgan('combined')); // Enable logging
+} else {
+  app.use(morgan('dev'));
+}
 app.use(express.static(__dirname + '/public')); // Serve static files from the public directory
 app.use(bodyParser.json()); // Decode JSON from request bodies
 // Options for urlencoded requests
@@ -39,9 +44,10 @@ if (app.get('env') === 'production') {
 }
 // express-session library initialization options
 app.use(session({
-  secret: 'keyboard cat', // TODO: Make a config option and add to config file
+  secret: nconf.get('session_secret'),
   resave: false,
   saveUninitialized: true,
+  store: new RedisStore(nconf.get('redis')),
   cookie: {
     secure: false, // TODO: Change when HTTPS is setup
     expires: false // Only remains when the
@@ -89,8 +95,8 @@ app.post('/calculate', function(req, res) {
     .on('end', function() {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
-        req.session.dailyData = data.dailyData; 
-        res.send(data);
+        res.send(data); // TODO: remove dailyData from sent data
+        req.session.dailyData = data.dailyData;
       });
 
     });
