@@ -94,14 +94,14 @@ var GraphOne = function() {
 
 //Create graph 2
 var graphTwo = function(pondIncrement) {
-  currentPondIncrement = pondIncrement;
+  currentPondIncrement = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months';
   graphData[1] = 'Pond Water Depth';
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, pondIncrement);
-  graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + pondIncrement;
+  graphData[4] = generateGraphData.allYearsByPondVolume(array.graphData, array.incData, currentPondIncrement);
+  graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondIncrement;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-2";
   addYearDropdown();
@@ -116,7 +116,7 @@ var graphThree = function(year) {
   graphData[1] = 'Pond Water Depth';
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allMonthsByYear(array.graphData, array.incData, array.initialYear, currentPondIncrement, year);
+  graphData[4] = generateGraphData.allMonthsByYear(array.graphData, array.incData, array.initialYear, currentPondIncrement, parseInt(year));
   graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondIncrement;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-3";
