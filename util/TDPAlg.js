@@ -140,7 +140,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         }
 
       }
-
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
