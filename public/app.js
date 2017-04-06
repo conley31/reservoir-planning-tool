@@ -60,12 +60,14 @@ $('#uploadButton').click(function() {
 
 $('#pond-inc-submit').click(function() {
   var selected = $('#pond-inc-dropdown').val();
-  graphTwo(selected);
-  $('#graph2-body').fadeIn('slow');
+  $('#graph2-body').fadeIn('slow', function() {
+    graphTwo(selected);
+  });
 });
 
 $('#year-submit').click(function() {
   var selected = $('#year-dropdown').val();
-  graphThree(selected);
-  $('#graph3-body').fadeIn('slow');
+  $('#graph3-body').fadeIn('slow', function() {
+    graphThree(selected);
+  });
 });
