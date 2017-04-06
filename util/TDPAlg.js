@@ -41,7 +41,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
-        
+
 
         /* LOOP THROUGH EVERY DAY */
         for (var j = 0; j < data.length; j++) {
@@ -89,7 +89,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
-            
+
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
@@ -131,7 +131,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
-         
+
           //update monthly values here
 
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
