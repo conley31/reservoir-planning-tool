@@ -95,8 +95,9 @@ app.post('/calculate', function(req, res) {
     .on('end', function() {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
-        res.send(data); // TODO: remove dailyData from sent data
         req.session.dailyData = data.dailyData;
+        delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
+        res.send(data);
       });
 
     });
