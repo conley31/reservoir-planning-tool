@@ -17,7 +17,7 @@ exports.allYearsAveraged = function(allYears, increments){
 	var outputArray = new Array(increments.length);
 	fillThree(outputArray);
 	//Add every months data from each year to the appropriate volume increment
-	for(var i = 0; i < allYears.length; i++){	
+	for(var i = 0; i < allYears.length; i++){
 		if(typeof allYears[i] !== "undefined"){
 			for(var j = 0; j < allYears[i].length; j++){
 				if(typeof allYears[i][j] !== "undefined"){
@@ -41,7 +41,7 @@ exports.allYearsAveraged = function(allYears, increments){
 	}
 
 	return outputArray;
-}
+};
 
 
 exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume){
@@ -63,19 +63,19 @@ exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume
 				}
 			}
 		}
-	}	
+	}
 
 	for(i = 0; i < outputArray.length; i++){
-		//set each month to numerical value starting from 0		
+		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i;	
+			outputArray[i][0] = i;
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 		}
 	}
 
 	return outputArray;
-}
+};
 
 exports.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
@@ -105,5 +105,4 @@ exports.allMonthsByYear = function(allYears, increments, initialYear, specificPo
 	}
 
 	return outputArray;
-}
-
+};

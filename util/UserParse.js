@@ -5,37 +5,39 @@ var csv = require('fast-csv'),
 
 var dateTrack = null;
 
+var mmToInches = 0.0393701;
 
 module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
               isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.Precipitation));
     })
+
     .on("data-invalid", function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
                       ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.Precipitation));
     })
+
     .on("data", function(data) {
       buffer.push(data);
     })
+
     .on("end", function() {
       resolve(buffer);
     });
   });
 };
 
-/**
+/*
  *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data
  *
  *  Return - Array of Rows -
@@ -56,13 +58,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
               isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.Precipitation));
     })
 
     .on("data-invalid", function(data, index) {
@@ -70,8 +71,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
                       ',' + data.Month +
                       ',' + data.Day +
                       ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.Precipitation));
     })
     .on("data", function(data) {
       buffer.push(data);
@@ -82,32 +82,77 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
-        for(var i = 0; i < buffer.length - 1; i++) {
-          blendedArray.push(buffer[i]);
-          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
-          locationIndex = response[0];
-          blendedArray = blendedArray.concat(response[1]);
-        }
-
-        blendedArray.push(buffer[buffer.length - 1]);
-        resolve(blendedArray);
+        resp = addPETs(data, buffer);
+        resp = convertToInches(resp);
+        resolve(blendArray(data, resp));
       });
     });
   });
 };
 
-/**
+function convertToInches(data) {
+  for(var i in data) {
+    data[i].Drainflow = data[i].Drainflow * mmToInches;
+    data[i].Precipitation = data[i].Precipitation * mmToInches;
+    data[i].PET = data[i].PET * mmToInches;
+  }
+  return data;
+}
+
+/*
+ *  blendArray -  Fully blends userCSV data with sqlRows.
+ *                Adds sqlRows less than the start of userCSV
+ *                data. Adds sqlRows that occur inbetween userCSV
+ *                rows of data. Adds sqlRows that occur after the
+ *                end of userCSV.
+ *
+ *  Return - Array of userRows blended with sqlRows -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
+ *
+ */
+
+function blendArray(sqlRows, userRows) {
+  var startDate = userRows[0].RecordedDate.setHours(0,0,0,0);
+  var endDate = userRows[userRows.length - 1].RecordedDate.setHours(0,0,0,0);
+  var blendedArray = [];
+  var index = 0;
+  //Add data that exists before userRows data begins
+  while(sqlRows[index].RecordedDate.setHours(0,0,0,0) < startDate) {
+    blendedArray.push(sqlRows[index]);
+    ++index;
+  }
+  //Fill gaps inbetween dates in userRows
+  for(var i = 0; i < userRows.length - 1; i++) {
+    blendedArray.push(userRows[i]);
+    resp = fillGaps(index, sqlRows, userRows[i], userRows[i+1]);
+    index = resp[0];
+    blendedArray.concat(resp[1]);
+  }
+  //Add data that exists after userRows end
+  blendedArray.push(userRows[userRows.length - 1]);
+  while(index < sqlRows.length) {
+    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) > endDate)
+      blendedArray.push(sqlRows[index]);
+    ++index;
+  }
+  return blendedArray;
+}
+
+/*
  *  fillGaps -  Checks for any date gaps between userRowStart and userRowEnd.
  *              If gaps exist, then rows are returned from sqlRows data if they exist.
  *
  *  Return - Array of startIndex for sqlRows and Rows to fill gaps -
  *  [2074, {
- *    Year: '1981',
-      Month: '1',
-      Day: '7',
-      Drainflow: 1.0755,
-      Precipitation: 2.38,
-      PET: 1.6041
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
  *  }, ...]
  *
  */
@@ -120,7 +165,7 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
 
   while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
     if(sqlRows[index].RecordedDate > startDate) {
-      arr.push(formattedHash(sqlRows[index]));
+      arr.push((sqlRows[index]));
     }
     ++index;
   }
@@ -128,38 +173,90 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
-/**
- *  formattedHash -  Changes sqlRow to match CSV format
+/*
+ *  addPETs -  Master function to addPET. Loops through all userRows and
+ *             passes each userRow and sqlRows to addPETs.
  *
- *  Return - A formatted hash -
- *  {
- *    "Year": "2000",
-      "Month": "11",
-      "Day": "43",
-      "Drainflow": "1.2321",
-      "Precipitation": "9.342",
-      "PET": "3.21323"
- *  }
+ *  Return - Array of userRows with PETs added -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
  *
  */
 
-function formattedHash(sqlRow) {
-  var row = {"Year": sqlRow.RecordedDate.getFullYear().toString(),
-             "Month": (sqlRow.RecordedDate.getMonth()).toString(),
-             "Day": sqlRow.RecordedDate.getDate().toString(),
-             "Drainflow": sqlRow.Drainflow,
-             "Precipitation": sqlRow.Precipitation,
-             "PET": sqlRow.PET};
+function addPETs(sqlRows, userRows) {
+  var buffer = [];
+  for(var index in userRows) {
+    resp = addPET(sqlRows, userRows[index]);
+    if(resp !== null)
+      buffer.push(resp);
+  }
+  return buffer;
+}
+
+/*
+ *  addPET  -  Searches SQL Rows to find a date that matches the userRow.
+ *             Once found, it sets the PET var of userRow and returns the row.
+ *             If the row cannot be matched, then null is returned and the row
+ *             should be discarded.
+ *
+ *  Return - SUCCESS - One userRow with PET value set -
+ *  {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }
+ *
+ *  Return - FAIL - NULL
+ *
+ */
+
+function addPET(sqlRows, userRow) {
+  row = arraytoSQLFormat(userRow);
+  index = 0;
+  while(index < sqlRows.length) {
+    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) === row.RecordedDate.setHours(0,0,0,0)) {
+      row.PET = sqlRows[index].PET;
+    }
+    ++index;
+  }
+  if(!("PET" in row))
+    return null;
   return row;
 }
 
-/**
- *  seek -  Finds the first date in an array(rows) that is equal to or greater than
- *          the first row(firstBuf) date from the user uploaded CSV.
- *
- *  Return - int of the index in rows where date is greater.
- *
- */
+ /*
+  *  arraytoSQLFormat -  Changes CSVRow to match SQL format
+  *
+  *  Return - A formatted hash -
+  *  {
+  *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+  *    "Drainflow": "1.2321",
+  *    "Precipitation": "9.342",
+  *    "PET": "3.21323"
+  *  }
+  *
+  */
+
+ function arraytoSQLFormat(CSVRow) {
+   var row = {"RecordedDate": new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
+              "Drainflow": CSVRow.Drainflow,
+              "Precipitation": CSVRow.Precipitation,
+              "PET": null};
+    return row;
+ }
+
+ /*
+  *  seek -  Finds the first date in an array(rows) that is equal to or greater than
+  *          the first row(firstBuf) date from the user uploaded CSV.
+  *
+  *  Return - int of the index in rows where date is greater.
+  *
+  */
 
 function seek(rows, firstBuf) {
   var i = 0;
@@ -183,7 +280,7 @@ function isValidDate(day, month, year) {
 
   var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+  if(year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
     monthLength[1] = 29;
 
   return day > 0 && day <= monthLength[month - 1];

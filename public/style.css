@@ -1,3 +1,4 @@
+/*Set up the basic page*/
 html, body {
   height: 100%;
   margin: 0;
@@ -6,6 +7,7 @@ html, body {
   background: white;
 }
 
+/*Navbar*/
 nav {
   text-align: center;
   border-radius: 0;
@@ -21,6 +23,7 @@ nav {
     font-size: 2rem;
 }
 
+/*General components*/
 #main {
     width: 100%;
     min-height: 95vh;
@@ -31,7 +34,6 @@ h5 {
 }
 
 button {
-  /*margin: 10px 0;*/
   background-color: #0054a6;
   color: white;
 }
@@ -51,8 +53,10 @@ hr {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
+/*Card Layout*/
 .card-container {
   width: 80vw;
+  height: auto;
   position: relative;
   margin: 0 auto;
   padding-bottom: 36px;
@@ -61,16 +65,19 @@ hr {
 .card {
   display: block;
   width: inherit;
+  height: auto;
   margin: 20px 0;
+  overflow: hidden;
 }
 
 .card-shadow {
   z-index: 3;
-  -webkit-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  -moz-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
 }
 
+/*Map*/
 #map-container {
   height: 80vh;
   width: inherit;
@@ -78,19 +85,17 @@ hr {
 }
 
 #map {
-  height: inherit;
   width: inherit;
+  height: inherit;
+  position:relative;
+  z-index:500;
 }
 
 #map-submit {
   display: none;
 }
 
-.calculator-input {
-  width: inherit;
-  padding: 0 3px;
-}
-
+/*Form inputs*/
 .form-group {
   background: #357cce;
   padding: 20px;
@@ -120,7 +125,6 @@ input[type="number"] {
   border-style: none;
   border-radius: 0;
   background-color: white;
-  /*width: 200px;*/
 }
 
 .input-group-addon {
@@ -129,7 +133,6 @@ input[type="number"] {
   background-color: #24578c;
   color: white;
   font-size: 11px;
-  /*width: 60px;*/
 }
 
 #basic-addon2 {
@@ -146,6 +149,11 @@ input[type="number"] {
   font-size: 12px;
 }
 
+#download-csv {
+  color: white;
+}
+
+/*Graphs*/
 #graph-body, #graph2-body, #graph3-body {
   display: none;
 }
@@ -164,24 +172,22 @@ input[type="number"] {
   margin: 10px;
 }
 
-hr.divider {
-  border-top: 1px solid #8c8b8b;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+/*Dropdowns*/
+#pond-inc-card, #year-card {
+  display: none;
+  background: #357cce;
+  padding: 10px;
 }
 
-hr.divider:after {
-  content: 'or';
-  display: inline-block;
-  position: relative;
-  top: -14px;
-  padding: 0 10px;
-  background: #FFFFFF;
-  color: #8c8b8b;
-  font-size: 18px;
+.buffer-container {
+  height: inherit;
+  width: inherit;
+  position:absolute;
+  z-index:1000;
+  background: #357cce;
 }
 
+/*Footer*/
 footer {
   position: relative;
   z-index: 10;
@@ -203,14 +209,27 @@ footer h5 {
   color: #eee;
 }
 
+/*For smaller than large screens*/
+/*Cards span almost entire width*/
 @media only screen and (max-width: 1260px) {
   .card-container {
     width: 98vw;
   }
 }
 
-#pond-inc-card, #year-card {
-  display: none;
-  background: #357cce;
-  padding: 10px;
+/*Buffer Animation*/
+.loader {
+    margin: auto;
+    margin-top: 30vh;
+    border: 10px solid #fff; /*white*/
+    border-right: 10px solid #357cce;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 3s ease infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -8,12 +8,14 @@
         <div class="card-container">
 
           <!-- Map -->
-          <div id="map-container" class="card card-shadow">
-            <div id="map"></div>
-          </div>
-
-          <!-- Prompt and Submit below map -->
-          <div class="card" style="margin-top: 10px;">
+          <div class="card card-shadow">
+            <div id="map-container">
+              <div id="map-buffer" class="buffer-container">
+                <div class="loader"></div>
+              </div>
+              <div id="map"></div>
+            </div>
+              <!-- Prompt and Submit below map -->
             <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
           </div>
 
@@ -44,6 +46,7 @@
               <select id="pond-inc-dropdown">
               </select>
               <button id="pond-inc-submit" class="btn"> submit </button>
+              <a id="download-csv" style="display: none;">Download a CSV with Daily Data for this Pond Volume</a>
           </div>
 
           <!-- Second Graph -->

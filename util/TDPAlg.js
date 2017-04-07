@@ -28,7 +28,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       const seepageVolDay = 0.01; //feet
       var initialYear = null;
 
-      for (var i = 0; i < numberOfIncrements; i++) {
+      for (var i = 0; i <= numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
@@ -63,6 +63,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
+          
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
@@ -146,14 +147,27 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 });
 };
 
-// TODO document this method
+/*
+ *  pullData  -   Chooses whether to just get SQL Data or
+ *                if the user has uploaded a CSV that needs
+ *                to be blended and then returned.
+ *
+ *  Return - Either SQLRows or blendedCSV -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
+ *
+ */
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
-    if(Number.isInteger(_locationId))
-      resolve(db.getLocationById(_locationId));
-    if(stream && stream !== "undefined") {
-      resolve(userparse.readUserCSV(stream));
+    if(typeof stream != 'undefined') {
+      resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
     }
-    reject(new Error('Neither LocationID nor Stream are valid'));
+    else {
+      resolve(db.getLocationById(_locationId));
+    }
   });
 }

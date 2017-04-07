@@ -12,6 +12,7 @@ var initMap = function() {
       lat: 41.8781, // Center at Chicago
       lng: -87.6298
     },
+    scrollwheel: false,
     zoom: 6
   });
 
@@ -94,6 +95,11 @@ var initMap = function() {
     map.setCenter(places[0].geometry.location);
     map.setZoom(11);
     selectLocation(places[0].geometry.location);
+  });
+
+  //remove buffer after map is loaded
+  google.maps.event.addListener(map, 'idle', function(){
+    $("#map-buffer").fadeOut('fast');
   });
 };
 
