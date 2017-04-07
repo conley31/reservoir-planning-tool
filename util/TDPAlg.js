@@ -146,7 +146,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(stream && stream !== "undefined") {
-      console.log("Verify and blending");
       resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
     }
     else {
