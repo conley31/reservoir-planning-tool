@@ -10,11 +10,11 @@ module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "InFlow", "Precipitation"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.InFlow) &&
+              isValidNumber(data.Drainflow) &&
               isValidNumber(data.Precipitation));
     })
 
@@ -22,7 +22,7 @@ module.exports.readUserCSV = function(inStream) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
-                      ',' + data.InFlow +
+                      ',' + data.Drainflow +
                       ',' + data.Precipitation));
     })
 
@@ -57,11 +57,11 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "InFlow", "Precipitation"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.InFlow) &&
+              isValidNumber(data.Drainflow) &&
               isValidNumber(data.Precipitation));
     })
 
@@ -69,7 +69,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
-                      ',' + data.InFlow +
+                      ',' + data.Drainflow +
                       ',' + data.Precipitation));
     })
     .on("data", function(data) {
@@ -81,7 +81,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
-        for(var i = 0; i < buffer.length; i++) {
+        for(var i = 0; i < buffer.length - 1; i++) {
           resp = addPET(data, buffer[i]);
            if(resp.PET !== null) {
              blendedArray.push(resp);
@@ -90,6 +90,9 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
              blendedArray = blendedArray.concat(response[1]);
            }
         }
+        resp = addPET(data, buffer[buffer.length - 1]);
+        if(resp !== null)
+          blendedArray.push(resp);
         resolve(blendedArray);
       });
     });
@@ -120,7 +123,6 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
 
   while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
     if(sqlRows[index].RecordedDate > startDate) {
-      console.log("Filling a gap");
       arr.push((sqlRows[index]));
     }
     ++index;
@@ -143,56 +145,34 @@ function addPET(sqlRows, userRow) {
   return row;
 }
 
-function compareOnlyDate(d1, d2) {
-  if(d1.getFullYear() !== d2.getFullYear())
-    return false;
-  if(d1.getMonth() !== d2.getMonth())
-    return false;
-  if(d1.getDate() !== d1.getDate())
-    return false;
-  return true;
-}
-
-/**
- *  formattedHash -  Changes sqlRow to match CSV format
- *
- *  Return - A formatted hash -
- *  {
- *    "Year": "2000",
-      "Month": "11",
-      "Day": "43",
-      "Drainflow": "1.2321",
-      "Precipitation": "9.342",
-      "PET": "3.21323"
- *  }
- *
- */
-
-function formattedHash(sqlRow) {
-  var row = {"Year": sqlRow.RecordedDate.getFullYear().toString(),
-             "Month": (sqlRow.RecordedDate.getMonth()).toString(),
-             "Day": sqlRow.RecordedDate.getDate().toString(),
-             "Drainflow": sqlRow.Drainflow,
-             "Precipitation": sqlRow.Precipitation,
-             "PET": sqlRow.PET};
-  return row;
-}
-
-/**
- *  seek -  Finds the first date in an array(rows) that is equal to or greater than
- *          the first row(firstBuf) date from the user uploaded CSV.
- *
- *  Return - int of the index in rows where date is greater.
- *
- */
+ /**
+  *  arraytoSQLFormat -  Changes CSVRow to match SQL format
+  *
+  *  Return - A formatted hash -
+  *  {
+  *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+       "Drainflow": "1.2321",
+       "Precipitation": "9.342",
+       "PET": "3.21323"
+  *  }
+  *
+  */
 
  function arraytoSQLFormat(CSVRow) {
    var row = {"RecordedDate": new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
-              "InFlow": CSVRow.InFlow,
+              "Drainflow": CSVRow.Drainflow,
               "Precipitation": CSVRow.Precipitation,
               "PET": null};
     return row;
  }
+
+ /**
+  *  seek -  Finds the first date in an array(rows) that is equal to or greater than
+  *          the first row(firstBuf) date from the user uploaded CSV.
+  *
+  *  Return - int of the index in rows where date is greater.
+  *
+  */
 
 function seek(rows, firstBuf) {
   var i = 0;
