@@ -4,6 +4,7 @@
 - Node v6.x
 - Python v2.7 and pip for Database Setup (see `db/requirements.txt` for pip dependencies)
 - MySQL server set up and running, with a user and a database (configure with `config/config.json` file)
+- Redis >= 2.0.0 (Saves user session data)
 
 ## Installation
 1. Clone the repository, then `cd reservoir-planning-tool`
