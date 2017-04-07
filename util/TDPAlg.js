@@ -28,7 +28,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       const seepageVolDay = 0.01; //feet
       var initialYear = null;
 
-      for (var i = 0; i < numberOfIncrements; i++) {
+      for (var i = 0; i <= numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
         var pondArea = pondVol/_pondDepth;
@@ -63,6 +63,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
+          
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
