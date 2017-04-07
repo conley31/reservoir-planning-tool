@@ -88,12 +88,12 @@ var graphOne = function() {
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit';
   graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
-  graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume'
-  graphData[5] = 'in tbd scale'
+  graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume';
+  graphData[5] = 'in tbd scale';
   graphData[6] = "graph-1";
   addIncDropdown(receivedArray.incData);
   initGraph();
-}
+};
 
 //Create graph 2
 var graphTwo = function(pondIncrement) {
@@ -109,7 +109,7 @@ var graphTwo = function(pondIncrement) {
   graphData[7] = "graph-2";
   addYearDropdown();
   drawChart();
-}
+};
 
 //Create graph 3
 var graphThree = function(year) {
@@ -123,16 +123,16 @@ var graphThree = function(year) {
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-3";
   drawChart();
-}
+};
 
 //Populate pond increment dropdown
 var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
-  dropdown.find('option').remove()
+  dropdown.find('option').remove();
   for(var i = 0; i < array.length; i++) {
     dropdown.append($("<option></option>").val(array[i]).html(array[i]));
   }
-}
+};
 
 //Populate year dropdown
 var addYearDropdown = function() {
@@ -141,4 +141,4 @@ var addYearDropdown = function() {
   for(var i = 1980; i < 2010; i++) {
       dropdown.append($("<option></option>").val(i).html(i));
   }
-}
+};

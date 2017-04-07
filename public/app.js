@@ -72,10 +72,10 @@ var showGraphTwo = function() {
   });
 };
 
-//Shows Graph Three 
+//Shows Graph Three
 var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
   });
-}
+};

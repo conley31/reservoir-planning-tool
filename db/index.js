@@ -10,7 +10,7 @@ nconf.file({
 // Create a MySQL connection pool
 var pool = mysql.createPool(nconf.get('mysql'));
 
-/**
+/*
  *  getLocationById -  Gets a Location's data given a location id
  *
  *  Return - Array of Rows -
@@ -44,7 +44,7 @@ exports.getLocationById = Id => {
   });
 };
 
-/**
+/*
  *  getPETById -  Gets a Location's evaporation data given a location id
  *
  *  Return - Array of Rows -
@@ -75,7 +75,7 @@ exports.getPETById = Id => {
   });
 };
 
-/**
+/*
  *  getLocationForDateRange -  Gets a Location's data given a location id and a date range
  *  Dates are expected as string in format YYYY-MM-DD
  *
