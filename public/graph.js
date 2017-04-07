@@ -29,9 +29,8 @@ $("form").submit(function(event) {
     processData: false,
     success: function(data) {
       receivedArray = data;
-      $('#graph-body').fadeIn('slow', function() {
-        GraphOne();
-      });
+      //defined in app.js
+      showGraphOne();
     },
     error: function() {
       console.log("AJAX failed");
@@ -110,7 +109,6 @@ var graphTwo = function(pondIncrement) {
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-2";
   addYearDropdown();
-  $("#year-card").fadeIn('fast');
   drawChart();
 }
 

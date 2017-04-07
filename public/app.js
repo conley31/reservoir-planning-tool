@@ -34,20 +34,8 @@ $('#form-submit').click(function() {
   $('#map-container').fadeOut('slow', function() {
     $('#map-submit').fadeIn('fast');
     $('#map-submit').text('Select Another Location');
-    $("#pond-inc-card").fadeIn('slow');
     toggleText = 1;
   });
-});
-
-$('#upload_submit').click(function() {
-  $('#divider').fadeOut('fast', function() {
-    $('#upload_submit').fadeOut('fast', function() {
-      $('#form-data').fadeIn('fast', function() {
-        $('#prompt').text('Please Enter Inputs');
-      });
-    });
-  });
-  $('#file-div').fadeIn();
 });
 
 $('#uploadButton').click(function() {
@@ -58,15 +46,31 @@ $('#uploadButton').click(function() {
 });
 
 $('#pond-inc-submit').click(function() {
-  var selected = $('#pond-inc-dropdown').val();
-  $('#graph2-body').fadeIn('slow', function() {
-    graphTwo(selected);
-  });
+  showGraphTwo();
 });
 
 $('#year-submit').click(function() {
+  showGraphThree();
+});
+
+var showGraphOne = function() {
+  $('#graph-body').fadeIn('slow', function() {
+    GraphOne();
+    $("#pond-inc-card").fadeIn('slow');
+  });
+}
+
+var showGraphTwo = function() {
+  var selected = $('#pond-inc-dropdown').val();
+  $('#graph2-body').fadeIn('slow', function() {
+    graphTwo(selected);
+    $("#year-card").fadeIn('slow');
+  });
+}
+
+var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
   });
-});
+}

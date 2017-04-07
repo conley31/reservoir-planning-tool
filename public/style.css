@@ -69,9 +69,9 @@ hr {
 
 .card-shadow {
   z-index: 3;
-  -webkit-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  -moz-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
 }
 
 #map-container {
