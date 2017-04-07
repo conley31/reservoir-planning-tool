@@ -50,7 +50,7 @@ for(var i = 0; i < allYears3.length; i++){
 		for(var k = 0; k < 12; k++){
 			if(k % 2 === 0){
 				allYears3[i][j][k] = {bypassFlowVol: 10, deficitVol: k/incs[j]};
-			}	
+			}
 			else{
 				allYears3[i][j][k] = {bypassFlowVol: 0, deficitVol: k/incs[j]};
 
@@ -135,7 +135,7 @@ describe('Testing Graph 1 Generation: Average of all Years', function(){
 	it('Should return a linear set that corresponds to individual months.', function(){
 		chai.deepEqual(a.allYearsAveraged(allYears2, [2,4]), [[2, 78, 66], [4, 78, 66]]);
 	});
-	
+
 	it('Should return a set where each bypassFlowVol is set depding the current increment for allYears3.', function(){
 		chai.deepEqual(a.allYearsAveraged(allYears3, [2, 4, 6]), [[2, 60, 33], [4, 60, 16.5], [6,60 ,11]]);
 	});
@@ -163,7 +163,7 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2,4,6], 2),a.allYearsByPondVolume(allYears4, [2,4,6], 6) );
 	});
 	it('Should return a set containing all values of 2.', function(){
-		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2, 4, 6], 2), 
+		chai.deepEqual(a.allYearsByPondVolume(allYears4, [2, 4, 6], 2),
 		[ [ 0, 2, 2 ],
 			[ 1, 2, 2 ],
 			[ 2, 2, 2 ],
@@ -175,7 +175,7 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 			[ 8, 2, 2 ],
 			[ 9, 2, 2 ],
 			[ 10, 2, 2 ],
-			[ 11, 2, 2 ] 
+			[ 11, 2, 2 ]
 		]);
 	});
 
@@ -249,9 +249,9 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 		it('Tests two years that have have identical months.', function(){
 			chai.deepEqual(a.allMonthsByYear(allYears5, [2, 4, 6], 1980, 2, 1980), a.allMonthsByYear(allYears5, [2,4,6], 1980, 2, 1982));
 		});
-		
+
 		it('Should return a set where each bypassFlowVol = selectedYear - initial + incrementIndex', function(){
-			chai.deepEqual(a.allMonthsByYear(allYears6, [2, 4, 6], 1980, 4, 1984), 
+			chai.deepEqual(a.allMonthsByYear(allYears6, [2, 4, 6], 1980, 4, 1984),
 				[ [ 0, 5, 0 ],
 				[ 1, 6, 0 ],
 				[ 2, 7, 0 ],
@@ -267,7 +267,7 @@ describe('Testing Graph 2 Generation: Average of all Years By PondVolume', funct
 
 				);
 		});
-		
+
 	});
 
 
@@ -307,7 +307,7 @@ describe('Test all graphs with potentially undefined data', function(){
 				[ 9, 0.6, 0.6 ],
 				[ 10, 0.6, 0.6 ],
 				[ 11, 0.6, 0.6 ] ]
-				)
+      );
 		});
 
 		it('Should contain subarrays containing all zero values aside from pondVolume. (allMonthsByYear)', function(){
@@ -344,7 +344,5 @@ describe('Test all graphs with potentially undefined data', function(){
 		});
 
 
-		
+
 	});
-
-
