@@ -280,7 +280,7 @@ function isValidDate(day, month, year) {
 
   var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+  if(year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
     monthLength[1] = 29;
 
   return day > 0 && day <= monthLength[month - 1];
