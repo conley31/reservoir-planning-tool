@@ -58,7 +58,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
-	
+
 	var currentIncrement = increments.findIndex((vol)=>{
 		return vol === specificPondVolume;
 	});
@@ -79,7 +79,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i;
+			outputArray[i][0] = i + 1;
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 			outputArray[i][3] /= allYears.length;
@@ -116,7 +116,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i;
+			outputArray[i][0] = i + 1;
 		}
 	}
 

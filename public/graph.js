@@ -29,7 +29,6 @@ $("form").submit(function(event) {
     processData: false,
     success: function(data) {
       receivedArray = data;
-      console.log(data.incData);
       showGraphOne(); // defined in app.js
     },
     error: function() {
