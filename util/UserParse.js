@@ -10,25 +10,26 @@ module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
               isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.Precipitation));
     })
+
     .on("data-invalid", function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
                       ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.Precipitation));
     })
+
     .on("data", function(data) {
       buffer.push(data);
     })
+
     .on("end", function() {
       resolve(buffer);
     });
@@ -56,13 +57,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
               isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.Precipitation));
     })
 
     .on("data-invalid", function(data, index) {
@@ -70,8 +70,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
                       ',' + data.Month +
                       ',' + data.Day +
                       ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.Precipitation));
     })
     .on("data", function(data) {
       buffer.push(data);
@@ -83,13 +82,17 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
         for(var i = 0; i < buffer.length - 1; i++) {
-          blendedArray.push(buffer[i]);
-          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
-          locationIndex = response[0];
-          blendedArray = blendedArray.concat(response[1]);
+          resp = addPET(data, buffer[i]);
+           if(resp.PET !== null) {
+             blendedArray.push(resp);
+             response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
+             locationIndex = response[0];
+             blendedArray = blendedArray.concat(response[1]);
+           }
         }
-
-        blendedArray.push(buffer[buffer.length - 1]);
+        resp = addPET(data, buffer[buffer.length - 1]);
+        if(resp !== null)
+          blendedArray.push(resp);
         resolve(blendedArray);
       });
     });
@@ -120,7 +123,7 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
 
   while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
     if(sqlRows[index].RecordedDate > startDate) {
-      arr.push(formattedHash(sqlRows[index]));
+      arr.push((sqlRows[index]));
     }
     ++index;
   }
@@ -128,38 +131,64 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
+
 /**
- *  formattedHash -  Changes sqlRow to match CSV format
+ *  fillGaps -  Takes a userRow, searches DB rows for matching date.
+ *              If matching date exists then it adds PET to row.
+ *              If it can't find a matching date then null is returned.
  *
- *  Return - A formatted hash -
+ *  Return - Hash of row data plus PET -
  *  {
- *    "Year": "2000",
-      "Month": "11",
-      "Day": "43",
-      "Drainflow": "1.2321",
-      "Precipitation": "9.342",
-      "PET": "3.21323"
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
  *  }
  *
  */
 
-function formattedHash(sqlRow) {
-  var row = {"Year": sqlRow.RecordedDate.getFullYear().toString(),
-             "Month": (sqlRow.RecordedDate.getMonth()).toString(),
-             "Day": sqlRow.RecordedDate.getDate().toString(),
-             "Drainflow": sqlRow.Drainflow,
-             "Precipitation": sqlRow.Precipitation,
-             "PET": sqlRow.PET};
+function addPET(sqlRows, userRow) {
+  row = arraytoSQLFormat(userRow);
+  index = 0;
+  while(index < sqlRows.length) {
+    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) === row.RecordedDate.setHours(0,0,0,0)) {
+      row.PET = sqlRows[index].PET;
+    }
+    ++index;
+  }
+  if(!("PET" in row))
+    return null;
   return row;
 }
 
-/**
- *  seek -  Finds the first date in an array(rows) that is equal to or greater than
- *          the first row(firstBuf) date from the user uploaded CSV.
- *
- *  Return - int of the index in rows where date is greater.
- *
- */
+ /**
+  *  arraytoSQLFormat -  Changes CSVRow to match SQL format
+  *
+  *  Return - A formatted hash -
+  *  {
+  *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+       "Drainflow": "1.2321",
+       "Precipitation": "9.342",
+       "PET": "3.21323"
+  *  }
+  *
+  */
+
+ function arraytoSQLFormat(CSVRow) {
+   var row = {"RecordedDate": new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
+              "Drainflow": CSVRow.Drainflow,
+              "Precipitation": CSVRow.Precipitation,
+              "PET": null};
+    return row;
+ }
+
+ /**
+  *  seek -  Finds the first date in an array(rows) that is equal to or greater than
+  *          the first row(firstBuf) date from the user uploaded CSV.
+  *
+  *  Return - int of the index in rows where date is greater.
+  *
+  */
 
 function seek(rows, firstBuf) {
   var i = 0;
