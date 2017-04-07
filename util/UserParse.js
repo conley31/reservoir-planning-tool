@@ -131,6 +131,22 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
+
+/**
+ *  fillGaps -  Takes a userRow, searches DB rows for matching date.
+ *              If matching date exists then it adds PET to row.
+ *              If it can't find a matching date then null is returned.
+ *
+ *  Return - Hash of row data plus PET -
+ *  {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }
+ *
+ */
+
 function addPET(sqlRows, userRow) {
   row = arraytoSQLFormat(userRow);
   index = 0;
