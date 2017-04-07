@@ -37,7 +37,7 @@ module.exports.readUserCSV = function(inStream) {
   });
 };
 
-/**
+/*
  *  verifyAndBlendUserCSV -  Verifies a user's CSV upload and then interlaces missing data with TDP data
  *
  *  Return - Array of Rows -
@@ -143,7 +143,7 @@ function blendArray(sqlRows, userRows) {
   return blendedArray;
 }
 
-/**
+/*
  *  fillGaps -  Checks for any date gaps between userRowStart and userRowEnd.
  *              If gaps exist, then rows are returned from sqlRows data if they exist.
  *
@@ -173,7 +173,7 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
-/**
+/*
  *  addPETs -  Master function to addPET. Loops through all userRows and
  *             passes each userRow and sqlRows to addPETs.
  *
@@ -197,7 +197,7 @@ function addPETs(sqlRows, userRows) {
   return buffer;
 }
 
-/**
+/*
  *  addPET  -  Searches SQL Rows to find a date that matches the userRow.
  *             Once found, it sets the PET var of userRow and returns the row.
  *             If the row cannot be matched, then null is returned and the row
@@ -229,7 +229,7 @@ function addPET(sqlRows, userRow) {
   return row;
 }
 
- /**
+ /*
   *  arraytoSQLFormat -  Changes CSVRow to match SQL format
   *
   *  Return - A formatted hash -
@@ -250,7 +250,7 @@ function addPET(sqlRows, userRow) {
     return row;
  }
 
- /**
+ /*
   *  seek -  Finds the first date in an array(rows) that is equal to or greater than
   *          the first row(firstBuf) date from the user uploaded CSV.
   *
