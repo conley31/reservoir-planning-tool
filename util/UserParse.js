@@ -117,7 +117,6 @@ function convertToInches(data) {
  */
 
 function blendArray(sqlRows, userRows) {
-  console.log("sqlROWS: " + sqlRows);
   var startDate = userRows[0].RecordedDate.setHours(0,0,0,0);
   var endDate = userRows[userRows.length - 1].RecordedDate.setHours(0,0,0,0);
   var blendedArray = [];
