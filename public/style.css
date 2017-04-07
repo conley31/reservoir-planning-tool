@@ -149,6 +149,10 @@ input[type="number"] {
   font-size: 12px;
 }
 
+#download-csv {
+  color: white;
+}
+
 /*Graphs*/
 #graph-body, #graph2-body, #graph3-body {
   display: none;

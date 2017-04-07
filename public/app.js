@@ -46,6 +46,8 @@ $('#uploadButton').click(function() {
 });
 
 $('#pond-inc-submit').click(function() {
+  $('#download-csv').show();
+  $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val());
   showGraphTwo();
 });
 
@@ -59,7 +61,7 @@ var showGraphOne = function() {
     graphOne();
     $("#pond-inc-card").fadeIn('slow');
   });
-}
+};
 
 //Shows Graph Two
 var showGraphTwo = function() {
@@ -68,7 +70,7 @@ var showGraphTwo = function() {
     graphTwo(selected);
     $("#year-card").fadeIn('slow');
   });
-}
+};
 
 //Shows Graph Three 
 var showGraphThree = function() {
