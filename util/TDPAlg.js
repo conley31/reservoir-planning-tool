@@ -149,11 +149,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 // TODO document this method
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
-    if(Number.isInteger(_locationId))
-      resolve(db.getLocationById(_locationId));
-    if(stream && stream !== "undefined") {
-      resolve(userparse.readUserCSV(stream));
+    if(typeof stream != 'undefined') {
+      resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
     }
-    reject(new Error('Neither LocationID nor Stream are valid'));
+    else {
+      resolve(db.getLocationById(_locationId));
+    }
   });
 }
