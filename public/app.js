@@ -53,6 +53,7 @@ $('#year-submit').click(function() {
   showGraphThree();
 });
 
+//Shows Graph One
 var showGraphOne = function() {
   $('#graph-body').fadeIn('slow', function() {
     GraphOne();
@@ -60,6 +61,7 @@ var showGraphOne = function() {
   });
 }
 
+//Shows Graph Two
 var showGraphTwo = function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow', function() {
@@ -68,6 +70,7 @@ var showGraphTwo = function() {
   });
 }
 
+//Shows Graph Three 
 var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
