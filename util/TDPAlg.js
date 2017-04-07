@@ -20,6 +20,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
+      console.log(data);
       const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
       var numOfRows = data.length;
       var allYears = [];
@@ -145,11 +146,12 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
-    if(Number.isInteger(_locationId))
-      resolve(db.getLocationById(_locationId));
     if(stream && stream !== "undefined") {
-      resolve(userparse.readUserCSV(stream));
+      console.log("Verify and blending");
+      resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
     }
-    reject(new Error('Neither LocationID nor Stream are valid'));
+    else {
+      resolve(db.getLocationById(_locationId));
+    }
   });
 }

@@ -10,25 +10,26 @@ module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "InFlow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.InFlow) &&
+              isValidNumber(data.Precipitation));
     })
+
     .on("data-invalid", function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
-                      ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.InFlow +
+                      ',' + data.Precipitation));
     })
+
     .on("data", function(data) {
       buffer.push(data);
     })
+
     .on("end", function() {
       resolve(buffer);
     });
@@ -56,22 +57,20 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation", "PET"]})
+    .fromStream(inStream, {headers : ["Year", "Month", "Day", "InFlow", "Precipitation"]})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation) &&
-              isValidNumber(data.PET));
+              isValidNumber(data.InFlow) &&
+              isValidNumber(data.Precipitation));
     })
 
     .on("data-invalid", function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
-                      ',' + data.Drainflow +
-                      ',' + data.Precipitation +
-                      ',' + data.PET));
+                      ',' + data.InFlow +
+                      ',' + data.Precipitation));
     })
     .on("data", function(data) {
       buffer.push(data);
@@ -82,14 +81,15 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
-        for(var i = 0; i < buffer.length - 1; i++) {
-          blendedArray.push(buffer[i]);
-          response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
-          locationIndex = response[0];
-          blendedArray = blendedArray.concat(response[1]);
+        for(var i = 0; i < buffer.length; i++) {
+          resp = addPET(data, buffer[i]);
+           if(resp.PET !== null) {
+             blendedArray.push(resp);
+             response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
+             locationIndex = response[0];
+             blendedArray = blendedArray.concat(response[1]);
+           }
         }
-
-        blendedArray.push(buffer[buffer.length - 1]);
         resolve(blendedArray);
       });
     });
@@ -120,12 +120,37 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
 
   while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
     if(sqlRows[index].RecordedDate > startDate) {
-      arr.push(formattedHash(sqlRows[index]));
+      console.log("Filling a gap");
+      arr.push((sqlRows[index]));
     }
     ++index;
   }
 
   return [index, arr];
+}
+
+function addPET(sqlRows, userRow) {
+  row = arraytoSQLFormat(userRow);
+  index = 0;
+  while(index < sqlRows.length) {
+    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) === row.RecordedDate.setHours(0,0,0,0)) {
+      row.PET = sqlRows[index].PET;
+    }
+    ++index;
+  }
+  if(!("PET" in row))
+    return null;
+  return row;
+}
+
+function compareOnlyDate(d1, d2) {
+  if(d1.getFullYear() !== d2.getFullYear())
+    return false;
+  if(d1.getMonth() !== d2.getMonth())
+    return false;
+  if(d1.getDate() !== d1.getDate())
+    return false;
+  return true;
 }
 
 /**
@@ -160,6 +185,14 @@ function formattedHash(sqlRow) {
  *  Return - int of the index in rows where date is greater.
  *
  */
+
+ function arraytoSQLFormat(CSVRow) {
+   var row = {"RecordedDate": new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
+              "InFlow": CSVRow.InFlow,
+              "Precipitation": CSVRow.Precipitation,
+              "PET": null};
+    return row;
+ }
 
 function seek(rows, firstBuf) {
   var i = 0;
