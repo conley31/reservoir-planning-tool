@@ -146,7 +146,20 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 });
 };
 
-// TODO document this method
+/*
+ *  pullData  -   Chooses whether to just get SQL Data or
+ *                if the user has uploaded a CSV that needs
+ *                to be blended and then returned.
+ *
+ *  Return - Either SQLRows or blendedCSV -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
+ *
+ */
 function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(typeof stream != 'undefined') {
