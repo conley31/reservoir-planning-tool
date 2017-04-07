@@ -5,6 +5,7 @@ var csv = require('fast-csv'),
 
 var dateTrack = null;
 
+var mmToInches = 0.0393701;
 
 module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
@@ -81,23 +82,67 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
       db.getLocationById(id).then(function(data) {
         var locationIndex = seek(data, buffer[0]);
-        for(var i = 0; i < buffer.length - 1; i++) {
-          resp = addPET(data, buffer[i]);
-           if(resp.PET !== null) {
-             blendedArray.push(resp);
-             response = fillGaps(locationIndex, data, buffer[i], buffer[i+1]);
-             locationIndex = response[0];
-             blendedArray = blendedArray.concat(response[1]);
-           }
-        }
-        resp = addPET(data, buffer[buffer.length - 1]);
-        if(resp !== null)
-          blendedArray.push(resp);
-        resolve(blendedArray);
+        resp = addPETs(data, buffer);
+        resp = convertToInches(resp);
+        resolve(blendArray(data, resp));
       });
     });
   });
 };
+
+function convertToInches(data) {
+  for(var i in data) {
+    data[i].Drainflow = data[i].Drainflow * mmToInches;
+    data[i].Precipitation = data[i].Precipitation * mmToInches;
+    data[i].PET = data[i].PET * mmToInches;
+  }
+  return data;
+}
+
+/*
+ *  blendArray -  Fully blends userCSV data with sqlRows.
+ *                Adds sqlRows less than the start of userCSV
+ *                data. Adds sqlRows that occur inbetween userCSV
+ *                rows of data. Adds sqlRows that occur after the
+ *                end of userCSV.
+ *
+ *  Return - Array of userRows blended with sqlRows -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
+ *
+ */
+
+function blendArray(sqlRows, userRows) {
+  console.log("sqlROWS: " + sqlRows);
+  var startDate = userRows[0].RecordedDate.setHours(0,0,0,0);
+  var endDate = userRows[userRows.length - 1].RecordedDate.setHours(0,0,0,0);
+  var blendedArray = [];
+  var index = 0;
+  //Add data that exists before userRows data begins
+  while(sqlRows[index].RecordedDate.setHours(0,0,0,0) < startDate) {
+    blendedArray.push(sqlRows[index]);
+    ++index;
+  }
+  //Fill gaps inbetween dates in userRows
+  for(var i = 0; i < userRows.length - 1; i++) {
+    blendedArray.push(userRows[i]);
+    resp = fillGaps(index, sqlRows, userRows[i], userRows[i+1]);
+    index = resp[0];
+    blendedArray.concat(resp[1]);
+  }
+  //Add data that exists after userRows end
+  blendedArray.push(userRows[userRows.length - 1]);
+  while(index < sqlRows.length) {
+    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) > endDate)
+      blendedArray.push(sqlRows[index]);
+    ++index;
+  }
+  return blendedArray;
+}
 
 /**
  *  fillGaps -  Checks for any date gaps between userRowStart and userRowEnd.
@@ -105,12 +150,10 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
  *
  *  Return - Array of startIndex for sqlRows and Rows to fill gaps -
  *  [2074, {
- *    Year: '1981',
-      Month: '1',
-      Day: '7',
-      Drainflow: 1.0755,
-      Precipitation: 2.38,
-      PET: 1.6041
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
  *  }, ...]
  *
  */
@@ -131,19 +174,45 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   return [index, arr];
 }
 
+/**
+ *  addPETs -  Master function to addPET. Loops through all userRows and
+ *             passes each userRow and sqlRows to addPETs.
+ *
+ *  Return - Array of userRows with PETs added -
+ *  [ {
+ *    "RecordedDate": 1980-10-08T05:00:00.000Z,
+ *    "Drainflow": "1.2321",
+ *    "Precipitation": "9.342",
+ *    "PET": "3.21323"
+ *  }, ...]
+ *
+ */
+
+function addPETs(sqlRows, userRows) {
+  var buffer = [];
+  for(var index in userRows) {
+    resp = addPET(sqlRows, userRows[index]);
+    if(resp !== null)
+      buffer.push(resp);
+  }
+  return buffer;
+}
 
 /**
- *  fillGaps -  Takes a userRow, searches DB rows for matching date.
- *              If matching date exists then it adds PET to row.
- *              If it can't find a matching date then null is returned.
+ *  addPET  -  Searches SQL Rows to find a date that matches the userRow.
+ *             Once found, it sets the PET var of userRow and returns the row.
+ *             If the row cannot be matched, then null is returned and the row
+ *             should be discarded.
  *
- *  Return - Hash of row data plus PET -
+ *  Return - SUCCESS - One userRow with PET value set -
  *  {
  *    "RecordedDate": 1980-10-08T05:00:00.000Z,
  *    "Drainflow": "1.2321",
  *    "Precipitation": "9.342",
  *    "PET": "3.21323"
  *  }
+ *
+ *  Return - FAIL - NULL
  *
  */
 
@@ -167,9 +236,9 @@ function addPET(sqlRows, userRow) {
   *  Return - A formatted hash -
   *  {
   *    "RecordedDate": 1980-10-08T05:00:00.000Z,
-       "Drainflow": "1.2321",
-       "Precipitation": "9.342",
-       "PET": "3.21323"
+  *    "Drainflow": "1.2321",
+  *    "Precipitation": "9.342",
+  *    "PET": "3.21323"
   *  }
   *
   */
