@@ -217,12 +217,12 @@ footer h5 {
 .loader {
     margin: auto;
     margin-top: 30vh;
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #357cce; /* Blue */
+    border: 16px solid #fff;
+    border-right: 16px solid #357cce;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 2s linear infinite;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s ease infinite;
 }
 
 @keyframes spin {
