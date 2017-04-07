@@ -83,7 +83,7 @@ $(window).smartresize(function () {
 });
 
 //Create graph 1
-var GraphOne = function() {
+var graphOne = function() {
   graphData = [];
   graphData[0] = 'Pond Volume';
   graphData[1] = 'Bypass Volume';
