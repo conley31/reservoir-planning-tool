@@ -53,6 +53,7 @@ hr {
 
 .card-container {
   width: 80vw;
+  height: auto;
   position: relative;
   margin: 0 auto;
   padding-bottom: 36px;
@@ -61,14 +62,16 @@ hr {
 .card {
   display: block;
   width: inherit;
+  height: auto;
   margin: 20px 0;
+  overflow: hidden;
 }
 
 .card-shadow {
   z-index: 3;
-  -webkit-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  -moz-box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
-  box-shadow: 0px 2px 7px 0px rgba(102,102,102,1);
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
 }
 
 #map-container {
@@ -78,8 +81,10 @@ hr {
 }
 
 #map {
-  height: inherit;
   width: inherit;
+  height: inherit;
+  position:relative;
+  z-index:500;
 }
 
 #map-submit {
@@ -213,4 +218,28 @@ footer h5 {
   display: none;
   background: #357cce;
   padding: 10px;
+}
+
+#buffer-container {
+  height: inherit;
+  width: inherit;
+  position:absolute;
+  z-index:1000;
+  background: #357cce;
+}
+
+.loader {
+    margin: auto;
+    margin-top: 30vh;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #357cce; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -3,7 +3,7 @@ var data;
 var options;
 var chart;
 var receivedArray;
-var currentPondIncrement
+var currentPondVolume;
 
 $("form").submit(function(event) {
   event.preventDefault();
@@ -29,13 +29,14 @@ $("form").submit(function(event) {
     processData: false,
     success: function(data) {
       receivedArray = data;
-      console.log(data);
-      GraphOne();
+      //defined in app.js
+      showGraphOne();
     },
     error: function() {
       console.log("AJAX failed");
     }
   });
+
 });
 
 
@@ -44,13 +45,17 @@ $("form").submit(function(event) {
  */
 
 //Draws graph onto div
+//Takes inputs from graphData filled in graphOne(), graphTwo() and graphThree()
 var drawChart = function() {
   data = new google.visualization.DataTable();
   var i = 0;
+  //add axis descriptions
   while(typeof graphData[i] == "string") {
     data.addColumn('number', graphData[i++]);
   }
+  //add array of data
   data.addRows(graphData[i++]);
+  //add options
   options = {
     chart: {
       title: graphData[i++],
@@ -79,16 +84,15 @@ $(window).smartresize(function () {
 
 //Create graph 1
 var GraphOne = function() {
-  array = receivedArray;
   graphData = [];
   graphData[0] = 'Pond Volume';
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit';
-  graphData[3] = generateGraphData.allYearsAveraged(array.graphData, array.incData);
+  graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
   graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume'
   graphData[5] = 'in tbd scale'
   graphData[6] = "graph-1";
-  addIncDropdown(array.incData);
+  addIncDropdown(receivedArray.incData);
   initGraph();
 }
 
@@ -105,7 +109,6 @@ var graphTwo = function(pondIncrement) {
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-2";
   addYearDropdown();
-  $("#year-card").fadeIn('fast');
   drawChart();
 }
 
@@ -128,7 +131,6 @@ var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
   dropdown.find('option').remove()
   for(var i = 0; i < array.length; i++) {
-    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
     dropdown.append($("<option></option>").val(array[i]).html(array[i]));
   }
 }
@@ -136,9 +138,8 @@ var addIncDropdown = function(array) {
 //Populate year dropdown
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
-  dropdown.find('option').remove()
+  dropdown.find('option').remove();
   for(var i = 1980; i < 2010; i++) {
-    // dropdown.append("<option value='" + array[i] + "'>" + array[i] + "</option>");
-    dropdown.append($("<option></option>").val(i).html(i));
+      dropdown.append($("<option></option>").val(i).html(i));
   }
 }
