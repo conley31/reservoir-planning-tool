@@ -175,7 +175,7 @@ input[type="number"] {
   padding: 10px;
 }
 
-#buffer-container {
+.buffer-container {
   height: inherit;
   width: inherit;
   position:absolute;
