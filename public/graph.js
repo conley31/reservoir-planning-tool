@@ -120,6 +120,7 @@ var graphThree = function(year) {
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
   graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
+  graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondVolume;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-3";
   drawChart();
