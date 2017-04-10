@@ -4,12 +4,13 @@
 Notes:
 -This file exports the algorithm developed by the Transforming Drainage Project.
 -All variables that are preceded by an underscore are from form inputs
+-All values are in acre/feet or feet
 */
 
 var db = require('../db');
 var userparse = require('./UserParse');
 
-//monthlyData will be an object that is used inside of allYears
+/* monthlyData will be an object that is used inside of allYears to represent each month */
 function monthlyData(){
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
@@ -21,13 +22,20 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
-      var dailyData = {};
-      const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
+      /*dailyData is an object that will be used for creating downloadable CSV */
+      var dailyData = {}; 
+      /* allYears stores data for graphs on the client */
       var allYears = [];
+      /*
+         increments will store the actual pondVolumes that go along with each increment.
+         Pond volumes are not stored within allYears, so increments will be passed to client as well
+      */
       var increments = [];
-      const seepageVolDay = 0.01; //feet
+      const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement); 
+      const seepageVolDay = 0.01;
       var initialYear = null;
 
+      /* Run the calculation for every pond increment */
       for (var i = 0; i <= numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
@@ -43,7 +51,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
 
 
-        /* LOOP THROUGH EVERY DAY */
+        /* LOOP THROUGH EVERY DAY(ROW) in Database */
         for (var j = 0; j < data.length; j++) {
           /*
           **********************************************
@@ -53,8 +61,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var currentDate = data[j].RecordedDate; // Javascript Date object
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth();
-
-          //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
 
           if(initialYear === null){
             initialYear = currentYear;
@@ -84,6 +90,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+          
           if(pondWaterVolDay < 0){
             pondWaterVolDay = 0;
           }
@@ -116,12 +123,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             pondWaterDepth: pondWaterDepthDay
           });
 
-          //update the (day-1) variables
+          /* update the (day-1) variables */
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
-          //updated allYears at the current year at the current increment and at the current month.
+          /* updated allYears at the current year at the current increment and at the current month. */
+
 
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
@@ -133,15 +141,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
 
-          //update monthly values here
-
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
           allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
         }
 
       }
-      //consider sending back an object with the first graphs data already calculated.
+
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
 });
