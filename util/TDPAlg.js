@@ -75,9 +75,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var deficitVolDay = 0;
 
           var evapVolDay = evapDepthDay * pondArea;
+          var pondPrecipVolDay = precipDepthDay * pondArea;
 
-          var pondPrecipVolDay = (precipDepthDay * pondArea);
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
+          if( soilMoistureDepthDay < 0 ){
+            soilMoistureDepthDay = 0;
+          }
+
           var pondWaterVolDay = pondWaterVolDayPrev;
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
@@ -90,7 +94,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
-          
           if(pondWaterVolDay < 0){
             pondWaterVolDay = 0;
           }
@@ -124,12 +127,28 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           });
 
           /* update the (day-1) variables */
+          /* here lies the problem. */
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
           /* updated allYears at the current year at the current increment and at the current month. */
+          //console.log("Current Year:", currentYear, " Pond Vol:", pondVol);
+          if(pondVol == 60){
+              console.log("-----------------------------------------------------------------------------------");
+              
+              console.log("Drainflow:",data[j].Drainflow," Precipitation:", data[j].Precipitation," PET:", data[j].PET);
+              console.log("Pond Water Depth Day:", pondWaterDepthDay);
+              console.log("Pond Area:", pondArea );
+              console.log("Pond Water Volume Day:", pondWaterVolDay);
+              console.log("Pond Precip Volume Day:", pondPrecipVolDay);
+              console.log("Irrigation Volume Day:", irrigationVolDay);
+              console.log("Soil Moisture Depth Day:", soilMoistureDepthDay);
+              
+              console.log("Bypass flow vol day:", bypassFlowVolDay);
+              console.log("deficit vol day:", bypassFlowVolDay);
 
+          }
 
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
