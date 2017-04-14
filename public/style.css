@@ -151,8 +151,17 @@ input[type="number"] {
 
 /*Form Error Checking*/
 #form-error {
-  background: white;
   color: #f44336;
+  border-style: solid;
+  border-width: 3vh;
+  border-style: solid;
+  border-width: 3vh;
+  border-color:#357cce;
+  padding: 10px;
+}
+
+#error-contet{
+  background: #eee;
 }
 
 #download-csv {

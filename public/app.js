@@ -10,6 +10,10 @@ $('#map-submit').click(function() {
       $('html, body').animate({
         scrollTop: $("#form-data").offset().top
       }, 3000, 'easeOutExpo');
+
+      array = [];
+      array[0] = "This is an error";
+      displayFormError(array);
   } else {
       $('#graph-body').fadeOut('fast', function() {
 
