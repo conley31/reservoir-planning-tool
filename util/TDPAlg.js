@@ -18,7 +18,8 @@ function monthlyData(){
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
-_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
+_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { 
+
 
   return new Promise(function(resolve, reject) {
     pullData(_locationId, _csvFileStream).then(function(data){
@@ -78,9 +79,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var pondPrecipVolDay = precipDepthDay * pondArea;
 
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
+          /*
           if( soilMoistureDepthDay < 0 ){
             soilMoistureDepthDay = 0;
-          }
+          }*/
 
           var pondWaterVolDay = pondWaterVolDayPrev;
 
@@ -90,20 +92,39 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
+
           }
-
-
+          
+          /*
+          console.log("------------------------------------");
+          console.log("day previous:",pondWaterVolDayPrev );
+          console.log("pondVol:",pondVol);
+          console.log("inflowVolDay:",inflowVolDay);
+          console.log("pondPrecipVolDay:",pondPrecipVolDay);
+          console.log("irrigationVolDay:",irrigationVolDay);
+          console.log("inflowVolDay:",inflowVolDay);
+          console.log("evapVolDay:",evapVolDay);
+          */
+          //console.log("inflowVolDay:",inflowVolDay);
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+
           if(pondWaterVolDay < 0){
             pondWaterVolDay = 0;
           }
 
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
-
+            /*
+            console.log("**************************");
+            console.log("Pond-Vol:", pondVol);
+            console.log("PondWater-Vol:", pondWaterVolDay);
+            console.log(pondWaterVolDay-pondVol);
+            */
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
+
+
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
@@ -127,13 +148,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           });
 
           /* update the (day-1) variables */
-          /* here lies the problem. */
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
           /* updated allYears at the current year at the current increment and at the current month. */
           //console.log("Current Year:", currentYear, " Pond Vol:", pondVol);
+          /*
           if(pondVol == 60){
               console.log("-----------------------------------------------------------------------------------");
               
@@ -149,7 +170,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
               console.log("deficit vol day:", bypassFlowVolDay);
 
           }
-
+          */
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
           }
@@ -158,14 +179,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-          }
+         }
+         /*
+         console.log("bypassFlowDay:",bypassFlowVolDay);
+         console.log("deficitVolDay:",deficitVolDay);
+         */
 
-          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
-        }
+         allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
+         allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+         allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
+       }
 
-      }
+     }
 
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     });
@@ -186,7 +211,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
  *  }, ...]
  *
  */
-function pullData(_locationId, stream) {
+ function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(typeof stream != 'undefined') {
       resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));

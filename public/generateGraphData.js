@@ -43,9 +43,9 @@ generateGraphData.allYearsAveraged = function(allYears, increments){
 
 	for(i = 0; i < outputArray.length; i++){
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = increments[i];
-			outputArray[i][1] /= allYears.length;
-			outputArray[i][2] /= allYears.length;
+			outputArray[i][0] = increments[i];	//pondWaterDepth
+			outputArray[i][1] /= allYears.length;	//byPassFlow
+			outputArray[i][2] /= allYears.length; 	//deficitVol
 		}
 	}
 
