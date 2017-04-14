@@ -149,6 +149,12 @@ input[type="number"] {
   font-size: 12px;
 }
 
+/*Form Error Checking*/
+#form-error {
+  background: white;
+  color: #f44336;
+}
+
 #download-csv {
   color: white;
 }
