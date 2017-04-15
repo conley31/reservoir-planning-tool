@@ -17,7 +17,7 @@
 ## Database Schema
 - The database contains a table for each daily data file in the `db/daily_files/` directory.
 - Each table follows the naming convention of: `Location{ID}`. Where ID is specified in the `db/index.csv`.
--  Schema: `Location{ID}(RecordedDate:Date, Drainflow:Float, Precipitation:Float, PET:Float)`
+- Schema: `Location{ID}(RecordedDate:Date, Drainflow:Float, Precipitation:Float, PET:Float)`
 
 ## Database Scripts
 
