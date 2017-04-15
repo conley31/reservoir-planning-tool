@@ -36,9 +36,6 @@ $('#form-submit').click(function() {
     $('#map-submit').text('Select Another Location');
     toggleText = 1;
   });
-  array = [];
-  array[0] = "This is an error";
-  displayFormError(array);
 });
 
 $('#uploadButton').click(function() {

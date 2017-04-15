@@ -1,3 +1,8 @@
+/*
+*Receives array of errors
+*Prints each error in a #error-content in calculator-input.ejs
+*If array is undefined or null, removes the error div from display
+*/
 var displayFormError = function(array) {
   var errorContent = $("#error-content");
   if(array == undefined || array == null) {
