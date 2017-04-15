@@ -535,3 +535,77 @@ Clayton: Finish debugging TDPAlg.js and help Vritant make use of its output on c
 Vritant: Three graphs should be displayed with at least mock data. UI components should have animation.
 Jonah: Make CSV upload changes and finish node db tests.
 Drew: Assemble CSV from algorithm output and make downloadable, finalize deployment
+
+=== Week 7 (Due 4/8) ===
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 7 (Summary)
+4/3	2.5hrs	Met with Vritant find the source of the zeros in all of our data.
+4/5	4hrs	Debug TDPAlg and display more accurate values.
+4/7 	4hrs	Add support for writing daily info to CSV and accepting CSV inputs in TDPAlg.
+
+Week 8 (Plan)
+4/10 	4.5hrs	Use the expected data from project owners to gage the accuracy of our outputs
+		and fix the algorithm accordingly.
+4/12	2.5hrs	Document the algorithm implementation and add descriptive comments to all
+		code I’ve written.
+4/13	3hrs	Implement vigourous error checking in graph generating functions and TDPAlg.js
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 7 (Summary)
+4/5	5h	Assemble CSV
+4/6	4h	Add CSV data to session, and set up redis on the server
+4/7	3h	Integrate with front end and make CSV downloadable, final tweaks before demo
+Week 8 (Plan)
+5/12	3h	Add schema to README, Write Server documentation
+5/13	4h	Fix google maps bounds, select geolocation
+5/15	2h	Fix google maps search bar
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 7 (Summary)
+5/6	1.5hrs	  Began to fix CSV uploads
+5/6	2hrs	  Continued working on node DB export tests
+5/7	0.5hrs    Finished fix and full blend CSV uploads
+5/7	2hrs	  Finished node DB export tests
+5/7	1hr	  Linting project code and adding documentation for testing
+
+Week 8 (Plan)
+5/12	4hrs	 Add front end validation before form submission
+5/13	2hrs	 Write documentation on readme and method headers
+5/13	2hrs	 Add back end validation after form submission
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 7 (Summary)
+4/3	2.5hrs	Met with Clayton to fix graph display
+4/3	3.5hrs	Finished implementation of multiple graphs
+4/5 	4hrs	Added animations
+
+Week 8 (Plan)
+4/9	3hrs	Reorganize form input layout
+4/12	3hrs	Improve readability on website
+4/13 	4hrs	Implement alert for error display
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 7 (Summary) (Scrum master: Drew Atkinson)
+4/5 	3h	Worked out algorithm output issues, tested outputs
+4/6	2h	Weekly Scrum, Final UI and usability tweaks before demo, Started Sprint 2 Retrospective
+
+Week 8 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+4/10	1h	Sprint 3 Planning, Sprint 2 Retrospective
+4/14	1h	Weekly Scrum Meeting
+
+[Individual Goals]
+Clayton: Verify that TDPAlg.js is outputting accurate data, implement error checking in all written
+               modules, and begin documenting TDPAlg.js functionality.
+Drew: Work on server documentation, fix google maps issues
+Jonah: Add front and back end validation for form inputs and add more documentation
+Vritant: improve readability and create template for error displays
