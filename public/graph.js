@@ -61,25 +61,25 @@ var drawChart = function() {
       width: '90%'
     },
     fontName: 'Roboto',
-    fontSize: 20,
+    fontSize: 25,
     theme: 'material',
     title: graphData[i++],
     subtitle: graphData[i++],
     titleTextStyle: {
-      fontSize: 20,
+      fontSize: 25,
       bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-        fontSize: 20
+        fontSize: 25
       },
       position: 'top',
       alignment: 'end'
     },
     hAxis: {
       textStyle: {
-        fontSize: 20
+        fontSize: 25
       },
       title: graphData[0],
       titleTextStyle: {
@@ -90,7 +90,7 @@ var drawChart = function() {
     },
     vAxis: {
       textStyle: {
-        fontSize: 20
+        fontSize: 25
       }
     },
     pointSize: 15,
