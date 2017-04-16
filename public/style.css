@@ -20,7 +20,7 @@ nav {
 
 .navbar-brand {
     color: white;
-    font-size: 2rem;
+    font-size: 2em;
 }
 
 /*General components*/
@@ -31,6 +31,11 @@ nav {
 
 h5 {
   color: white;
+  font-size: 1.2em;
+}
+
+label {
+  font-size: 1.3em;
 }
 
 button {
@@ -51,6 +56,10 @@ hr {
   -webkit-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   -moz-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
+}
+
+.row {
+  padding: 10px 0;
 }
 
 /*Card Layout*/
@@ -132,7 +141,7 @@ input[type="number"] {
   border-radius: 0;
   background-color: #24578c;
   color: white;
-  font-size: 11px;
+  font-size: 1em;
 }
 
 #basic-addon2 {
@@ -146,13 +155,44 @@ input[type="number"] {
 }
 
 .form-control {
-  font-size: 12px;
+  font-size: 1em;
 }
 
+/*Form Error Checking*/
+#form-error {
+  color: white;
+
+  /*margin on either side*/
+  border-left-style: solid;
+  border-left-width: 30vw;
+  border-right-style: solid;
+  border-right-width: 30vw;
+  border-color: #357cce;
+  display: none;
+}
+
+#form-error p {
+  padding: 0;
+  margin: 0;
+}
+
+#border {
+  border-top-style: solid;
+  border-top-width: 1vh;
+  border-bottom-style: solid;
+  border-bottom-width: 3vh;
+  border-color: #357cce;
+}
+
+#error-content{
+  background: #ef5350;
+  padding: 2vh 3vw;
+}
+
+/*downloading CSV*/
 #download-csv {
   color: white;
 }
-
 /*Graphs*/
 #graph-body, #graph2-body, #graph3-body {
   display: none;
