@@ -22,6 +22,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
   return new Promise(function(resolve, reject) {
+
+    /* Sanitize inputs from client */ 
+    arguments.forEach(function(arg){
+        if(typeof arg !== "number"){
+          reject("Invalid Input Type");
+        } 
+    });
+
+    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth === 0 || _pondVolSmallest === 0){
+        reject("Invalid Inputs");
+    }
+
     pullData(_locationId, _csvFileStream).then(function(data){
       /*dailyData is an object that will be used for creating downloadable CSV */
       var dailyData = {}; 
@@ -79,10 +91,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var pondPrecipVolDay = precipDepthDay * pondArea;
 
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-          /*
+        
           if( soilMoistureDepthDay < 0 ){
+            /* soilMoistureDepthDay cannot be negative */
             soilMoistureDepthDay = 0;
-          }*/
+          }
 
           var pondWaterVolDay = pondWaterVolDayPrev;
 
@@ -109,6 +122,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
           if(pondWaterVolDay < 0){
+            /* pondWaterVolDay cannot be negative */
             pondWaterVolDay = 0;
           }
 
@@ -123,7 +137,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
-
 
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;

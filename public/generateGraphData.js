@@ -7,7 +7,6 @@ var generateGraphData = {};
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
 		array[i] = new Array(3);
-		//[pondVol, bypassFlow, deficit]
 		array[i].fill(0, 0);
 	}
 }
@@ -15,7 +14,6 @@ function fillThree(array){
 function fillFour(array){
 	for(var i = 0; i < array.length; i++){
 		array[i] = new Array(4);
-		//[pondVol, bypassFlow, deficit, pondWaterDepth]
 		array[i].fill(0, 0);
 	}
 }
@@ -59,6 +57,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
 
+	/* Grab the index corresponding to the given pondVolume */
 	var currentIncrement = increments.findIndex((vol)=>{
 		return vol === specificPondVolume;
 	});
