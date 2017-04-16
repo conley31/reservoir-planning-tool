@@ -273,3 +273,12 @@ footer h5 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+#places-input {
+  margin-top: 10px;
+  height: 30px;
+  width: 200px;
+  padding: 0px 0px 0px 30px;
+  background-image: url('search-back.png');
+
+}
