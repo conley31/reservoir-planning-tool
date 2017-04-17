@@ -19,18 +19,20 @@ function monthlyData(){
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
 _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { 
-
+  
+  var params = arguments;
 
   return new Promise(function(resolve, reject) {
-
     /* Sanitize inputs from client */ 
-    arguments.forEach(function(arg){
-        if(typeof arg !== "number"){
-          reject("Invalid Input Type");
-        } 
-    });
+    for(var prop in params){
+        if(prop !== (params.length - 1).toString()){
+          if(typeof params[prop] === "undefined"){
+            reject("Undefined Inputs");
+          }
+        }
+    }
 
-    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth === 0 || _pondVolSmallest === 0){
+    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth <= 0 || _pondVolSmallest <= 0){
         reject("Invalid Inputs");
     }
 
