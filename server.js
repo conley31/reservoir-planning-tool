@@ -55,11 +55,21 @@ app.use(session({
 }));
 // Initialize Daily data in session store
 app.use(function(req, res, next) {
+  if (!req.session) {
+    console.error("No session object. Did you start Redis?");
+    res.sendStatus(500);
+    return;
+  }
   if (!req.session.dailyData) {
     req.session.dailyData = null;
   }
   next();
 });
+
+// Error Handlers (see function definitions after the routes section)
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
 
 /*
  * Routes
@@ -73,11 +83,15 @@ app.get('/', function(req, res) {
 });
 
 // AJAX Request To run the Algorithm (see util/TDPAlg.js)
-app.post('/calculate', function(req, res) {
+app.post('/calculate', function(req, res, next) {
 
   var _ = [];
   var stream;
-  var form = new formidable.IncomingForm().parse(req);
+  var form = new formidable.IncomingForm().parse(req, function(err) {
+    if (err) {
+      return next(err);
+    }
+  });
   form.uploadDir = "/tmp/";
   form
     .on('fileBegin', function(name, file) {
@@ -98,10 +112,10 @@ app.post('/calculate', function(req, res) {
         req.session.dailyData = data.dailyData;
         delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
         res.send(data);
+      }).catch(function(e) {
+        return next(new Error('There was an unexpected error when calculating this data'));
       });
-
     });
-
 });
 
 // AJAX Request to search locations (see util/polygons.js)
@@ -132,13 +146,45 @@ app.get('/download', (req, res) => {
 });
 
 /*
- * End Routes
+ * Error Handling Functions
  */
+// Log all Errors to the Node Console
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
 
-// Handle Errors
-app.get('*', (req, res) => {
-  res.sendStatus(404);
-});
+// If the request was sent by a XHR, then send the error as JSON
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    if (app.get('env') === 'production') {
+      // Don't expose stack trace to the client if on a production machine, but keep them for debuggging
+      res.status(500).send({
+        error: 'Something failed, please contact an administrator'
+      });
+    } else {
+      res.status(500).send({
+        error: err
+      });
+    }
+  } else {
+    next(err);
+  }
+}
+
+// The catch-all error handler
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  // Don't expose stack trace to the client if on a production machine, but keep them for debuggging
+  if (app.get('env') === 'production') {
+    res.sendStatus(500);
+  } else {
+    res.status(500).send(err);
+  }
+
+}
 
 // Start the server
 var server = app.listen(PORT, function() {
@@ -150,7 +196,7 @@ var exitHandler = function() {
   db.close(process.exit);
 
   setTimeout(function() {
-    console.error("Could not close connections in time, forcefully shutting down");
+    console.error('Could not close connections in time, forcefully shutting down');
     process.exit(1);
   }, 30 * 1000);
 
