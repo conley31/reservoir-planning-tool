@@ -11,17 +11,17 @@
     <div class="row">
       <div class="col-sm-4">
         <!-- Drainage flow into pond -->
-        <label class="input-group">Use your own data</label>
+        <label class="input-group">Drainage Flow into the Pond</label>
         <hr>
         <div class="row">
-          <div class="col-md-2 col-md-offset-5">
-            <button id="uploadButton" class="btn btn-block">upload</button>
-          </div>
+
           <span id="uploadForm">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <div class="row">
                 <div class="col-xs-12 text-center">
-                  <h5>Upload CSV<h5>
+                  <p>For drain flow, there are two options:</p>
+                  <br>
+                  <p>Input a CSV file with daily values of date, precipitation and flow</p>
                 </div>
                 <div class="col-xs-12">
                   <div class="input-group" id="file-div">
@@ -35,9 +35,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-12">
+              <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
               <div class="row">
                 <div class="col-xs-12 text-center">
+                  <p>User the model estimates for your selected location</p>
                   <h5>Drained Area<h5>
                 </div>
                 <div class="col-xs-12">
@@ -52,15 +54,13 @@
         </div>
       </div>
 
-      <br>
-      <br>
-
+      <!-- Pond size and initial depth -->
       <div class="col-sm-4">
-        <!-- Pond size and initial depth -->
-        <label class="input-group">Pond Inputs</label>
+        <label class="input-group">Pond Size and Initial Depth</label>
         <hr>
+
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Smallest Pond Volume<h5>
@@ -73,7 +73,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Largest Pond Volume<h5>
@@ -86,7 +86,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Pond Volume Increment<h5>
@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Pond Depth<h5>
@@ -112,7 +112,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Pond Depth Initial<h5>
@@ -130,8 +130,11 @@
 
       <!-- Irrigation -->
       <div class="col-sm-4">
+        <label class="input-group">Irrigation</label>
+        <hr>
+
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Irrigation Area<h5>
@@ -144,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Irrigation Depth<h5>
@@ -157,7 +160,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Maximum Soil Moisture Content<h5>
@@ -170,7 +173,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-12 text-center">
                 <h5>Available Water Capacity<h5>
