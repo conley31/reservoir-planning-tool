@@ -4,6 +4,7 @@ var options;
 var chart;
 var receivedArray;
 var currentPondVolume;
+var currentYear;
 
 $("form").submit(function(event) {
   event.preventDefault();
@@ -56,20 +57,57 @@ var drawChart = function() {
   data.addRows(graphData[i++]);
   //add options
   options = {
-    chart: {
-      title: graphData[i++],
-      subtitle: graphData[i++]
-    }
+    chartArea: {
+      width: '80%'
+    },
+    fontName: 'Roboto',
+    fontSize: 25,
+    theme: 'material',
+    title: graphData[i++],
+    subtitle: graphData[i++],
+    titleTextStyle: {
+      fontSize: 25,
+      bold: true,
+      italic: false
+    },
+    legend: {
+      textStyle: {
+        fontSize: 25
+      },
+      position: 'top',
+      alignment: 'end'
+    },
+    hAxis: {
+      textStyle: {
+        fontSize: 20
+      },
+      title: graphData[0],
+      titleTextStyle: {
+        // fontSize: 20,
+        bold: true,
+        italic: false
+      }
+    },
+    vAxis: {
+      textStyle: {
+        fontSize: 20
+      }
+    },
+    pointSize: 15,
+    dataOpacity: 0.7,
+    lineWidth: 5,
+    width: '100%',
+    height: '100%'
   };
 
-  chart = new google.charts.Line(document.getElementById(graphData[i]));
+  chart = new google.visualization.LineChart(document.getElementById(graphData[i]));
   chart.draw(data, options);
 };
 
 //For first grpah
 var initGraph = function() {
   google.charts.load('current', {
-    'packages': ['line']
+    'packages': ['line', 'corechart']
   });
   google.charts.setOnLoadCallback(drawChart);
 };
@@ -77,7 +115,13 @@ var initGraph = function() {
 //Resizes Graph on window resize
 $(window).smartresize(function () {
   if(data && options && chart) {
-    chart.draw(data, options);
+    graphOne();
+    if(currentPondVolume) {
+      graphTwo();
+      if(year) {
+        graphThree();
+      }
+    }
   }
 });
 
@@ -113,6 +157,7 @@ var graphTwo = function(pondIncrement) {
 
 //Create graph 3
 var graphThree = function(year) {
+  currentYear = year;
   graphData = [];
   graphData[0] = 'Months';
   graphData[1] = 'Pond Water Depth';
