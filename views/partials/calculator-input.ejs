@@ -7,177 +7,196 @@
     <!-- </div>
   </div> -->
   <div id="reservoir-inputs" class="form-group">
-    <label class="input-group">Pond Inputs</label>
-    <hr>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Smallest Pond Volume<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolSmallest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Largest Pond Volume<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-            <input type="number" step="any" min = "0" class="form-control" value="100" name="pondVolLargest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-            <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Pond Volume Increment<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolIncrement" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Pond Depth<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Pond Depth Initial<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondWaterDepthInitial" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Maximum Soil Moisture Content<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="maxSoilMoistureDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">inches</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Irrigation Area<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="80" name="irrigatedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">inches</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Irrigation Depth<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="1" name="irrigDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">inches</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Available Water Capacity<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="5" name="availableWaterCapacity" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">inches</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <h5>Drained Area<h5>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-              <span class="input-group-addon" id="basic-addon2">acre-feet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <br>
-    <br>
-
-    <label class="input-group">Use your own data</label>
-    <hr>
     <div class="row">
-      <div class="col-md-2 col-md-offset-5">
-        <button id="uploadButton" class="btn btn-block">upload</button>
-      </div>
-      <span id="uploadForm">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-xs-12 text-center">
-              <h5>Upload CSV<h5>
+      <div class="col-sm-4">
+        <!-- Drainage flow into pond -->
+        <label class="input-group">Use your own data</label>
+        <hr>
+        <div class="row">
+          <div class="col-md-2 col-md-offset-5">
+            <button id="uploadButton" class="btn btn-block">upload</button>
+          </div>
+          <span id="uploadForm">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-xs-12 text-center">
+                  <h5>Upload CSV<h5>
+                </div>
+                <div class="col-xs-12">
+                  <div class="input-group" id="file-div">
+                    <label class="input-group-btn">
+                      <span class="btn btn-primary">
+                          Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
+                      </span>
+                    </label>
+                    <input type="text" class="form-control" readonly>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-xs-12">
-              <div class="input-group" id="file-div">
-                <label class="input-group-btn">
-                  <span class="btn btn-primary">
-                      Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
-                  </span>
-                </label>
-                <input type="text" class="form-control" readonly>
+            <div class="col-md-3">
+              <div class="row">
+                <div class="col-xs-12 text-center">
+                  <h5>Drained Area<h5>
+                </div>
+                <div class="col-xs-12">
+                  <div class="input-group">
+                    <input type="number" step="any" min = "0" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                    <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="col-sm-4">
+        <!-- Pond size and initial depth -->
+        <label class="input-group">Pond Inputs</label>
+        <hr>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Smallest Pond Volume<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolSmallest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Largest Pond Volume<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                <input type="number" step="any" min = "0" class="form-control" value="100" name="pondVolLargest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Pond Volume Increment<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolIncrement" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Pond Depth<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="10" name="pondDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">feet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Pond Depth Initial<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="10" name="pondWaterDepthInitial" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </span>
-    </div>
-  </div>
+      </div>
+
+      <!-- Irrigation -->
+      <div class="col-sm-4">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Irrigation Area<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="80" name="irrigatedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">inches</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Irrigation Depth<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="1" name="irrigDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">inches</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Maximum Soil Moisture Content<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="10" name="maxSoilMoistureDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">inches</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <h5>Available Water Capacity<h5>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="number" step="any" min = "0" class="form-control" value="5" name="availableWaterCapacity" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                  <span class="input-group-addon" id="basic-addon2">inches</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end row -->
+  </div> <!-- end form group -->
+
+  <!-- Display form error -->
   <div id="form-error">
     <div id="border">
       <div id="error-content">
       </div>
     </div>
   </div>
+
+  <!-- Submit form -->
   <div id="submit">
     <button id='form-submit'type="submit" class="btn btn-block">Submit</button>
  </div>
