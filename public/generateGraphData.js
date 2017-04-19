@@ -24,6 +24,26 @@ function latestIndex(arr){
 		}
 	}
 }
+
+function monthlyAvg(month){
+	if(month === 1){
+		return 28;
+	}
+	else if(month <= 6){
+		if( month % 2 === 0 ){
+			return 31;
+		}
+
+		return 30;
+	}
+	else{
+		if(month % 2 === 0){
+			return 30;
+		}
+		return 31;
+	}
+}
+
 generateGraphData.allYearsAveraged = function(allYears, increments){
 
 	//fill the output array with zero
@@ -75,7 +95,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 					
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
-					outputArray[k][3] += allYears[i][currentIncrement][k].pondWaterDepth;
+					outputArray[k][3] += (allYears[i][currentIncrement][k].pondWaterDepth/monthlyAvg(k));
 				}
 
 			}
@@ -112,7 +132,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
-				outputArray[k][3] += allYears[yearIndex][currentIncrement][k].pondWaterDepth;
+				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth / monthlyAvg(k));
 			}
 		}
 	}
