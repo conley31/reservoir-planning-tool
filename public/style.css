@@ -54,9 +54,9 @@ button {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
-.row {
+/*.row {
   padding: 10px 0;
-}
+}*/
 
 /*Card Layout*/
 .card-container {
@@ -84,6 +84,7 @@ button {
 
 /*Map*/
 #map-container {
+  display: none;
   height: 80vh;
   width: inherit;
   background: #357cce;
@@ -110,12 +111,17 @@ button {
 }
 
 #form-data {
-    display: none;
+    /*display: none;*/
+}
+
+#reservoir-inputs {
+  padding-bottom: 20px;
+  font-size: 1.1em;
 }
 
 #form-data hr {
     border-top: 1px solid #555;
-    margin: 10px 0;
+    margin: 10px 0 20px 0;
 }
 
 .input-container {
@@ -139,8 +145,8 @@ button {
 }
 
 .input-group-addon {
-  background-color: #ddd;
-  color: #666;
+  background-color: #ccc;
+  color: #333;
   font-size: 1em;
   width: 40%;
 }
@@ -149,13 +155,26 @@ button {
   padding: 5px;
 }
 
+.form-card-container {
+  width: 80%;
+  margin: auto;
+}
+.input-card {
+  background: #e3e3e3;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.label-card {
+  background: #e1e1e1;
+}
+
 #uploadForm {
   padding-left: 10px;
   padding-right: 10px;
 }
 
 .form-control {
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 
@@ -276,20 +295,20 @@ footer h5 {
 }
 
 
-hr.divider {
-  border-top: 1px solid #eee;
+#form-data hr.divider {
+  border-top: 1px solid #222;
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-hr.divider:after {
+#form-data hr.divider:after {
   content: 'or';
   display: inline-block;
   position: relative;
   top: -14px;
   padding: 0 10px;
-  background: #eee;
+  background: #e1e1e1;
   color: #555;
   font-size: 18px;
 }

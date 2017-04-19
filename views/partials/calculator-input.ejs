@@ -18,39 +18,48 @@
 
           <span id="uploadForm">
             <div class="col-xs-12">
-              <div class="row">
-                <div class="col-sm-12 text-center">
-                  <h5>Drained Area</h5>
-                </div>
-                <div class="col-xs-12">
-                  <div class="input-container">
-                    <div class="input-group">
-                      <input type="number" step="any" min = "0" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-                      <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+              <div class="form-card-container">
+                <div class="row">
+                  <div class="col-xs-12 text-center label-card">
+                    <h5>Drained Area</h5>
+                  </div>
+                  <div class="col-xs-12 input-card">
+                    <div class="input-container">
+                      <div class="input-group">
+                        <input type="number" step="any" min = "0" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2">acre-feet</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xs-12">
-              <br>
+            <div class="col-xs-12 text-center">
               <br>
               <p>For drain flow, there are two options:</p>
-              <p>Use the model estimates for your selected location</p>
-              <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
-              <div class="row">
-                <div class="col-xs-12 text-center">
-                  <br>
-                  <p>Input a CSV file with daily values of date, precipitation and flow</p>
-                </div>
-                <div class="col-xs-12">
-                  <div class="input-group" id="file-div">
-                    <label class="input-group-btn">
-                      <span class="btn btn-primary">
-                          Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
-                      </span>
-                    </label>
-                    <input type="text" class="form-control" readonly>
+            </div>
+            <div class="col-xs-12">
+              <div class="form-card-container">
+                <div class="row">
+                  <div class="col-xs-12 text-center label-card" style="padding-top: 10px;">
+                    <p>Use the model estimates for your selected location</p>
+                    <p>(Do not upload a file)</p>
+                  </div>
+                  <div class="col-xs-12 label-card">
+                      <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
+                  </div>
+                  <div class="col-xs-12 text-center label-card">
+                    <p>Upload a CSV file with daily values of date, precipitation and flow</p>
+                  </div>
+                  <div class="col-xs-12 input-card">
+                    <div class="input-group" id="file-div">
+                      <label class="input-group-btn">
+                        <span class="btn btn-primary">
+                            Browse&hellip; <input type="file" id="userCSV" name="userCSV" style="display: none;">
+                        </span>
+                      </label>
+                      <input type="text" class="form-control" readonly>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -66,15 +75,17 @@
         <div class="row">
           <% for(var i = 0; i < pondArray.length; i++) { %>
             <div class="col-xs-12">
-              <div class="row">
-                <div class="col-xs-12 text-center">
-                  <h5> <%= pondArray[i].label %> <h5>
-                </div>
-                <div class="col-xs-12">
-                  <div class="input-container">
-                    <div class="input-group">
-                      <input type="number" step="any" min = "0" class="form-control" value= <%= pondArray[i].value %> name= <%= pondArray[i].name %> placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
-                      <span class="input-group-addon" id="basic-addon2"><%= pondArray[i].unit %></span>
+              <div class="form-card-container">
+                <div class="row">
+                  <div class="col-xs-12 text-center label-card">
+                    <h5> <%= pondArray[i].label %> <h5>
+                  </div>
+                  <div class="col-xs-12 input-card">
+                    <div class="input-container">
+                      <div class="input-group">
+                        <input type="number" step="any" min = "0" class="form-control" value= <%= pondArray[i].value %> name= <%= pondArray[i].name %> placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2"><%= pondArray[i].unit %></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -91,11 +102,12 @@
         <div class="row">
           <% for(var i = 0; i < irrigationArray.length; i++) { %>
             <div class="col-xs-12">
+              <div class="form-card-container">
               <div class="row">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 text-center label-card">
                   <h5> <%= irrigationArray[i].label %> <h5>
                 </div>
-                <div class="col-xs-12">
+                <div class="col-xs-12 input-card">
                   <div class="input-container">
                     <div class="input-group">
                       <input type="number" step="any" min = "0" class="form-control" value= <%= irrigationArray[i].value %> name= <%= irrigationArray[i].name %> placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
@@ -103,6 +115,7 @@
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           <% } %>

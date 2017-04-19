@@ -27,7 +27,7 @@ exports.getPondArray = function() {
       unit: "feet"
     },
     {
-      label: "Pond Depth Initial",
+      label: "Depth of Water on First Day of Simulation",
       value: "10",
       name: "pondWaterDepthInitial",
       unit: "acre-feet"
@@ -63,6 +63,6 @@ exports.getIrrigationArray = function() {
       unit: "inches"
     },
   ];
-  
+
   return irrigationArray;
 }
