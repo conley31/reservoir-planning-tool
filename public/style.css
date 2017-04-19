@@ -84,7 +84,6 @@ button {
 
 /*Map*/
 #map-container {
-  display: none;
   height: 80vh;
   width: inherit;
   background: #357cce;
@@ -111,7 +110,7 @@ button {
 }
 
 #form-data {
-    /*display: none;*/
+    display: none;
 }
 
 #reservoir-inputs {
