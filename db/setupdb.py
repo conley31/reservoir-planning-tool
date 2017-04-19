@@ -24,8 +24,6 @@ def toStrDate(year, month, day):
   return (year + "-" + month + "-" + day)
 
 def ParseDailyData(table_id, textFile):
-  con = db.connect(host, user, password, database)
-  cur = con.cursor()
   with open('daily_files/' + textFile, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
@@ -38,6 +36,7 @@ def ParseDailyData(table_id, textFile):
 
 
 def setupDB():
+    global cur, con
     try:
       log = open(log_location, "wb+")
     except IOError:

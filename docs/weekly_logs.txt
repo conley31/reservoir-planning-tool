@@ -609,3 +609,78 @@ Clayton: Verify that TDPAlg.js is outputting accurate data, implement error chec
 Drew: Work on server documentation, fix google maps issues
 Jonah: Add front and back end validation for form inputs and add more documentation
 Vritant: improve readability and create template for error displays
+
+=== Week 8 (Due 4/8) === 
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Clayton Marshall
+
+Week 8 (Summary)
+4/10 	4.5hrs	Use the expected data from project owners to gage the accuracy of our outputs
+		and fix the algorithm accordingly.
+4/12	2.5hrs	Documented algorithm implementation and added comments to algorithm
+4/13	1.5hrs	Implemented error checking in graph generating functions and TDPAlg.js
+
+Week 9 (Plan)
+4/18	1h	Meet with project owners to discuss algorithm inaccuracies
+4/18     2h	Fix the parts of TDPAlg that the project owners change.
+4/19	2h	Add Graph descriptions to client
+4/20	1h	Add all contact information about Transforming Drainage Project to the client.
+4/21	2h	Finalize favicon with VB
+4/22	2h	Finalize documentation for TDPAlg and begin powerpoint for final presentation.
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Drew Atkinson
+
+Week 7 (Summary)
+4/10	2h	Added more documentation about server deployment
+4/11	2h	Worked on getting HTTPS Server Certificate with Larry/Ben
+4/13	3h	Got HTTPS Cert, Changed Nginx to serve static files, set up Cert with Nginx, ensured proper HTTPS sources for CDNs
+Week 8 (Plan)
+4/17 	2h	Finish server Documentation, add X window server to server
+4/19	4h	Handle promise rejection
+4/20	4h	Send error system for the server
+4/22	4h	Add Loading animation to the graphs
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Jonah Heeren
+
+Week 7 (Summary)
+3/14	3hrs	Started updating design doc
+3/15	2hrs	Finished updating design doc
+3/15	0.5hrs	DB setup bug fix
+3/15	1hr	Documentation on database
+3/16	1hr	Designing search bar background
+3/16	2hrs	Styling search bar
+Week 8 (Plan)
+3/19	5hrs	Front end validation
+3/20	5hrs	Back end validation
+
+
+=== Weekly Individual Report (Team 16: Reservoir Planning Tool) ===
+Name: Vritant Bhardwaj
+
+Week 7 (Summary)
+4/10	2hr	Error display
+4/14	2hr	Error display
+4/15	6hr	Readability
+Week 8 (Plan)
+4/17	4hr	Form redesign
+4/17	1hr	Change CDNs to minified files
+4/20	5hr	Redesign UI
+
+=== Weekly Team Report (Team 16: Reservoir Planning Tool) ===
+Week 7 (Summary) (Scrum master: Drew Atkinson)
+
+Week 8 (Plan) (Scrum master: Drew Atkinson)
+[Meetings]
+4/18	1h	Meeting with Project Owners and discuss algorithm inaccuracies and
+instructional text for client
+
+[Individual Goals]
+Clayton: Finish TDPAlg and its documentation, add graph descriptions and contact information,
+	   create favicon.
+Jonah: Establish additional and more thorough validation of form inputs on front and back end.
+Vritant: Redesign UI according to project owner standards.
+Drew: Promise rejection handling and sending errors to the client

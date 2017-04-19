@@ -311,3 +311,12 @@ footer h5 {
   color: #555;
   font-size: 18px;
 }
+
+#places-input {
+  margin-top: 10px;
+  height: 30px;
+  width: 200px;
+  padding: 0px 0px 0px 30px;
+  background-image: url('search-back.png');
+
+}
