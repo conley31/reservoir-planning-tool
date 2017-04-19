@@ -5,7 +5,7 @@
 */
 var displayFormError = function(array) {
   var errorContent = $("#error-content");
-  if(array == undefined || array == null) {
+  if(array === undefined || array === null) {
     $("#form-error").slideUp('fast', function() {
       errorContent.empty();
     });
@@ -16,4 +16,4 @@ var displayFormError = function(array) {
   for(var i = 0; i < array.length; i++) {
     errorContent.append("<p> - " + array[i] + "</p>");
   }
-}
+};
