@@ -4,8 +4,16 @@ var options;
 var chart;
 var receivedArray;
 var currentPondVolume;
+var currentYear;
 
 $("form").submit(function(event) {
+  var validation = validateCalculatorInput();
+  if(!validation[0]) {
+    displayFormError(validation[1]);
+    return false;
+  }
+
+
   event.preventDefault();
 
   var formData = new FormData();
@@ -31,8 +39,12 @@ $("form").submit(function(event) {
       receivedArray = data;
       showGraphOne(); // defined in app.js
     },
-    error: function() {
-      console.log("AJAX failed");
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.responseJSON.error) {
+        console.error(jqXHR.responseJSON.error);
+      }
+      var errorMessage = jqXHR.responseJSON.errorMessage;
+      // TODO: Call error message display
     }
   });
 
@@ -56,20 +68,61 @@ var drawChart = function() {
   data.addRows(graphData[i++]);
   //add options
   options = {
-    chart: {
+    chartArea: {
+      width: '80%'
+    },
+    fontName: 'Roboto',
+    fontSize: 25,
+    theme: 'material',
+    titleTextStyle: {
+      fontSize: 25,
+      bold: true,
+      italic: false
+    },
+    legend: {
+      textStyle: {
+        fontSize: 25
+      },
+      position: 'top',
+      alignment: 'end'
+    },
+    hAxis: {
+      textStyle: {
+        fontSize: 20
+      },
+      title: graphData[0],
+      titleTextStyle: {
+        color: '#555',
+        bold: true,
+        italic: false
+      }
+    },
+    vAxis: {
+      textStyle: {
+        fontSize: 20
+      },
       title: graphData[i++],
-      subtitle: graphData[i++]
-    }
+      titleTextStyle: {
+        color: '#555',
+        bold: true,
+        italic: false
+      }
+    },
+    pointSize: 15,
+    dataOpacity: 0.7,
+    lineWidth: 5,
+    width: '100%',
+    height: '100%'
   };
 
-  chart = new google.charts.Line(document.getElementById(graphData[i]));
+  chart = new google.visualization.LineChart(document.getElementById(graphData[i]));
   chart.draw(data, options);
 };
 
 //For first grpah
 var initGraph = function() {
   google.charts.load('current', {
-    'packages': ['line']
+    'packages': ['line', 'corechart']
   });
   google.charts.setOnLoadCallback(drawChart);
 };
@@ -77,20 +130,25 @@ var initGraph = function() {
 //Resizes Graph on window resize
 $(window).smartresize(function () {
   if(data && options && chart) {
-    chart.draw(data, options);
+    graphOne();
+    if(currentPondVolume) {
+      graphTwo();
+      if(year) {
+        graphThree();
+      }
+    }
   }
 });
 
 //Create graph 1
 var graphOne = function() {
   graphData = [];
-  graphData[0] = 'Pond Volume';
+  graphData[0] = 'Pond Volume (acre-feet)';
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit';
   graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
-  graphData[4] = 'Bypass Flow and Storage Deficit VS Pond Volume';
-  graphData[5] = 'in tbd scale';
-  graphData[6] = "graph-1";
+  graphData[4] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
+  graphData[5] = "graph-1";
   addIncDropdown(receivedArray.incData);
   initGraph();
 };
@@ -104,24 +162,23 @@ var graphTwo = function(pondIncrement) {
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
   graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume);
-  graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
-  graphData[6] = 'in tbd scale';
-  graphData[7] = "graph-2";
+  graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
+  graphData[6] = "graph-2";
   addYearDropdown();
   drawChart();
 };
 
 //Create graph 3
 var graphThree = function(year) {
+  currentYear = year;
   graphData = [];
   graphData[0] = 'Months';
   graphData[1] = 'Pond Water Depth';
   graphData[2] = 'Bypass (Cumulative)';
   graphData[3] = 'Deficit (Cumulative)';
   graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[5] = 'Average Pond Depth By Month, for Year = ' + year + ' for Pond Volume = ' + currentPondVolume;
-  graphData[6] = 'in tbd scale';
-  graphData[7] = "graph-3";
+  graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
+  graphData[6] = "graph-3";
   drawChart();
 };
 

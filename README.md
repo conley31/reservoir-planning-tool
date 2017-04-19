@@ -14,6 +14,11 @@
 5. Run Database setup scripts
 6. Run the server with `npm start`, or use `pm2 start processes.yml`
 
+## Database Schema
+- The database contains a table for each daily data file in the `db/daily_files/` directory.
+- Each table follows the naming convention of: `Location{ID}`. Where ID is specified in the `db/index.csv`.
+- Schema: `Location{ID}(RecordedDate:Date, Drainflow:Float, Precipitation:Float, PET:Float)`
+
 ## Database Scripts
 
 #### `npm run db_setup`
@@ -30,6 +35,8 @@
 
 ## Testing Scripts
 #### `npm test tests/<test folder>`
+#### `npm run test-db-quick`
+#### `npm run test-db-complete`
 
 ## Folder Structure and important files
 - `config/`: Configuration Files

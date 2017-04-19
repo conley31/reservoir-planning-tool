@@ -17,7 +17,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolSmallest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="10" name="pondVolSmallest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">acre-feet</span>
             </div>
           </div>
@@ -30,7 +30,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-            <input type="number" step="any" min = "0" class="form-control" value="100" name="pondVolLargest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+            <input type="number" step="any" class="form-control" value="100" name="pondVolLargest" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
             <span class="input-group-addon" id="basic-addon2">acre-feet</span>
             </div>
           </div>
@@ -43,7 +43,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondVolIncrement" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="10" name="pondVolIncrement" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">acre-feet</span>
             </div>
           </div>
@@ -56,7 +56,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="10" name="pondDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">feet</span>
             </div>
           </div>
@@ -69,7 +69,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="pondWaterDepthInitial" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="10" name="pondWaterDepthInitial" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">acre-feet</span>
             </div>
           </div>
@@ -82,7 +82,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="10" name="maxSoilMoistureDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="10" name="maxSoilMoistureDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">inches</span>
             </div>
           </div>
@@ -95,7 +95,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="80" name="irrigatedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="80" name="irrigatedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">inches</span>
             </div>
           </div>
@@ -108,7 +108,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="1" name="irrigDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="1" name="irrigDepth" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">inches</span>
             </div>
           </div>
@@ -121,7 +121,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="5" name="availableWaterCapacity" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="5" name="availableWaterCapacity" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">inches</span>
             </div>
           </div>
@@ -134,7 +134,7 @@
           </div>
           <div class="col-xs-12">
             <div class="input-group">
-              <input type="number" step="any" min = "0" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
+              <input type="number" step="any" class="form-control" value="160" name="drainedArea" placeholder="Enter Numeric Value" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2">acre-feet</span>
             </div>
           </div>
@@ -171,8 +171,12 @@
         </div>
       </span>
     </div>
-
-    <br>
+  </div>
+  <div id="form-error">
+    <div id="border">
+      <div id="error-content">
+      </div>
+    </div>
   </div>
   <div id="submit">
     <button id='form-submit'type="submit" class="btn btn-block">Submit</button>
