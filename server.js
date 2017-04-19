@@ -29,7 +29,7 @@ nconf.file({
 if (app.get('env') === 'production') {
   app.use(morgan('combined')); // Enable logging
 } else {
-  app.use(morgan('dev'));
+  app.use(morgan('dev')); // Pretty logging in dev mode
 }
 app.use(express.static(__dirname + '/public')); // Serve static files from the public directory
 app.use(bodyParser.json()); // Decode JSON from request bodies
@@ -49,16 +49,14 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: false, // TODO: Change when HTTPS is setup
+    secure: true, // TODO: Change when HTTPS is setup
     expires: false // Only remains when the
   }
 }));
 // Initialize Daily data in session store
 app.use(function(req, res, next) {
   if (!req.session) {
-    console.error("No session object. Did you start Redis?");
-    res.sendStatus(500);
-    return;
+    return next(new Error('No session object. Did you start Redis?'));
   }
   if (!req.session.dailyData) {
     req.session.dailyData = null;
@@ -67,9 +65,6 @@ app.use(function(req, res, next) {
 });
 
 // Error Handlers (see function definitions after the routes section)
-app.use(logErrors);
-app.use(clientErrorHandler);
-app.use(errorHandler);
 
 /*
  * Routes
@@ -78,7 +73,8 @@ app.use(errorHandler);
 app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
   res.render("index.ejs", {
-    googleMapsKey: nconf.get("google_maps").key
+    googleMapsKey: nconf.get("google_maps").key,
+    production: app.get('env') === 'production'
   });
 });
 
@@ -113,7 +109,7 @@ app.post('/calculate', function(req, res, next) {
         delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
         res.send(data);
       }).catch(function(e) {
-        return next(new Error('There was an unexpected error when calculating this data'));
+        return next(e || new Error('There was an unexpected error when calculating this data'));
       });
     });
 });
@@ -146,54 +142,37 @@ app.get('/download', (req, res) => {
 });
 
 /*
- * Error Handling Functions
+ * Error Handler
  */
-// Log all Errors to the Node Console
-function logErrors(err, req, res, next) {
-  console.error(err.stack);
-  next(err);
-}
-
-// If the request was sent by a XHR, then send the error as JSON
-function clientErrorHandler(err, req, res, next) {
+app.use(function(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  // If the request was sent by a XHR, then send the error as JSON
   if (req.xhr) {
     if (app.get('env') === 'production') {
       // Don't expose stack trace to the client if on a production machine, but keep them for debuggging
       res.status(500).send({
-        error: 'Something failed, please contact an administrator'
+        error: err.message || 'Something failed, please contact an administrator'
       });
     } else {
       res.status(500).send({
-        error: err
+        error: err.message
       });
     }
   } else {
     next(err);
   }
-}
-
-// The catch-all error handler
-function errorHandler(err, req, res, next) {
-  if (res.headersSent) {
-    return next(err);
-  }
-  // Don't expose stack trace to the client if on a production machine, but keep them for debuggging
-  if (app.get('env') === 'production') {
-    res.sendStatus(500);
-  } else {
-    res.status(500).send(err);
-  }
-
-}
+});
 
 // Start the server
 var server = app.listen(PORT, function() {
-  console.log('Running Server on Port: ', PORT);
+  console.log('Running Server on Port', PORT, 'in', app.get('env') === 'production' ? 'Production mode' : 'Development Mode');
 });
 
 // Gracefully handle exits by closing the database pool
 var exitHandler = function() {
-  db.close(process.exit);
+  db.close(process.exit); // Close the database pool, then this process
 
   setTimeout(function() {
     console.error('Could not close connections in time, forcefully shutting down');

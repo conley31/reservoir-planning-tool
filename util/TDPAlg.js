@@ -63,7 +63,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var inflowVolDay = data[j].Drainflow * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
-          
+
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
@@ -143,6 +143,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       }
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
+    }).catch(function(reason) {
+      if (reason.message.includes('ECONNREFUSED')) {
+        console.error('Error connecting to MySQL. Did you start MySQL?');
+      }
+      reject(reason);
     });
 });
 };
