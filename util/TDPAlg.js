@@ -93,11 +93,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var evapVolDay = (evapDepthDay/12) * pondArea;
           var pondPrecipVolDay = (precipDepthDay/12) * pondArea;
 
-          /*
-          console.log("precipDepthDay", precipDepthDay);
-          console.log("evapDepthDay", evapDepthDay);
-          */ 
-
+         
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
 
           /* soilMoistureDepthDay cannot be negative */        
@@ -114,19 +110,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
-
+            
+            soilMoistureDepthDay = (soilMoistureDepthDayPrev+precipDepthDay+((irrigationVolDay*12)/_irrigationArea)-evapDepthDay);
           }
+
           
-         /* 
-          console.log("------------------------------------");
-          console.log("day previous:",pondWaterVolDayPrev );
-          console.log("pondVol:",pondVol);
-          console.log("inflowVolDay:",inflowVolDay);
-          console.log("pondPrecipVolDay:",pondPrecipVolDay);
-          console.log("irrigationVolDay:",irrigationVolDay);
-          console.log("inflowVolDay:",inflowVolDay);
-          console.log("evapVolDay:",evapVolDay);
-          */
           
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
@@ -168,25 +156,6 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
-          /* updated allYears at the current year at the current increment and at the current month. */
-          //console.log("Current Year:", currentYear, " Pond Vol:", pondVol);
-          /*
-          if(pondVol == 60){
-              console.log("-----------------------------------------------------------------------------------");
-              
-              console.log("Drainflow:",data[j].Drainflow," Precipitation:", data[j].Precipitation," PET:", data[j].PET);
-              console.log("Pond Water Depth Day:", pondWaterDepthDay);
-              console.log("Pond Area:", pondArea );
-              console.log("Pond Water Volume Day:", pondWaterVolDay);
-              console.log("Pond Precip Volume Day:", pondPrecipVolDay);
-              console.log("Irrigation Volume Day:", irrigationVolDay);
-              console.log("Soil Moisture Depth Day:", soilMoistureDepthDay);
-              
-              console.log("Bypass flow vol day:", bypassFlowVolDay);
-              console.log("deficit vol day:", bypassFlowVolDay);
-
-          }
-          */
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
           }
@@ -197,7 +166,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
          
-        
+        /* The values for bypassFlowVol and deficitVol are cumulative */
         if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
           if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
             allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
@@ -214,15 +183,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
         allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
         allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
-        /*
-        if(currentYear === 1985 && i === 2){
-        console.log("-----", currentMonth, "------");
-        console.log("bypass day:", bypassFlowVolDay);
-        console.log("deficit day:", deficitVolDay);
-        console.log("Bypass Cumulative:", allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol);
-        console.log("Deficit Cumulative:", allYears[currentYear - initialYear][i][currentMonth].deficitVol);
-        }
-        */
+      
       }
 
     }

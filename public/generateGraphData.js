@@ -34,13 +34,11 @@ generateGraphData.allYearsAveraged = function(allYears, increments){
 		if(allYears[i] && typeof allYears[i] !== "undefined"){
 			for(var j = 0; j < allYears[i].length; j++){
 				if(allYears[i][j] && typeof allYears[i][j] !== "undefined"){
-					//for(var k = 0; k < allYears[i][j].length; k++){
 						var k = latestIndex(allYears[i][j]);
 						if(allYears[i][j][k] && typeof allYears[i][j][k] !== "undefined"){
 							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
 							outputArray[j][2] += allYears[i][j][k].deficitVol;
 						}
-					//}
 				}
 			}
 		}
@@ -93,8 +91,6 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			outputArray[i][3] /= allYears.length;
 		}
 	}
-	// console.log(allYears);
-	// console.log(outputArray);
 
 	return outputArray;
 };
