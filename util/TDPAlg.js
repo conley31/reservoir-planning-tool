@@ -25,6 +25,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
   return new Promise(function(resolve, reject) {
     /* Sanitize inputs from client */ 
     for(var prop in params){
+      /* The only paramter that is allowed to be undefined is _csvFileStream */
         if(prop !== (params.length - 1).toString()){
           if(typeof params[prop] === "undefined"){
             reject("Undefined Inputs");
@@ -80,8 +81,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if(initialYear === null){
             initialYear = currentYear;
           }
-
-          var inflowVolDay = data[j].Drainflow * _drainedArea;
+          
+          var inflowVolDay = (data[j].Drainflow/12) * _drainedArea; 
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
           
@@ -89,20 +90,26 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
 
-          var evapVolDay = evapDepthDay * pondArea;
-          var pondPrecipVolDay = precipDepthDay * pondArea;
+          var evapVolDay = (evapDepthDay/12) * pondArea;
+          var pondPrecipVolDay = (precipDepthDay/12) * pondArea;
+
+          /*
+          console.log("precipDepthDay", precipDepthDay);
+          console.log("evapDepthDay", evapDepthDay);
+          */ 
 
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
-        
+
+          /* soilMoistureDepthDay cannot be negative */        
           if( soilMoistureDepthDay < 0 ){
-            /* soilMoistureDepthDay cannot be negative */
             soilMoistureDepthDay = 0;
           }
 
           var pondWaterVolDay = pondWaterVolDayPrev;
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
-            irrigationVolDay = _irrigationDepth * _irrigationArea;
+            
+            irrigationVolDay = (_irrigationDepth/12) * _irrigationArea;
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
@@ -110,7 +117,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           }
           
-          /*
+         /* 
           console.log("------------------------------------");
           console.log("day previous:",pondWaterVolDayPrev );
           console.log("pondVol:",pondVol);
@@ -120,22 +127,16 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           console.log("inflowVolDay:",inflowVolDay);
           console.log("evapVolDay:",evapVolDay);
           */
-          //console.log("inflowVolDay:",inflowVolDay);
+          
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
+          /* pondWaterVolDay cannot be negative */
           if(pondWaterVolDay < 0){
-            /* pondWaterVolDay cannot be negative */
             pondWaterVolDay = 0;
           }
 
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
-            /*
-            console.log("**************************");
-            console.log("Pond-Vol:", pondVol);
-            console.log("PondWater-Vol:", pondWaterVolDay);
-            console.log(pondWaterVolDay-pondVol);
-            */
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
@@ -194,21 +195,41 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
-         }
-         /*
-         console.log("bypassFlowDay:",bypassFlowVolDay);
-         console.log("deficitVolDay:",deficitVolDay);
-         */
+          }
+         
+        
+        if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
+          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+            allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
+          }
+        }
 
-         allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-         allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
-         allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
-       }
+        if( allYears[currentYear - initialYear][i][currentMonth].deficitVol === 0 ) {
+          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+            allYears[currentYear - initialYear][i][currentMonth].deficitVol = allYears[currentYear - initialYear][i][currentMonth-1].deficitVol;
+          }
+        }
+         
 
-     }
+        allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
+        allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+        allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
+        /*
+        if(currentYear === 1985 && i === 2){
+        console.log("-----", currentMonth, "------");
+        console.log("bypass day:", bypassFlowVolDay);
+        console.log("deficit day:", deficitVolDay);
+        console.log("Bypass Cumulative:", allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol);
+        console.log("Deficit Cumulative:", allYears[currentYear - initialYear][i][currentMonth].deficitVol);
+        }
+        */
+      }
 
-      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
-    });
+    }
+
+    resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
+
+  });
 });
 };
 
