@@ -22,6 +22,9 @@ var app = express();
 nconf.file({
   file: "./config/config.json"
 });
+if (!Object.keys(nconf.get()).length) {
+  throw new Error('Unable to load config file. Check to make sure config/config.json exists');
+}
 
 /*
  * Express Middleware and Server Configuration
@@ -50,7 +53,7 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: true, 
+    secure: true,
     expires: false // Only remains when the
   }
 }));
