@@ -8,9 +8,11 @@ var currentYear;
 
 $("form").submit(function(event) {
   var validation = validateCalculatorInput();
-  displayFormError(validation[1]);
-  if(!validation[0])
+  if(!validation[0]) {
+    displayFormError(validation[1]);
     return false;
+  }
+
 
   event.preventDefault();
 
