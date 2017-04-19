@@ -24,6 +24,13 @@ nconf.file({
 });
 
 /*
+ *global variables to set up form input
+ */
+var inputText = require('./util/input-text.js');
+app.locals.pondArray = inputText.getPondArray();
+app.locals.irrigationArray = inputText.getIrrigationArray();
+
+/*
  * Express Middleware and Server Configuration
  */
 if (app.get('env') === 'production') {
