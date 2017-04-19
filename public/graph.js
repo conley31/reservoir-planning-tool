@@ -32,8 +32,12 @@ $("form").submit(function(event) {
       receivedArray = data;
       showGraphOne(); // defined in app.js
     },
-    error: function() {
-      console.log("AJAX failed");
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.responseJSON.error) {
+        console.error(jqXHR.responseJSON.error);
+      }
+      var errorMessage = jqXHR.responseJSON.errorMessage;
+      // TODO: Call error message display
     }
   });
 

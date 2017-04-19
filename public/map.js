@@ -98,7 +98,7 @@ var initMap = function() {
   });
 
   //remove buffer after map is loaded
-  google.maps.event.addListener(map, 'idle', function(){
+  google.maps.event.addListener(map, 'idle', function() {
     $("#map-buffer").fadeOut('fast');
   });
 };
@@ -129,11 +129,19 @@ var selectLocation = function(location) {
     url: '/locations',
     dataType: 'json',
     contentType: 'application/json',
-    data: JSON.stringify(location)
-  }).done(function(response) {
-    if (response) {
-      var feature = map.data.getFeatureById(response.id);
-      selectFeature(map.data.getFeatureById(response.id));
+    data: JSON.stringify(location),
+    success: function(response) {
+      if (response) {
+        var feature = map.data.getFeatureById(response.id);
+        selectFeature(map.data.getFeatureById(response.id));
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.responseJSON.error) {
+        console.error(jqXHR.responseJSON.error);
+      }
+      var errorMessage = jqXHR.responseJSON.errorMessage;
+      // TODO: Call error message display
     }
   });
 };
