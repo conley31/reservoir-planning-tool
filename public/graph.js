@@ -7,8 +7,12 @@ var currentPondVolume;
 var currentYear;
 
 $("form").submit(function(event) {
-  if(!validateCalculatorInput())
+  var validation = validateCalculatorInput();
+  if(!validation[0]) {
+    displayFormError(validation[1]);
     return false;
+  }
+
 
   event.preventDefault();
 
