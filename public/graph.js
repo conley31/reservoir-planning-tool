@@ -33,7 +33,7 @@ $("form").submit(function(event) {
       showGraphOne(); // defined in app.js
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      var errorMessage = jqHXR.responseJSON.error;
+      var errorMessage = jqXHR.responseJSON.error;
       // TODO: Call error message display
     }
   });

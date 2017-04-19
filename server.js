@@ -26,8 +26,9 @@ nconf.file({
 /*
  * Express Middleware and Server Configuration
  */
+// Enable logging
 if (app.get('env') === 'production') {
-  app.use(morgan('combined')); // Enable logging
+  app.use(morgan('combined'));
 } else {
   app.use(morgan('dev')); // Pretty logging in dev mode
 }
@@ -78,7 +79,7 @@ app.get('/', function(req, res) {
   });
 });
 
-// AJAX Request To run the Algorithm (see util/TDPAlg.js)
+// AJAX POST Request To run the Algorithm (see util/TDPAlg.js)
 app.post('/calculate', function(req, res, next) {
 
   var _ = [];
@@ -114,7 +115,7 @@ app.post('/calculate', function(req, res, next) {
     });
 });
 
-// AJAX Request to search locations (see util/polygons.js)
+// AJAX POST Request to search locations (see util/polygons.js)
 app.post('/locations', (req, res) => {
   var location = polygons.getLocation(req.body);
   if (!location) {
@@ -123,7 +124,7 @@ app.post('/locations', (req, res) => {
   res.json(location);
 });
 
-// Download the daily data
+// GET request to download the daily data
 app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
   // If the daily data isn't there, return 404 NOT FOUND
@@ -151,17 +152,19 @@ app.use(function(err, req, res, next) {
   // If the request was sent by a XHR, then send the error as JSON
   if (req.xhr) {
     if (app.get('env') === 'production') {
-      // Don't expose stack trace to the client if on a production machine, but keep them for debuggging
+      // Don't expose the full error to the client if on a production machine, but keep them for debuggging
       res.status(500).send({
-        error: err.message || 'Something failed, please contact an administrator'
+        errorMessage: err.message || 'Something failed, please contact an administrator'
       });
     } else {
       res.status(500).send({
-        error: err.message
+        errorMessage: err.message || 'Something failed, please contact an administrator',
+        error: err
       });
     }
+    console.error(err.stack);
   } else {
-    next(err);
+    return next(err); // Let default error handler handle non-XHR requests
   }
 });
 

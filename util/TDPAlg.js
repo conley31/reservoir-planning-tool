@@ -146,6 +146,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
     }).catch(function(reason) {
       if (reason.message.includes('ECONNREFUSED')) {
         console.error('Error connecting to MySQL. Did you start MySQL?');
+        reason.message = 'Error connecting to MySQL: ' + reason.message;
       }
       reject(reason);
     });
