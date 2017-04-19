@@ -28,13 +28,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       /* The only paramter that is allowed to be undefined is _csvFileStream */
         if(prop !== (params.length - 1).toString()){
           if(typeof params[prop] === "undefined"){
-            reject("Undefined Inputs");
+             reject(new Error('Undefined Input:' + prop));
           }
         }
     }
 
-    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth <= 0 || _pondVolSmallest <= 0){
-        reject("Invalid Inputs");
+    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth <= 0 || _pondVolSmallest <= 0 ){
+        reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
 
     pullData(_locationId, _csvFileStream).then(function(data){
