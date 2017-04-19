@@ -4,7 +4,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Background pattern from Subtle Patterns */
+  /* Background pattern from Subtle Patterns (https://www.toptal.com/designers/subtlepatterns) */
   background: url('graphy.png') repeat;
 }
 
