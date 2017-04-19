@@ -147,7 +147,7 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months';
-<<<<<<< HEAD
+
   graphData[1] = 'Bypass (Cumulative)';
   graphData[2] = 'Deficit (Cumulative)';
   graphData[3] = 'Pond Water Depth';
@@ -155,14 +155,7 @@ var graphTwo = function(pondIncrement) {
   graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
   graphData[6] = 'in tbd scale';
   graphData[7] = "graph-2";
-=======
-  graphData[1] = 'Pond Water Depth';
-  graphData[2] = 'Bypass (Cumulative)';
-  graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume);
-  graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
-  graphData[6] = "graph-2";
->>>>>>> b879e182e772e976c48dc8c3009bcb80d343c904
+
   addYearDropdown();
   drawChart();
 };
