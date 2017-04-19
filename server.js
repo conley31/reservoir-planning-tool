@@ -50,7 +50,7 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: true, // TODO: Change when HTTPS is setup
+    secure: true, 
     expires: false // Only remains when the
   }
 }));
@@ -64,8 +64,6 @@ app.use(function(req, res, next) {
   }
   next();
 });
-
-// Error Handlers (see function definitions after the routes section)
 
 /*
  * Routes
