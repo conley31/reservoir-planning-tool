@@ -30,7 +30,7 @@ nav {
 }
 
 h5 {
-  color: white;
+  color: #222;
   font-size: 1.2em;
 }
 
@@ -41,10 +41,6 @@ label {
 button {
   background-color: #0054a6;
   color: white;
-}
-
-hr {
-  margin: 10px 0;
 }
 
 .btn {
@@ -106,15 +102,27 @@ hr {
 
 /*Form inputs*/
 .form-group {
-  background: #357cce;
+  background: #eee;
   padding: 20px;
   padding-bottom: 0;
-  color: white;
+  color: #222;
   margin-bottom: 0;
 }
 
 #form-data {
     display: none;
+}
+
+#form-data hr {
+    border-top: 1px solid #555;
+    margin: 10px 0;
+}
+
+.input-container {
+  margin: auto;
+  width: 60%;
+  min-width: 160px;
+  max-width: 200px;
 }
 
 .input-group {
@@ -123,30 +131,22 @@ hr {
   box-shadow: none;
 }
 
-/*hide input spin button*/
-/*input[type="number"] {
-  -moz-appearance: textfield;
-  -webkit-appearance: textfield;
-  appearance: textfield;
-}*/
-
 .input-group .form-control {
-  border-style: none;
-  border-radius: 0;
+
+  color: #222;
   background-color: white;
+  min-width: 30px;
 }
 
 .input-group-addon {
-  border-style: none;
-  border-radius: 0;
-  background-color: #24578c;
-  color: white;
+  background-color: #ddd;
+  color: #666;
   font-size: 1em;
+  width: 40%;
 }
 
 #basic-addon2 {
   padding: 5px;
-  width: 30%;
 }
 
 #uploadForm {
@@ -157,6 +157,7 @@ hr {
 .form-control {
   font-size: 1em;
 }
+
 
 /*Form Error Checking*/
 #form-error {
@@ -288,7 +289,7 @@ hr.divider:after {
   position: relative;
   top: -14px;
   padding: 0 10px;
-  background:#357cce;
-  color: #eee;
+  background: #eee;
+  color: #555;
   font-size: 18px;
 }
