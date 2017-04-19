@@ -22,14 +22,18 @@ var app = express();
 nconf.file({
   file: "./config/config.json"
 });
+if (!Object.keys(nconf.get()).length) {
+  throw new Error('Unable to load config file. Check to make sure config/config.json exists');
+}
 
 /*
  * Express Middleware and Server Configuration
  */
+// Enable logging
 if (app.get('env') === 'production') {
-  app.use(morgan('combined')); // Enable logging
+  app.use(morgan('combined'));
 } else {
-  app.use(morgan('dev'));
+  app.use(morgan('dev')); // Pretty logging in dev mode
 }
 app.use(express.static(__dirname + '/public')); // Serve static files from the public directory
 app.use(bodyParser.json()); // Decode JSON from request bodies
@@ -49,12 +53,15 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: false, // TODO: Change when HTTPS is setup
+    secure: true,
     expires: false // Only remains when the
   }
 }));
 // Initialize Daily data in session store
 app.use(function(req, res, next) {
+  if (!req.session) {
+    return next(new Error('No session object. Did you start Redis?'));
+  }
   if (!req.session.dailyData) {
     req.session.dailyData = null;
   }
@@ -68,16 +75,21 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
   res.render("index.ejs", {
-    googleMapsKey: nconf.get("google_maps").key
+    googleMapsKey: nconf.get("google_maps").key,
+    production: app.get('env') === 'production'
   });
 });
 
-// AJAX Request To run the Algorithm (see util/TDPAlg.js)
-app.post('/calculate', function(req, res) {
+// AJAX POST Request To run the Algorithm (see util/TDPAlg.js)
+app.post('/calculate', function(req, res, next) {
 
   var _ = [];
   var stream;
-  var form = new formidable.IncomingForm().parse(req);
+  var form = new formidable.IncomingForm().parse(req, function(err) {
+    if (err) {
+      return next(err);
+    }
+  });
   form.uploadDir = "/tmp/";
   form
     .on('fileBegin', function(name, file) {
@@ -98,13 +110,13 @@ app.post('/calculate', function(req, res) {
         req.session.dailyData = data.dailyData;
         delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
         res.send(data);
+      }).catch(function(e) {
+        return next(e || new Error('There was an unexpected error when calculating this data'));
       });
-
     });
-
 });
 
-// AJAX Request to search locations (see util/polygons.js)
+// AJAX POST Request to search locations (see util/polygons.js)
 app.post('/locations', (req, res) => {
   var location = polygons.getLocation(req.body);
   if (!location) {
@@ -113,7 +125,7 @@ app.post('/locations', (req, res) => {
   res.json(location);
 });
 
-// Download the daily data
+// GET request to download the daily data
 app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
   // If the daily data isn't there, return 404 NOT FOUND
@@ -132,25 +144,42 @@ app.get('/download', (req, res) => {
 });
 
 /*
- * End Routes
+ * Error Handler
  */
-
-// Handle Errors
-app.get('*', (req, res) => {
-  res.sendStatus(404);
+app.use(function(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  // If the request was sent by a XHR, then send the error as JSON
+  if (req.xhr) {
+    if (app.get('env') === 'production') {
+      // Don't expose the full error to the client if on a production machine, but keep them for debuggging
+      res.status(500).send({
+        errorMessage: err.message || 'Something failed, please contact an administrator'
+      });
+    } else {
+      res.status(500).send({
+        errorMessage: err.message || 'Something failed, please contact an administrator',
+        error: err
+      });
+    }
+    console.error(err.stack);
+  } else {
+    return next(err); // Let default error handler handle non-XHR requests
+  }
 });
 
 // Start the server
 var server = app.listen(PORT, function() {
-  console.log('Running Server on Port: ', PORT);
+  console.log('Running Server on Port', PORT, 'in', app.get('env') === 'production' ? 'Production mode' : 'Development Mode');
 });
 
 // Gracefully handle exits by closing the database pool
 var exitHandler = function() {
-  db.close(process.exit);
+  db.close(process.exit); // Close the database pool, then this process
 
   setTimeout(function() {
-    console.error("Could not close connections in time, forcefully shutting down");
+    console.error('Could not close connections in time, forcefully shutting down');
     process.exit(1);
   }, 30 * 1000);
 
