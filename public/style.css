@@ -4,7 +4,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background: white;
+  background: url('graphy.png') repeat;
 }
 
 /*Navbar*/
@@ -73,6 +73,7 @@ button {
   height: auto;
   margin: 20px 0;
   overflow: hidden;
+  background: white;
 }
 
 .card-shadow {
@@ -102,7 +103,7 @@ button {
 
 /*Form inputs*/
 .form-group {
-  background: #eee;
+  background: #fff;
   padding: 20px;
   padding-bottom: 0;
   color: #222;
@@ -144,7 +145,7 @@ button {
 }
 
 .input-group-addon {
-  background-color: #ccc;
+  background-color: #f1f1f1;
   color: #333;
   font-size: 1em;
   width: 40%;
@@ -159,12 +160,12 @@ button {
   margin: auto;
 }
 .input-card {
-  background: #e3e3e3;
+  background: #f1f1f1;
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
 .label-card {
-  background: #e1e1e1;
+  background: #f1f1f1;
 }
 
 #uploadForm {
@@ -307,7 +308,7 @@ footer h5 {
   position: relative;
   top: -14px;
   padding: 0 10px;
-  background: #e1e1e1;
+  background: #eee;
   color: #555;
   font-size: 18px;
 }

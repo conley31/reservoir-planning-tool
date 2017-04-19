@@ -58,7 +58,7 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      width: '80%'
+      width: '90%'
     },
     fontName: 'Roboto',
     fontSize: 25,
@@ -76,6 +76,7 @@ var drawChart = function() {
       alignment: 'end'
     },
     hAxis: {
+      textPosition: 'in',
       textStyle: {
         fontSize: 20
       },
@@ -87,6 +88,7 @@ var drawChart = function() {
       }
     },
     vAxis: {
+      textPosition: 'in',
       textStyle: {
         fontSize: 20
       },
