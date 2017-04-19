@@ -63,8 +63,8 @@ var drawChart = function() {
     fontName: 'Roboto',
     fontSize: 25,
     theme: 'material',
-    title: graphData[i++],
-    subtitle: graphData[i++],
+    // title: graphData[i++],
+    // subtitle: graphData[i++],
     titleTextStyle: {
       fontSize: 25,
       bold: true,
@@ -83,7 +83,6 @@ var drawChart = function() {
       },
       title: graphData[0],
       titleTextStyle: {
-        // fontSize: 20,
         bold: true,
         italic: false
       }
@@ -99,7 +98,7 @@ var drawChart = function() {
     width: '100%',
     height: '100%'
   };
-
+  i++; i++;
   chart = new google.visualization.LineChart(document.getElementById(graphData[i]));
   chart.draw(data, options);
 };
