@@ -199,7 +199,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       }
       reject(reason);
 });
-}
+};
 
 /*
  *  pullData  -   Chooses whether to just get SQL Data or
