@@ -4,12 +4,13 @@
 Notes:
 -This file exports the algorithm developed by the Transforming Drainage Project.
 -All variables that are preceded by an underscore are from form inputs
+-All values are in acre/feet or feet
 */
 
 var db = require('../db');
 var userparse = require('./UserParse');
 
-//monthlyData will be an object that is used inside of allYears
+/* monthlyData will be an object that is used inside of allYears to represent each month */
 function monthlyData(){
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
@@ -17,17 +18,40 @@ function monthlyData(){
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
-_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { //TODO: add last argument.
+_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) { 
+  
+  var params = arguments;
 
   return new Promise(function(resolve, reject) {
+    /* Sanitize inputs from client */ 
+    for(var prop in params){
+      /* The only paramter that is allowed to be undefined is _csvFileStream */
+        if(prop !== (params.length - 1).toString()){
+          if(typeof params[prop] === "undefined"){
+             reject(new Error('Undefined Input:' + prop));
+          }
+        }
+    }
+
+    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth <= 0 || _pondVolSmallest <= 0 ){
+        reject(new Error('Invalid Input Creating Divide By Zero Error'));
+    }
+
     pullData(_locationId, _csvFileStream).then(function(data){
-      var dailyData = {};
-      const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement);
+      /*dailyData is an object that will be used for creating downloadable CSV */
+      var dailyData = {}; 
+      /* allYears stores data for graphs on the client */
       var allYears = [];
+      /*
+         increments will store the actual pondVolumes that go along with each increment.
+         Pond volumes are not stored within allYears, so increments will be passed to client as well
+      */
       var increments = [];
-      const seepageVolDay = 0.01; //feet
+      const numberOfIncrements = ((_pondVolLargest - _pondVolSmallest) / _pondVolIncrement); 
+      const seepageVolDay = 0.01;
       var initialYear = null;
 
+      /* Run the calculation for every pond increment */
       for (var i = 0; i <= numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
@@ -43,7 +67,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
 
 
-        /* LOOP THROUGH EVERY DAY */
+        /* LOOP THROUGH EVERY DAY(ROW) in Database */
         for (var j = 0; j < data.length; j++) {
           /*
           **********************************************
@@ -54,13 +78,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth();
 
-          //consider setting initialYear = data[0].RecordedDate.getFullYear(); instead of checking for null values every iteration.
-
           if(initialYear === null){
             initialYear = currentYear;
           }
-
-          var inflowVolDay = data[j].Drainflow * _drainedArea;
+          
+          var inflowVolDay = (data[j].Drainflow/12) * _drainedArea; 
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
 
@@ -68,32 +90,45 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
 
-          var evapVolDay = evapDepthDay * pondArea;
+          var evapVolDay = (evapDepthDay/12) * pondArea;
+          var pondPrecipVolDay = (precipDepthDay/12) * pondArea;
 
-          var pondPrecipVolDay = (precipDepthDay * pondArea);
+         
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
+
+          /* soilMoistureDepthDay cannot be negative */        
+          if( soilMoistureDepthDay < 0 ){
+            soilMoistureDepthDay = 0;
+          }
+
           var pondWaterVolDay = pondWaterVolDayPrev;
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
-            irrigationVolDay = _irrigationDepth * _irrigationArea;
+            
+            irrigationVolDay = (_irrigationDepth/12) * _irrigationArea;
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
+            
+            soilMoistureDepthDay = (soilMoistureDepthDayPrev+precipDepthDay+((irrigationVolDay*12)/_irrigationArea)-evapDepthDay);
           }
 
-
+          
+          
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+
+          /* pondWaterVolDay cannot be negative */
           if(pondWaterVolDay < 0){
             pondWaterVolDay = 0;
           }
 
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
-
             bypassFlowVolDay = pondWaterVolDay - pondVol;
             pondWaterVolDay = pondVol;
           }
+
 
           var pondWaterDepthDay = pondWaterVolDay/pondArea;
 
@@ -116,12 +151,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             pondWaterDepth: pondWaterDepthDay
           });
 
-          //update the (day-1) variables
+          /* update the (day-1) variables */
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
           pondWaterVolDayPrev = pondWaterVolDay;
 
-
-          //updated allYears at the current year at the current increment and at the current month.
 
           if(typeof allYears[currentYear - initialYear] === "undefined"){
             allYears[currentYear - initialYear] = [];
@@ -132,15 +165,27 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
-
-          //update monthly values here
-
-          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
+         
+        /* The values for bypassFlowVol and deficitVol are cumulative */
+        if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
+          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+            allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
+          }
         }
 
+        if( allYears[currentYear - initialYear][i][currentMonth].deficitVol === 0 ) {
+          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+            allYears[currentYear - initialYear][i][currentMonth].deficitVol = allYears[currentYear - initialYear][i][currentMonth-1].deficitVol;
+          }
+        }
+         
+
+        allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
+        allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+        allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
+      
       }
+
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
     }).catch(function(reason) {
@@ -150,6 +195,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       }
       reject(reason);
     });
+
 });
 };
 
@@ -167,7 +213,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
  *  }, ...]
  *
  */
-function pullData(_locationId, stream) {
+ function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
     if(typeof stream != 'undefined') {
       resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
