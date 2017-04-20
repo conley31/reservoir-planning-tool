@@ -7,6 +7,13 @@ var currentPondVolume;
 var currentYear;
 
 $("form").submit(function(event) {
+  var validation = validateCalculatorInput();
+  if(!validation[0]) {
+    displayFormError(validation[1]);
+    return false;
+  }
+
+
   event.preventDefault();
 
   var formData = new FormData();
@@ -32,8 +39,12 @@ $("form").submit(function(event) {
       receivedArray = data;
       showGraphOne(); // defined in app.js
     },
-    error: function() {
-      console.log("AJAX failed");
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.responseJSON.error) {
+        console.error(jqXHR.responseJSON.error);
+      }
+      var errorMessage = jqXHR.responseJSON.errorMessage;
+      // TODO: Call error message display
     }
   });
 
@@ -148,12 +159,15 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months';
-  graphData[1] = 'Pond Water Depth';
-  graphData[2] = 'Bypass (Cumulative)';
-  graphData[3] = 'Deficit (Cumulative)';
-  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume);
-  graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
-  graphData[6] = "graph-2";
+
+  graphData[1] = 'Bypass (Cumulative)';
+  graphData[2] = 'Deficit (Cumulative)';
+  graphData[3] = 'Pond Water Depth';
+  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData );
+  graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
+  graphData[6] = 'in tbd scale';
+  graphData[7] = "graph-2";
+
   addYearDropdown();
   drawChart();
 };
@@ -163,9 +177,9 @@ var graphThree = function(year) {
   currentYear = year;
   graphData = [];
   graphData[0] = 'Months';
-  graphData[1] = 'Pond Water Depth';
-  graphData[2] = 'Bypass (Cumulative)';
-  graphData[3] = 'Deficit (Cumulative)';
+  graphData[1] = 'Bypass (Cumulative)';
+  graphData[2] = 'Deficit (Cumulative)';
+  graphData[3] = 'Pond Water Depth';
   graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
   graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
   graphData[6] = "graph-3";

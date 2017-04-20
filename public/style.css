@@ -183,9 +183,9 @@ button {
 
   /*margin on either side*/
   border-left-style: solid;
-  border-left-width: 30vw;
+  border-left-width: 2vw;
   border-right-style: solid;
-  border-right-width: 30vw;
+  border-right-width: 2vw;
   border-color: #357cce;
   display: none;
 }

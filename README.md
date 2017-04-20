@@ -35,6 +35,8 @@
 
 ## Testing Scripts
 #### `npm test tests/<test folder>`
+#### `npm run test-db-quick`
+#### `npm run test-db-complete`
 
 ## Folder Structure and important files
 - `config/`: Configuration Files
