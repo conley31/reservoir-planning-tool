@@ -10,7 +10,9 @@ var express = require('express'),
   nconf = require('nconf'),
   morgan = require('morgan'),
   csv = require('fast-csv'),
-  session = require('express-session');
+  session = require('express-session'),
+  favicon = require('serve-favicon');
+
 var RedisStore = require('connect-redis')(session);
 
 var db = require('./db');
@@ -42,6 +44,7 @@ if (app.get('env') === 'production') {
 } else {
   app.use(morgan('dev')); // Pretty logging in dev mode
 }
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(__dirname + '/public')); // Serve static files from the public directory
 app.use(bodyParser.json()); // Decode JSON from request bodies
 // Options for urlencoded requests

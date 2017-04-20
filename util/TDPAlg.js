@@ -188,14 +188,16 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
       //consider sending back an object with the first graphs data already calculated.
       resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
-    }).catch(function(reason) {
+    }
+
+});
+
+}).catch(function(reason) {
       if (reason.message.includes('ECONNREFUSED')) {
         console.error('Error connecting to MySQL. Did you start MySQL?');
         reason.message = 'Error connecting to MySQL: ' + reason.message;
       }
       reject(reason);
-    });
-
 });
 };
 
