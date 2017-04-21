@@ -170,27 +170,13 @@ button {
 /*Form Error Checking*/
 #form-error {
   color: white;
-
-  /*margin on either side*/
-  border-left-style: solid;
-  border-left-width: 2vw;
-  border-right-style: solid;
-  border-right-width: 2vw;
-  border-color: #357cce;
+  margin: 1vh 2vw 3vh 2vw;
   display: none;
 }
 
 #form-error p {
   padding: 0;
   margin: 0;
-}
-
-#border {
-  border-top-style: solid;
-  border-top-width: 1vh;
-  border-bottom-style: solid;
-  border-bottom-width: 3vh;
-  border-color: #357cce;
 }
 
 #error-content{
