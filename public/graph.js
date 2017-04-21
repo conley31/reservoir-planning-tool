@@ -165,7 +165,7 @@ var graphTwo = function(pondIncrement) {
   graphData[3] = 'Pond Water Depth';
   graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData );
   graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
-  graphData[6] = "graph-2";
+  graphData[6] = 'graph-2';
 
   addYearDropdown();
   drawChart();
@@ -181,7 +181,7 @@ var graphThree = function(year) {
   graphData[3] = 'Pond Water Depth';
   graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
   graphData[5] = 'Bypass Flow or Storage Deficit Volume or Pond Depth\n(acre-feet)';
-  graphData[6] = "graph-3";
+  graphData[6] = 'graph-3';
   drawChart();
 };
 
