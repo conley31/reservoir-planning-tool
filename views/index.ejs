@@ -8,7 +8,7 @@
         <div class="card-container">
 
           <!-- Map -->
-          <div class="card card-shadow">
+          <div class="card">
             <div id="map-container">
               <div id="map-buffer" class="buffer-container">
                 <div class="loader"></div>
@@ -20,31 +20,26 @@
           </div>
 
           <!-- Form Input -->
-          <div id="form-card" class="card card-shadow">
-            <div id="form-data">
+          <div id="form-data" class="card">
               <% include partials/calculator-input %>
-            </div>
           </div>
 
           <!-- First Graph -->
-          <div class="card card-shadow">
-            <div id="graph-body">
-              <div id="graph-1" class="card text-center">
-                  <!-- This is where Google Charts will go -->
-                  <h5>Graph</h5>
-              </div>
-              <div id="graph-desc" class="card">
-                This graph shows two calculated values, averaged over all years simulated:
-                <ul>
-                  <li>
-                    Bypass Volume: Amount of drain flow that will not be captured in the pond (less is better, to improve downstream water quality)
-                  </li>
-                  <li>
-                    Storage Deficit: Amount of irrigation water that would have benefited the crop, but was not available when needed (less is better, to improve crop yields)
-                  </li>
-                </ul>
-              </div>
-
+          <div id="graph-body" class="card">
+            <div id="graph-1" class="card text-center">
+                <!-- This is where Google Charts will go -->
+                <h5>Graph</h5>
+            </div>
+            <div id="graph-desc" class="card">
+              This graph shows two calculated values, averaged over all years simulated:
+              <ul>
+                <li>
+                  Bypass Volume: Amount of drain flow that will not be captured in the pond (less is better, to improve downstream water quality)
+                </li>
+                <li>
+                  Storage Deficit: Amount of irrigation water that would have benefited the crop, but was not available when needed (less is better, to improve crop yields)
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -58,14 +53,12 @@
           </div>
 
           <!-- Second Graph -->
-          <div class="card card-shadow">
-            <div id="graph2-body">
-              <div id="graph-2" class="card text-center">
-                  <h5>Graph</h5>
-              </div>
-              <div id="graph-desc" class="card">
-                This graph shows the calculated pond depth, bypass flow, and storage deficit averaged over all years simulated.  It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance. For details on an individual years, select a year below. 
-              </div>
+          <div id="graph2-body" class="card">
+            <div id="graph-2" class="card text-center">
+                <h5>Graph</h5>
+            </div>
+            <div id="graph-desc" class="card">
+                This graph shows the calculated pond depth, bypass flow, and storage deficit averaged over all years simulated.  It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance. For details on an individual years, select a year below.
             </div>
           </div>
 
@@ -78,14 +71,12 @@
           </div>
 
           <!-- Third Graph -->
-          <div class="card card-shadow">
-            <div id="graph3-body">
-              <div id="graph-3" class="card text-center">
-                  <h5>Graph</h5>
-              </div>
-              <div id="graph-desc" class="card">
+          <div id="graph3-body" class="card">
+            <div id="graph-3" class="card text-center">
+                <h5>Graph</h5>
+            </div>
+            <div id="graph-desc" class="card">
                 This graph shows the calculated pond depth, bypass flow, and storage deficit over the course of a single year. It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance.
-              </div>
             </div>
           </div>
 
