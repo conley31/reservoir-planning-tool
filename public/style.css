@@ -30,7 +30,7 @@ nav {
 }
 
 h5 {
-  color: white;
+  color: #222;
   font-size: 1.2em;
 }
 
@@ -43,10 +43,6 @@ button {
   color: white;
 }
 
-hr {
-  margin: 10px 0;
-}
-
 .btn {
   border-radius: 0;
 }
@@ -56,10 +52,6 @@ hr {
   -webkit-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   -moz-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
-}
-
-.row {
-  padding: 10px 0;
 }
 
 /*Card Layout*/
@@ -77,13 +69,7 @@ hr {
   height: auto;
   margin: 20px 0;
   overflow: hidden;
-}
-
-.card-shadow {
-  z-index: 3;
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
-  -moz-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
-  box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+  background: white;
 }
 
 /*Map*/
@@ -106,15 +92,32 @@ hr {
 
 /*Form inputs*/
 .form-group {
-  background: #357cce;
+  background: #fff;
   padding: 20px;
   padding-bottom: 0;
-  color: white;
+  color: #222;
   margin-bottom: 0;
 }
 
 #form-data {
     display: none;
+}
+
+#reservoir-inputs {
+  padding-bottom: 20px;
+  font-size: 1.1em;
+}
+
+#form-data hr {
+    border-top: 1px solid #555;
+    margin: 10px 0 20px 0;
+}
+
+.input-container {
+  margin: auto;
+  width: 60%;
+  min-width: 160px;
+  max-width: 200px;
 }
 
 .input-group {
@@ -123,65 +126,57 @@ hr {
   box-shadow: none;
 }
 
-/*hide input spin button*/
-input[type="number"] {
-  -moz-appearance: textfield;
-  -webkit-appearance: textfield;
-  appearance: textfield;
-}
-
 .input-group .form-control {
-  border-style: none;
-  border-radius: 0;
+
+  color: #222;
   background-color: white;
+  min-width: 30px;
 }
 
 .input-group-addon {
-  border-style: none;
-  border-radius: 0;
-  background-color: #24578c;
-  color: white;
+  background-color: #f1f1f1;
+  color: #333;
   font-size: 1em;
+  width: 40%;
 }
 
 #basic-addon2 {
   padding: 5px;
 }
 
+.form-card-container {
+  width: 80%;
+  margin: auto;
+}
+.input-card {
+  background: #f1f1f1;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.label-card {
+  background: #f1f1f1;
+}
+
 #uploadForm {
-  display: none;
   padding-left: 10px;
   padding-right: 10px;
 }
 
 .form-control {
-  font-size: 1em;
+  font-size: 1.1em;
 }
+
 
 /*Form Error Checking*/
 #form-error {
   color: white;
-
-  /*margin on either side*/
-  border-left-style: solid;
-  border-left-width: 2vw;
-  border-right-style: solid;
-  border-right-width: 2vw;
-  border-color: #357cce;
+  margin: 1vh 2vw 3vh 2vw;
   display: none;
 }
 
 #form-error p {
   padding: 0;
   margin: 0;
-}
-
-#border {
-  border-top-style: solid;
-  border-top-width: 1vh;
-  border-bottom-style: solid;
-  border-bottom-width: 3vh;
-  border-color: #357cce;
 }
 
 #error-content{
@@ -274,10 +269,30 @@ footer h5 {
     100% { transform: rotate(360deg); }
 }
 
+
+#form-data hr.divider {
+  border-top: 1px solid #222;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#form-data hr.divider:after {
+  content: 'or';
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  padding: 0 10px;
+  background: #eee;
+  color: #555;
+  font-size: 18px;
+}
+
 #places-input {
   margin-top: 10px;
   height: 30px;
   width: 200px;
   padding: 0px 0px 0px 30px;
   background-image: url('search-back.png');
+
 }

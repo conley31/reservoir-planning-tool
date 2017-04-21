@@ -35,13 +35,6 @@ $('#form-submit').click(function() {
   });
 });
 
-$('#uploadButton').click(function() {
-  $(this).fadeOut('fast', function() {
-    $('#uploadForm').fadeIn("slow", function(){
-    });
-  });
-});
-
 $('#pond-inc-submit').click(function() {
   $('#download-csv').show();
   $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val());
