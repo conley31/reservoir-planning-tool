@@ -244,6 +244,7 @@ button {
 
 #graph-buffer {
   height: 80vh;
+  width:  100%;
 }
 
 /*Dropdowns*/
