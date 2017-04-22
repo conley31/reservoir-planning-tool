@@ -133,7 +133,7 @@ $(window).smartresize(function() {
     graphOne();
     if (currentPondVolume) {
       graphTwo();
-      if (year) {
+      if (currentYear) {
         graphThree();
       }
     }
