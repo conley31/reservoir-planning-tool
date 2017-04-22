@@ -106,11 +106,11 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			}
 		}
 	}
-	
+	var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','SEP','OCT','NOV','DEC'];
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i + 1;
+			outputArray[i][0] = i+1;
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 			outputArray[i][3] /= allYears.length;

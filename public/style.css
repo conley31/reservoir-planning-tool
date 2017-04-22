@@ -205,6 +205,7 @@ button {
 #graph-desc {
   width: inherit;
   margin: 10px;
+  font-size: 1.5em;
 }
 
 /*Dropdowns*/
@@ -242,6 +243,10 @@ footer {
 
 footer h5 {
   color: #eee;
+}
+
+#description-title-margin{
+  margin-left: 1vw;
 }
 
 /*For smaller than large screens*/
