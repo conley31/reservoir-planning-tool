@@ -1,27 +1,27 @@
 var toggleText = 0;
 
 $('#map-submit').click(function() {
-  if(toggleText === 0) {
-      $(this).fadeOut('fast');
-      $('#form-data').fadeIn('slow', function() {
-        // $('#map-submit').text('Select Another Location');
-        $('#prompt').text('Please Enter Inputs');
-      });
+  if (toggleText === 0) {
+    $(this).fadeOut('fast');
+    $('#form-data').fadeIn('slow', function() {
+      // $('#map-submit').text('Select Another Location');
+      $('#prompt').text('Please Enter Inputs');
+    });
   } else {
-      $('#graph-body').fadeOut('fast', function() {
+    $('#graph-body').fadeOut('fast', function() {
 
-        //Remove all cards that are on the screen
-        $("#pond-inc-card").fadeOut('fast');
-        $("#year-card").fadeOut('fast');
-        $('#form-data').fadeOut('fast');
-        $('#graph2-body').fadeOut('fast');
-        $('#graph3-body').fadeOut('fast');
-        $('#map-submit').fadeOut("fast");
+      //Remove all cards that are on the screen
+      $("#pond-inc-card").fadeOut('fast');
+      $("#year-card").fadeOut('fast');
+      $('#form-data').fadeOut('fast');
+      $('#graph2-body').fadeOut('fast');
+      $('#graph3-body').fadeOut('fast');
+      $('#map-submit').fadeOut("fast");
 
-        //show map and change prompt
-        $('#prompt').text('Please Select a Location');
-        $('#map-container').fadeIn('slow');
-      });
+      //show map and change prompt
+      $('#prompt').text('Please Select a Location');
+      $('#map-container').fadeIn('slow');
+    });
     toggleText = 0;
   }
 
@@ -68,4 +68,16 @@ var showGraphThree = function() {
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
   });
+};
+
+// Initialize the error Modal
+$('#errorModal').modal({
+  keyboard: false,
+  show: false
+});
+
+// Display the error modal with a given message
+var displayErrorModal = function(message) {
+  $('#errorModal .modal-body').text(message);
+  $('#errorModal').modal('show');
 };
