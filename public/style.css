@@ -246,10 +246,11 @@ button {
   display: none;
   background: #357cce;
   padding: 10px;
+  border-radius: 5px;
 }
 
-#pond-inc-card, #year-card h5 {
-  color: white;
+select {
+  color: black;
 }
 
 .buffer-container {
