@@ -25,7 +25,7 @@ $("form").submit(function(event) {
     //TODO add checks for values being passed through
 
     // Try to parse it as a number, else return the value as is (empty forms will return empty strings)
-    formData.append(formArray[i].name, Number.parseFloat(formArray[i].value) || formArray[i].value);
+    formData.append(formArray[i].name, parseFloat(formArray[i].value) || formArray[i].value);
   }
 
   $.ajax({
