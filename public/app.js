@@ -16,7 +16,14 @@ $('#map-nav').click(function() {
 
 //show graph nav button
 $('#map-submit').click(function() {
-  $('#graph-nav').fadeIn('fast');
+  $('#graph-nav').fadeIn('fast', function() {
+    //show change on pseudo nav
+    $(this).addClass('active-button');
+    $('#map-nav').removeClass('active-button');
+  });
+  $('#map-nav-display').fadeOut('fast', function() {
+    $('#graph-nav-display').fadeIn('fast');
+  });
 });
 
 //show form input and graphs, hide map
