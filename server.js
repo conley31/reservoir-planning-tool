@@ -159,6 +159,7 @@ app.get('*', function(req, res) {
     res.status(404).send({
       error: 'Not Found'
     });
+    return;
   }
   res.format({
     html: function() {
