@@ -2,6 +2,11 @@
 
 //show map, hide everything else
 $('#map-nav').click(function() {
+
+  //show change on pseudo nav
+  $(this).addClass('active-button');
+  $('#graph-nav').removeClass('active-button');
+
   $('#graph-nav-display').fadeOut('fast', function() {
     $('#map-nav-display').fadeIn('fast');
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
@@ -15,6 +20,11 @@ $('#map-submit').click(function() {
 
 //show form input and graphs, hide map
 $('#graph-nav').click(function() {
+
+  //show change on pseudo nav
+  $(this).addClass('active-button');
+  $('#map-nav').removeClass('active-button');
+
   $('#map-nav-display').fadeOut('fast', function() {
     $('#graph-nav-display').fadeIn('fast');
   });
