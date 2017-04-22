@@ -9,7 +9,7 @@ var currentYear;
 $("form").submit(function(event) {
   var validation = validateCalculatorInput();
   displayFormError(validation[1]);
-  if(!validation[0])
+  if (!validation[0])
     return false;
 
 
@@ -43,7 +43,7 @@ $("form").submit(function(event) {
         console.error(jqXHR.responseJSON.error);
       }
       var errorMessage = jqXHR.responseJSON.errorMessage;
-      // TODO: Call error message display
+      displayErrorModal(errorMessage);
     }
   });
 
@@ -60,7 +60,7 @@ var drawChart = function() {
   data = new google.visualization.DataTable();
   var i = 0;
   //add axis descriptions
-  while(typeof graphData[i] == "string") {
+  while (typeof graphData[i] == "string") {
     data.addColumn('number', graphData[i++]);
   }
   //add array of data
@@ -128,12 +128,12 @@ var initGraph = function() {
 };
 
 //Resizes Graph on window resize
-$(window).smartresize(function () {
-  if(data && options && chart) {
+$(window).smartresize(function() {
+  if (data && options && chart) {
     graphOne();
-    if(currentPondVolume) {
+    if (currentPondVolume) {
       graphTwo();
-      if(year) {
+      if (year) {
         graphThree();
       }
     }
@@ -162,7 +162,7 @@ var graphTwo = function(pondIncrement) {
   graphData[1] = 'Bypass (Cumulative)';
   graphData[2] = 'Deficit (Cumulative)';
   graphData[3] = 'Pond Water Depth';
-  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData );
+  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
   graphData[6] = 'graph-2';
 
@@ -188,7 +188,7 @@ var graphThree = function(year) {
 var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
   dropdown.find('option').remove();
-  for(var i = 0; i < array.length; i++) {
+  for (var i = 0; i < array.length; i++) {
     dropdown.append($("<option></option>").val(array[i]).html(array[i]));
   }
 };
@@ -197,7 +197,7 @@ var addIncDropdown = function(array) {
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
   dropdown.find('option').remove();
-  for(var i = 1980; i < 2010; i++) {
-      dropdown.append($("<option></option>").val(i).html(i));
+  for (var i = 1980; i < 2010; i++) {
+    dropdown.append($("<option></option>").val(i).html(i));
   }
 };

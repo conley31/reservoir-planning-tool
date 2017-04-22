@@ -63,8 +63,8 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: true,
-    expires: false // Only remains when the
+    secure: false,
+    expires: false
   }
 }));
 // Initialize Daily data in session store
@@ -140,7 +140,6 @@ app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
   // If the daily data isn't there, return 404 NOT FOUND
   if (req.session.dailyData === null || typeof(req.session.dailyData[pondVol]) === "undefined") {
-    // console.log(req.session.dailyData);
     res.sendStatus(404);
     return;
   }
