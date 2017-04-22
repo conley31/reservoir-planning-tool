@@ -28,7 +28,7 @@ function leapYear(year){
   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
 
-function monthlyAvg(month, year){
+function daysInMonth(month, year){
 	if(month === 1){
 		if(leapYear(year)){
 			return 29;
@@ -98,10 +98,9 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 		if(allYears[i][currentIncrement] && typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
 				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== "undefined"){
-					
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
-					outputArray[k][3] += (allYears[i][currentIncrement][k].pondWaterDepth/monthlyAvg(k, initialYear+i));
+					outputArray[k][3] += (allYears[i][currentIncrement][k].pondWaterDepth/daysInMonth(k, initialYear+i));
 				}
 
 			}
@@ -138,7 +137,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
-				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth / monthlyAvg(k, specificYear));
+				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth /daysInMonth(k, specificYear));
 			}
 		}
 	}
