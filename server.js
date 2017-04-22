@@ -87,7 +87,7 @@ app.get('/', function(req, res) {
   res.render("index.ejs", {
     googleMapsKey: nconf.get("google_maps").key,
     production: app.get('env') === 'production',
-    title: 'Reservoir Planning Tool'
+    title: 'Pond Sizing Tool'
   });
 });
 
@@ -169,7 +169,7 @@ app.get('*', function(req, res) {
         error: 'Page Not Found: ' + req.hostname + req.originalUrl,
         googleMapsKey: nconf.get("google_maps").key,
         production: app.get('env') === 'production',
-        title: 'Page Not Found - Reservoir Planning Tool'
+        title: 'Page Not Found - Pond Sizing Tool'
       });
     },
     json: function() {
