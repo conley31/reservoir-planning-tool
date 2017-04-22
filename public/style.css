@@ -242,6 +242,10 @@ button {
   background: #eee;
 }
 
+#graph-buffer {
+  height: 80vh;
+}
+
 /*Dropdowns*/
 #pond-inc-card, #year-card {
   display: none;

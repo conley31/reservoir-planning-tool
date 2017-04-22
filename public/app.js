@@ -54,7 +54,8 @@ $('#year-submit').click(function() {
 var showGraphOne = function() {
   $('#graph-body').fadeIn('slow', function() {
     graphOne();
-    $('#pond-inc-card').fadeIn('slow');
+    $('#graph-buffer').fadeOut('fast');
+    $("#pond-inc-card").fadeIn('slow');
   });
 };
 

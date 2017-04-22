@@ -52,7 +52,7 @@
               </div>
               <div id="map"></div>
             </div>
-              <!-- Prompt and Submit below map -->
+            <!-- Prompt and Submit below map -->
             <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
           </div>
 
@@ -61,9 +61,11 @@
             <div id="form-data" class="card">
                 <% include partials/calculator-input %>
             </div>
-
             <!-- First Graph -->
             <div id="graph-body" class="card">
+              <div id="graph-buffer" class="buffer-container">
+                <div class="loader"></div>
+              </div>
               <div id="graph-1" class="card text-center">
                   <!-- This is where Google Charts will go -->
                   <h5>Graph</h5>
@@ -88,7 +90,7 @@
                 <select id="pond-inc-dropdown">
                 </select>
                 <button id="pond-inc-submit" class="btn"> submit </button>
-                <a id="download-csv" style="display: none;">Download a CSV with Daily Data for this Pond Volume</a>
+                  <a id="download-csv" style="display: none;">&nbsp;Download a CSV with Daily Data for this Pond Volume</a>
             </div>
 
             <!-- Second Graph -->
