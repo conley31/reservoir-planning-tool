@@ -65,7 +65,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
-
+     
 
         /* LOOP THROUGH EVERY DAY(ROW) in Database */
         for (var j = 0; j < data.length; j++) {
@@ -77,6 +77,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var currentDate = data[j].RecordedDate; // Javascript Date object
           var currentYear = currentDate.getFullYear();
           var currentMonth = currentDate.getMonth();
+
 
           if(initialYear === null){
             initialYear = currentYear;
@@ -166,9 +167,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
 
+
         /* The values for bypassFlowVol and deficitVol are cumulative */
+        
         if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
-          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+         if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
             allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
           }
         }
@@ -185,10 +188,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
 
       }
-
-      //consider sending back an object with the first graphs data already calculated.
-      resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
+   
     }
+   
+    resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
 
 }).catch(function(reason) {
       if (reason.message.includes('ECONNREFUSED')) {
