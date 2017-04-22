@@ -25,7 +25,7 @@ function latestIndex(arr){
 	}
 }
 function leapYear(year){
-  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
 
 function daysInMonth(month, year){
@@ -106,7 +106,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 			}
 		}
 	}
-	
+
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
