@@ -1,46 +1,51 @@
-var toggleText = 0;
+// This file contains event handlers for elements displayed
 
-$('#map-submit').click(function() {
-  if (toggleText === 0) {
-    $(this).fadeOut('fast');
-    $('#form-data').fadeIn('slow', function() {
-      // $('#map-submit').text('Select Another Location');
-      $('#prompt').text('Please Enter Inputs');
-    });
-  } else {
-    $('#graph-body').fadeOut('fast', function() {
+//show map, hide everything else
+$('#map-nav').click(function() {
 
-      //Remove all cards that are on the screen
-      $("#pond-inc-card").fadeOut('fast');
-      $("#year-card").fadeOut('fast');
-      $('#form-data').fadeOut('fast');
-      $('#graph2-body').fadeOut('fast');
-      $('#graph3-body').fadeOut('fast');
-      $('#map-submit').fadeOut("fast");
+  //show change on pseudo nav
+  $(this).addClass('active-button');
+  $('#graph-nav').removeClass('active-button');
 
-      //show map and change prompt
-      $('#prompt').text('Please Select a Location');
-      $('#map-container').fadeIn('slow');
-    });
-    toggleText = 0;
-  }
-
-});
-
-$('#form-submit').click(function() {
-  $('#map-container').fadeOut('slow', function() {
-    $('#map-submit').fadeIn('fast');
-    $('#map-submit').text('Select Another Location');
-    toggleText = 1;
+  $('#graph-nav-display').fadeOut('fast', function() {
+    $('#map-submit').fadeOut('fast');
+    $('#map-nav-display').fadeIn('fast');
+    google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
   });
 });
 
+//show graph nav button
+$('#map-submit').click(function() {
+  $('#graph-nav').fadeIn('fast', function() {
+    //show change on pseudo nav
+    $(this).addClass('active-button');
+    $('#map-nav').removeClass('active-button');
+  });
+  $('#map-nav-display').fadeOut('fast', function() {
+    $('#graph-nav-display').fadeIn('fast');
+  });
+});
+
+//show form input and graphs, hide map
+$('#graph-nav').click(function() {
+
+  //show change on pseudo nav
+  $(this).addClass('active-button');
+  $('#map-nav').removeClass('active-button');
+
+  $('#map-nav-display').fadeOut('fast', function() {
+    $('#graph-nav-display').fadeIn('fast');
+  });
+});
+
+//show graph for selected pond increment
 $('#pond-inc-submit').click(function() {
   $('#download-csv').show();
   $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val());
   showGraphTwo();
 });
 
+//show graph for selected year
 $('#year-submit').click(function() {
   showGraphThree();
 });
@@ -59,7 +64,7 @@ var showGraphTwo = function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow', function() {
     graphTwo(selected);
-    $("#year-card").fadeIn('slow');
+    $('#year-card').fadeIn('slow');
   });
 };
 

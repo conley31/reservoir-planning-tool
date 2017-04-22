@@ -72,7 +72,10 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      width: '90%'
+      left: 80,
+      top: 20,
+      width: '90%',
+      height: '85%'
     },
     fontName: 'Roboto',
     fontSize: 25,
@@ -92,7 +95,7 @@ var drawChart = function() {
     hAxis: {
       textPosition: 'in',
       textStyle: {
-        fontSize: 20
+        fontSize: 15
       },
       title: graphData[0],
       titleTextStyle: {
@@ -104,7 +107,7 @@ var drawChart = function() {
     vAxis: {
       textPosition: 'in',
       textStyle: {
-        fontSize: 20
+        fontSize: 15
       },
       title: graphData[i++],
       titleTextStyle: {
@@ -131,18 +134,18 @@ var initGraph = function() {
   google.charts.setOnLoadCallback(drawChart);
 };
 
-//Resizes Graph on window resize
-$(window).smartresize(function() {
-  if (data && options && chart) {
-    graphOne();
-    if (currentPondVolume) {
-      graphTwo();
-      if (year) {
-        graphThree();
-      }
-    }
-  }
-});
+// //Resizes Graph on window resize
+// $(window).smartresize(function() {
+//   if (data && options && chart) {
+//     graphOne();
+//     if (currentPondVolume) {
+//       graphTwo();
+//       if (currentYear) {
+//         graphThree();
+//       }
+//     }
+//   }
+// });
 
 //Create graph 1
 var graphOne = function() {
