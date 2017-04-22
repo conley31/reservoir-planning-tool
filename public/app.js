@@ -8,6 +8,7 @@ $('#map-nav').click(function() {
   $('#graph-nav').removeClass('active-button');
 
   $('#graph-nav-display').fadeOut('fast', function() {
+    $('#map-submit').fadeOut('fast');
     $('#map-nav-display').fadeIn('fast');
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
   });
