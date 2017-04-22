@@ -67,3 +67,15 @@ var showGraphThree = function() {
     graphThree(selected);
   });
 };
+
+// Initialize the error Modal
+$('#errorModal').modal({
+  keyboard: false,
+  show: false
+});
+
+// Display the error modal with a given message
+var displayErrorModal = function(message) {
+  $('#errorModal .modal-body').text(message);
+  $('#errorModal').modal('show');
+};

@@ -141,7 +141,7 @@ var selectLocation = function(location) {
         console.error(jqXHR.responseJSON.error);
       }
       var errorMessage = jqXHR.responseJSON.errorMessage;
-      // TODO: Call error message display
+      displayErrorModal(errorMessage);
     }
   });
 };
