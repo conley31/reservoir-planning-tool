@@ -121,14 +121,14 @@ button {
   color: #222;
   margin-bottom: 0;
 }
-/*
-#form-data {
-    display: none;
-}*/
 
 #reservoir-inputs {
   padding-bottom: 20px;
   font-size: 1.1em;
+}
+
+#form-data {
+  margin-top: 0;
 }
 
 #form-data hr {
@@ -173,7 +173,7 @@ button {
 }
 .input-card {
   background: #f1f1f1;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding-bottom: 10px;
 }
 .label-card {
