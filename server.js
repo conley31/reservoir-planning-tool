@@ -86,7 +86,8 @@ app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
   res.render("index.ejs", {
     googleMapsKey: nconf.get("google_maps").key,
-    production: app.get('env') === 'production'
+    production: app.get('env') === 'production',
+    title: 'Reservoir Planning Tool'
   });
 });
 
@@ -150,6 +151,33 @@ app.get('/download', (req, res) => {
     .writeToStream(res, req.session.dailyData[pondVol], {
       headers: true,
     });
+});
+
+// 404 Page (Always keep this as the last route)
+app.get('*', function(req, res) {
+  if (req.xhr) {
+    res.status(404).send({
+      error: 'Not Found'
+    });
+  }
+  res.format({
+    html: function() {
+      res.status(404).render('error.ejs', {
+        error: 'Page Not Found: ' + req.hostname + req.originalUrl,
+        googleMapsKey: nconf.get("google_maps").key,
+        production: app.get('env') === 'production',
+        title: 'Page Not Found - Reservoir Planning Tool'
+      });
+    },
+    json: function() {
+      res.status(404).send({
+        error: 'Not Found'
+      });
+    },
+    default: function() {
+      res.sendStatus(404);
+    }
+  });
 });
 
 /*
