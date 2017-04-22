@@ -68,9 +68,10 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      left: 40,
+      left: 80,
       top: 20,
-      width: '90%'
+      width: '90%',
+      height: '90%'
     },
     fontName: 'Roboto',
     fontSize: 25,
