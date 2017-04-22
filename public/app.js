@@ -82,3 +82,9 @@ var displayErrorModal = function(message) {
   $('#errorModal .modal-body').text(message);
   $('#errorModal').modal('show');
 };
+
+$(document).on('change', ':file', function() {
+  var input = $(this);
+  label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  $(this).parents('.input-group').find(':text').val(label);
+});

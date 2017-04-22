@@ -199,6 +199,9 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         console.error('Error connecting to MySQL. Did you start MySQL?');
         reason.message = 'Error connecting to MySQL: ' + reason.message;
       }
+      else if (reason.message.includes('CSV')) {
+        reason.message = 'Invalid CSV: ' + reason.message;
+      }
       reject(reason);
 
     })

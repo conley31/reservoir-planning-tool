@@ -77,6 +77,10 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       buffer.push(data);
     })
 
+    .on('error', function(error) {
+      reject(new Error("CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))"));
+    })
+
     .on("end", function() {
       var dataCursor;
 
