@@ -72,6 +72,14 @@ button {
   background: white;
 }
 
+/*title description*/
+#title-desc {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  font: 'Roboto';
+}
+
 /*pseudo nav bar*/
 #pseudo-nav {
   width: 100%;
@@ -228,6 +236,9 @@ button {
 #graph-desc {
   width: inherit;
   margin: 10px;
+  padding: 10px;
+  border-radius: 0 5px;
+  background: #eee;
 }
 
 /*Dropdowns*/
