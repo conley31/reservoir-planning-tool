@@ -103,6 +103,7 @@ var initMap = function() {
   });
 };
 
+// Select a polygon on the map
 var selectFeature = function(feature) {
   // Old selectedFeature to white
   map.data.overrideStyle(selectedFeature, {
@@ -123,6 +124,7 @@ var selectFeature = function(feature) {
   $('#map-submit').fadeIn('slow');
 };
 
+// Select a feature using a location (lat, long) object
 var selectLocation = function(location) {
   $.ajax({
     type: 'POST',
