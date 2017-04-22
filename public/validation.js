@@ -1,6 +1,6 @@
 function validateCalculatorInput() {
-  var errors = []
-  var inputs = []
+  var errors = [];
+  var inputs = [];
   var validation = true;
 
   inputs.push({ name: "Smallest pond volume",
@@ -34,7 +34,7 @@ function validateCalculatorInput() {
       validation = false;
     }
     if(inputs[i]["value"] === "") {
-      errors.push(inputs[i]["name"] + " is a required field.")
+      errors.push(inputs[i]["name"] + " is a required field.");
       validation = false;
     }
   }
