@@ -71,7 +71,7 @@ var drawChart = function() {
       left: 80,
       top: 20,
       width: '90%',
-      height: '90%'
+      height: '85%'
     },
     fontName: 'Roboto',
     fontSize: 25,
