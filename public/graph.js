@@ -34,6 +34,10 @@ $("form").submit(function(event) {
     data: formData,
     contentType: false,
     processData: false,
+    beforeSend: function() {
+      $('#graph-body').fadeIn('slow');
+      $('#graph-buffer').show();
+    },
     success: function(data) {
       receivedArray = data;
       showGraphOne(); // defined in app.js

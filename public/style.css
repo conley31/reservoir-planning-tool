@@ -207,6 +207,10 @@ button {
   margin: 10px;
 }
 
+#graph-buffer {
+  height: 80vh;
+}
+
 /*Dropdowns*/
 #pond-inc-card, #year-card {
   display: none;
