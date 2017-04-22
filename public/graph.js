@@ -127,18 +127,18 @@ var initGraph = function() {
   google.charts.setOnLoadCallback(drawChart);
 };
 
-//Resizes Graph on window resize
-$(window).smartresize(function() {
-  if (data && options && chart) {
-    graphOne();
-    if (currentPondVolume) {
-      graphTwo();
-      if (currentYear) {
-        graphThree();
-      }
-    }
-  }
-});
+// //Resizes Graph on window resize
+// $(window).smartresize(function() {
+//   if (data && options && chart) {
+//     graphOne();
+//     if (currentPondVolume) {
+//       graphTwo();
+//       if (currentYear) {
+//         graphThree();
+//       }
+//     }
+//   }
+// });
 
 //Create graph 1
 var graphOne = function() {
