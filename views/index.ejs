@@ -10,7 +10,7 @@
           <!-- pseudo nav bar -->
           <div id="pseudo-nav" class="card">
             <button id="map-nav"class="btn">map</button>
-            <button id="graph-nav" class="btn">graph</button>
+            <button id="graph-nav" class="btn" style="display: none;">graph</button>
           </div>
 
           <!-- Map Nav Display-->
@@ -25,12 +25,12 @@
             <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
           </div>
 
-          <!-- Form Input -->
-          <div id="form-data" class="card">
-              <% include partials/calculator-input %>
-          </div>
+          <div id="graph-nav-display" style="display: none;">
+            <!-- Form Input -->
+            <div id="form-data" class="card">
+                <% include partials/calculator-input %>
+            </div>
 
-          <div id="graph-nav-display">
             <!-- First Graph -->
             <div id="graph-body" class="card">
               <div id="graph-1" class="card text-center">
