@@ -98,7 +98,9 @@ app.post('/calculate', function(req, res, next) {
   var stream;
   var form = new formidable.IncomingForm().parse(req, function(err) {
     if (err) {
-      return next(err);
+      res.status(400).send({
+        errorMessage: 'Error parsing form'
+      });
     }
   });
   form.uploadDir = "/tmp/";
@@ -157,7 +159,7 @@ app.get('/download', (req, res) => {
 app.get('*', function(req, res) {
   if (req.xhr) {
     res.status(404).send({
-      error: 'Not Found'
+      errorMessage: 'Not Found'
     });
     return;
   }
@@ -172,7 +174,7 @@ app.get('*', function(req, res) {
     },
     json: function() {
       res.status(404).send({
-        error: 'Not Found'
+        errorMessage: 'Not Found'
       });
     },
     default: function() {
