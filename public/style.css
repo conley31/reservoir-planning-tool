@@ -341,3 +341,8 @@ footer h5 {
   background-image: url('search-back.png');
 
 }
+
+/* Error Modal */
+.modal-footer .btn-default:hover{
+  color: black;
+}
