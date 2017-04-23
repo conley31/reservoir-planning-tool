@@ -80,13 +80,13 @@ var drawChart = function() {
     fontSize: 25,
     theme: 'material',
     titleTextStyle: {
-      fontSize: 25,
+      fontSize: 15,
       bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-        fontSize: 25
+        fontSize: 23
       },
       position: 'top',
       alignment: 'end'
@@ -94,7 +94,7 @@ var drawChart = function() {
     hAxis: {
       textPosition: 'out',
       textStyle: {
-        fontSize: 15
+        fontSize: 23
       },
       title: graphData[0],
       titleTextStyle: {
@@ -106,7 +106,7 @@ var drawChart = function() {
     vAxis: {
       textPosition: 'in',
       textStyle: {
-        fontSize: 15
+        fontSize: 23
       },
       title: graphData[i++],
       titleTextStyle: {
