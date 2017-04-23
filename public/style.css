@@ -14,13 +14,14 @@ nav {
 }
 
 .navbar {
-  background-color: #222222;
+  background-color: #357cce;
   border-radius: 0;
 }
 
 .navbar-brand {
-    color: white;
-    font-size: 2em;
+  color: white;
+  margin: 0;
+  font-size: 2.5rem;
 }
 
 /*General components*/
@@ -72,9 +73,40 @@ button {
   background: white;
 }
 
+/*title description*/
+#title-desc {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  /*border: solid 1px #555;*/
+}
+
+/*pseudo nav bar*/
+#pseudo-nav {
+  width: 100%;
+  margin-bottom: 0;
+  border-bottom: solid 3px #1c5d99;
+}
+
+#pseudo-nav button {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: #1b83e5;
+  color: white;
+}
+
+#pseudo-nav .active-button {
+  border: solid 3px #1c5d99;
+  background: #1c5d99;
+  border-bottom: none;
+}
+
 /*Map*/
+#map-nav-display {
+  margin-top: 0;
+}
 #map-container {
-  height: 80vh;
+  height: 70vh;
   width: inherit;
   background: #357cce;
 }
@@ -99,13 +131,13 @@ button {
   margin-bottom: 0;
 }
 
-#form-data {
-    display: none;
-}
-
 #reservoir-inputs {
   padding-bottom: 20px;
   font-size: 1.1em;
+}
+
+#form-data {
+  margin-top: 0;
 }
 
 #form-data hr {
@@ -150,7 +182,7 @@ button {
 }
 .input-card {
   background: #f1f1f1;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding-bottom: 10px;
 }
 .label-card {
@@ -205,6 +237,14 @@ button {
 #graph-desc {
   width: inherit;
   margin: 10px;
+  padding: 0 10px 10px 10px;
+  border-radius: 5px;
+  background: #eee;
+}
+
+#graph-buffer {
+  height: 80vh;
+  width:  100%;
 }
 
 /*Dropdowns*/
@@ -212,6 +252,11 @@ button {
   display: none;
   background: #357cce;
   padding: 10px;
+  border-radius: 5px;
+}
+
+select {
+  color: black;
 }
 
 .buffer-container {
