@@ -50,7 +50,7 @@ function daysInMonth(month, year){
 	}
 }
 
-generateGraphData.allYearsAveraged = function(allYears, increments){
+document.generateGraphData.allYearsAveraged = function(allYears, increments){
 
 	//fill the output array with zero
 	var outputArray = new Array(increments.length);
@@ -82,7 +82,7 @@ generateGraphData.allYearsAveraged = function(allYears, increments){
 };
 
 
-generateGraphData.allYearsByPondVolume = function(allYears, increments, specificPondVolume, initialYear){
+document.generateGraphData.allYearsByPondVolume = function(allYears, increments, specificPondVolume, initialYear){
 	//need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
@@ -110,7 +110,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = months[i];
+			outputArray[i][0] = document.months[i];
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 			outputArray[i][3] /= allYears.length;
@@ -120,7 +120,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	return outputArray;
 };
 
-generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
+document.generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
@@ -145,7 +145,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = months[i];
+			outputArray[i][0] = document.months[i];
 		}
 	}
 
