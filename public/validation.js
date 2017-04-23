@@ -39,6 +39,16 @@ function validateCalculatorInput() {
     }
   }
 
+  if(inputs[0].value <= 0) {
+    errors.push('Smallest pond volume must be greater than 0');
+    validation = false;
+  }
+
+  if(inputs[3].value <= 0) {
+    errors.push('Pond Depth must be greater than 0');
+    validation = false;
+  }
+  
   if(inputs[0]["value"] >= inputs[1]["value"]) {
     errors.push("Smallest pond volume must be less than the largest pond volume");
     validation = false;
