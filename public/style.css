@@ -101,6 +101,9 @@ button {
   border-bottom: none;
 }
 
+#pseudo-nav .orange-button {
+  background: #e59b06;
+}
 /*Map*/
 #map-nav-display {
   margin-top: 0;
