@@ -3,6 +3,7 @@
 //all of these will need access to the return array from TDPAlg.calc()
 
 var generateGraphData = {};
+var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
@@ -110,7 +111,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i + 1;
+			outputArray[i][0] = months[i];
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 			outputArray[i][3] /= allYears.length;
@@ -145,7 +146,7 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = i + 1;
+			outputArray[i][0] = months[i];
 		}
 	}
 
