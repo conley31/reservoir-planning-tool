@@ -55,7 +55,8 @@ var showGraphOne = function() {
   $('#graph-body').fadeIn('slow', function() {
     graphOne();
     $('#graph-buffer').fadeOut('fast');
-    $("#pond-inc-card").fadeIn('slow');
+    $('#pond-inc-card').fadeIn('slow');
+    $('#graph-body').get(0).scrollIntoView();
   });
 };
 
@@ -65,6 +66,7 @@ var showGraphTwo = function() {
   $('#graph2-body').fadeIn('slow', function() {
     graphTwo(selected);
     $('#year-card').fadeIn('slow');
+    $('#graph2-body').get(0).scrollIntoView();
   });
 };
 
@@ -73,6 +75,7 @@ var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
+    $('#graph3-body').get(0).scrollIntoView();
   });
 };
 
