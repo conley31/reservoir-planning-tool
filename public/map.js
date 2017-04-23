@@ -1,9 +1,9 @@
 /*
  *   Maps
  */
-var map;
-var selectedFeature;
-var selectedLocationId;
+document.map;
+document.selectedFeature;
+document.selectedLocationId;
 
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
