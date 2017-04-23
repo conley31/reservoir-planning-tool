@@ -4,25 +4,25 @@ function validateCalculatorInput() {
   var validation = true;
 
   inputs.push({ name: "Smallest pond volume",
-                value: document.forms["calculator-input"]["pondVolSmallest"].value });
+                value: parseFloat(document.forms["calculator-input"]["pondVolSmallest"].value) });
   inputs.push({ name: "Largest pond volume",
-                value: document.forms["calculator-input"]["pondVolLargest"].value });
+                value: parseFloat(document.forms["calculator-input"]["pondVolLargest"].value) });
   inputs.push({ name: "Pond volume increment",
-                value: document.forms["calculator-input"]["pondVolIncrement"].value });
+                value: parseFloat(document.forms["calculator-input"]["pondVolIncrement"].value) });
   inputs.push({ name: "Pond depth",
-                value: document.forms["calculator-input"]["pondDepth"].value });
+                value: parseFloat(document.forms["calculator-input"]["pondDepth"].value) });
   inputs.push({ name: "Pond depth initial",
-                value: document.forms["calculator-input"]["pondWaterDepthInitial"].value });
+                value: parseFloat(document.forms["calculator-input"]["pondWaterDepthInitial"].value) });
   inputs.push({ name: "Maximum soil moisture content",
-                value: document.forms["calculator-input"]["maxSoilMoistureDepth"].value });
+                value: parseFloat(document.forms["calculator-input"]["maxSoilMoistureDepth"].value) });
   inputs.push({ name: "Irrigation area",
-                value: document.forms["calculator-input"]["irrigatedArea"].value });
+                value: parseFloat(document.forms["calculator-input"]["irrigatedArea"].value) });
   inputs.push({ name: "Irrigation depth",
-                value: document.forms["calculator-input"]["irrigDepth"].value });
+                value: parseFloat(document.forms["calculator-input"]["irrigDepth"].value) });
   inputs.push({ name: "Available water capacity",
-                value: document.forms["calculator-input"]["availableWaterCapacity"].value });
+                value: parseFloat(document.forms["calculator-input"]["availableWaterCapacity"].value) });
   inputs.push({ name: "Drained area",
-                value: document.forms["calculator-input"]["drainedArea"].value });
+                value: parseFloat(document.forms["calculator-input"]["drainedArea"].value) });
 
   for(var i = 0; i < inputs.length; i++) {
     if((i === 0 || i === 3) && inputs[i].value <= 0) {
