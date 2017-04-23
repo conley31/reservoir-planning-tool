@@ -1,9 +1,8 @@
 /* The following functions need to be used to grab needed graphing data for a specific graph */
 
 //all of these will need access to the return array from TDPAlg.calc()
-
-var generateGraphData = {};
-var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+document.generateGraphData = {};
+document.months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
