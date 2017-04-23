@@ -362,3 +362,8 @@ footer a:hover{
   border-style:none;
 
 }
+
+/* Error Modal */
+.modal-footer .btn-default:hover{
+  color: black;
+}
