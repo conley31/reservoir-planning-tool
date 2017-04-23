@@ -1,9 +1,8 @@
 /* The following functions need to be used to grab needed graphing data for a specific graph */
 
 //all of these will need access to the return array from TDPAlg.calc()
-
-var generateGraphData = {};
-var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+document.generateGraphData = {};
+document.months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
@@ -51,7 +50,7 @@ function daysInMonth(month, year){
 	}
 }
 
-generateGraphData.allYearsAveraged = function(allYears, increments){
+document.generateGraphData.allYearsAveraged = function(allYears, increments){
 
 	//fill the output array with zero
 	var outputArray = new Array(increments.length);
@@ -83,14 +82,14 @@ generateGraphData.allYearsAveraged = function(allYears, increments){
 };
 
 
-generateGraphData.allYearsByPondVolume = function(allYears, increments, specificPondVolume, initialYear){
+document.generateGraphData.allYearsByPondVolume = function(allYears, increments, specificPondVolume, initialYear){
 	//need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
 
 	/* Grab the index corresponding to the given pondVolume */
-	var currentIncrement = increments.findIndex((vol)=>{
+	var currentIncrement = increments.findIndex(function(vol) {
 		return vol === specificPondVolume;
 	});
 
@@ -111,7 +110,7 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = months[i];
+			outputArray[i][0] = document.months[i];
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
 			outputArray[i][3] /= allYears.length;
@@ -121,12 +120,12 @@ generateGraphData.allYearsByPondVolume = function(allYears, increments, specific
 	return outputArray;
 };
 
-generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
+document.generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will be contain an array for every month
 	fillFour(outputArray);
 
-	var currentIncrement = increments.findIndex((vol)=>{
+	var currentIncrement = increments.findIndex(function(vol) {
 		return vol === specificPondVolume;
 	});
 	var yearIndex = specificYear - initialYear;
@@ -146,9 +145,55 @@ generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
 		if(typeof outputArray[i] !== "undefined"){
-			outputArray[i][0] = months[i];
+			outputArray[i][0] = document.months[i];
 		}
 	}
 
 	return outputArray;
 };
+
+// Defines the implementation of findIndex for IE.
+// https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+if (!Array.prototype.findIndex) {
+  Object.defineProperty(Array.prototype, 'findIndex', {
+    value: function(predicate) {
+     // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return k.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return k;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return -1.
+      return -1;
+    }
+  });
+}
