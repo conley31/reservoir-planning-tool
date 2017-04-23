@@ -73,7 +73,7 @@ var drawChart = function() {
   options = {
     chartArea: {
       left: 80,
-      top: 20,
+      // top: 20,
       width: '90%',
       height: '85%'
     },
