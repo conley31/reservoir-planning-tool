@@ -271,7 +271,8 @@ var addIncDropdown = function(array) {
 var addYearDropdown = function() {
   var dropdown = $('#year-dropdown');
   dropdown.find('option').remove();
-  for (var i = 1980; i < 2010; i++) {
-    dropdown.append($("<option></option>").val(i).html(i));
+  var firstYear = receivedArray.firstYearData;
+  for (var i = 0; i < receivedArray.graphData.length; i++) {
+    dropdown.append($("<option></option>").val(firstYear+i).html(firstYear+i));
   }
 };
