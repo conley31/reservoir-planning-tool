@@ -145,28 +145,30 @@ var drawChart2 = function() {
   //add options
   options = {
     chartArea: {
-      width: '90%'
+      left: 80,
+      width: '85%',
+      height: '85%'
     },
     fontName: 'Roboto',
-    fontSize: 25,
     theme: 'material',
+    fontSize: 25,
     titleTextStyle: {
-      fontSize: 25,
+      fontSize: 15,
       bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-        fontSize: 25
+       fontSize: 23
       },
       position: 'top',
       alignment: 'end'
     },
     hAxis: {
-      textPosition: 'out',
       textStyle: {
-        fontSize: 20
+       fontSize: 23
       },
+      textPosition: 'out',
       title: graphData[0],
       titleTextStyle: {
         color: '#555',
@@ -175,10 +177,10 @@ var drawChart2 = function() {
       }
     },
     vAxis: {
-      textPosition: 'in',
       textStyle: {
-        fontSize: 20
+       fontSize: 23
       },
+      textPosition: 'in',
       titleTextStyle: {
         color: '#555',
         bold: true,
@@ -233,7 +235,7 @@ var graphOne = function() {
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit Volume';
   graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
-  graphData[4] = 'Bypass Flow and Storage Deficit(acre-feet)';
+  graphData[4] = 'Bypass Flow and Storage Deficit Volume\n(acre-feet)';
   graphData[5] = "graph-1";
   addIncDropdown(receivedArray.incData);
   initGraph();
@@ -248,7 +250,7 @@ var graphTwo = function(pondIncrement) {
   graphData[2] = 'Deficit Volume(Cumulative)';
   graphData[3] = 'Pond Water Depth';
   graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
-  graphData[5] = 'Bypass Flow or Storage Deficit volume\n(acre-feet)';
+  graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-2';
   graphData[7] = 'Pond Water Depth\n(feet)';
   addYearDropdown();
@@ -264,7 +266,7 @@ var graphThree = function(year) {
   graphData[2] = 'Deficit (Cumulative)';
   graphData[3] = 'Pond Water Depth';
   graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[5] = 'Bypass Flow or Storage Deficit volume\n(acre-feet)';
+  graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-3';
   graphData[7] = 'Pond Water Depth\n(feet)';
   drawChart2();
