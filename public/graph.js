@@ -25,7 +25,7 @@ $("form").submit(function(event) {
     //TODO add checks for values being passed through
 
     // Try to parse it as a number, else return the value as is (empty forms will return empty strings)
-    formData.append(formArray[i].name, Number.parseFloat(formArray[i].value) || formArray[i].value);
+    formData.append(formArray[i].name, parseFloat(formArray[i].value) || formArray[i].value);
   }
 
   $.ajax({
@@ -34,6 +34,10 @@ $("form").submit(function(event) {
     data: formData,
     contentType: false,
     processData: false,
+    beforeSend: function() {
+      $('#graph-body').fadeIn('slow');
+      $('#graph-buffer').show();
+    },
     success: function(data) {
       receivedArray = data;
       showGraphOne(); // defined in app.js
@@ -68,7 +72,10 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      width: '90%'
+      left: 80,
+      top: 20,
+      width: '90%',
+      height: '85%'
     },
     fontName: 'Roboto',
     fontSize: 25,
@@ -88,7 +95,7 @@ var drawChart = function() {
     hAxis: {
       textPosition: 'out',
       textStyle: {
-        fontSize: 20
+        fontSize: 15
       },
       title: graphData[0],
       titleTextStyle: {
@@ -100,7 +107,7 @@ var drawChart = function() {
     vAxis: {
       textPosition: 'in',
       textStyle: {
-        fontSize: 20
+        fontSize: 15
       },
       title: graphData[i++],
       titleTextStyle: {
@@ -197,18 +204,18 @@ var initGraph = function() {
   google.charts.setOnLoadCallback(drawChart);
 };
 
-//Resizes Graph on window resize
-$(window).smartresize(function() {
-  if (data && options && chart) {
-    graphOne();
-    if (currentPondVolume) {
-      graphTwo();
-      if (year) {
-        graphThree();
-      }
-    }
-  }
-});
+// //Resizes Graph on window resize
+// $(window).smartresize(function() {
+//   if (data && options && chart) {
+//     graphOne();
+//     if (currentPondVolume) {
+//       graphTwo();
+//       if (currentYear) {
+//         graphThree();
+//       }
+//     }
+//   }
+// });
 
 //Create graph 1
 var graphOne = function() {
@@ -234,7 +241,6 @@ var graphTwo = function(pondIncrement) {
   graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Average Pond Depth By Month, all years averaged for Pond Volume = ' + currentPondVolume;
   graphData[6] = 'graph-2';
-
   addYearDropdown();
   drawChart2();
 };

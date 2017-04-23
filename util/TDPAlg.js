@@ -65,7 +65,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         */
         var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
-     
+
 
         /* LOOP THROUGH EVERY DAY(ROW) in Database */
         for (var j = 0; j < data.length; j++) {
@@ -136,7 +136,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           /*
           **************************************************************************************************************
 
-                            WRITE OUT ALL DAILY INFORMATION HERE.
+                        WRITE OUT ALL DAILY INFORMATION HERE. -- This gets output to the User's output CSV
 
           (Write Date, InflowVolDay, EvaporationVolDay, SeepageVolDay, IrrigationVolDay, BypassVolDay, PondWaterDepthDay)
 
@@ -149,7 +149,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             seepageVol: seepageVolDay,
             irrigationVol: irrigationVolDay,
             bypassVol: bypassFlowVolDay,
-            pondWaterDepth: pondWaterDepthDay
+            pondWaterDepth: pondWaterDepthDay,
+            deficitVol: deficitVolDay
           });
 
           /* update the (day-1) variables */
@@ -169,7 +170,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
 
         /* The values for bypassFlowVol and deficitVol are cumulative */
-        
+
         if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
             allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
@@ -188,15 +189,18 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
 
       }
-   
+
     }
-   
+
     resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
 
 }).catch(function(reason) {
       if (reason.message.includes('ECONNREFUSED')) {
         console.error('Error connecting to MySQL. Did you start MySQL?');
         reason.message = 'Error connecting to MySQL: ' + reason.message;
+      }
+      else if (reason.message.includes('CSV')) {
+        reason.message = 'Invalid CSV: ' + reason.message;
       }
       reject(reason);
 

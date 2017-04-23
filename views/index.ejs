@@ -22,83 +22,111 @@
       </div>
       <div id="main">
         <div class="card-container">
+          <div id="title-desc" class="jumbotron">
+            <h2 class="text-center">What Benefits Can You Expect From Various Storage Volumes?</h2>
+            <p style="font-weight: 300;">
+              The Pond Sizing Tool provides an estimate of the potential benefits of various sizes of ponds or reservoirs
+              for drainage water recycling. Results provide insight into:
+              <br>
+              (1) the irrigation potential, and
+              <br>
+              (2) the water quality benefits due to reducing nutrient-rich drainage water discharged for a range of pond sizes.
+              <br>
+              <br>
+              See Questions and Answers About Drainage Water Recycling for the Midwest <strong><a href="http://www.extension.purdue.edu/extmedia/ABE/ABE-156-W.pdf">here</a></strong>
+              for more information on this practice.
+            </p>
+          </div>
+          <!-- pseudo nav bar -->
+          <div id="pseudo-nav" class="card">
+            <button id="map-nav" class="btn active-button">Map</button>
+            <button id="graph-nav" class="btn" style="display: none;">Inputs and Results</button>
+            <div style="float:right;">
+              <button class="btn" style="background: #d18d06">Provide Feedback</button>
+              <button class="btn" style="background: #d18d06">About This Tool</button>
+            </div>
+          </div>
 
-          <!-- Map -->
-          <div class="card">
+          <!-- Map Nav Display-->
+          <div id="map-nav-display" class="card">
+            <h3>To begin, click on a location to select a grid cell that will be used in calculations</h3>
             <div id="map-container">
               <div id="map-buffer" class="buffer-container">
                 <div class="loader"></div>
               </div>
               <div id="map"></div>
             </div>
-              <!-- Prompt and Submit below map -->
+            <!-- Prompt and Submit below map -->
             <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
           </div>
 
-          <!-- Form Input -->
-          <div id="form-data" class="card">
-              <% include partials/calculator-input %>
-          </div>
+          <div id="graph-nav-display" style="display: none;">
+            <!-- Form Input -->
+            <div id="form-data" class="card">
+                <% include partials/calculator-input %>
+            </div>
+            <!-- First Graph -->
+            <div id="graph-body" class="card">
+              <div id="graph-buffer" class="buffer-container">
+                <div class="loader"></div>
+              </div>
+              <div id="graph-1" class="card text-center">
+                  <!-- This is where Google Charts will go -->
+                  <h5>Graph</h5>
+              </div>
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Results</h3>
+                This graph shows two calculated values, averaged over all years simulated:
+                <ul>
+                  <li>
+                    Bypass Volume: Amount of drain flow that will not be captured in the pond (less is better, to improve downstream water quality)
+                  </li>
+                  <li>
+                    Storage Deficit: Amount of irrigation water that would have benefited the crop, but was not available when needed (less is better, to improve crop yields)
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-          <!-- First Graph -->
-          <div id="graph-body" class="card">
-            <div id="graph-1" class="card text-center">
-                <!-- This is where Google Charts will go -->
-                <h5>Graph</h5>
+            <!-- Dropdown for pond increment -->
+            <div id="pond-inc-card" class="card">
+                <h5 style="color: white;">Select a pond volume to view a monthly graph</h5>
+                <select id="pond-inc-dropdown">
+                </select>
+                <button id="pond-inc-submit" class="btn"> submit </button>
+                  <a id="download-csv" style="display: none;">&nbsp;Download a CSV with Daily Data for this Pond Volume</a>
             </div>
-            <div id="graph-desc" class="card">
-            <div id="description-title-margin">
-              This graph shows two calculated values, averaged over all years simulated:
-            </div>
-              <ul>
-                <li>
-                  Bypass Volume: Amount of drain flow that will not be captured in the pond (less is better, to improve downstream water quality)
-                </li>
-                <li>
-                  Storage Deficit: Amount of irrigation water that would have benefited the crop, but was not available when needed (less is better, to improve crop yields)
-                </li>
-              </ul>
-              
-            </div>
-          </div>
 
-          <!-- Dropdown for pond increment -->
-          <div id="pond-inc-card" class="card">
-              <h5>Select Pond Volume to Graph</h5>
-              <select id="pond-inc-dropdown">
-              </select>
-              <button id="pond-inc-submit" class="btn"> submit </button>
-              <a id="download-csv" style="display: none;">Download a CSV with Daily Data for this Pond Volume</a>
-          </div>
-
-          <!-- Second Graph -->
-          <div id="graph2-body" class="card">
-            <div id="graph-2" class="card text-center">
-                <h5>Graph</h5>
-            </div>
-            <div id="graph-desc" class="card">
+            <!-- Second Graph -->
+            <div id="graph2-body" class="card">
+              <div id="graph-2" class="card text-center">
+                  <h5>Graph</h5>
+              </div>
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Results</h3>
                 This graph shows the calculated pond depth, bypass flow, and storage deficit averaged over all years simulated.  It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance. For details on an individual years, select a year below.
+              </div>
             </div>
-          </div>
 
-          <!-- Dropdown for years -->
-          <div id="year-card" class="card">
-              <h5>Select Year to Graph</h5>
-              <select id="year-dropdown">
-              </select>
-              <button id="year-submit" class="btn"> submit </button>
-          </div>
-
-          <!-- Third Graph -->
-          <div id="graph3-body" class="card">
-            <div id="graph-3" class="card text-center">
-                <h5>Graph</h5>
+            <!-- Dropdown for years -->
+            <div id="year-card" class="card">
+                <h5 style="color: white;">Select a year in the simulation to view a monthly graph</h5>
+                <select id="year-dropdown">
+                </select>
+                <button id="year-submit" class="btn"> submit </button>
             </div>
-            <div id="graph-desc" class="card">
+
+            <!-- Third Graph -->
+            <div id="graph3-body" class="card">
+              <div id="graph-3" class="card text-center">
+                  <h5>Graph</h5>
+              </div>
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Results</h3>
                 This graph shows the calculated pond depth, bypass flow, and storage deficit over the course of a single year. It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance.
+              </div>
             </div>
           </div>
-
         </div>
       </div>
       <% include partials/footer %>
