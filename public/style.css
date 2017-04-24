@@ -5,6 +5,7 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   background: white;
+  font-size: 14px;
 }
 
 /*Navbar*/
@@ -35,8 +36,14 @@ h5 {
   font-size: 1.2em;
 }
 
+h3 {
+  color: #222;
+  font-size: 1.6em;
+}
+
+
 label {
-  font-size: 1.3em;
+  font-size: 1.2em;
 }
 
 button {
@@ -57,6 +64,7 @@ button {
 
 /*Card Layout*/
 .card-container {
+  min-width: 400px;
   width: 80vw;
   height: auto;
   position: relative;
@@ -78,11 +86,19 @@ button {
   background: white;
   padding: 10px;
   border-radius: 5px;
-  /*border: solid 1px #555;*/
+}
+
+.jumbotron h2{
+  font-size: 1.8em;
+}
+
+.jumbotron p{
+  font-size: 1.4em;
 }
 
 /*pseudo nav bar*/
 #pseudo-nav {
+  font-size: 1.1em;
   width: 100%;
   margin-bottom: 0;
   border-bottom: solid 3px #1c5d99;
@@ -109,7 +125,7 @@ button {
   margin-top: 0;
 }
 #map-container {
-  height: 70vh;
+  height: 65vh;
   width: inherit;
   background: #357cce;
 }
@@ -197,6 +213,10 @@ button {
   padding-right: 10px;
 }
 
+span p {
+  font-size: 1.1em;
+}
+
 .form-control {
   font-size: 1.1em;
 }
@@ -240,7 +260,7 @@ button {
 #graph-desc {
   width: inherit;
   margin: 10px;
-  font-size: 1.5em;
+  font-size: 1.3em;
   padding: 0 10px 10px 10px;
   border-radius: 5px;
   background: #eee;
@@ -310,32 +330,6 @@ footer a:hover{
   margin-left: 1vw;
 }
 
-/*For smaller than large screens*/
-/*Cards span almost entire width*/
-@media only screen and (max-width: 1260px) {
-  .card-container {
-    width: 98vw;
-  }
-}
-
-/*Buffer Animation*/
-.loader {
-    margin: auto;
-    margin-top: 30vh;
-    border: 10px solid #fff; /*white*/
-    border-right: 10px solid #357cce;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 3s ease infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-
 #form-data hr.divider {
   border-top: 1px solid #222;
   text-align: center;
@@ -372,4 +366,37 @@ footer a:hover{
 /* Error Modal */
 .modal-footer .btn-default:hover{
   color: black;
+}
+
+
+/*For smaller than large screens*/
+/*Cards span almost entire width*/
+@media only screen and (max-width: 1260px) {
+  .card-container {
+    width: 98vw;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  html,body {
+    font-size: 12px;
+  }
+}
+
+
+/*Buffer Animation*/
+.loader {
+    margin: auto;
+    margin-top: 17%;
+    border: 10px solid #fff; /*white*/
+    border-right: 10px solid #357cce;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 3s ease infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
