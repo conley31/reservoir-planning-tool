@@ -367,10 +367,13 @@ footer img {
   height: 48px;
   width: 400px;
   padding: 0px 0px 0px 50px;
-  box-shadow: 5px 5px 2.5px #888888;
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.35);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.35);
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.35);
   font-size: 16px;
   background-image: url('search-back.png');
-  border-style:none;
+  border-style: none;
+  border-radius: 5px;
 
 }
 
