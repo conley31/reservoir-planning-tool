@@ -72,21 +72,20 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      left: 80,
-      width: '90%',
-      height: '85%'
+      left: 130,
+      width: '85%',
+      height: '77%'
     },
     fontName: 'Roboto',
     fontSize: 25,
     theme: 'material',
     titleTextStyle: {
       fontSize: 15,
-      bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-        fontSize: 23
+        fontSize: 21
       },
       position: 'top',
       alignment: 'end'
@@ -94,24 +93,26 @@ var drawChart = function() {
     hAxis: {
       textPosition: 'out',
       textStyle: {
-        fontSize: 23
+        fontSize: 20
       },
       title: graphData[0],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
     vAxis: {
-      textPosition: 'in',
+      textPosition: 'out',
       textStyle: {
-        fontSize: 23
+        fontSize: 20
       },
       title: graphData[i++],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
@@ -145,45 +146,46 @@ var drawChart2 = function() {
   //add options
   options = {
     chartArea: {
-      left: 80,
-      width: '85%',
-      height: '85%'
+      left: 130,
+      width: '80%',
+      height: '75%'
     },
     fontName: 'Roboto',
     theme: 'material',
     fontSize: 25,
     titleTextStyle: {
       fontSize: 15,
-      bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-       fontSize: 23
+       fontSize: 20
       },
       position: 'top',
       alignment: 'end'
     },
     hAxis: {
-      textStyle: {
-       fontSize: 23
-      },
       textPosition: 'out',
+      textStyle: {
+        fontSize: 20
+      },
       title: graphData[0],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
     vAxis: {
+      textPosition: 'out',
       textStyle: {
-       fontSize: 23
+        fontSize: 20
       },
-      textPosition: 'in',
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
