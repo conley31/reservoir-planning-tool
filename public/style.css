@@ -302,6 +302,8 @@ footer {
   background-color: #0277bd;
   display: flex;
   align-items: center;
+  padding: 10px;
+  font-size: 1.1em;
 }
 
 .footer-text {
