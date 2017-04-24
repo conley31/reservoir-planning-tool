@@ -137,7 +137,6 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
-				console.log(allYears[yearIndex][currentIncrement][k].pondWaterDepth);
 				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth /daysInMonth(k, specificYear));
 			}
 		}
