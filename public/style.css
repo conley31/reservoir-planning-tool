@@ -69,7 +69,7 @@ button {
   height: auto;
   position: relative;
   margin: 0 auto;
-  padding-bottom: 36px;
+  padding-bottom: 100px;
 }
 
 .card {
@@ -298,18 +298,19 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 12vh;
-  background-color: #0277bd;
+  height: 100px;
+  background-color: #eee;
   display: flex;
   align-items: center;
   padding: 10px;
-  font-size: 1.1em;
 }
 
 .footer-text {
+  font-size: 1.2em;
   width: inherit;
   text-align: left;
-  color: #eee;
+  color: #555;
+  line-height: 20px;
 }
 
 footer h5{
@@ -317,7 +318,6 @@ footer h5{
 }
 
 footer a{
-  color: #eee;
   font-weight: bold;
 
 }
@@ -325,8 +325,14 @@ footer a:hover{
   text-decoration: none;
   color: #c2c3c4;
 }
+
+footer img {
+  width: 200px;
+  height: 80px;
+}
+
 #project_logo{
-  margin: 20px;
+  margin: 10px 20px;
 }
 #description-title-margin{
   margin-left: 1vw;
