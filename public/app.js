@@ -14,6 +14,13 @@ $('#map-nav').click(function() {
   });
 });
 
+//On any form input change, graphs are hidden
+$('form :input').change(function(){
+  hideGraphThree();
+  hideGraphTwo();
+  hideGraphOne();
+});
+
 //show graph nav button
 $('#map-submit').click(function() {
   $('#graph-nav').fadeIn('fast', function() {
@@ -59,6 +66,13 @@ var showGraphOne = function() {
   });
 };
 
+//Hides Graph One
+var hideGraphOne = function() {
+  $('#pond-inc-card').fadeOut('fast', function() {
+    $("#graph-body").fadeOut('fast');
+  });
+};
+
 //Shows Graph Two
 var showGraphTwo = function() {
   var selected = $('#pond-inc-dropdown').val();
@@ -68,11 +82,25 @@ var showGraphTwo = function() {
   });
 };
 
+//Hides Graph Two
+var hideGraphTwo = function() {
+  $('#year-card').fadeOut('fast', function() {
+    $("#graph2-body").fadeOut('fast');
+  });
+};
+
 //Shows Graph Three
 var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
+  });
+};
+
+//Hides Graph Three
+var hideGraphThree = function() {
+  $('#year-dropdown').fadeOut('fast', function() {
+    $("#graph3-body").fadeOut('fast');
   });
 };
 
