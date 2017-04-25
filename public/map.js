@@ -58,7 +58,7 @@ var initMap = function() {
 
   var locMarker = new google.maps.Marker({
     map: document.map,
-    title: "Your Location"
+    title: 'Your Location'
   });
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
@@ -111,7 +111,7 @@ var initMap = function() {
 
   //remove buffer after map is loaded
   google.maps.event.addListener(document.map, 'idle', function() {
-    $("#map-buffer").fadeOut('fast');
+    $('#map-buffer').fadeOut('fast');
   });
 };
 
