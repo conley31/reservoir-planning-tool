@@ -8,7 +8,7 @@ var currentYear;
 
 $("form").submit(function(event) {
   var validation = validateCalculatorInput();
-  displayFormError(validation[1]);
+  document.displayFormError(validation[1]);
   if (!validation[0])
     return false;
 
@@ -17,7 +17,7 @@ $("form").submit(function(event) {
 
   var formData = new FormData();
   formData.append('file', $('input[type=file]')[0].files[0]);
-  formData.append('locationId', selectedLocationId);
+  formData.append('locationId', document.selectedLocationId);
 
   var formArray = $(this).serializeArray();
   for (var i = 0; i < formArray.length; i++) {
@@ -72,21 +72,20 @@ var drawChart = function() {
   //add options
   options = {
     chartArea: {
-      left: 80,
-      width: '90%',
-      height: '85%'
+      left: 130,
+      width: '85%',
+      height: '77%'
     },
     fontName: 'Roboto',
     fontSize: 25,
     theme: 'material',
     titleTextStyle: {
-      fontSize: 25,
-      bold: true,
+      fontSize: 15,
       italic: false
     },
     legend: {
       textStyle: {
-        fontSize: 25
+        fontSize: 21
       },
       position: 'top',
       alignment: 'end'
@@ -94,24 +93,26 @@ var drawChart = function() {
     hAxis: {
       textPosition: 'out',
       textStyle: {
-        fontSize: 15
+        fontSize: 20
       },
       title: graphData[0],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
     vAxis: {
-      textPosition: 'in',
+      textPosition: 'out',
       textStyle: {
-        fontSize: 15
+        fontSize: 20
       },
       title: graphData[i++],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
@@ -145,45 +146,46 @@ var drawChart2 = function() {
   //add options
   options = {
     chartArea: {
-      left: 80,
-      width: '85%',
-      height: '85%'
+      left: 130,
+      width: '80%',
+      height: '75%'
     },
     fontName: 'Roboto',
     theme: 'material',
     fontSize: 25,
     titleTextStyle: {
       fontSize: 15,
-      bold: true,
       italic: false
     },
     legend: {
       textStyle: {
-       fontSize: 23
+       fontSize: 20
       },
       position: 'top',
       alignment: 'end'
     },
     hAxis: {
-      textStyle: {
-       fontSize: 23
-      },
       textPosition: 'out',
+      textStyle: {
+        fontSize: 20
+      },
       title: graphData[0],
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
     vAxis: {
+      textPosition: 'out',
       textStyle: {
-       fontSize: 23
+        fontSize: 20
       },
-      textPosition: 'in',
       titleTextStyle: {
-        color: '#555',
+        fontSize: 23,
         bold: true,
+        color: '#555',
         italic: false
       }
     },
@@ -234,7 +236,7 @@ var graphOne = function() {
   graphData[0] = 'Pond Volume (acre-feet)';
   graphData[1] = 'Bypass Volume';
   graphData[2] = 'Storage Deficit Volume';
-  graphData[3] = generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
+  graphData[3] = document.generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
   graphData[4] = 'Bypass Flow and Storage Deficit Volume\n(acre-feet)';
   graphData[5] = "graph-1";
   addIncDropdown(receivedArray.incData);
@@ -249,7 +251,7 @@ var graphTwo = function(pondIncrement) {
   graphData[1] = 'Bypass Volume(Cumulative)';
   graphData[2] = 'Deficit Volume(Cumulative)';
   graphData[3] = 'Pond Water Depth';
-  graphData[4] = generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
+  graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-2';
   graphData[7] = 'Pond Water Depth\n(feet)';
@@ -265,7 +267,7 @@ var graphThree = function(year) {
   graphData[1] = 'Bypass (Cumulative)';
   graphData[2] = 'Deficit (Cumulative)';
   graphData[3] = 'Pond Water Depth';
-  graphData[4] = generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
+  graphData[4] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-3';
   graphData[7] = 'Pond Water Depth\n(feet)';
