@@ -14,8 +14,20 @@ $('#map-nav').click(function() {
   });
 });
 
+//On any form input change, graphs are hidden
+$('form :input').change(function(){
+  hideAllGraphs();
+});
+
+var hideAllGraphs = function() {
+  hideGraphThree();
+  hideGraphTwo();
+  hideGraphOne();
+};
+
 //show graph nav button
 $('#map-submit').click(function() {
+  hideAllGraphs();
   $('#graph-nav').fadeIn('fast', function() {
     //show change on pseudo nav
     $(this).addClass('active-button');
@@ -28,7 +40,6 @@ $('#map-submit').click(function() {
 
 //show form input and graphs, hide map
 $('#graph-nav').click(function() {
-
   //show change on pseudo nav
   $(this).addClass('active-button');
   $('#map-nav').removeClass('active-button');
@@ -59,12 +70,28 @@ var showGraphOne = function() {
   });
 };
 
+//Hides Graph One
+var hideGraphOne = function() {
+  $('#pond-inc-card').fadeOut('fast', function() {
+    $("#graph-body").fadeOut('fast');
+  });
+};
+
 //Shows Graph Two
 var showGraphTwo = function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow', function() {
     graphTwo(selected);
-    $('#year-card').fadeIn('slow');
+    $('#year-card').fadeIn('slow', function() {
+      $('#year-dropdown').fadeIn('slow');
+    });
+  });
+};
+
+//Hides Graph Two
+var hideGraphTwo = function() {
+  $('#year-card').fadeOut('fast', function() {
+    $("#graph2-body").fadeOut('fast');
   });
 };
 
@@ -73,6 +100,13 @@ var showGraphThree = function() {
   var selected = $('#year-dropdown').val();
   $('#graph3-body').fadeIn('slow', function() {
     graphThree(selected);
+  });
+};
+
+//Hides Graph Three
+var hideGraphThree = function() {
+  $('#year-dropdown').fadeOut('fast', function() {
+    $("#graph3-body").fadeOut('fast');
   });
 };
 
@@ -92,4 +126,9 @@ $(document).on('change', ':file', function() {
   var input = $(this);
   label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   $(this).parents('.input-group').find(':text').val(label);
+});
+
+// Enable tooltips
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
 });

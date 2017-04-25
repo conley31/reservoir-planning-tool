@@ -21,7 +21,9 @@
               <div class="form-card-container">
                 <div class="row">
                   <div class="col-xs-12 text-center label-card">
-                    <h5>Drained Area</h5>
+                    <h5>Drained Area
+                      <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Area from which drain flow will be captured in the pond"></span>
+                    </h5>
                   </div>
                   <div class="col-xs-12 input-card">
                     <div class="input-container">
@@ -49,7 +51,9 @@
                       <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
                   </div>
                   <div class="col-xs-12 text-center label-card">
-                    <p>Upload a CSV file with daily values of date, precipitation and flow</p>
+                    <p>Upload a CSV file with daily values of date, precipitation and flow
+                      <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter a comma separated file with the following five columns: Year, Month, Day, Drain flow (mm), Precipitation (mm). The Sizing Tool will use any range of dates that you provide, from one year to 30 years, and can start at any time of year. Provide a reasonable initial pond depth based on your start date."></span>
+                    </p>
                   </div>
                   <div class="col-xs-12 input-card">
                     <div class="input-group" id="file-div">
@@ -78,7 +82,11 @@
               <div class="form-card-container">
                 <div class="row">
                   <div class="col-xs-12 text-center label-card">
-                    <h5> <%= pondArray[i].label %> <h5>
+                    <h5> <%= pondArray[i].label %>
+                      <% if (pondArray[i].tooltip) { %>
+                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="<%= pondArray[i].tooltip %>"></span>
+                      <% } %>
+                    <h5>
                   </div>
                   <div class="col-xs-12 input-card">
                     <div class="input-container">
@@ -105,7 +113,11 @@
               <div class="form-card-container">
               <div class="row">
                 <div class="col-xs-12 text-center label-card">
-                  <h5> <%= irrigationArray[i].label %> <h5>
+                  <h5> <%= irrigationArray[i].label %>
+                      <% if (irrigationArray[i].tooltip) { %>
+                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="<%= irrigationArray[i].tooltip %>"></span>
+                      <% } %>
+                  <h5>
                 </div>
                 <div class="col-xs-12 input-card">
                   <div class="input-container">
