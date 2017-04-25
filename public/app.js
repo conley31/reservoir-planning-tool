@@ -16,13 +16,18 @@ $('#map-nav').click(function() {
 
 //On any form input change, graphs are hidden
 $('form :input').change(function(){
+  hideAllGraphs();
+});
+
+var hideAllGraphs = function() {
   hideGraphThree();
   hideGraphTwo();
   hideGraphOne();
-});
+};
 
 //show graph nav button
 $('#map-submit').click(function() {
+  hideAllGraphs();
   $('#graph-nav').fadeIn('fast', function() {
     //show change on pseudo nav
     $(this).addClass('active-button');
@@ -35,7 +40,6 @@ $('#map-submit').click(function() {
 
 //show form input and graphs, hide map
 $('#graph-nav').click(function() {
-
   //show change on pseudo nav
   $(this).addClass('active-button');
   $('#map-nav').removeClass('active-button');
@@ -78,7 +82,9 @@ var showGraphTwo = function() {
   var selected = $('#pond-inc-dropdown').val();
   $('#graph2-body').fadeIn('slow', function() {
     graphTwo(selected);
-    $('#year-card').fadeIn('slow');
+    $('#year-card').fadeIn('slow', function() {
+      $('#year-dropdown').fadeIn('slow');
+    });
   });
 };
 
