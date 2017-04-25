@@ -93,3 +93,8 @@ $(document).on('change', ':file', function() {
   label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   $(this).parents('.input-group').find(':text').val(label);
 });
+
+// Enable tooltips
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});
