@@ -15,17 +15,49 @@ nav {
 }
 
 .navbar {
-  background-color: white;
+  /*background-color: #2196f3;*/
   border-radius: 0;
+  height: 5vh;
+  background: #357cce;
+  border-top: 3px solid #357cce;
+  border-bottom: 4px solid #357cce;
 }
 
-.nav-header {
-  margin: 0 auto;
-  width: auto;
+#title-container-container {
+  display:inline-block;
+  float: left;
+  height: 100%;
+  background: white;
+  border-right: 10px solid white;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  -webkit-border-top-right-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-top-right-radius: 20px;
+  -moz-border-bottom-right-radius: 20px;
+  border-collapse: separate;
 }
 
-nav img {
+#title-container {
+    float left;
+    height: 100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.navbar h2 {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0;
   width: auto;
+  font-size: 2.5em;
+  color: #357cce;
+  background: white;
+}
+
+#bg {
+  background: #357cce;
   height: 100%;
 }
 
