@@ -72,12 +72,22 @@ var initMap = function() {
     });
   }
 
+  $('#places-input').click(function() {
+    var offset = $('#places-input').offset().top + 48;
+    $('.pac-container').css('top', offset + 'px');
+  });
+
+  $('#places-input').on('input',function(e){
+      var offset = $('#places-input').offset().top + 48;
+      $('.pac-container').css('top', offset + 'px');
+    });
+
   // Create the search box and link it to the UI element.
   var input = document.getElementById('places-input');
   var searchBox = new google.maps.places.SearchBox(input, {
     bounds: bounds
   });
-  document.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  document.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
 
   // Bias the SearchBox results towards current map's viewport.
   document.map.addListener('bounds_changed', function() {
@@ -85,6 +95,8 @@ var initMap = function() {
   });
   // Listen for a new place from the search box
   searchBox.addListener('places_changed', function() {
+    var offset = $('#places-input').offset().top + 48;
+    $('.pac-container').css('top', offset + 'px');
     var places = searchBox.getPlaces();
 
     if (places.length === 0) {
