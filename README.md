@@ -19,6 +19,10 @@
 - Each table follows the naming convention of: `Location{ID}`. Where ID is specified in the `db/index.csv`.
 - Schema: `Location{ID}(RecordedDate:Date, Drainflow:Float, Precipitation:Float, PET:Float)`
 
+## CSV Schemas
+- `User Uploaded CSV:(Year, Month, Day, Drain Flow, Precipitation)`
+- `Daily Files CSV: (Year, Month, Day, Drain Flow, Precipitation, PET)`
+
 ## Database Scripts
 
 #### `npm run db_setup`
