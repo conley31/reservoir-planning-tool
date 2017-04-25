@@ -10,7 +10,9 @@ var express = require('express'),
   nconf = require('nconf'),
   morgan = require('morgan'),
   csv = require('fast-csv'),
-  session = require('express-session');
+  session = require('express-session'),
+  favicon = require('serve-favicon');
+
 var RedisStore = require('connect-redis')(session);
 
 var db = require('./db');
@@ -27,6 +29,13 @@ if (!Object.keys(nconf.get()).length) {
 }
 
 /*
+ *global variables to set up form input
+ */
+var inputText = require('./util/input-text.js');
+app.locals.pondArray = inputText.getPondArray();
+app.locals.irrigationArray = inputText.getIrrigationArray();
+
+/*
  * Express Middleware and Server Configuration
  */
 // Enable logging
@@ -35,6 +44,7 @@ if (app.get('env') === 'production') {
 } else {
   app.use(morgan('dev')); // Pretty logging in dev mode
 }
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(__dirname + '/public')); // Serve static files from the public directory
 app.use(bodyParser.json()); // Decode JSON from request bodies
 // Options for urlencoded requests
@@ -53,8 +63,8 @@ app.use(session({
   saveUninitialized: true,
   store: new RedisStore(nconf.get('redis')),
   cookie: {
-    secure: true,
-    expires: false // Only remains when the
+    secure: false,
+    expires: false
   }
 }));
 // Initialize Daily data in session store
@@ -76,7 +86,8 @@ app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
   res.render("index.ejs", {
     googleMapsKey: nconf.get("google_maps").key,
-    production: app.get('env') === 'production'
+    production: app.get('env') === 'production',
+    title: 'Pond Sizing Tool'
   });
 });
 
@@ -87,7 +98,9 @@ app.post('/calculate', function(req, res, next) {
   var stream;
   var form = new formidable.IncomingForm().parse(req, function(err) {
     if (err) {
-      return next(err);
+      res.status(400).send({
+        errorMessage: 'Error parsing form'
+      });
     }
   });
   form.uploadDir = "/tmp/";
@@ -130,7 +143,6 @@ app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
   // If the daily data isn't there, return 404 NOT FOUND
   if (req.session.dailyData === null || typeof(req.session.dailyData[pondVol]) === "undefined") {
-    // console.log(req.session.dailyData);
     res.sendStatus(404);
     return;
   }
@@ -141,6 +153,34 @@ app.get('/download', (req, res) => {
     .writeToStream(res, req.session.dailyData[pondVol], {
       headers: true,
     });
+});
+
+// 404 Page (Always keep this as the last route)
+app.get('*', function(req, res) {
+  if (req.xhr) {
+    res.status(404).send({
+      errorMessage: 'Not Found'
+    });
+    return;
+  }
+  res.format({
+    html: function() {
+      res.status(404).render('error.ejs', {
+        error: 'Page Not Found: ' + req.hostname + req.originalUrl,
+        googleMapsKey: nconf.get("google_maps").key,
+        production: app.get('env') === 'production',
+        title: 'Page Not Found - Pond Sizing Tool'
+      });
+    },
+    json: function() {
+      res.status(404).send({
+        errorMessage: 'Not Found'
+      });
+    },
+    default: function() {
+      res.sendStatus(404);
+    }
+  });
 });
 
 /*

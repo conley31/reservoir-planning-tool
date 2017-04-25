@@ -1,8 +1,7 @@
 <!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-<!--  -->
-
+<script src="lib/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="lib/bootstrap.min.js"></script>
 <!-- For Google charts -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <!--  -->
@@ -13,68 +12,10 @@
 <script src="/map.js" type="text/javascript"></script>
 <script src="/smartresize.js" type="text/javascript"></script>
 <script src="/graph.js" type="text/javascript"></script>
+<script src="/validation.js" type="text/javascript"></script>
 
 <!-- For Google Maps -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsKey %>&libraries=places&callback=initMap" type="text/javascript"></script>
-<!-- Removes file path from upload leaving only the file name -->
-<script type="text/javascript">
-	$(document).on('change', ':file', function() {
-    var input = $(this);
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    $(this).parents('.input-group').find(':text').val(label);
-  });
-</script>
-
-<script>
-	function validateCalculatorInput() {
-		var errors = []
-		var inputs = []
-		var validation = true;
-
-		inputs.push({ name: "Smallest pond volume",
-								 	value: document.forms["calculator-input"]["pondVolSmallest"].value });
-		inputs.push({ name: "Largest pond volume",
-									value: document.forms["calculator-input"]["pondVolLargest"].value });
-		inputs.push({ name: "Pond volume increment",
-									value: document.forms["calculator-input"]["pondVolIncrement"].value });
-		inputs.push({ name: "Pond depth",
-							    value: document.forms["calculator-input"]["pondDepth"].value });
-		inputs.push({ name: "Pond depth initial",
-									value: document.forms["calculator-input"]["pondWaterDepthInitial"].value });
-		inputs.push({ name: "Maximum soil moisture content",
-									value: document.forms["calculator-input"]["maxSoilMoistureDepth"].value });
-		inputs.push({ name: "Irrigation area",
-									value: document.forms["calculator-input"]["irrigatedArea"].value });
-		inputs.push({ name: "Irrigation depth",
-									value: document.forms["calculator-input"]["irrigDepth"].value });
-		inputs.push({ name: "Available water capacity",
-									value: document.forms["calculator-input"]["availableWaterCapacity"].value });
-		inputs.push({ name: "Drained area",
-								  value: document.forms["calculator-input"]["drainedArea"].value });
-
-		for(var i = 0; i < inputs.length; i++) {
-			if(isNaN(inputs[i]["value"])) {
-				errors.push(inputs[i]["name"] + " must be a number.");
-				validation = false;
-			}
-			if(inputs[i]["value"] < 0) {
-				errors.push(inputs[i]["name"] + " must be greater than or equal to 0.");
-				validation = false;
-			}
-			if(inputs[i]["value"] === "") {
-				errors.push(inputs[i]["name"] + " is a required field.")
-				validation = false;
-			}
-		}
-
-		if(inputs[0]["value"] >= inputs[1]["value"]) {
-			errors.push("Smallest pond volume must be less than the largest pond volume");
-			validation = false;
-		}
-
-		return [validation, errors];
-	}
-</script>
 
 <%if (production) { %>
 <!-- Google Analytics -->

@@ -1,13 +1,13 @@
 /*
  *   Maps
  */
-var map;
-var selectedFeature;
-var selectedLocationId;
+document.map;
+document.selectedFeature;
+document.selectedLocationId;
 
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
-  map = new google.maps.Map(document.getElementById('map'), {
+  document.map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 41.8781, // Center at Chicago
       lng: -87.6298
@@ -16,8 +16,8 @@ var initMap = function() {
     zoom: 6
   });
 
-  map.data.loadGeoJson('final_index_FeaturesToJSON.json');
-  map.data.setStyle({
+  document.map.data.loadGeoJson('final_index_FeaturesToJSON.json');
+  document.map.data.setStyle({
     fillColor: 'white',
     fillOpacity: 0,
     strokeWeight: 1,
@@ -26,11 +26,11 @@ var initMap = function() {
   });
 
   // Enforces a zoom level between 6 and 11
-  map.addListener('zoom_changed', function() {
-    if (map.getZoom() < 6) {
-      map.setZoom(6);
-    } else if (map.getZoom() > 11) {
-      map.setZoom(11);
+  document.map.addListener('zoom_changed', function() {
+    if (document.map.getZoom() < 6) {
+      document.map.setZoom(6);
+    } else if (document.map.getZoom() > 11) {
+      document.map.setZoom(11);
     }
   });
 
@@ -39,25 +39,25 @@ var initMap = function() {
     new google.maps.LatLng(37, -98), // TODO: Add this to the config file
     new google.maps.LatLng(49, -77)
   );
-  map.addListener('dragend', function() {
-    if (bounds.contains(map.getCenter())) {
+  document.map.addListener('dragend', function() {
+    if (bounds.contains(document.map.getCenter())) {
       return;
     }
-    var center = map.getCenter();
+    var center = document.map.getCenter();
     if (center.lng() < bounds.getNorthEast().lng()) x = bounds.getNorthEast().lng();
     if (center.lng() > bounds.getNorthEast().lat()) x = bounds.getNorthEast().lat();
     if (center.lat() < bounds.getSouthWest().lng()) y = bounds.getSouthWest().lng();
     if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
-    map.setCenter(new google.maps.LatLng(y, x));
+    document.map.setCenter(new google.maps.LatLng(y, x));
   });
 
   // Registers a click event for a single polygon
-  map.data.addListener('click', function(event) {
+  document.map.data.addListener('click', function(event) {
     selectFeature(event.feature);
   });
 
   var locMarker = new google.maps.Marker({
-    map: map,
+    map: document.map,
     title: "Your Location"
   });
   // Geolocation for HTML5 compatible browsers
@@ -77,11 +77,11 @@ var initMap = function() {
   var searchBox = new google.maps.places.SearchBox(input, {
     bounds: bounds
   });
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  document.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   // Bias the SearchBox results towards current map's viewport.
-  map.addListener('bounds_changed', function() {
-    searchBox.setBounds(map.getBounds());
+  document.map.addListener('bounds_changed', function() {
+    searchBox.setBounds(document.map.getBounds());
   });
   // Listen for a new place from the search box
   searchBox.addListener('places_changed', function() {
@@ -92,37 +92,39 @@ var initMap = function() {
     }
     // Center on the map and zoom in
     locMarker.setPosition(places[0].geometry.location);
-    map.setCenter(places[0].geometry.location);
-    map.setZoom(11);
+    document.map.setCenter(places[0].geometry.location);
+    document.map.setZoom(11);
     selectLocation(places[0].geometry.location);
   });
 
   //remove buffer after map is loaded
-  google.maps.event.addListener(map, 'idle', function() {
+  google.maps.event.addListener(document.map, 'idle', function() {
     $("#map-buffer").fadeOut('fast');
   });
 };
 
+// Select a polygon on the map
 var selectFeature = function(feature) {
   // Old selectedFeature to white
-  map.data.overrideStyle(selectedFeature, {
+  document.map.data.overrideStyle(document.selectedFeature, {
     fillColor: 'white',
     fillOpacity: 0,
     strokeWeight: 1
   });
   // new feature to blue
-  map.data.overrideStyle(feature, {
+  document.map.data.overrideStyle(feature, {
     fillColor: 'blue',
     fillOpacity: 0.2
   });
 
-  selectedFeature = feature;
+  document.selectedFeature = feature;
 
-  selectedLocationId = selectedFeature.getProperty('Id');
+  document.selectedLocationId = document.selectedFeature.getProperty('Id');
 
   $('#map-submit').fadeIn('slow');
 };
 
+// Select a feature using a location (lat, long) object
 var selectLocation = function(location) {
   $.ajax({
     type: 'POST',
@@ -132,8 +134,8 @@ var selectLocation = function(location) {
     data: JSON.stringify(location),
     success: function(response) {
       if (response) {
-        var feature = map.data.getFeatureById(response.id);
-        selectFeature(map.data.getFeatureById(response.id));
+        var feature = document.map.data.getFeatureById(response.id);
+        selectFeature(document.map.data.getFeatureById(response.id));
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -141,7 +143,7 @@ var selectLocation = function(location) {
         console.error(jqXHR.responseJSON.error);
       }
       var errorMessage = jqXHR.responseJSON.errorMessage;
-      // TODO: Call error message display
+      displayErrorModal(errorMessage);
     }
   });
 };

@@ -5,6 +5,7 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   background: white;
+  font-size: 14px;
 }
 
 /*Navbar*/
@@ -14,13 +15,14 @@ nav {
 }
 
 .navbar {
-  background-color: #222222;
+  background-color: #357cce;
   border-radius: 0;
 }
 
 .navbar-brand {
-    color: white;
-    font-size: 2em;
+  color: white;
+  margin: 0;
+  font-size: 2.5rem;
 }
 
 /*General components*/
@@ -30,21 +32,23 @@ nav {
 }
 
 h5 {
-  color: white;
+  color: #222;
   font-size: 1.2em;
 }
 
+h3 {
+  color: #222;
+  font-size: 1.6em;
+}
+
+
 label {
-  font-size: 1.3em;
+  font-size: 1.2em;
 }
 
 button {
   background-color: #0054a6;
   color: white;
-}
-
-hr {
-  margin: 10px 0;
 }
 
 .btn {
@@ -58,12 +62,9 @@ hr {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
-.row {
-  padding: 10px 0;
-}
-
 /*Card Layout*/
 .card-container {
+  min-width: 400px;
   width: 80vw;
   height: auto;
   position: relative;
@@ -77,18 +78,54 @@ hr {
   height: auto;
   margin: 20px 0;
   overflow: hidden;
+  background: white;
 }
 
-.card-shadow {
-  z-index: 3;
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
-  -moz-box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
-  box-shadow: 0px 2px 2px 0px rgba(102,102,102,0.7);
+/*title description*/
+#title-desc {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
 }
 
+.jumbotron h2{
+  font-size: 1.8em;
+}
+
+.jumbotron p{
+  font-size: 1.4em;
+}
+
+/*pseudo nav bar*/
+#pseudo-nav {
+  font-size: 1.1em;
+  width: 100%;
+  margin-bottom: 0;
+  border-bottom: solid 3px #1c5d99;
+}
+
+#pseudo-nav button {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: #1b83e5;
+  color: white;
+}
+
+#pseudo-nav .active-button {
+  border: solid 3px #1c5d99;
+  background: #1c5d99;
+  border-bottom: none;
+}
+
+#pseudo-nav .orange-button {
+  background: #e59b06;
+}
 /*Map*/
+#map-nav-display {
+  margin-top: 0;
+}
 #map-container {
-  height: 80vh;
+  height: 65vh;
   width: inherit;
   background: #357cce;
 }
@@ -106,15 +143,32 @@ hr {
 
 /*Form inputs*/
 .form-group {
-  background: #357cce;
+  background: #fff;
   padding: 20px;
   padding-bottom: 0;
-  color: white;
+  color: #222;
   margin-bottom: 0;
 }
 
+#reservoir-inputs {
+  padding-bottom: 20px;
+  font-size: 1.1em;
+}
+
 #form-data {
-    display: none;
+  margin-top: 0;
+}
+
+#form-data hr {
+    border-top: 1px solid #555;
+    margin: 10px 0 20px 0;
+}
+
+.input-container {
+  margin: auto;
+  width: 70%;
+  min-width: 160px;
+  max-width: 300px;
 }
 
 .input-group {
@@ -123,65 +177,61 @@ hr {
   box-shadow: none;
 }
 
-/*hide input spin button*/
-input[type="number"] {
-  -moz-appearance: textfield;
-  -webkit-appearance: textfield;
-  appearance: textfield;
-}
-
 .input-group .form-control {
-  border-style: none;
-  border-radius: 0;
+
+  color: #222;
   background-color: white;
+  min-width: 30px;
 }
 
 .input-group-addon {
-  border-style: none;
-  border-radius: 0;
-  background-color: #24578c;
-  color: white;
+  background-color: #f1f1f1;
+  color: #333;
   font-size: 1em;
+  width: 40%;
 }
 
 #basic-addon2 {
   padding: 5px;
 }
 
+.form-card-container {
+  width: 80%;
+  margin: auto;
+}
+.input-card {
+  background: #f1f1f1;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+}
+.label-card {
+  background: #f1f1f1;
+}
+
 #uploadForm {
-  display: none;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.form-control {
-  font-size: 1em;
+span p {
+  font-size: 1.1em;
 }
+
+.form-control {
+  font-size: 1.1em;
+}
+
 
 /*Form Error Checking*/
 #form-error {
   color: white;
-
-  /*margin on either side*/
-  border-left-style: solid;
-  border-left-width: 2vw;
-  border-right-style: solid;
-  border-right-width: 2vw;
-  border-color: #357cce;
+  margin: 1vh 2vw 3vh 2vw;
   display: none;
 }
 
 #form-error p {
   padding: 0;
   margin: 0;
-}
-
-#border {
-  border-top-style: solid;
-  border-top-width: 1vh;
-  border-bottom-style: solid;
-  border-bottom-width: 3vh;
-  border-color: #357cce;
 }
 
 #error-content{
@@ -210,6 +260,15 @@ input[type="number"] {
 #graph-desc {
   width: inherit;
   margin: 10px;
+  font-size: 1.3em;
+  padding: 0 10px 10px 10px;
+  border-radius: 5px;
+  background: #eee;
+}
+
+#graph-buffer {
+  height: 80vh;
+  width:  100%;
 }
 
 /*Dropdowns*/
@@ -217,6 +276,11 @@ input[type="number"] {
   display: none;
   background: #357cce;
   padding: 10px;
+  border-radius: 5px;
+}
+
+select {
+  color: black;
 }
 
 .buffer-container {
@@ -234,20 +298,78 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 36px;
+  height: 12vh;
   background-color: #0277bd;
   display: flex;
   align-items: center;
+  padding: 10px;
+  font-size: 1.1em;
 }
 
 .footer-text {
   width: inherit;
-  text-align: center;
-}
-
-footer h5 {
+  text-align: left;
   color: #eee;
 }
+
+footer h5{
+  color: #eee;
+}
+
+footer a{
+  color: #eee;
+  font-weight: bold;
+
+}
+footer a:hover{
+  text-decoration: none;
+  color: #c2c3c4;
+}
+#project_logo{
+  margin: 20px;
+}
+#description-title-margin{
+  margin-left: 1vw;
+}
+
+#form-data hr.divider {
+  border-top: 1px solid #222;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#form-data hr.divider:after {
+  content: 'or';
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  padding: 0 10px;
+  background: #eee;
+  color: #555;
+  font-size: 18px;
+}
+
+#places-input {
+  position: relative !important;
+  float: right;
+  left:-15px !important;
+  margin-top: 10px;
+  height: 48px;
+  width: 400px;
+  padding: 0px 0px 0px 50px;
+  box-shadow: 5px 5px 2.5px #888888;
+  font-size: 16px;
+  background-image: url('search-back.png');
+  border-style:none;
+
+}
+
+/* Error Modal */
+.modal-footer .btn-default:hover{
+  color: black;
+}
+
 
 /*For smaller than large screens*/
 /*Cards span almost entire width*/
@@ -257,10 +379,17 @@ footer h5 {
   }
 }
 
+@media only screen and (max-width: 1400px) {
+  html,body {
+    font-size: 12px;
+  }
+}
+
+
 /*Buffer Animation*/
 .loader {
     margin: auto;
-    margin-top: 30vh;
+    margin-top: 17%;
     border: 10px solid #fff; /*white*/
     border-right: 10px solid #357cce;
     border-radius: 50%;
@@ -272,12 +401,4 @@ footer h5 {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-#places-input {
-  margin-top: 10px;
-  height: 30px;
-  width: 200px;
-  padding: 0px 0px 0px 30px;
-  background-image: url('search-back.png');
 }
