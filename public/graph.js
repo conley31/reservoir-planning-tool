@@ -47,6 +47,7 @@ $("form").submit(function(event) {
         console.error(jqXHR.responseJSON.error);
       }
       var errorMessage = jqXHR.responseJSON.errorMessage;
+      hideAllGraphs();
       displayErrorModal(errorMessage);
     }
   });
