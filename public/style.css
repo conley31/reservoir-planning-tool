@@ -278,6 +278,8 @@ span p {
 /*downloading CSV*/
 #download-csv {
   color: white;
+  display: none;
+  background: #e59b06
 }
 /*Graphs*/
 #graph-body, #graph2-body, #graph3-body {
