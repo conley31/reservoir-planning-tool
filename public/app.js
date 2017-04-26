@@ -128,7 +128,7 @@ $(document).on('change', ':file', function() {
   $(this).parents('.input-group').find(':text').val(label);
 });
 
-// Enable tooltips
+// Enable popovers (Boostrap Javascrip  t)
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
 });
