@@ -53,6 +53,7 @@ $('#graph-nav').click(function() {
 $('#pond-inc-submit').click(function() {
   $('#download-csv').show();
   $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val());
+  hideGraphThree();
   showGraphTwo();
 });
 
