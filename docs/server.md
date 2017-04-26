@@ -8,6 +8,11 @@
 4. Make sure node packages are installed - `npm install`
 5. Restart the server - `pm2 restart all`
 
+## Other useful functions
+
+- View real time and historical logs of nodejs: `pm2 logs`
+- View current running processes: `pm2 monit`
+
 ## Deployment Notes
 
 ### Node.js (Server-side JavaScript Runtime)
