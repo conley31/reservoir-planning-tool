@@ -27,7 +27,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
     for(var prop in params){
       /* The only paramter that is allowed to be undefined is _csvFileStream */
         if(prop !== (params.length - 1).toString()){
-          if(typeof params[prop] === "undefined"){
+          if(typeof params[prop] === 'undefined'){
              reject(new Error('Undefined Input:' + prop));
           }
         }
@@ -159,13 +159,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
-          if(typeof allYears[currentYear - initialYear] === "undefined"){
+          if(typeof allYears[currentYear - initialYear] === 'undefined'){
             allYears[currentYear - initialYear] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i] === "undefined"){
+          if(typeof allYears[currentYear - initialYear][i] === 'undefined'){
             allYears[currentYear - initialYear][i] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i][currentMonth] === "undefined"){
+          if(typeof allYears[currentYear - initialYear][i][currentMonth] === 'undefined'){
            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
 
@@ -173,13 +173,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
         /* The values for bypassFlowVol and deficitVol are cumulative */
 
         if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
-         if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+         if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== 'undefined' ){
             allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
           }
         }
 
         if( allYears[currentYear - initialYear][i][currentMonth].deficitVol === 0 ) {
-          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== "undefined" ){
+          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== 'undefined' ){
             allYears[currentYear - initialYear][i][currentMonth].deficitVol = allYears[currentYear - initialYear][i][currentMonth-1].deficitVol;
           }
         }
@@ -216,10 +216,10 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
  *
  *  Return - Either SQLRows or blendedCSV -
  *  [ {
- *    "RecordedDate": 1980-10-08T05:00:00.000Z,
- *    "Drainflow": "1.2321",
- *    "Precipitation": "9.342",
- *    "PET": "3.21323"
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
  *  }, ...]
  *
  */

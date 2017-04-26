@@ -6,7 +6,7 @@ var receivedArray;
 var currentPondVolume;
 var currentYear;
 
-$("form").submit(function(event) {
+$('form').submit(function(event) {
   var validation = validateCalculatorInput();
   document.displayFormError(validation[1]);
   if (!validation[0])
@@ -67,7 +67,7 @@ var drawChart = function() {
   data = new google.visualization.DataTable();
   var i = 0;
   //add axis descriptions
-  while (typeof graphData[i] === "string") {
+  while (typeof graphData[i] === 'string') {
     data.addColumn('number', graphData[i++]);
   }
   //add array of data
@@ -134,7 +134,7 @@ var drawChart2 = function() {
   data = new google.visualization.DataTable();
   var i = 0;
 
-  while (typeof graphData[i] === "string") {
+  while (typeof graphData[i] === 'string') {
 
     if( i === 0 ){
       data.addColumn('string', graphData[i++]);
@@ -241,7 +241,7 @@ var graphOne = function() {
   graphData[2] = 'Storage Deficit Volume';
   graphData[3] = document.generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
   graphData[4] = 'Bypass Flow and Storage Deficit Volume\n(acre-feet)';
-  graphData[5] = "graph-1";
+  graphData[5] = 'graph-1';
   addIncDropdown(receivedArray.incData);
   initGraph();
 };
@@ -282,7 +282,7 @@ var addIncDropdown = function(array) {
   var dropdown = $('#pond-inc-dropdown');
   dropdown.find('option').remove();
   for (var i = 0; i < array.length; i++) {
-    dropdown.append($("<option></option>").val(array[i]).html(array[i]));
+    dropdown.append($('<option></option>').val(array[i]).html(array[i]));
   }
 };
 
@@ -292,6 +292,6 @@ var addYearDropdown = function() {
   dropdown.find('option').remove();
   var firstYear = receivedArray.firstYearData;
   for (var i = 0; i < receivedArray.graphData.length; i++) {
-    dropdown.append($("<option></option>").val(firstYear+i).html(firstYear+i));
+    dropdown.append($('<option></option>').val(firstYear+i).html(firstYear+i));
   }
 };

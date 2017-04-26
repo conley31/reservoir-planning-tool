@@ -11,7 +11,7 @@ module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
+    .fromStream(inStream, {headers : ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
@@ -19,7 +19,7 @@ module.exports.readUserCSV = function(inStream) {
               isValidNumber(data.Precipitation));
     })
 
-    .on("data-invalid", function(data, index) {
+    .on('data-invalid', function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
@@ -27,11 +27,11 @@ module.exports.readUserCSV = function(inStream) {
                       ',' + data.Precipitation));
     })
 
-    .on("data", function(data) {
+    .on('data', function(data) {
       buffer.push(data);
     })
 
-    .on("end", function() {
+    .on('end', function() {
       resolve(buffer);
     });
   });
@@ -58,7 +58,7 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ["Year", "Month", "Day", "Drainflow", "Precipitation"]})
+    .fromStream(inStream, {headers : ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']})
 
     .validate(function(data) {
       return (isValidDate(data.Day, data.Month, data.Year) &&
@@ -66,22 +66,22 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
               isValidNumber(data.Precipitation));
     })
 
-    .on("data-invalid", function(data, index) {
+    .on('data-invalid', function(data, index) {
       reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
                       ',' + data.Month +
                       ',' + data.Day +
                       ',' + data.Drainflow +
                       ',' + data.Precipitation));
     })
-    .on("data", function(data) {
+    .on('data', function(data) {
       buffer.push(data);
     })
 
     .on('error', function(error) {
-      reject(new Error("CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))"));
+      reject(new Error('CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))'));
     })
 
-    .on("end", function() {
+    .on('end', function() {
       var dataCursor;
 
       db.getLocationById(id).then(function(data) {
@@ -112,10 +112,10 @@ function convertToInches(data) {
  *
  *  Return - Array of userRows blended with sqlRows -
  *  [ {
- *    "RecordedDate": 1980-10-08T05:00:00.000Z,
- *    "Drainflow": "1.2321",
- *    "Precipitation": "9.342",
- *    "PET": "3.21323"
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
  *  }, ...]
  *
  */
@@ -153,10 +153,10 @@ function blendArray(sqlRows, userRows) {
  *
  *  Return - Array of startIndex for sqlRows and Rows to fill gaps -
  *  [2074, {
- *    "RecordedDate": 1980-10-08T05:00:00.000Z,
- *    "Drainflow": "1.2321",
- *    "Precipitation": "9.342",
- *    "PET": "3.21323"
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
  *  }, ...]
  *
  */
@@ -183,10 +183,10 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
  *
  *  Return - Array of userRows with PETs added -
  *  [ {
- *    "RecordedDate": 1980-10-08T05:00:00.000Z,
- *    "Drainflow": "1.2321",
- *    "Precipitation": "9.342",
- *    "PET": "3.21323"
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
  *  }, ...]
  *
  */
@@ -209,10 +209,10 @@ function addPETs(sqlRows, userRows) {
  *
  *  Return - SUCCESS - One userRow with PET value set -
  *  {
- *    "RecordedDate": 1980-10-08T05:00:00.000Z,
- *    "Drainflow": "1.2321",
- *    "Precipitation": "9.342",
- *    "PET": "3.21323"
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
  *  }
  *
  *  Return - FAIL - NULL
@@ -228,7 +228,7 @@ function addPET(sqlRows, userRow) {
     }
     ++index;
   }
-  if(!("PET" in row))
+  if(!('PET' in row))
     return null;
   return row;
 }
@@ -238,19 +238,19 @@ function addPET(sqlRows, userRow) {
   *
   *  Return - A formatted hash -
   *  {
-  *    "RecordedDate": 1980-10-08T05:00:00.000Z,
-  *    "Drainflow": "1.2321",
-  *    "Precipitation": "9.342",
-  *    "PET": "3.21323"
+  *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+  *    'Drainflow': '1.2321',
+  *    'Precipitation': '9.342',
+  *    'PET': '3.21323'
   *  }
   *
   */
 
  function arraytoSQLFormat(CSVRow) {
-   var row = {"RecordedDate": new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
-              "Drainflow": CSVRow.Drainflow,
-              "Precipitation": CSVRow.Precipitation,
-              "PET": null};
+   var row = {'RecordedDate': new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
+              'Drainflow': CSVRow.Drainflow,
+              'Precipitation': CSVRow.Precipitation,
+              'PET': null};
     return row;
  }
 
@@ -309,5 +309,5 @@ Date.prototype.toShortString = function() {
   var mmChars = mm.split('');
   var ddChars = dd.split('');
 
-  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+  return yyyy + '-' + (mmChars[1]?mm:'0'+mmChars[0]) + '-' + (ddChars[1]?dd:'0'+ddChars[0]);
 };

@@ -18,11 +18,11 @@ exports.allYearsAveraged = function(allYears, increments){
 	fillThree(outputArray);
 	//Add every months data from each year to the appropriate volume increment
 	for(var i = 0; i < allYears.length; i++){
-		if(typeof allYears[i] !== "undefined"){
+		if(typeof allYears[i] !== 'undefined'){
 			for(var j = 0; j < allYears[i].length; j++){
-				if(typeof allYears[i][j] !== "undefined"){
+				if(typeof allYears[i][j] !== 'undefined'){
 					for(var k = 0; k < allYears[i][j].length; k++){
-						if(typeof allYears[i][j][k] !== "undefined"){
+						if(typeof allYears[i][j][k] !== 'undefined'){
 							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
 							outputArray[j][2] += allYears[i][j][k].deficitVol;
 						}
@@ -33,7 +33,7 @@ exports.allYearsAveraged = function(allYears, increments){
 	}
 
 	for(i = 0; i < outputArray.length; i++){
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = increments[i];
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
@@ -55,9 +55,9 @@ exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume
 	});
 
 	for(var i = 0; i < allYears.length; i++){
-		if(typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
+		if(typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
-				if(typeof allYears[i][currentIncrement][k] !== "undefined"){
+				if(typeof allYears[i][currentIncrement][k] !== 'undefined'){
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
 				}
@@ -67,7 +67,7 @@ exports.allYearsByPondVolume = function(allYears, increments, specificPondVolume
 
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = i;
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
@@ -87,10 +87,10 @@ exports.allMonthsByYear = function(allYears, increments, initialYear, specificPo
 	});
 	var yearIndex = specificYear - initialYear;
 
-	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
+	if(typeof allYears[yearIndex] !== 'undefined' && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
-			if(typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
+			if(typeof allYears[yearIndex][currentIncrement][k] !== 'undefined'){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
 			}
@@ -99,7 +99,7 @@ exports.allMonthsByYear = function(allYears, increments, initialYear, specificPo
 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = i;
 		}
 	}

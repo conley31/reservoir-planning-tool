@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;
-var chaiAsPromised = require("chai-as-promised");
+var chaiAsPromised = require('chai-as-promised');
 var db = require('../../db');
 
 chai.use(chaiAsPromised);
