@@ -150,7 +150,8 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
             irrigationVol: irrigationVolDay,
             bypassVol: bypassFlowVolDay,
             pondWaterDepth: pondWaterDepthDay,
-            deficitVol: deficitVolDay
+            deficitVol: deficitVolDay,
+            precipDepth: precipDepthDay
           });
 
           /* update the (day-1) variables */
