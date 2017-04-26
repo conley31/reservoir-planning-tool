@@ -45,8 +45,3 @@ exports.getLocation = (pos) => {
 exports.getFeatures = () => {
   return features;
 };
-
-// console.log(exports.getLocation({
-//   lat: 40.4259,
-//   lng: -89.9081
-// }));

@@ -22,7 +22,7 @@ var app = express();
 
 // Set up config file using nconf library
 nconf.file({
-  file: "./config/config.json"
+  file: './config/config.json'
 });
 if (!Object.keys(nconf.get()).length) {
   throw new Error('Unable to load config file. Check to make sure config/config.json exists');
@@ -84,8 +84,8 @@ app.use(function(req, res, next) {
 // GET the home page
 app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
-  res.render("index.ejs", {
-    googleMapsKey: nconf.get("google_maps").key,
+  res.render('index.ejs', {
+    googleMapsKey: nconf.get('google_maps').key,
     production: app.get('env') === 'production',
     title: 'Pond Sizing Tool'
   });
@@ -103,7 +103,7 @@ app.post('/calculate', function(req, res, next) {
       });
     }
   });
-  form.uploadDir = "/tmp/";
+  form.uploadDir = '/tmp/';
   form
     .on('fileBegin', function(name, file) {
       file.path = '/tmp/' + file.name;
@@ -142,7 +142,7 @@ app.post('/locations', (req, res) => {
 app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
   // If the daily data isn't there, return 404 NOT FOUND
-  if (req.session.dailyData === null || typeof(req.session.dailyData[pondVol]) === "undefined") {
+  if (req.session.dailyData === null || typeof(req.session.dailyData[pondVol]) === 'undefined') {
     res.sendStatus(404);
     return;
   }
@@ -167,7 +167,7 @@ app.get('*', function(req, res) {
     html: function() {
       res.status(404).render('error.ejs', {
         error: 'Page Not Found: ' + req.hostname + req.originalUrl,
-        googleMapsKey: nconf.get("google_maps").key,
+        googleMapsKey: nconf.get('google_maps').key,
         production: app.get('env') === 'production',
         title: 'Page Not Found - Pond Sizing Tool'
       });

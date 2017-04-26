@@ -15,7 +15,7 @@ $('#map-nav').click(function() {
 });
 
 //On any form input change, graphs are hidden
-$('form :input').change(function(){
+$('form :input').change(function() {
   hideAllGraphs();
 });
 
@@ -67,14 +67,14 @@ var showGraphOne = function() {
   $('#graph-body').fadeIn('slow', function() {
     graphOne();
     $('#graph-buffer').fadeOut('fast');
-    $("#pond-inc-card").fadeIn('slow');
+    $('#pond-inc-card').fadeIn('slow');
   });
 };
 
 //Hides Graph One
 var hideGraphOne = function() {
   $('#pond-inc-card').fadeOut('fast', function() {
-    $("#graph-body").fadeOut('fast');
+    $('#graph-body').fadeOut('fast');
   });
 };
 
@@ -92,7 +92,7 @@ var showGraphTwo = function() {
 //Hides Graph Two
 var hideGraphTwo = function() {
   $('#year-card').fadeOut('fast', function() {
-    $("#graph2-body").fadeOut('fast');
+    $('#graph2-body').fadeOut('fast');
   });
 };
 
@@ -107,7 +107,7 @@ var showGraphThree = function() {
 //Hides Graph Three
 var hideGraphThree = function() {
   $('#year-dropdown').fadeOut('fast', function() {
-    $("#graph3-body").fadeOut('fast');
+    $('#graph3-body').fadeOut('fast');
   });
 };
 
@@ -130,6 +130,6 @@ $(document).on('change', ':file', function() {
 });
 
 // Enable popovers (Boostrap Javascrip  t)
-$(function () {
-  $('[data-toggle="popover"]').popover();
+$(function() {
+  $("[data-toggle='popover']").popover();
 });

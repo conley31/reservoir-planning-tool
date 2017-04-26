@@ -8,11 +8,11 @@ from sql_statements import *
 with open('../config/config.json') as json_data:
   config = json.load(json_data)
 
-host = config.get("mysql").get("host")
-user = config.get("mysql").get("user")
-password = config.get("mysql").get("password")
-database = config.get("mysql").get("database")
-log_location = config.get("mysql").get("logLocation")
+host = config.get('mysql').get('host')
+user = config.get('mysql').get('user')
+password = config.get('mysql').get('password')
+database = config.get('mysql').get('database')
+log_location = config.get('mysql').get('logLocation')
 
 INCH_FACTOR = 0.03937007874
 index_file = 'index.csv'
@@ -61,12 +61,12 @@ def getLastUpdateTime():
   stream = csv.reader(log, delimiter='>')
   last_update = dt(1984, 1, 1)
   for row in stream:
-    if row[0] == "CREATED" or row[0] == "UPDATED":
-      last_update = dt.strptime(row[1], "%a %b %d %H:%M:%S %Y")
+    if row[0] == 'CREATED' or row[0] == 'UPDATED':
+      last_update = dt.strptime(row[1], '%a %b %d %H:%M:%S %Y')
   return last_update
 
 def toStrDate(year, month, day):
-  return (year + "-" + month + "-" + day)
+  return (year + '-' + month + '-' + day)
 
 def ParseDailyData(table_id, textFile):
   with open('daily_files/' + textFile, 'rb') as csvfile:
@@ -94,7 +94,7 @@ def addNewFromIndex():
     for row in stream:
       if not checkTable('Location' + row[0]):
           addTable(row[0], row[4])
-          print("added new Location" + row[0])
+          print('added new Location' + row[0])
 
 def removeOldTables():
   table_names = cur.execute(get_tables.format(database))
@@ -103,15 +103,15 @@ def removeOldTables():
     if not idExistsInIndex(locationID):
       cur.execute(drop_table.format(locationID))
       con.commit()
-      print "Removed Table: Location" + locationID
+      print 'Removed Table: Location' + locationID
 
 def checkDataFile(locationID, fileName):
-  data_last_modified = dt.fromtimestamp(os.path.getmtime("daily_files/" + fileName))
+  data_last_modified = dt.fromtimestamp(os.path.getmtime('daily_files/' + fileName))
   if data_last_modified > getLastUpdateTime():
     cur.execute(drop_table.format(locationID))
     con.commit()
     addTable(locationID, fileName)
-    print "Updated table: Location" + locationID
+    print 'Updated table: Location' + locationID
 
 def updateFromDataFiles():
   with open(index_file, 'rb') as csvfile:
@@ -121,16 +121,16 @@ def updateFromDataFiles():
 
 def update():
   if dbCreated:
-    print("Database was created")
+    print('Database was created')
     index_last_modify = dt.fromtimestamp(os.path.getmtime(index_file))
     if index_last_modify > getLastUpdateTime():
-      print("Updating from index")
+      print('Updating from index')
       addNewFromIndex()
       removeOldTables()
     else:
-      print "No changes to index.csv"
+      print 'No changes to index.csv'
     updateFromDataFiles()
-    log.write('UPDATED>' + time.strftime("%c") + '\n')
+    log.write('UPDATED>' + time.strftime('%c') + '\n')
 
 try:
   log = open(log_location, 'rb+')

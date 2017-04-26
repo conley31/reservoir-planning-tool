@@ -19,7 +19,7 @@ function fillFour(array){
 }
 function latestIndex(arr){
 	for(var i = (arr.length -1); i >= 0; i--){
-		if(typeof arr[i] !== "undefined"){
+		if(typeof arr[i] !== 'undefined'){
 			return i;
 		}
 	}
@@ -57,11 +57,11 @@ document.generateGraphData.allYearsAveraged = function(allYears, increments){
 	fillThree(outputArray);
 	//Add every months data from each year to the appropriate volume increment
 	for(var i = 0; i < allYears.length; i++){
-		if(allYears[i] && typeof allYears[i] !== "undefined"){
+		if(allYears[i] && typeof allYears[i] !== 'undefined'){
 			for(var j = 0; j < allYears[i].length; j++){
-				if(allYears[i][j] && typeof allYears[i][j] !== "undefined"){
+				if(allYears[i][j] && typeof allYears[i][j] !== 'undefined'){
 						var k = latestIndex(allYears[i][j]);
-						if(allYears[i][j][k] && typeof allYears[i][j][k] !== "undefined"){
+						if(allYears[i][j][k] && typeof allYears[i][j][k] !== 'undefined'){
 							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
 							outputArray[j][2] += allYears[i][j][k].deficitVol;
 						}
@@ -71,7 +71,7 @@ document.generateGraphData.allYearsAveraged = function(allYears, increments){
 	}
 
 	for(i = 0; i < outputArray.length; i++){
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = increments[i];	//pondWaterDepth
 			outputArray[i][1] /= allYears.length;	//byPassFlow
 			outputArray[i][2] /= allYears.length; 	//deficitVol
@@ -95,9 +95,9 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 
 
 	for(var i = 0; i < allYears.length; i++){
-		if(allYears[i][currentIncrement] && typeof allYears[i] !== "undefined" && typeof allYears[i][currentIncrement] !== "undefined"){
+		if(allYears[i][currentIncrement] && typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
-				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== "undefined"){
+				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== 'undefined'){
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
 					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
 					outputArray[k][3] += (allYears[i][currentIncrement][k].pondWaterDepth/daysInMonth(k, initialYear+i));
@@ -109,7 +109,7 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 
 	for(i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = document.months[i];
 			outputArray[i][1] /= allYears.length;
 			outputArray[i][2] /= allYears.length;
@@ -131,10 +131,10 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 	var yearIndex = specificYear - initialYear;
 
 
-	if(typeof allYears[yearIndex] !== "undefined" && typeof allYears[yearIndex][currentIncrement] !== "undefined"){
+	if(typeof allYears[yearIndex] !== 'undefined' && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
-			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== "undefined"){
+			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== 'undefined'){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
 				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth /daysInMonth(k, specificYear));
@@ -144,7 +144,7 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 
 	for(var i = 0; i < outputArray.length; i++){
 		//set each month to numerical value starting from 0
-		if(typeof outputArray[i] !== "undefined"){
+		if(typeof outputArray[i] !== 'undefined'){
 			outputArray[i][0] = document.months[i];
 		}
 	}
@@ -158,13 +158,13 @@ if (!Array.prototype.findIndex) {
   Object.defineProperty(Array.prototype, 'findIndex', {
     value: function(predicate) {
      // 1. Let O be ? ToObject(this value).
-      if (this == null) {
-        throw new TypeError('"this" is null or not defined');
+      if (this === null) {
+        throw new TypeError("'this' is null or not defined");
       }
 
       var o = Object(this);
 
-      // 2. Let len be ? ToLength(? Get(O, "length")).
+      // 2. Let len be ? ToLength(? Get(O, 'length')).
       var len = o.length >>> 0;
 
       // 3. If IsCallable(predicate) is false, throw a TypeError exception.

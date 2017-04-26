@@ -15,7 +15,6 @@ nav {
 }
 
 .navbar {
-  /*background-color: #2196f3;*/
   border-radius: 0;
   height: 5vh;
   background: #357cce;
@@ -408,7 +407,6 @@ footer img {
   background-size: cover;
   border-style: none;
   border-radius: 5px;
-
 }
 
 /* Error Modal */
