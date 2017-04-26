@@ -41,6 +41,8 @@ $("form").submit(function(event) {
     success: function(data) {
       receivedArray = data;
       showGraphOne(); // defined in app.js
+      hideGraphThree();
+      hideGraphTwo();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       if (jqXHR.responseJSON.error) {
