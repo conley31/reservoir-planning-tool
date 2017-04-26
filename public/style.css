@@ -392,9 +392,10 @@ footer img {
   float: right;
   left:-15px !important;
   margin-top: 10px;
-  height: 7vh;
+  height: 40px;
   width: 30vw;
   min-width: 250px;
+  max-width: 400px;
   padding: 0px 0px 0px 50px;
   -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
   -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
