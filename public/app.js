@@ -15,7 +15,7 @@ $('#map-nav').click(function() {
 });
 
 //On any form input change, graphs are hidden
-$('form :input').change(function(){
+$('form :input').change(function() {
   hideAllGraphs();
 });
 
@@ -130,6 +130,6 @@ $(document).on('change', ':file', function() {
 });
 
 // Enable popovers (Boostrap Javascrip  t)
-$(function () {
-  $('[data-toggle='popover']').popover();
+$(function() {
+  $("[data-toggle='popover']").popover();
 });

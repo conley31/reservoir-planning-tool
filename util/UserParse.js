@@ -11,29 +11,31 @@ module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
-    .fromStream(inStream, {headers : ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']})
+      .fromStream(inStream, {
+        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']
+      })
 
-    .validate(function(data) {
-      return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation));
-    })
+      .validate(function(data) {
+        return (isValidDate(data.Day, data.Month, data.Year) &&
+          isValidNumber(data.Drainflow) &&
+          isValidNumber(data.Precipitation));
+      })
 
-    .on('data-invalid', function(data, index) {
-      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
-                      ',' + data.Month +
-                      ',' + data.Day +
-                      ',' + data.Drainflow +
-                      ',' + data.Precipitation));
-    })
+      .on('data-invalid', function(data, index) {
+        reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
+          ',' + data.Month +
+          ',' + data.Day +
+          ',' + data.Drainflow +
+          ',' + data.Precipitation));
+      })
 
-    .on('data', function(data) {
-      buffer.push(data);
-    })
+      .on('data', function(data) {
+        buffer.push(data);
+      })
 
-    .on('end', function() {
-      resolve(buffer);
-    });
+      .on('end', function() {
+        resolve(buffer);
+      });
   });
 };
 
@@ -58,44 +60,46 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
     var blendedArray = [];
 
     csv
-    .fromStream(inStream, {headers : ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']})
+      .fromStream(inStream, {
+        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']
+      })
 
-    .validate(function(data) {
-      return (isValidDate(data.Day, data.Month, data.Year) &&
-              isValidNumber(data.Drainflow) &&
-              isValidNumber(data.Precipitation));
-    })
+      .validate(function(data) {
+        return (isValidDate(data.Day, data.Month, data.Year) &&
+          isValidNumber(data.Drainflow) &&
+          isValidNumber(data.Precipitation));
+      })
 
-    .on('data-invalid', function(data, index) {
-      reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
-                      ',' + data.Month +
-                      ',' + data.Day +
-                      ',' + data.Drainflow +
-                      ',' + data.Precipitation));
-    })
-    .on('data', function(data) {
-      buffer.push(data);
-    })
+      .on('data-invalid', function(data, index) {
+        reject(new Error('Invalid row ' + (index + 1) + ': ' + data.Year +
+          ',' + data.Month +
+          ',' + data.Day +
+          ',' + data.Drainflow +
+          ',' + data.Precipitation));
+      })
+      .on('data', function(data) {
+        buffer.push(data);
+      })
 
-    .on('error', function(error) {
-      reject(new Error('CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))'));
-    })
+      .on('error', function(error) {
+        reject(new Error('CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))'));
+      })
 
-    .on('end', function() {
-      var dataCursor;
+      .on('end', function() {
+        var dataCursor;
 
-      db.getLocationById(id).then(function(data) {
-        var locationIndex = seek(data, buffer[0]);
-        resp = addPETs(data, buffer);
-        resp = convertToInches(resp);
-        resolve(blendArray(data, resp));
+        db.getLocationById(id).then(function(data) {
+          var locationIndex = seek(data, buffer[0]);
+          resp = addPETs(data, buffer);
+          resp = convertToInches(resp);
+          resolve(blendArray(data, resp));
+        });
       });
-    });
   });
 };
 
 function convertToInches(data) {
-  for(var i in data) {
+  for (var i in data) {
     data[i].Drainflow = data[i].Drainflow * mmToInches;
     data[i].Precipitation = data[i].Precipitation * mmToInches;
     data[i].PET = data[i].PET * mmToInches;
@@ -121,26 +125,26 @@ function convertToInches(data) {
  */
 
 function blendArray(sqlRows, userRows) {
-  var startDate = userRows[0].RecordedDate.setHours(0,0,0,0);
-  var endDate = userRows[userRows.length - 1].RecordedDate.setHours(0,0,0,0);
+  var startDate = userRows[0].RecordedDate.setHours(0, 0, 0, 0);
+  var endDate = userRows[userRows.length - 1].RecordedDate.setHours(0, 0, 0, 0);
   var blendedArray = [];
   var index = 0;
   //Add data that exists before userRows data begins
-  while(sqlRows[index].RecordedDate.setHours(0,0,0,0) < startDate) {
+  while (sqlRows[index].RecordedDate.setHours(0, 0, 0, 0) < startDate) {
     blendedArray.push(sqlRows[index]);
     ++index;
   }
   //Fill gaps inbetween dates in userRows
-  for(var i = 0; i < userRows.length - 1; i++) {
+  for (var i = 0; i < userRows.length - 1; i++) {
     blendedArray.push(userRows[i]);
-    resp = fillGaps(index, sqlRows, userRows[i], userRows[i+1]);
+    resp = fillGaps(index, sqlRows, userRows[i], userRows[i + 1]);
     index = resp[0];
     blendedArray.concat(resp[1]);
   }
   //Add data that exists after userRows end
   blendedArray.push(userRows[userRows.length - 1]);
-  while(index < sqlRows.length) {
-    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) > endDate)
+  while (index < sqlRows.length) {
+    if (sqlRows[index].RecordedDate.setHours(0, 0, 0, 0) > endDate)
       blendedArray.push(sqlRows[index]);
     ++index;
   }
@@ -167,8 +171,8 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
   endDate = new Date(userRowEnd.Year, userRowEnd.Month, userRowEnd.Day);
   var arr = [];
 
-  while(index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
-    if(sqlRows[index].RecordedDate > startDate) {
+  while (index < sqlRows.length && sqlRows[index].RecordedDate < endDate) {
+    if (sqlRows[index].RecordedDate > startDate) {
       arr.push((sqlRows[index]));
     }
     ++index;
@@ -193,9 +197,9 @@ function fillGaps(startIndex, sqlRows, userRowStart, userRowEnd) {
 
 function addPETs(sqlRows, userRows) {
   var buffer = [];
-  for(var index in userRows) {
+  for (var index in userRows) {
     resp = addPET(sqlRows, userRows[index]);
-    if(resp !== null)
+    if (resp !== null)
       buffer.push(resp);
   }
   return buffer;
@@ -222,69 +226,71 @@ function addPETs(sqlRows, userRows) {
 function addPET(sqlRows, userRow) {
   row = arraytoSQLFormat(userRow);
   index = 0;
-  while(index < sqlRows.length) {
-    if(sqlRows[index].RecordedDate.setHours(0,0,0,0) === row.RecordedDate.setHours(0,0,0,0)) {
+  while (index < sqlRows.length) {
+    if (sqlRows[index].RecordedDate.setHours(0, 0, 0, 0) === row.RecordedDate.setHours(0, 0, 0, 0)) {
       row.PET = sqlRows[index].PET;
     }
     ++index;
   }
-  if(!('PET' in row))
+  if (!('PET' in row))
     return null;
   return row;
 }
 
- /*
-  *  arraytoSQLFormat -  Changes CSVRow to match SQL format
-  *
-  *  Return - A formatted hash -
-  *  {
-  *    'RecordedDate': 1980-10-08T05:00:00.000Z,
-  *    'Drainflow': '1.2321',
-  *    'Precipitation': '9.342',
-  *    'PET': '3.21323'
-  *  }
-  *
-  */
+/*
+ *  arraytoSQLFormat -  Changes CSVRow to match SQL format
+ *
+ *  Return - A formatted hash -
+ *  {
+ *    'RecordedDate': 1980-10-08T05:00:00.000Z,
+ *    'Drainflow': '1.2321',
+ *    'Precipitation': '9.342',
+ *    'PET': '3.21323'
+ *  }
+ *
+ */
 
- function arraytoSQLFormat(CSVRow) {
-   var row = {'RecordedDate': new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
-              'Drainflow': CSVRow.Drainflow,
-              'Precipitation': CSVRow.Precipitation,
-              'PET': null};
-    return row;
- }
+function arraytoSQLFormat(CSVRow) {
+  var row = {
+    'RecordedDate': new Date(CSVRow.Year, CSVRow.Month - 1, CSVRow.Day),
+    'Drainflow': CSVRow.Drainflow,
+    'Precipitation': CSVRow.Precipitation,
+    'PET': null
+  };
+  return row;
+}
 
- /*
-  *  seek -  Finds the first date in an array(rows) that is equal to or greater than
-  *          the first row(firstBuf) date from the user uploaded CSV.
-  *
-  *  Return - int of the index in rows where date is greater.
-  *
-  */
+/*
+ *  seek -  Finds the first date in an array(rows) that is equal to or greater than
+ *          the first row(firstBuf) date from the user uploaded CSV.
+ *
+ *  Return - int of the index in rows where date is greater.
+ *
+ */
 
 function seek(rows, firstBuf) {
   var i = 0;
-  while(rows[i].RecordedDate < new Date(firstBuf.Year, firstBuf.Month - 1, firstBuf.Day))
+  while (rows[i].RecordedDate < new Date(firstBuf.Year, firstBuf.Month - 1, firstBuf.Day))
     i++;
   return ++i;
 }
 
 function isValidDate(day, month, year) {
-  if(Number(day) != day)
+  if (Number(day) != day)
     return false;
 
-  if(Number(month) != month)
+  if (Number(month) != month)
     return false;
 
-  if(Number(year) != year)
+  if (Number(year) != year)
     return false;
 
-  if(year < 1900 || year > 3000 || month < 1 || month > 12)
+  if (year < 1900 || year > 3000 || month < 1 || month > 12)
     return false;
 
-  var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+  var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  if(year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
+  if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
     monthLength[1] = 29;
 
   return day > 0 && day <= monthLength[month - 1];
@@ -303,11 +309,11 @@ Date.prototype.addDays = function(days) {
 
 Date.prototype.toShortString = function() {
   var yyyy = this.getFullYear().toString();
-  var mm = (this.getMonth()+1).toString();
-  var dd  = this.getDate().toString();
+  var mm = (this.getMonth() + 1).toString();
+  var dd = this.getDate().toString();
 
   var mmChars = mm.split('');
   var ddChars = dd.split('');
 
-  return yyyy + '-' + (mmChars[1]?mm:'0'+mmChars[0]) + '-' + (ddChars[1]?dd:'0'+ddChars[0]);
+  return yyyy + '-' + (mmChars[1] ? mm : '0' + mmChars[0]) + '-' + (ddChars[1] ? dd : '0' + ddChars[0]);
 };

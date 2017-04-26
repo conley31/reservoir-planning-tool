@@ -1,8 +1,7 @@
 //Data used to fill in form in /views/partials/calculator-input.ejs
 
 exports.getPondArray = function() {
-  var pondArray = [
-    {
+  var pondArray = [{
       label: 'Smallest Pond Volume',
       value: '10',
       name: 'pondVolSmallest',
@@ -36,11 +35,10 @@ exports.getPondArray = function() {
     }
   ];
   return pondArray;
-}
+};
 
 exports.getIrrigationArray = function() {
-  var irrigationArray = [
-    {
+  var irrigationArray = [{
       label: 'Irrigation Area',
       value: '80',
       name: 'irrigatedArea',
@@ -70,4 +68,4 @@ exports.getIrrigationArray = function() {
   ];
 
   return irrigationArray;
-}
+};

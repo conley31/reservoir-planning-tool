@@ -11,33 +11,33 @@ var db = require('../db');
 var userparse = require('./UserParse');
 
 /* monthlyData will be an object that is used inside of allYears to represent each month */
-function monthlyData(){
+function monthlyData() {
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
   this.pondWaterDepth = 0;
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
-_maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) {
+  _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) {
 
   var params = arguments;
 
   return new Promise(function(resolve, reject) {
     /* Sanitize inputs from client */
-    for(var prop in params){
+    for (var prop in params) {
       /* The only paramter that is allowed to be undefined is _csvFileStream */
-        if(prop !== (params.length - 1).toString()){
-          if(typeof params[prop] === 'undefined'){
-             reject(new Error('Undefined Input:' + prop));
-          }
+      if (prop !== (params.length - 1).toString()) {
+        if (typeof params[prop] === 'undefined') {
+          reject(new Error('Undefined Input:' + prop));
         }
+      }
     }
 
-    if( (_pondVolLargest - _pondVolSmallest) < 0  || _pondDepth <= 0 || _pondVolSmallest <= 0 ){
-        reject(new Error('Invalid Input Creating Divide By Zero Error'));
+    if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest <= 0) {
+      reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
 
-    pullData(_locationId, _csvFileStream).then(function(data){
+    pullData(_locationId, _csvFileStream).then(function(data) {
       /*dailyData is an object that will be used for creating downloadable CSV */
       var dailyData = {};
       /* allYears stores data for graphs on the client */
@@ -55,7 +55,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
       for (var i = 0; i <= numberOfIncrements; i++) {
         var pondVol = _pondVolSmallest + (i * _pondVolIncrement);
         increments[i] = pondVol;
-        var pondArea = pondVol/_pondDepth;
+        var pondArea = pondVol / _pondDepth;
         dailyData[pondVol] = [];
 
         /*
@@ -63,7 +63,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
                    DAY-1 VALUES
         ***********************************************
         */
-        var soilMoistureDepthDayPrev = _maxSoilMoisture;	//inches
+        var soilMoistureDepthDayPrev = _maxSoilMoisture; //inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
 
 
@@ -79,11 +79,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var currentMonth = currentDate.getMonth();
 
 
-          if(initialYear === null){
+          if (initialYear === null) {
             initialYear = currentYear;
           }
 
-          var inflowVolDay = (data[j].Drainflow/12) * _drainedArea;
+          var inflowVolDay = (data[j].Drainflow / 12) * _drainedArea;
           var precipDepthDay = data[j].Precipitation;
           var evapDepthDay = data[j].PET;
 
@@ -91,14 +91,14 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
 
-          var evapVolDay = (evapDepthDay/12) * pondArea;
-          var pondPrecipVolDay = (precipDepthDay/12) * pondArea;
+          var evapVolDay = (evapDepthDay / 12) * pondArea;
+          var pondPrecipVolDay = (precipDepthDay / 12) * pondArea;
 
 
           var soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay);
 
           /* soilMoistureDepthDay cannot be negative */
-          if( soilMoistureDepthDay < 0 ){
+          if (soilMoistureDepthDay < 0) {
             soilMoistureDepthDay = 0;
           }
 
@@ -106,13 +106,13 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
 
-            irrigationVolDay = (_irrigationDepth/12) * _irrigationArea;
+            irrigationVolDay = (_irrigationDepth / 12) * _irrigationArea;
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
 
-            soilMoistureDepthDay = (soilMoistureDepthDayPrev+precipDepthDay+((irrigationVolDay*12)/_irrigationArea)-evapDepthDay);
+            soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay + ((irrigationVolDay * 12) / _irrigationArea) - evapDepthDay);
           }
 
 
@@ -120,7 +120,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
           /* pondWaterVolDay cannot be negative */
-          if(pondWaterVolDay < 0){
+          if (pondWaterVolDay < 0) {
             pondWaterVolDay = 0;
           }
 
@@ -131,7 +131,7 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           }
 
 
-          var pondWaterDepthDay = pondWaterVolDay/pondArea;
+          var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
           /*
           **************************************************************************************************************
@@ -159,53 +159,57 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
           pondWaterVolDayPrev = pondWaterVolDay;
 
 
-          if(typeof allYears[currentYear - initialYear] === 'undefined'){
+          if (typeof allYears[currentYear - initialYear] === 'undefined') {
             allYears[currentYear - initialYear] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i] === 'undefined'){
+          if (typeof allYears[currentYear - initialYear][i] === 'undefined') {
             allYears[currentYear - initialYear][i] = [];
           }
-          if(typeof allYears[currentYear - initialYear][i][currentMonth] === 'undefined'){
-           allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
+          if (typeof allYears[currentYear - initialYear][i][currentMonth] === 'undefined') {
+            allYears[currentYear - initialYear][i][currentMonth] = new monthlyData();
           }
 
 
-        /* The values for bypassFlowVol and deficitVol are cumulative */
+          /* The values for bypassFlowVol and deficitVol are cumulative */
 
-        if( allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0 ) {
-         if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== 'undefined' ){
-            allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth-1].bypassFlowVol;
+          if (allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0) {
+            if (currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth - 1] !== 'undefined') {
+              allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol = allYears[currentYear - initialYear][i][currentMonth - 1].bypassFlowVol;
+            }
           }
+
+          if (allYears[currentYear - initialYear][i][currentMonth].deficitVol === 0) {
+            if (currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth - 1] !== 'undefined') {
+              allYears[currentYear - initialYear][i][currentMonth].deficitVol = allYears[currentYear - initialYear][i][currentMonth - 1].deficitVol;
+            }
+          }
+
+
+          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
+
         }
-
-        if( allYears[currentYear - initialYear][i][currentMonth].deficitVol === 0 ) {
-          if( currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth-1] !== 'undefined' ){
-            allYears[currentYear - initialYear][i][currentMonth].deficitVol = allYears[currentYear - initialYear][i][currentMonth-1].deficitVol;
-          }
-        }
-
-
-        allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
-        allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
-        allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
 
       }
 
-    }
+      resolve({
+        graphData: allYears,
+        incData: increments,
+        firstYearData: initialYear,
+        dailyData: dailyData
+      });
 
-    resolve({ graphData: allYears, incData: increments, firstYearData: initialYear, dailyData: dailyData });
-
-}).catch(function(reason) {
+    }).catch(function(reason) {
       if (reason.message.includes('ECONNREFUSED')) {
         console.error('Error connecting to MySQL. Did you start MySQL?');
         reason.message = 'Error connecting to MySQL: ' + reason.message;
-      }
-      else if (reason.message.includes('CSV')) {
+      } else if (reason.message.includes('CSV')) {
         reason.message = 'Invalid CSV: ' + reason.message;
       }
       reject(reason);
 
-    })
+    });
   });
 };
 
@@ -223,12 +227,11 @@ _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _l
  *  }, ...]
  *
  */
- function pullData(_locationId, stream) {
+function pullData(_locationId, stream) {
   return new Promise(function(resolve, reject) {
-    if(typeof stream != 'undefined') {
+    if (typeof stream != 'undefined') {
       resolve(userparse.verifyAndBlendUserCSV(_locationId, stream));
-    }
-    else {
+    } else {
       resolve(db.getLocationById(_locationId));
     }
   });

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 <% include partials/head %>
-<body>
-  <% include partials/header %>
-  <div id="main">
-    <div class="card-container">
-      <div class="card">
-        <h1><%= error %></h1>
+
+  <body>
+    <% include partials/header %>
+      <div id="main">
+        <div class="card-container">
+          <div class="card">
+            <h1><%= error %></h1>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <% include partials/footer %>
-  <% include partials/scripts %>
-</body>
+      <% include partials/footer %>
+        <% include partials/scripts %>
+  </body>
+
 </html>
