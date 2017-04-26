@@ -278,6 +278,8 @@ span p {
 /*downloading CSV*/
 #download-csv {
   color: white;
+  display: none;
+  background: #e59b06
 }
 /*Graphs*/
 #graph-body, #graph2-body, #graph3-body {
@@ -319,13 +321,6 @@ select {
   color: black;
 }
 
-.buffer-container {
-  height: inherit;
-  width: inherit;
-  position:absolute;
-  z-index:1000;
-  background: #357cce;
-}
 
 /*Footer*/
 footer {
@@ -438,11 +433,20 @@ footer img {
 
 
 /*Buffer Animation*/
+
+.buffer-container {
+  height: inherit;
+  width: inherit;
+  position:absolute;
+  z-index:1000;
+  background: white;
+}
+
 .loader {
     margin: auto;
     margin-top: 17%;
-    border: 10px solid #fff; /*white*/
-    border-right: 10px solid #357cce;
+    border: 10px solid #357cce; /*white*/
+    border-right: 10px solid white;
     border-radius: 50%;
     width: 120px;
     height: 120px;
