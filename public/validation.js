@@ -50,5 +50,10 @@ function validateCalculatorInput() {
     validation = false;
   }
 
+  if(inputs[2].value > (inputs[1].value - inputs[0].value)) {
+    errors.push('Pond increment cannot be larger than the difference between the largest and smallest pond volumes.');
+    validation = false;
+  }
+
   return [validation, errors];
 }
