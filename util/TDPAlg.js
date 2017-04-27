@@ -27,7 +27,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
     for (var prop in params) {
       /* The only paramter that is allowed to be undefined is _csvFileStream */
       if (prop !== (params.length - 1).toString()) {
-        if (typeof params[prop] === 'undefined') {
+        if (typeof params[prop] !== 'number') {
           reject(new Error('Undefined Input:' + prop));
         }
       }
