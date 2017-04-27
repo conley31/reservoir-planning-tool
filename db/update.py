@@ -5,7 +5,7 @@ import csv, json, datetime, os, sys, time
 from datetime import datetime as dt
 from sql_statements import *
 
-with open('../config/config.json') as json_data:
+with open('config/config.json') as json_data:
   config = json.load(json_data)
 
 host = config.get('mysql').get('host')
@@ -15,7 +15,7 @@ database = config.get('mysql').get('database')
 log_location = config.get('mysql').get('logLocation')
 
 INCH_FACTOR = 0.03937007874
-index_file = 'index.csv'
+index_file = 'db/index.csv'
 
 con = None
 cur = None
@@ -106,7 +106,7 @@ def removeOldTables():
       print 'Removed Table: Location' + locationID
 
 def checkDataFile(locationID, fileName):
-  data_last_modified = dt.fromtimestamp(os.path.getmtime('daily_files/' + fileName))
+  data_last_modified = dt.fromtimestamp(os.path.getmtime('db/daily_files/' + fileName))
   if data_last_modified > getLastUpdateTime():
     cur.execute(drop_table.format(locationID))
     con.commit()
