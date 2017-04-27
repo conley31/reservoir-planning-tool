@@ -69,7 +69,7 @@ def toStrDate(year, month, day):
   return (year + '-' + month + '-' + day)
 
 def ParseDailyData(table_id, textFile):
-  with open('daily_files/' + textFile, 'rb') as csvfile:
+  with open('db/daily_files/' + textFile, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       date = toStrDate(row[0],row[1],row[2])
