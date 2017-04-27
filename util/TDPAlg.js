@@ -37,6 +37,10 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
 
+    if (_pondVolIncrement > (_pondVolLargest - _pondVolSmallest)) {
+      reject(new Error('Pond increment cannot be larger than the difference between the largest and smallest pond volumes.'));
+    }
+
     pullData(_locationId, _csvFileStream).then(function(data) {
       /*dailyData is an object that will be used for creating downloadable CSV */
       var dailyData = {};
