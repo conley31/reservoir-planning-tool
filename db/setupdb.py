@@ -4,7 +4,7 @@ import MySQLdb as db
 import csv, json, time, sys, os.path
 from sql_statements import *
 
-with open('../config/config.json') as json_data:
+with open('config/config.json') as json_data:
     config = json.load(json_data)
 
 host = config.get('mysql').get('host')
@@ -16,7 +16,7 @@ log_location = config.get('mysql').get('logLocation')
 con = None
 cur = None
 
-index_file = 'index.csv'
+index_file = 'db/index.csv'
 
 INCH_FACTOR = 0.03937007874
 
@@ -24,7 +24,7 @@ def toStrDate(year, month, day):
   return (year + '-' + month + '-' + day)
 
 def ParseDailyData(table_id, textFile):
-  with open('daily_files/' + textFile, 'rb') as csvfile:
+  with open('db/daily_files/' + textFile, 'rb') as csvfile:
     stream = csv.reader(csvfile, delimiter=',')
     for row in stream:
       date = toStrDate(row[0],row[1],row[2])

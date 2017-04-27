@@ -4,7 +4,7 @@ import MySQLdb as db
 import json, os
 from sql_statements import *
 
-with open('../config/config.json') as json_data:
+with open('config/config.json') as json_data:
     config = json.load(json_data)
 
 host = config.get('mysql').get('host')
