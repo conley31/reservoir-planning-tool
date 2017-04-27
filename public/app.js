@@ -23,6 +23,7 @@ var hideAllGraphs = function() {
   hideGraphThree();
   hideGraphTwo();
   hideGraphOne();
+  hideDownloadButton();
 };
 
 //show graph nav button
@@ -109,6 +110,11 @@ var hideGraphThree = function() {
   $('#year-dropdown').fadeOut('fast', function() {
     $('#graph3-body').fadeOut('fast');
   });
+};
+
+//Hides download button for CSV
+var hideDownloadButton = function() {
+  $('#download-csv').fadeOut('fast');
 };
 
 // Initialize the error Modal
