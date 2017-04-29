@@ -15,9 +15,10 @@ nav {
 }
 
 .navbar {
-  border-radius: 0;
   height: 5vh;
   background: #357cce;
+
+  border-radius: 0;
   border-top: 3px solid #357cce;
   border-bottom: 4px solid #357cce;
 }
@@ -27,6 +28,7 @@ nav {
   float: left;
   height: 100%;
   background: white;
+
   border-right: 10px solid white;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -40,6 +42,8 @@ nav {
 #title-container {
     float left;
     height: 100%;
+
+    /*verticle center*/
     display:flex;
     justify-content:center;
     align-items:center;
@@ -50,6 +54,7 @@ nav {
   padding-right: 10px;
   margin: 0;
   width: auto;
+
   font-size: 2.5em;
   color: #357cce;
   background: white;
@@ -76,7 +81,6 @@ h3 {
   font-size: 1.6em;
 }
 
-
 label {
   font-size: 1.2em;
 }
@@ -92,9 +96,14 @@ button {
 
 .btn:hover {
   color: #eee;
+
   -webkit-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   -moz-box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
+}
+
+select {
+  color: black;
 }
 
 /*Card Layout*/
@@ -102,6 +111,7 @@ button {
   min-width: 500px;
   width: 80vw;
   height: auto;
+
   position: relative;
   margin: 0 auto;
   padding-bottom: 100px;
@@ -111,6 +121,7 @@ button {
   display: block;
   width: inherit;
   height: auto;
+
   margin: 20px 0;
   overflow: hidden;
   background: white;
@@ -142,6 +153,7 @@ button {
 #pseudo-nav button {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
   background: #1b83e5;
   color: white;
 }
@@ -170,6 +182,33 @@ button {
   height: inherit;
   position:relative;
   z-index:500;
+}
+
+#places-input {
+  position: relative !important;
+  float: right;
+  left:-15px !important;
+
+  height: 40px;
+  width: 30vw;
+  min-width: 250px;
+  max-width: 400px;
+
+  margin-top: 10px;
+  padding: 0px 0px 0px 50px;
+
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+  -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+
+  font-size: 1.4em;
+
+  background-color: white;
+  background: url('search-back.png') no-repeat;
+  background-size: cover;
+
+  border-style: none;
+  border-radius: 5px;
 }
 
 #map-submit {
@@ -201,6 +240,7 @@ button {
 
 .input-container {
   margin: auto;
+
   width: 70%;
   min-width: 160px;
   max-width: 300px;
@@ -288,8 +328,10 @@ span p {
 #graph-1, #graph-2, #graph-3 {
   width: inherit;
   height: 80vh;
+
   margin: 10px;
   padding: 0;
+
   float: none;
   vertical-align:  middle;
 }
@@ -297,15 +339,11 @@ span p {
 #graph-desc {
   width: inherit;
   margin: 10px;
-  font-size: 1.3em;
   padding: 0 10px 10px 10px;
+
+  font-size: 1.3em;
   border-radius: 5px;
   background: #eee;
-}
-
-#graph-buffer {
-  height: 80vh;
-  width:  100%;
 }
 
 /*Dropdowns*/
@@ -316,17 +354,13 @@ span p {
   border-radius: 5px;
 }
 
-select {
-  color: black;
-}
-
-
 /*Footer*/
 footer {
   position: relative;
   z-index: 10;
   left: 0;
   bottom: 0;
+
   width: 100%;
   background-color: #eee;
   padding: 10px;
@@ -334,6 +368,7 @@ footer {
 
 #footer-container {
   height: 100px;
+
   display: flex;
   align-items: center;
 }
@@ -373,6 +408,7 @@ footer img {
 #form-data hr.divider {
   border-top: 1px solid #222;
   text-align: center;
+
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -386,27 +422,6 @@ footer img {
   background: #eee;
   color: #555;
   font-size: 18px;
-}
-
-#places-input {
-  position: relative !important;
-  float: right;
-  left:-15px !important;
-  margin-top: 10px;
-  height: 40px;
-  width: 30vw;
-  min-width: 250px;
-  max-width: 400px;
-  padding: 0px 0px 0px 50px;
-  -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
-  -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
-  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
-  font-size: 1.4em;
-  background-color: white;
-  background: url('search-back.png') no-repeat;
-  background-size: cover;
-  border-style: none;
-  border-radius: 5px;
 }
 
 /* Error Modal */
@@ -431,7 +446,6 @@ footer img {
 
 
 /*Buffer Animation*/
-
 .buffer-container {
   height: inherit;
   width: inherit;
@@ -440,12 +454,19 @@ footer img {
   background: white;
 }
 
+#graph-buffer {
+  height: 80vh;
+  width:  100%;
+}
+
 .loader {
     margin: auto;
     margin-top: 17%;
+
     border: 10px solid #357cce; /*white*/
     border-right: 10px solid white;
     border-radius: 50%;
+
     width: 120px;
     height: 120px;
     animation: spin 3s ease infinite;
