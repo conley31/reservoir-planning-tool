@@ -5,20 +5,19 @@ var csv = require('fast-csv'),
 
 var dateTrack = null;
 
-var mmToInches = 0.0393701;
-
 module.exports.readUserCSV = function(inStream) {
   return new Promise(function(resolve, reject) {
     var buffer = [];
     csv
       .fromStream(inStream, {
-        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']
+        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation', 'PET']
       })
 
       .validate(function(data) {
         return (isValidDate(data.Day, data.Month, data.Year) &&
           isValidNumber(data.Drainflow) &&
-          isValidNumber(data.Precipitation));
+          isValidNumber(data.Precipitation) &&
+          isValidNumber(data.PET));
       })
 
       .on('data-invalid', function(data, index) {
@@ -26,7 +25,8 @@ module.exports.readUserCSV = function(inStream) {
           ',' + data.Month +
           ',' + data.Day +
           ',' + data.Drainflow +
-          ',' + data.Precipitation));
+          ',' + data.Precipitation +
+          ',' + data.PET));
       })
 
       .on('data', function(data) {
@@ -61,13 +61,14 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
 
     csv
       .fromStream(inStream, {
-        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation']
+        headers: ['Year', 'Month', 'Day', 'Drainflow', 'Precipitation', 'PET']
       })
 
       .validate(function(data) {
         return (isValidDate(data.Day, data.Month, data.Year) &&
           isValidNumber(data.Drainflow) &&
-          isValidNumber(data.Precipitation));
+          isValidNumber(data.Precipitation) &&
+          isValidNumber(data.PET));
       })
 
       .on('data-invalid', function(data, index) {
@@ -75,36 +76,40 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
           ',' + data.Month +
           ',' + data.Day +
           ',' + data.Drainflow +
-          ',' + data.Precipitation));
+          ',' + data.Precipitation +
+          ',' + data.PET +
+          '\n CSV Format(Year, Month, Day, Drainflow(in), Precipitation(in), PET(in))'));
       })
       .on('data', function(data) {
         buffer.push(data);
       })
 
       .on('error', function(error) {
-        reject(new Error('CSV Format(Year, Month, Day, Drainflow(mm), Precipitation(mm))'));
+        reject(new Error('CSV Format(Year, Month, Day, Drainflow(in), Precipitation(in), PET(in))'));
       })
 
       .on('end', function() {
         var dataCursor;
 
         db.getLocationById(id).then(function(data) {
-          var locationIndex = seek(data, buffer[0]);
-          resp = addPETs(data, buffer);
-          resp = convertToInches(resp);
-          resolve(blendArray(data, resp));
+          var userRows = toSQLFormat(buffer);
+          resolve(blendArray(data, userRows));
         });
       });
   });
 };
 
-function convertToInches(data) {
-  for (var i in data) {
-    data[i].Drainflow = data[i].Drainflow * mmToInches;
-    data[i].Precipitation = data[i].Precipitation * mmToInches;
-    data[i].PET = data[i].PET * mmToInches;
+function toSQLFormat(userRows) {
+  var sqlRowsFormat = [];
+  for(var i = 0; i < userRows.length; i++) {
+    sqlRowsFormat.push({
+      RecordedDate: new Date(userRows[i].Year, userRows[i].Month - 1, userRows[i].Day),
+      Drainflow: userRows[i].Drainflow,
+      Precipitation: userRows[i].Precipitation,
+      PET: userRows[i].PET
+    });
   }
-  return data;
+  return sqlRowsFormat;
 }
 
 /*
@@ -130,7 +135,7 @@ function blendArray(sqlRows, userRows) {
   var blendedArray = [];
   var index = 0;
   //Add data that exists before userRows data begins
-  while (sqlRows[index].RecordedDate.setHours(0, 0, 0, 0) < startDate) {
+  while (sqlRows.length > index && sqlRows[index].RecordedDate.setHours(0, 0, 0, 0) < startDate) {
     blendedArray.push(sqlRows[index]);
     ++index;
   }
@@ -298,7 +303,7 @@ function isValidDate(day, month, year) {
 }
 
 function isValidNumber(n) {
-  return (!isNaN(n) && Number(n) >= 0);
+  return (!isNaN(n) && Number(n) >= 0 && n !== '');
 }
 
 Date.prototype.addDays = function(days) {
