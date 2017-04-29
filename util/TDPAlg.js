@@ -33,6 +33,15 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       }
     }
 
+    /*          
+      *********************************NEEDED ERROR CHECKS****************************************
+      -pondVolLargest cannot be smaller than the smallest.
+      -pondDepth cannot be less than or equal to zero.
+      -pondVolSmallest cannot be less than or equal to zero.
+      -pondVolIncrement cannot be greater than the difference in smallest and largest pond volume.
+      ******************************************************************************************** 
+
+    */
     if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest <= 0) {
       reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
@@ -174,7 +183,10 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           }
 
 
-          /* The values for bypassFlowVol and deficitVol are cumulative */
+          /*****************************************************************************************
+             The values for bypassFlowVol and deficitVol are cumulative. If the current month value
+             is zero then it is safe to add the previous month's values into current month.
+          ******************************************************************************************/
 
           if (allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol === 0) {
             if (currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth - 1] !== 'undefined') {

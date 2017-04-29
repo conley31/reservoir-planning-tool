@@ -1,4 +1,6 @@
-/* The following functions need to be used to grab needed graphing data for a specific graph */
+/* The following functions are logically the same as what is
+   in /public/generateGraphData.js, but are only used here for testing purposes.
+*/
 
 //all of these will need access to the return array from TDPAlg.calc()
 
