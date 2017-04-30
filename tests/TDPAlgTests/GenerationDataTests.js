@@ -15,7 +15,6 @@ function fillArr(array, size, round2) {
 
 //Generate allYears array
 var allYears = new Array(2);
-//allYears.fill([[],[]],0);
 fillArr(allYears, 2, true);
 
 for (var i = 0; i < allYears.length; i++) {
@@ -30,7 +29,6 @@ for (var i = 0; i < allYears.length; i++) {
 }
 
 var allYears2 = new Array(2);
-//allYears2.fill([ [], [] ], 0);
 fillArr(allYears2, 2, true);
 
 for (var i = 0; i < allYears2.length; i++) {
@@ -70,7 +68,6 @@ for (var i = 0; i < allYears3.length; i++) {
 }
 
 var allYears4 = new Array(5);
-//allYears4.fill([ [], [], [] ], 0);
 fillArr(allYears4, 3, true);
 
 for (var i = 0; i < allYears4.length; i++) {
@@ -85,7 +82,6 @@ for (var i = 0; i < allYears4.length; i++) {
 }
 
 var allYears5 = new Array(5);
-//allYears4.fill([ [], [], [] ], 0);
 fillArr(allYears5, 3, true);
 
 for (var i = 0; i < allYears5.length; i++) {
@@ -100,7 +96,6 @@ for (var i = 0; i < allYears5.length; i++) {
 }
 
 var allYears6 = new Array(6);
-//allYears4.fill([ [], [], [] ], 0);
 fillArr(allYears6, 3, true);
 
 for (var i = 0; i < allYears6.length; i++) {
@@ -115,7 +110,6 @@ for (var i = 0; i < allYears6.length; i++) {
 }
 
 var allYears7 = new Array(2);
-//allYears.fill([[],[]],0);
 fillArr(allYears7, 2, true);
 
 for (var i = 0; i < allYears7.length; i++) {
@@ -134,7 +128,6 @@ for (var i = 0; i < allYears7.length; i++) {
 }
 
 var allYears8 = new Array(5);
-//allYears4.fill([ [], [], [] ], 0);
 fillArr(allYears8, 3, true);
 
 for (var i = 0; i < allYears8.length; i++) {

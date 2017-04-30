@@ -36,10 +36,12 @@
                 </div>
               </div>
             </div>
+
             <div class="col-xs-12 text-center">
               <br>
               <p>For drain flow, there are two options:</p>
             </div>
+
             <div class="col-xs-12">
               <div class="form-card-container">
                 <div class="row">
@@ -69,14 +71,16 @@
               </div>
             </div>
           </span>
+
         </div>
-      </div>
+      </div> <!-- end drainage column -->
 
       <!-- Pond size and initial depth -->
       <div class="col-sm-4">
         <label class="input-group">Pond Size and Initial Depth</label>
         <hr>
         <div class="row">
+          <!-- ejs template taking pondArray from util/input-text.js -->
           <% for(var i = 0; i < pondArray.length; i++) { %>
             <div class="col-xs-12">
               <div class="form-card-container">
@@ -99,15 +103,16 @@
                 </div>
               </div>
             </div>
-          <% } %>
+          <% } %> <!-- end of template -->
         </div>
-      </div>
+      </div><!-- end pond size column -->
 
       <!-- Irrigation -->
       <div class="col-sm-4">
         <label class="input-group">Irrigation</label>
         <hr>
         <div class="row">
+          <!-- ejs template taking irrigationArray from util/input-text.js -->
           <% for(var i = 0; i < irrigationArray.length; i++) { %>
             <div class="col-xs-12">
               <div class="form-card-container">
@@ -132,7 +137,8 @@
             </div>
           <% } %>
         </div>
-      </div>
+      </div> <!-- end irrigation column -->
+
     </div> <!-- end row -->
   </div> <!-- end form group -->
 

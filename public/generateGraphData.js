@@ -4,6 +4,9 @@
 document.generateGraphData = {};
 document.months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
+/* fillThree and fillFour are both setup functions for output arrays for
+   each graph generating function below */
+   
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
 		array[i] = new Array(3);
@@ -17,6 +20,7 @@ function fillFour(array){
 		array[i].fill(0, 0);
 	}
 }
+/* This is used to return the yearly cumulative value of the last recorded month */
 function latestIndex(arr){
 	for(var i = (arr.length -1); i >= 0; i--){
 		if(typeof arr[i] !== 'undefined'){
@@ -24,10 +28,12 @@ function latestIndex(arr){
 		}
 	}
 }
+/* Used to determine if a given year is a leap year. */
 function leapYear(year){
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
 
+/* Returns the number of days in a given month of a given year */
 function daysInMonth(month, year){
 	if(month === 1){
 		if(leapYear(year)){
@@ -93,7 +99,7 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 		return vol === specificPondVolume;
 	});
 
-
+	/* Loop over all years and months with specific increment */
 	for(var i = 0; i < allYears.length; i++){
 		if(allYears[i] && allYears[i][currentIncrement] && typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
@@ -122,7 +128,7 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 
 document.generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
-	var outputArray = new Array(12);	//this array will be contain an array for every month
+	var outputArray = new Array(12);	//this array will contain an array for every month
 	fillFour(outputArray);
 
 	var currentIncrement = increments.findIndex(function(vol) {
@@ -131,8 +137,9 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 	var yearIndex = specificYear - initialYear;
 
 
-	if(allYears[yearIndex] && typeof allYears[yearIndex] !== 'undefined' && allYears[yearIndex][currentIncrement] && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 
+	if(allYears[yearIndex] && typeof allYears[yearIndex] !== 'undefined' && allYears[yearIndex][currentIncrement] && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
+	/* Loop through all months using the specified year and volume increment */
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== 'undefined'){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
