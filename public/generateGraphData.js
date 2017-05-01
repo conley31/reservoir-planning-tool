@@ -101,7 +101,7 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 
 	/* Loop over all years and months with specific increment */
 	for(var i = 0; i < allYears.length; i++){
-		if(allYears[i][currentIncrement] && typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
+		if(allYears[i] && allYears[i][currentIncrement] && typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
 				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== 'undefined'){
 					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
@@ -136,8 +136,10 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 	});
 	var yearIndex = specificYear - initialYear;
 
+
+
+	if(allYears[yearIndex] && typeof allYears[yearIndex] !== 'undefined' && allYears[yearIndex][currentIncrement] && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 	/* Loop through all months using the specified year and volume increment */
-	if(typeof allYears[yearIndex] !== 'undefined' && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== 'undefined'){
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
