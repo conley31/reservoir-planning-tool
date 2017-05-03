@@ -4,8 +4,11 @@
 $('#map-nav').click(function() {
 
   //show change on pseudo nav
-  $(this).addClass('active-button');
-  $('#graph-nav').removeClass('active-button');
+  $('#map-nav').fadeIn('fast', function() {
+    //show change on pseudo nav
+    $(this).addClass('active-button');
+    $('#graph-nav').removeClass('active-button');
+  });
 
   $('#graph-nav-display').fadeOut('fast', function() {
     $('#map-submit').fadeOut('fast');
@@ -25,6 +28,19 @@ var hideAllGraphs = function() {
   hideGraphOne();
   hideDownloadButton();
 };
+
+//toggle checkmark on drain flow options
+$('.flow-option').click(function() {
+  if ($(this).children('span').css('display') === 'none') {
+    $('.flow-option > span').toggle();
+
+    if ($(this).attr('id') == 'option-2') {
+      $('#map-nav').click();
+    } else {
+      $('#map-nav').fadeOut('fast');
+    }
+  }
+});
 
 //show graph nav button
 $('#map-submit').click(function() {
