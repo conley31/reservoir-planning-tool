@@ -25,7 +25,7 @@ function validateCalculatorInput() {
                 value: parseFloat(document.forms['calculator-input'].drainedArea.value) });
 
   for(var i = 0; i < inputs.length; i++) {
-    if((i === 0 || i === 3) && inputs[i].value <= 0) {
+    if(i === 3 && inputs[i].value <= 0) {
       errors.push(inputs[i].name + ' must be greater than 0');
       validation = false;
       continue;
