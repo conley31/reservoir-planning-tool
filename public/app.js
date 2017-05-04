@@ -13,7 +13,9 @@ $('#map-nav').click(function() {
   $('#graph-nav-display').fadeOut('fast', function() {
     $('#map-submit').fadeOut('fast');
     $('#map-nav-display').fadeIn('fast');
+    var centerBeforeResize = document.map.getCenter();
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
+    document.map.setCenter(centerBeforeResize); //re-center map after resize
   });
 });
 
