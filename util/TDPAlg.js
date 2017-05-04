@@ -25,8 +25,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
   return new Promise(function(resolve, reject) {
     /* Sanitize inputs from client */
     for (var prop in params) {
-      /* The only paramter that is allowed to be undefined is _csvFileStream */
-      if (prop !== (params.length - 1).toString()) {
+      /* The only paramters that are allowed to be undefined is _csvFileStream and _locationId */
+      if (prop !== (params.length - 1).toString() && prop !== (params.length - 2)) {
         if (typeof params[prop] !== 'number') {
           reject(new Error('Undefined Input:' + prop));
         }

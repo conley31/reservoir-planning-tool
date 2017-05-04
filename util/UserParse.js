@@ -91,10 +91,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       .on('end', function() {
         var dataCursor;
 
-        db.getLocationById(id).then(function(data) {
-          var userRows = toSQLFormat(buffer);
-          resolve(blendArray(data, userRows));
-        });
+        resolve(toSQLFormat(buffer));
+        //activate to re-enable blending user and db data (requires location id)
+        // db.getLocationById(id).then(function(data) {
+        //   var userRows = toSQLFormat(buffer);
+        //   resolve(blendArray(data, userRows));
+        // });
       });
   });
 };
