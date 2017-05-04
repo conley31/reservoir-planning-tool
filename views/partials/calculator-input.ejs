@@ -45,8 +45,8 @@
             <div class="col-xs-12">
               <div class="form-card-container">
                 <div class="row">
-                  <div class="col-xs-12 text-center label-card flow-option" id="option-1" style="padding-top: 10px;">
-                    <span class="glyphicon glyphicon-ok-sign" style="color: green"></span>
+                  <div class="col-xs-12 text-center label-card" style="padding-top: 10px;">
+                    <input type="radio" name="flowOption" value="option1" checked style="float: left"/>
                     <p>Option 1: Upload .csv file with daily values of date, precipitation, flow, evaporation
                       <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Enter a comma separated file with the following six columns: Year, Month, Day, Drain flow (in), Precipitation (in), Evaporation (in). The Sizing Tool will use any range of dates that you provide and can start at any time of year, but full years are recommended."></span>
                     </p>
@@ -64,8 +64,8 @@
                   <div class="col-xs-12 label-card">
                       <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
                   </div>
-                  <div class="col-xs-12 text-center label-card flow-option" id="option-2">
-                    <span class="glyphicon glyphicon-ok-sign" style="color: green; display: none;"></span>
+                  <div class="col-xs-12 text-center label-card">
+                    <input type="radio" name="flowOption" value="option2" style="float: left"/>
                     <p>Option 2: Select a location and use 30-year model estimates
                       <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="If this is selected, the map option appears."></span>
                     </p>

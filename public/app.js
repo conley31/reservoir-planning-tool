@@ -31,16 +31,12 @@ var hideAllGraphs = function() {
   hideDownloadButton();
 };
 
-//toggle checkmark on drain flow options
-$('.flow-option').click(function() {
-  if ($(this).children('span').css('display') === 'none') {
-    $('.flow-option > span').toggle();
-
-    if ($(this).attr('id') == 'option-2') {
-      $('#map-nav').click();
-    } else {
-      $('#map-nav').fadeOut('fast');
-    }
+//toggle radio button on drain flow options
+$('input[type=radio][name=flowOption]').change(function() {
+  if ($(this).val() == 'option2') {
+    $('#map-nav').click();
+  } else {
+    $('#map-nav').fadeOut('fast');
   }
 });
 
