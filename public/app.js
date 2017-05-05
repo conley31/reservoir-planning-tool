@@ -34,6 +34,8 @@ var hideAllGraphs = function() {
 //toggle radio button on drain flow options
 $('input[type=radio][name=flowOption]').change(function() {
   if ($(this).val() == 'option2') {
+    $('#userCSV').val('');
+    $('#file-div > input').val('');
     $('#map-nav').click();
   } else {
     $('#map-nav').fadeOut('fast');
