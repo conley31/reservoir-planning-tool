@@ -156,15 +156,15 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           ***************************************************************************************************************
           */
           dailyData[pondVol].push({
-            date: currentDate,
-            inflowVol: inflowVolDay,
-            evaporationVol: evapVolDay,
-            seepageVol: seepageVolDay,
-            irrigationVol: irrigationVolDay,
-            bypassVol: bypassFlowVolDay,
-            pondWaterDepth: pondWaterDepthDay,
-            deficitVol: deficitVolDay,
-            precipDepth: precipDepthDay
+            "date": currentDate,
+            "inflowVol (acre-feet)": inflowVolDay,
+            "evaporationVol (acre-feet)": evapVolDay,
+            "seepageVol (acre-feet)": seepageVolDay,
+            "irrigationVol (acre-feet)": irrigationVolDay,
+            "bypassVol (acre-feet)": bypassFlowVolDay,
+            "pondWaterDepth (feet)": pondWaterDepthDay,
+            "deficitVol (acre-feet)": deficitVolDay,
+            "precipDepth (feet)": precipDepthDay
           });
 
           /* update the (day-1) variables */
