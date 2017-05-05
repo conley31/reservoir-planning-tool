@@ -37,12 +37,12 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       *********************************NEEDED ERROR CHECKS****************************************
       -pondVolLargest cannot be smaller than the smallest.
       -pondDepth cannot be less than or equal to zero.
-      -pondVolSmallest cannot be less than or equal to zero.
+      -pondVolSmallest cannot be less than zero.
       -pondVolIncrement cannot be greater than the difference in smallest and largest pond volume.
       ******************************************************************************************** 
 
     */
-    if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest <= 0) {
+    if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest < 0) {
       reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
 

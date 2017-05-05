@@ -3,7 +3,7 @@
 exports.getPondArray = function() {
   var pondArray = [{
       label: 'Smallest Pond Volume',
-      value: '10',
+      value: '0',
       name: 'pondVolSmallest',
       unit: 'acre-feet'
     },
