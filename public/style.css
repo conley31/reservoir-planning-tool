@@ -102,6 +102,19 @@ button {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
+/*Extra variable buttons for third graph*/
+.extra-var {
+  width: 125px;
+}
+
+.extra-var.on {
+  background-color: rgb(219, 68, 55);
+}
+
+.extra-var.off {
+  background-color: #0054a6;
+}
+
 select {
   color: black;
 }
