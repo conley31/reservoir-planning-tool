@@ -148,6 +148,15 @@ var drawChart2 = function() {
       data.addColumn('number', graphData[i++]);
     }
   }
+
+  //determine y-axis title
+  var yaxisTitle = "";
+  if (graphData.length === 8) {
+    yaxisTitle = graphData[7];
+  } else {
+    yaxisTitle = graphData[12];
+  }
+
   //add array of data
   data.addRows(graphData[i++]);
 
@@ -206,7 +215,7 @@ var drawChart2 = function() {
     vAxes: {
       // Adds titles to each axis.
       0: {title: graphData[i++]},
-      1: {title: graphData[12]}
+      1: {title: yaxisTitle}
     },
     pointSize: 15,
     dataOpacity: 0.7,
@@ -284,9 +293,9 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months (Pond Volume = ' + currentPondVolume + ')';
-  graphData[1] = 'Bypass Volume(Cumulative)';
-  graphData[2] = 'Deficit Volume(Cumulative)';
-  graphData[3] = 'Pond Water Depth';
+  graphData[1] = 'Bypass Volume(Cumulative acre-feet)';
+  graphData[2] = 'Deficit Volume(Cumulative acre-feet)';
+  graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-2';
@@ -300,14 +309,14 @@ var graphThree = function(year) {
   currentYear = year;
   graphData = [];
   graphData[0] = 'Months (Year = ' + currentYear + ')';
-  graphData[1] = 'Bypass (Cumulative)';
-  graphData[2] = 'Deficit (Cumulative)';
-  graphData[3] = 'Pond Water Depth';
-  graphData[4] = 'Evaporation';
-  graphData[5] = 'Irrigation';
-  graphData[6] = 'Seepage';
-  graphData[7] = 'Bypass';
-  graphData[8] = 'Deficit';
+  graphData[1] = 'Bypass (Cumulative acre-feet)';
+  graphData[2] = 'Deficit (Cumulative acre-feet)';
+  graphData[3] = 'Pond Water Depth (feet)';
+  graphData[4] = 'Evaporation (acre-feet)';
+  graphData[5] = 'Irrigation (acre-feet)';
+  graphData[6] = 'Seepage (acre-feet)';
+  graphData[7] = 'Bypass (acre-feet)';
+  graphData[8] = 'Deficit (acre-feet)';
   graphData[9] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
   graphData[10] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[11] = 'graph-3';
