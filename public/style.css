@@ -102,17 +102,27 @@ button {
   box-shadow: inset 0px 0px 3px 1px rgba(0,0,0,0.35);
 }
 
-/*Extra variable buttons for third graph*/
-.extra-var {
+/*Additional variable buttons for third graph*/
+.add-var {
+  height: 35px;
   width: 125px;
+  margin-right: 20px;
+  vertical-align: top;
 }
 
-.extra-var.on {
-  background-color: rgb(219, 68, 55);
+.add-var:focus {
+  color: white;
 }
 
-.extra-var.off {
+.add-var.on {
   background-color: #0054a6;
+  height: 45px;
+  width: 135px;
+  margin-right: 10px;
+}
+
+.add-var.off {
+  background-color: #6a737c;
 }
 
 select {

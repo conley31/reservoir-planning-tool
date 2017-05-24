@@ -132,8 +132,8 @@ var drawChart = function() {
 /* This draw chart is for graphs 2&3 */
 var drawChart2 = function() {
 
-  //Make sure extra variable buttons are off
-  $('.extra-var').removeClass('on').addClass('off');
+  //Make sure additional variable buttons are off
+  $('.add-var').removeClass('on').addClass('off');
 
   data = new google.visualization.DataTable();
 
@@ -149,7 +149,7 @@ var drawChart2 = function() {
     }
   }
 
-  //determine y-axis title
+  //determine right y-axis title
   var yaxisTitle = "";
   if (graphData.length === 8) {
     yaxisTitle = graphData[7];
@@ -206,11 +206,17 @@ var drawChart2 = function() {
         italic: false
       }
     },
+    seriesType: 'bars',
     series: {
       // Gives each series an axis name that matches the Y-axis below.
-      0: {targetAxisIndex: 0},
-      1: {targetAxisIndex: 0},
-      2: {targetAxisIndex: 1}
+      0: {targetAxisIndex: 0, type: 'line'},
+      1: {targetAxisIndex: 0, type: 'line'},
+      2: {targetAxisIndex: 1},
+      3: {targetAxisIndex: 0},
+      4: {targetAxisIndex: 0},
+      5: {targetAxisIndex: 0},
+      6: {targetAxisIndex: 0},
+      7: {targetAxisIndex: 0}
     },
     vAxes: {
       // Adds titles to each axis.
@@ -224,33 +230,33 @@ var drawChart2 = function() {
     height: '100%'
   };
 
-  //Hide columns for extra variables
+  //Hide columns for additional variables
   dataView = new google.visualization.DataView(data);
   dataView.hideColumns([4,5,6,7,8]);
 
   //Currently active columns in graph
   var activeColumns = [0,1,2,3];
 
-  chart = new google.visualization.LineChart(document.getElementById(graphData[i]));
+  chart = new google.visualization.ComboChart(document.getElementById(graphData[i]));
   chart.draw(dataView, options);
 
-  //Toggle extra variables off and on in graph
-  var updatePlot = function (extraVar) {
-    if (extraVar.hasClass('off')) {
-      activeColumns.push(parseInt(extraVar.val()));
+  //Toggle additional variables off and on in graph
+  var updatePlot = function (addVar) {
+    if (addVar.hasClass('off')) {
+      activeColumns.push(parseInt(addVar.val()));
       dataView.setColumns(activeColumns);
       chart.draw(dataView, options);
-      extraVar.removeClass('off');
-      extraVar.addClass('on');
+      addVar.removeClass('off');
+      addVar.addClass('on');
     } else {
-      activeColumns.splice(activeColumns.indexOf(parseInt(extraVar.val())), 1);
+      activeColumns.splice(activeColumns.indexOf(parseInt(addVar.val())), 1);
       dataView.setColumns(activeColumns);
       chart.draw(dataView, options);
-      extraVar.removeClass('on');
-      extraVar.addClass('off');
+      addVar.removeClass('on');
+      addVar.addClass('off');
     }
   };
-  $('.extra-var').unbind('click').bind('click', function () {
+  $('.add-var').unbind('click').bind('click', function () {
     updatePlot($(this));
   });
 };
