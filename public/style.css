@@ -40,7 +40,7 @@ nav {
 }
 
 #title-container {
-    float left;
+    float: left;
     height: 100%;
 
     /*verticle center*/
