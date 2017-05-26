@@ -211,7 +211,7 @@ var drawChart2 = function() {
       // Gives each series an axis name that matches the Y-axis below.
       0: {targetAxisIndex: 0, type: 'line'},
       1: {targetAxisIndex: 0, type: 'line'},
-      2: {targetAxisIndex: 1},
+      2: {targetAxisIndex: 1, type: 'line'},
       3: {targetAxisIndex: 0},
       4: {targetAxisIndex: 0},
       5: {targetAxisIndex: 0},
