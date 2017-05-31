@@ -104,10 +104,7 @@ button {
 
 /*Additional variable buttons for third graph*/
 .add-var {
-  height: 35px;
-  width: 125px;
-  margin-right: 20px;
-  vertical-align: top;
+  border-color: #252525;
 }
 
 .add-var:focus {
@@ -116,13 +113,10 @@ button {
 
 .add-var.on {
   background-color: #0054a6;
-  height: 45px;
-  width: 135px;
-  margin-right: 10px;
 }
 
 .add-var.off {
-  background-color: #6a737c;
+  background-color: #636363;
 }
 
 select {

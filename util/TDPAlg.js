@@ -18,8 +18,8 @@ function monthlyData() {
   this.evapVol = 0;
   this.irrigationVol = 0;
   this.seepageVol = 0;
-  this.bypassFlowVolNo = 0;
-  this.deficitVolNo = 0;
+  this.inflowVol = 0;
+  this.pondPrecipVol = 0;
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -38,13 +38,13 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       }
     }
 
-    /*          
+    /*
       *********************************NEEDED ERROR CHECKS****************************************
       -pondVolLargest cannot be smaller than the smallest.
       -pondDepth cannot be less than or equal to zero.
       -pondVolSmallest cannot be less than zero.
       -pondVolIncrement cannot be greater than the difference in smallest and largest pond volume.
-      ******************************************************************************************** 
+      ********************************************************************************************
 
     */
     if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest < 0) {
@@ -212,8 +212,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           allYears[currentYear - initialYear][i][currentMonth].evapVol += evapVolDay;
           allYears[currentYear - initialYear][i][currentMonth].irrigationVol += irrigationVolDay;
           allYears[currentYear - initialYear][i][currentMonth].seepageVol += seepageVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolNo += bypassFlowVolDay;
-          allYears[currentYear - initialYear][i][currentMonth].deficitVolNo += deficitVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].inflowVol += inflowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].pondPrecipVol += pondPrecipVolDay;
         }
 
       }

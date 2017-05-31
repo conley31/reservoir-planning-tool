@@ -6,7 +6,7 @@ document.months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','
 
 /* fillThree and fillFour are both setup functions for output arrays for
    each graph generating function below */
-   
+
 function fillThree(array){
 	for(var i = 0; i < array.length; i++){
 		array[i] = new Array(3);
@@ -153,8 +153,8 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 				outputArray[k][4] += allYears[yearIndex][currentIncrement][k].evapVol;
         outputArray[k][5] += allYears[yearIndex][currentIncrement][k].irrigationVol;
         outputArray[k][6] += allYears[yearIndex][currentIncrement][k].seepageVol;
-        outputArray[k][7] += allYears[yearIndex][currentIncrement][k].bypassFlowVolNo;
-        outputArray[k][8] += allYears[yearIndex][currentIncrement][k].deficitVolNo;
+        outputArray[k][7] += allYears[yearIndex][currentIncrement][k].inflowVol;
+        outputArray[k][8] += allYears[yearIndex][currentIncrement][k].pondPrecipVol;
 			}
 		}
 	}
