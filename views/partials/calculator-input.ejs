@@ -46,18 +46,12 @@
               <div class="form-card-container">
                 <div class="row">
                   <div class="col-xs-12 text-center label-card" style="padding-top: 10px;">
-                    <p>Use the model estimates for your selected location</p>
-                    <p>(Do not upload a file)</p>
-                  </div>
-                  <div class="col-xs-12 label-card">
-                      <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
-                  </div>
-                  <div class="col-xs-12 text-center label-card">
-                    <p>Upload a CSV file with daily values of date, precipitation and flow
-                      <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Enter a comma separated file with the following five columns: Year, Month, Day, Drain flow (mm), Precipitation (mm). The Sizing Tool will use any range of dates that you provide, from one year to 30 years, and can start at any time of year. Provide a reasonable initial pond depth based on your start date."></span>
+                    <input type="radio" name="flowOption" value="option1" checked style="float: left"/>
+                    <p>Upload .csv file with daily values of date, precipitation, flow, evaporation
+                      <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Enter a comma separated file with the following six columns: Year, Month, Day, Drain flow (in), Precipitation (in), Evaporation (in). The Sizing Tool will use any range of dates that you provide and can start at any time of year, but full years are recommended."></span>
                     </p>
                   </div>
-                  <div class="col-xs-12 input-card">
+                  <div class="col-xs-12 input-card" style="margin-bottom: 0;">
                     <div class="input-group" id="file-div">
                       <label class="input-group-btn">
                         <span class="btn btn-primary">
@@ -66,6 +60,15 @@
                       </label>
                       <input type="text" class="form-control" readonly>
                     </div>
+                  </div>
+                  <div class="col-xs-12 label-card">
+                      <hr class="divider"> <!--Jonah's OR divider brought back from the dead -->
+                  </div>
+                  <div class="col-xs-12 text-center label-card">
+                    <input type="radio" name="flowOption" value="option2" style="float: left"/>
+                    <p>Select a location and use 30-year model estimates
+                      <span class="glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="If this is selected, the map option appears."></span>
+                    </p>
                   </div>
                 </div>
               </div>

@@ -20,6 +20,13 @@ function fillFour(array){
 		array[i].fill(0, 0);
 	}
 }
+
+function fillNine(array){
+  for(var i = 0; i < array.length; i++){
+    array[i] = new Array(9);
+    array[i].fill(0, 0);
+  }
+}
 /* This is used to return the yearly cumulative value of the last recorded month */
 function latestIndex(arr){
 	for(var i = (arr.length -1); i >= 0; i--){
@@ -129,14 +136,12 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 document.generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will contain an array for every month
-	fillFour(outputArray);
+	fillNine(outputArray);
 
 	var currentIncrement = increments.findIndex(function(vol) {
 		return vol === specificPondVolume;
 	});
 	var yearIndex = specificYear - initialYear;
-
-
 
 	if(allYears[yearIndex] && typeof allYears[yearIndex] !== 'undefined' && allYears[yearIndex][currentIncrement] && typeof allYears[yearIndex][currentIncrement] !== 'undefined'){
 	/* Loop through all months using the specified year and volume increment */
@@ -145,6 +150,11 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
 				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
 				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth /daysInMonth(k, specificYear));
+				outputArray[k][4] += allYears[yearIndex][currentIncrement][k].evapVol;
+        outputArray[k][5] += allYears[yearIndex][currentIncrement][k].irrigationVol;
+        outputArray[k][6] += allYears[yearIndex][currentIncrement][k].seepageVol;
+        outputArray[k][7] += allYears[yearIndex][currentIncrement][k].bypassFlowVolNo;
+        outputArray[k][8] += allYears[yearIndex][currentIncrement][k].deficitVolNo;
 			}
 		}
 	}

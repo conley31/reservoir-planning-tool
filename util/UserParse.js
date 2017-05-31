@@ -91,10 +91,12 @@ module.exports.verifyAndBlendUserCSV = function(id, inStream) {
       .on('end', function() {
         var dataCursor;
 
-        db.getLocationById(id).then(function(data) {
-          var userRows = toSQLFormat(buffer);
-          resolve(blendArray(data, userRows));
-        });
+        resolve(toSQLFormat(buffer));
+        //activate to re-enable blending user and db data (requires location id)
+        // db.getLocationById(id).then(function(data) {
+        //   var userRows = toSQLFormat(buffer);
+        //   resolve(blendArray(data, userRows));
+        // });
       });
   });
 };
@@ -104,9 +106,9 @@ function toSQLFormat(userRows) {
   for(var i = 0; i < userRows.length; i++) {
     sqlRowsFormat.push({
       RecordedDate: new Date(userRows[i].Year, userRows[i].Month - 1, userRows[i].Day),
-      Drainflow: userRows[i].Drainflow,
-      Precipitation: userRows[i].Precipitation,
-      PET: userRows[i].PET
+      Drainflow: parseFloat(userRows[i].Drainflow),
+      Precipitation: parseFloat(userRows[i].Precipitation),
+      PET: parseFloat(userRows[i].PET)
     });
   }
   return sqlRowsFormat;

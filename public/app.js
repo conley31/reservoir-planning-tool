@@ -4,13 +4,18 @@
 $('#map-nav').click(function() {
 
   //show change on pseudo nav
-  $(this).addClass('active-button');
-  $('#graph-nav').removeClass('active-button');
+  $('#map-nav').fadeIn('fast', function() {
+    //show change on pseudo nav
+    $(this).addClass('active-button');
+    $('#graph-nav').removeClass('active-button');
+  });
 
   $('#graph-nav-display').fadeOut('fast', function() {
     $('#map-submit').fadeOut('fast');
     $('#map-nav-display').fadeIn('fast');
+    var centerBeforeResize = document.map.getCenter();
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
+    document.map.setCenter(centerBeforeResize); //re-center map after resize
   });
 });
 
@@ -25,6 +30,17 @@ var hideAllGraphs = function() {
   hideGraphOne();
   hideDownloadButton();
 };
+
+//toggle radio button on drain flow options
+$('input[type=radio][name=flowOption]').change(function() {
+  if ($(this).val() == 'option2') {
+    $('#userCSV').val('');
+    $('#file-div > input').val('');
+    $('#map-nav').click();
+  } else {
+    $('#map-nav').fadeOut('fast');
+  }
+});
 
 //show graph nav button
 $('#map-submit').click(function() {

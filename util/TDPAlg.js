@@ -15,6 +15,11 @@ function monthlyData() {
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
   this.pondWaterDepth = 0;
+  this.evapVol = 0;
+  this.irrigationVol = 0;
+  this.seepageVol = 0;
+  this.bypassFlowVolNo = 0;
+  this.deficitVolNo = 0;
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -25,8 +30,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
   return new Promise(function(resolve, reject) {
     /* Sanitize inputs from client */
     for (var prop in params) {
-      /* The only paramter that is allowed to be undefined is _csvFileStream */
-      if (prop !== (params.length - 1).toString()) {
+      /* The only paramters that are allowed to be undefined is _csvFileStream and _locationId */
+      if (prop !== (params.length - 1).toString() && prop !== (params.length - 2)) {
         if (typeof params[prop] !== 'number') {
           reject(new Error('Undefined Input:' + prop));
         }
@@ -37,12 +42,12 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       *********************************NEEDED ERROR CHECKS****************************************
       -pondVolLargest cannot be smaller than the smallest.
       -pondDepth cannot be less than or equal to zero.
-      -pondVolSmallest cannot be less than or equal to zero.
+      -pondVolSmallest cannot be less than zero.
       -pondVolIncrement cannot be greater than the difference in smallest and largest pond volume.
       ******************************************************************************************** 
 
     */
-    if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest <= 0) {
+    if ((_pondVolLargest - _pondVolSmallest) < 0 || _pondDepth <= 0 || _pondVolSmallest < 0) {
       reject(new Error('Invalid Input Creating Divide By Zero Error'));
     }
 
@@ -105,6 +110,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           var deficitVolDay = 0;
 
           var evapVolDay = (evapDepthDay / 12) * pondArea;
+
           var pondPrecipVolDay = (precipDepthDay / 12) * pondArea;
 
 
@@ -156,15 +162,15 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           ***************************************************************************************************************
           */
           dailyData[pondVol].push({
-            date: currentDate,
-            inflowVol: inflowVolDay,
-            evaporationVol: evapVolDay,
-            seepageVol: seepageVolDay,
-            irrigationVol: irrigationVolDay,
-            bypassVol: bypassFlowVolDay,
-            pondWaterDepth: pondWaterDepthDay,
-            deficitVol: deficitVolDay,
-            precipDepth: precipDepthDay
+            "date": currentDate,
+            "inflowVol (acre-feet)": inflowVolDay,
+            "evaporationVol (acre-feet)": evapVolDay,
+            "seepageVol (acre-feet)": seepageVolDay,
+            "irrigationVol (acre-feet)": irrigationVolDay,
+            "bypassVol (acre-feet)": bypassFlowVolDay,
+            "pondWaterDepth (feet)": pondWaterDepthDay,
+            "deficitVol (acre-feet)": deficitVolDay,
+            "precipDepth (feet)": precipDepthDay
           });
 
           /* update the (day-1) variables */
@@ -200,11 +206,14 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             }
           }
 
-
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
           allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
-
+          allYears[currentYear - initialYear][i][currentMonth].evapVol += evapVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].irrigationVol += irrigationVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].seepageVol += seepageVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolNo += bypassFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].deficitVolNo += deficitVolDay;
         }
 
       }

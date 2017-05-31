@@ -131,7 +131,12 @@ var drawChart = function() {
 
 /* This draw chart is for graphs 2&3 */
 var drawChart2 = function() {
+
+  //Make sure additional variable buttons are off
+  $('.add-var').removeClass('on').addClass('off');
+
   data = new google.visualization.DataTable();
+
   var i = 0;
 
   while (typeof graphData[i] === 'string') {
@@ -143,6 +148,15 @@ var drawChart2 = function() {
       data.addColumn('number', graphData[i++]);
     }
   }
+
+  //determine right y-axis title
+  var yaxisTitle = "";
+  if (graphData.length === 8) {
+    yaxisTitle = graphData[7];
+  } else {
+    yaxisTitle = graphData[12];
+  }
+
   //add array of data
   data.addRows(graphData[i++]);
 
@@ -192,16 +206,22 @@ var drawChart2 = function() {
         italic: false
       }
     },
+    seriesType: 'bars',
     series: {
       // Gives each series an axis name that matches the Y-axis below.
-      0: {targetAxisIndex: 0},
-      1: {targetAxisIndex: 0},
-      2: {targetAxisIndex: 1}
+      0: {targetAxisIndex: 0, type: 'line'},
+      1: {targetAxisIndex: 0, type: 'line'},
+      2: {targetAxisIndex: 1, type: 'line'},
+      3: {targetAxisIndex: 0},
+      4: {targetAxisIndex: 0},
+      5: {targetAxisIndex: 0},
+      6: {targetAxisIndex: 0},
+      7: {targetAxisIndex: 0}
     },
     vAxes: {
       // Adds titles to each axis.
       0: {title: graphData[i++]},
-      1: {title: graphData[7]}
+      1: {title: yaxisTitle}
     },
     pointSize: 15,
     dataOpacity: 0.7,
@@ -209,8 +229,36 @@ var drawChart2 = function() {
     width: '100%',
     height: '100%'
   };
-  chart = new google.visualization.LineChart(document.getElementById(graphData[i]));
-  chart.draw(data, options);
+
+  //Hide columns for additional variables
+  dataView = new google.visualization.DataView(data);
+  dataView.hideColumns([4,5,6,7,8]);
+
+  //Currently active columns in graph
+  var activeColumns = [0,1,2,3];
+
+  chart = new google.visualization.ComboChart(document.getElementById(graphData[i]));
+  chart.draw(dataView, options);
+
+  //Toggle additional variables off and on in graph
+  var updatePlot = function (addVar) {
+    if (addVar.hasClass('off')) {
+      activeColumns.push(parseInt(addVar.val()));
+      dataView.setColumns(activeColumns);
+      chart.draw(dataView, options);
+      addVar.removeClass('off');
+      addVar.addClass('on');
+    } else {
+      activeColumns.splice(activeColumns.indexOf(parseInt(addVar.val())), 1);
+      dataView.setColumns(activeColumns);
+      chart.draw(dataView, options);
+      addVar.removeClass('on');
+      addVar.addClass('off');
+    }
+  };
+  $('.add-var').unbind('click').bind('click', function () {
+    updatePlot($(this));
+  });
 };
 //For first grpah
 var initGraph = function() {
@@ -251,9 +299,9 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months (Pond Volume = ' + currentPondVolume + ')';
-  graphData[1] = 'Bypass Volume(Cumulative)';
-  graphData[2] = 'Deficit Volume(Cumulative)';
-  graphData[3] = 'Pond Water Depth';
+  graphData[1] = 'Bypass Volume(Cumulative acre-feet)';
+  graphData[2] = 'Deficit Volume(Cumulative acre-feet)';
+  graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
   graphData[6] = 'graph-2';
@@ -267,13 +315,18 @@ var graphThree = function(year) {
   currentYear = year;
   graphData = [];
   graphData[0] = 'Months (Year = ' + currentYear + ')';
-  graphData[1] = 'Bypass (Cumulative)';
-  graphData[2] = 'Deficit (Cumulative)';
-  graphData[3] = 'Pond Water Depth';
-  graphData[4] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
-  graphData[6] = 'graph-3';
-  graphData[7] = 'Pond Water Depth\n(feet)';
+  graphData[1] = 'Bypass (Cumulative acre-feet)';
+  graphData[2] = 'Deficit (Cumulative acre-feet)';
+  graphData[3] = 'Pond Water Depth (feet)';
+  graphData[4] = 'Evaporation (acre-feet)';
+  graphData[5] = 'Irrigation (acre-feet)';
+  graphData[6] = 'Seepage (acre-feet)';
+  graphData[7] = 'Bypass (acre-feet)';
+  graphData[8] = 'Deficit (acre-feet)';
+  graphData[9] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
+  graphData[10] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
+  graphData[11] = 'graph-3';
+  graphData[12] = 'Pond Water Depth\n(feet)';
   drawChart2();
 };
 
