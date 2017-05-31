@@ -32,7 +32,7 @@ exports.getLocationById = Id => {
       } else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
       } else {
-        connection.query('SELECT * FROM ?? Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
+        connection.query('SELECT * FROM ?? WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
           connection.release();
           if (error) {
             reject(error);
@@ -63,7 +63,7 @@ exports.getPETById = Id => {
       } else if (!Number.isInteger(Id)) {
         reject(new Error('Location Id must be a number'));
       } else {
-        connection.query('SELECT RecordedDate, PET FROM ?? Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
+        connection.query('SELECT RecordedDate, PET FROM ?? WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 Order BY RecordedDate', 'Location' + Id, function(error, results, fields) {
           connection.release();
           if (error) {
             reject(error);
