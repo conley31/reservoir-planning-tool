@@ -12,6 +12,8 @@ $('form').submit(function(event) {
   if (!validation[0])
     return false;
 
+  //Dispaly results divider
+  $('.divider-results').show();
 
   event.preventDefault();
 
@@ -76,7 +78,7 @@ var drawChart = function() {
   options = {
     chartArea: {
       left: 130,
-      width: '85%',
+      width: '80%',
       height: '77%'
     },
     fontName: 'Roboto',
@@ -164,7 +166,7 @@ var drawChart2 = function() {
   options = {
     chartArea: {
       left: 130,
-      width: '80%',
+      width: '75%',
       height: '75%'
     },
     fontName: 'Roboto',
@@ -176,7 +178,7 @@ var drawChart2 = function() {
     },
     legend: {
       textStyle: {
-       fontSize: 15
+       fontSize: 14
       },
       position: 'top',
       alignment: 'end'
@@ -299,8 +301,8 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months (Pond Volume = ' + currentPondVolume + ')';
-  graphData[1] = 'Bypass Volume(Cumulative acre-feet)';
-  graphData[2] = 'Deficit Volume(Cumulative acre-feet)';
+  graphData[1] = 'Bypass (Cumulative acre-feet)';
+  graphData[2] = 'Deficit (Cumulative acre-feet)';
   graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';

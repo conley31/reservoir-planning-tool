@@ -422,7 +422,7 @@ footer img {
   margin-left: 1vw;
 }
 
-#form-data hr.divider {
+#form-data hr.divider, .divider-results {
   border-top: 1px solid #222;
   text-align: center;
 
@@ -430,15 +430,26 @@ footer img {
   margin-bottom: 20px;
 }
 
-#form-data hr.divider:after {
+#form-data hr.divider:after, .divider-results:after {
   content: 'or';
   display: inline-block;
   position: relative;
-  top: -14px;
+  top: -17px;
   padding: 0 10px;
   background: #eee;
   color: #555;
   font-size: 18px;
+}
+
+.divider-results {
+  display: none;
+  text-align: left;
+}
+
+.divider-results:after {
+  background: white;
+  content: 'Results';
+  font-size: 24px;
 }
 
 /* Error Modal */
