@@ -176,7 +176,7 @@ var drawChart2 = function() {
     },
     legend: {
       textStyle: {
-       fontSize: 20
+       fontSize: 15
       },
       position: 'top',
       alignment: 'end'
@@ -324,9 +324,9 @@ var graphThree = function(year) {
   graphData[7] = 'Bypass (acre-feet)';
   graphData[8] = 'Deficit (acre-feet)';
   graphData[9] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[10] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
+  graphData[10] = 'Volume (acre-feet)';
   graphData[11] = 'graph-3';
-  graphData[12] = 'Pond Water Depth\n(feet)';
+  graphData[12] = 'Depth (feet)';
   drawChart2();
 };
 
