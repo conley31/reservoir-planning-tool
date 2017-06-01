@@ -180,6 +180,7 @@ var drawChart2 = function() {
       textStyle: {
        fontSize: 14
       },
+      maxLines: 3,
       position: 'top',
       alignment: 'end'
     },
