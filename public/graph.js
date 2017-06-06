@@ -156,7 +156,7 @@ var drawChart2 = function() {
   if (graphData.length === 8) {
     yaxisTitle = graphData[7];
   } else {
-    yaxisTitle = graphData[12];
+    yaxisTitle = graphData[14];
   }
 
   //add array of data
@@ -218,7 +218,9 @@ var drawChart2 = function() {
       4: {targetAxisIndex: 0},
       5: {targetAxisIndex: 0},
       6: {targetAxisIndex: 0},
-      7: {targetAxisIndex: 0}
+      7: {targetAxisIndex: 0},
+      8: {targetAxisIndex: 0},
+      9: {targetAxisIndex: 0}
     },
     vAxes: {
       // Adds titles to each axis.
@@ -234,7 +236,7 @@ var drawChart2 = function() {
 
   //Hide columns for additional variables
   dataView = new google.visualization.DataView(data);
-  dataView.hideColumns([4,5,6,7,8]);
+  dataView.hideColumns([4,5,6,7,8,9,10]);
 
   //Currently active columns in graph
   var activeColumns = [0,1,2,3];
@@ -325,10 +327,12 @@ var graphThree = function(year) {
   graphData[6] = 'Seepage (acre-feet)';
   graphData[7] = 'Drainflow (acre-feet)';
   graphData[8] = 'Precipitation (acre-feet)';
-  graphData[9] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[10] = 'Volume (acre-feet)';
-  graphData[11] = 'graph-3';
-  graphData[12] = 'Depth (feet)';
+  graphData[9] = 'Bypass (acre-feet)';
+  graphData[10] = 'Deficit (acre-feet)';
+  graphData[11] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
+  graphData[12] = 'Volume (acre-feet)';
+  graphData[13] = 'graph-3';
+  graphData[14] = 'Depth (feet)';
   drawChart2();
 };
 

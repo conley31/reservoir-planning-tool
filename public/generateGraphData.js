@@ -21,9 +21,9 @@ function fillFour(array){
 	}
 }
 
-function fillNine(array){
+function fillEleven(array){
   for(var i = 0; i < array.length; i++){
-    array[i] = new Array(9);
+    array[i] = new Array(11);
     array[i].fill(0, 0);
   }
 }
@@ -136,7 +136,7 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 document.generateGraphData.allMonthsByYear = function(allYears, increments, initialYear, specificPondVolume, specificYear){
 //need smallestVolume and increment to determine what index we should look at within allYears[year][?]
 	var outputArray = new Array(12);	//this array will contain an array for every month
-	fillNine(outputArray);
+	fillEleven(outputArray);
 
 	var currentIncrement = increments.findIndex(function(vol) {
 		return vol === specificPondVolume;
@@ -155,6 +155,8 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
         outputArray[k][6] += allYears[yearIndex][currentIncrement][k].seepageVol;
         outputArray[k][7] += allYears[yearIndex][currentIncrement][k].inflowVol;
         outputArray[k][8] += allYears[yearIndex][currentIncrement][k].pondPrecipVol;
+				outputArray[k][9] += allYears[yearIndex][currentIncrement][k].bypassFlowVolM;
+				outputArray[k][10] += allYears[yearIndex][currentIncrement][k].deficitVolM;
 			}
 		}
 	}

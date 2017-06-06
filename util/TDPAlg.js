@@ -20,6 +20,8 @@ function monthlyData() {
   this.seepageVol = 0;
   this.inflowVol = 0;
   this.pondPrecipVol = 0;
+  this.bypassFlowVolM = 0;
+  this.deficitVolM = 0;
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -214,6 +216,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           allYears[currentYear - initialYear][i][currentMonth].seepageVol += seepageVolDay;
           allYears[currentYear - initialYear][i][currentMonth].inflowVol += inflowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].pondPrecipVol += pondPrecipVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolM += bypassFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].deficitVolM += deficitVolDay;
         }
 
       }
