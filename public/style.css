@@ -355,7 +355,7 @@ span p {
 
 #graph-desc {
   width: inherit;
-  margin: 10px;
+  /*margin: 10px;*/
   padding: 0 10px 10px 10px;
 
   font-size: 1.3em;
@@ -441,15 +441,20 @@ footer img {
   font-size: 18px;
 }
 
+#form-submit {
+  margin-bottom: 20px;
+}
+
 .divider-results {
+  border-bottom: solid 3px #1c5d99;
   display: none;
-  text-align: left;
 }
 
 .divider-results:after {
   background: white;
   content: 'Results';
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 /* Error Modal */
