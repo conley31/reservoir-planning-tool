@@ -154,10 +154,21 @@ app.get('/download', (req, res) => {
   }
   // Tell the browser to download the file
   res.attachment('download.csv'); // Content-Disposition: attachment
+
+  // Store inputs and daily data in temporary variables
+  var userInput = req.session.userInput;
+  var dailyData = req.session.dailyData[pondVol];
+  // Add first daily data object to input object
+  // Forces csv to have column headers for both input and output data
+  for (var prop in dailyData[0]) {
+    if (dailyData[0].hasOwnProperty(prop)) {
+      userInput[prop] = dailyData[prop];
+    }
+  }
+  dailyData[0] = userInput;
   // Creates the CSV and writes it to the output stream
-  console.log(req.session.userInput);
   csv
-    .writeToStream(res, [req.session.userInput, req.session.dailyData[pondVol]], {
+    .writeToStream(res, dailyData, {
       headers: true,
     });
 });

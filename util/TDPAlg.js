@@ -164,7 +164,9 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           ***************************************************************************************************************
           */
           dailyData[pondVol].push({
-            'date': currentDate,
+            'year': currentDate.getFullYear(),
+            'month': currentDate.getMonth() + 1,
+            'day': currentDate.getDate(),
             'inflowVol (acre-feet)': inflowVolDay,
             'evaporationVol (acre-feet)': evapVolDay,
             'seepageVol (acre-feet)': seepageVolDay,
@@ -172,8 +174,24 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             'bypassVol (acre-feet)': bypassFlowVolDay,
             'pondWaterDepth (feet)': pondWaterDepthDay,
             'deficitVol (acre-feet)': deficitVolDay,
-            'precipDepth (feet)': precipDepthDay
+            'precipDepth (inches)': precipDepthDay
           });
+
+          // dailyData[pondVol].push({
+          //   'Year': currentDate.getFullYear(),
+          //   'Month': currentDate.getMonth() + 1,
+          //   'Day': currentDate.getDate(),
+          //   'InflowVolDay (acre-feet)': inflowVolDay,
+          //   'PrecipDepthDay (inches)': precipDepthDay,
+          //   'EvaporationVolDay (acre-feet)': evapVolDay,
+          //   'PondWaterDepth (feet)': pondWaterDepth,
+          //   'PondWaterVolDay (acre-feet)': pondWaterVolDay,
+          //   'PondPrecipVolDay (acre-feet)': pondPrecipVolDay,
+          //   'SoilMoistureDepthDay (inches)': soilMoistureDepthDay,
+          //   'IrrigationVolDay (acre-feet)': irrigationVolDay,
+          //   'DeficitVolDay (acre-feet)': deficitVolDay,
+          //   'BypassFlowVolDay (acre-feet)': bypassFlowVolDay
+          // })
 
           /* update the (day-1) variables */
           soilMoistureDepthDayPrev = soilMoistureDepthDay;
@@ -223,11 +241,15 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
       }
 
       var userInput = {
+        'Inputs:': '',
+        'Drained Area (acres)': _drainedArea,
         'Pond Volume (acre-feet)': pondVol,
         'Pond Depth (feet)': _pondDepth,
+        'Irrigation Area (acres)': _irrigationArea,
         'Irrigation Application Depth (inch)': _irrigationDepth,
         'Maximum Soil Moisture (inch)': _maxSoilMoisture,
-        'Available Water Capacity': _availableWaterCapacity
+        'Available Water Capacity': _availableWaterCapacity,
+        'Outputs:': ''
       };
 
       resolve({
