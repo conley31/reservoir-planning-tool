@@ -75,6 +75,9 @@ app.use(function(req, res, next) {
   if (!req.session.dailyData) {
     req.session.dailyData = null;
   }
+  if (!req.session.userInput) {
+    req.session.userInput = null;
+  }
   next();
 });
 
@@ -84,6 +87,7 @@ app.use(function(req, res, next) {
 // GET the home page
 app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
+  req.session.userInput = null; // Reset user input each time the page loads
   res.render('index.ejs', {
     googleMapsKey: nconf.get('google_maps').key,
     production: app.get('env') === 'production',
@@ -121,7 +125,9 @@ app.post('/calculate', function(req, res, next) {
       TDPAlg.calc(_.drainedArea, _.pondVolSmallest, _.pondVolLargest, _.pondVolIncrement, _.pondDepth, _.pondWaterDepthInitial, _.maxSoilMoistureDepth,
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
         req.session.dailyData = data.dailyData;
+        req.session.userInput = data.userInput;
         delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
+        delete data.userInput;
         res.send(data);
       }).catch(function(e) {
         return next(e || new Error('There was an unexpected error when calculating this data'));
@@ -149,8 +155,9 @@ app.get('/download', (req, res) => {
   // Tell the browser to download the file
   res.attachment('download.csv'); // Content-Disposition: attachment
   // Creates the CSV and writes it to the output stream
+  console.log(req.session.userInput);
   csv
-    .writeToStream(res, req.session.dailyData[pondVol], {
+    .writeToStream(res, [req.session.userInput, req.session.dailyData[pondVol]], {
       headers: true,
     });
 });
