@@ -69,7 +69,9 @@ $('#graph-nav').click(function() {
 //show graph for selected pond increment
 $('#pond-inc-submit').click(function() {
   $('#download-csv').show();
-  $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val());
+  $('#download-csv').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val() + '&graph=1');
+  $('#download-csv2').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val() + '&graph=2&pondInc=' + $('#pond-inc-dropdown').val());
+  $('#download-csv3').attr('href', '/download?pondVol=' + $('#pond-inc-dropdown').val() + '&graph=3');
   hideGraphThree();
   showGraphTwo();
 });

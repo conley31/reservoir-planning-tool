@@ -16,6 +16,7 @@ var express = require('express'),
 var RedisStore = require('connect-redis')(session);
 
 var db = require('./db');
+var generateDownloadData = require('./util/generateDownloadData.js');
 var TDPAlg = require('./util/TDPAlg.js');
 var polygons = require('./util/polygons');
 var app = express();
@@ -78,6 +79,12 @@ app.use(function(req, res, next) {
   if (!req.session.userInput) {
     req.session.userInput = null;
   }
+  if (!req.session.graphData) {
+    req.session.graphData = null;
+  }
+  if (!req.session.incData) {
+    req.session.incData = null;
+  }
   next();
 });
 
@@ -87,7 +94,10 @@ app.use(function(req, res, next) {
 // GET the home page
 app.get('/', function(req, res) {
   req.session.dailyData = null; // Reset daily data each time the page loads
-  req.session.userInput = null; // Reset user input each time the page loads
+  req.session.userInput = null;
+  req.session.graphData = null;
+  req.session.incData = null;
+  req.session.firstYearData = null;
   res.render('index.ejs', {
     googleMapsKey: nconf.get('google_maps').key,
     production: app.get('env') === 'production',
@@ -126,6 +136,9 @@ app.post('/calculate', function(req, res, next) {
         _.irrigatedArea, _.irrigDepth, _.availableWaterCapacity, _.locationId, stream).then(function(data) {
         req.session.dailyData = data.dailyData;
         req.session.userInput = data.userInput;
+        req.session.graphData = data.graphData;
+        req.session.incData = data.incData;
+        req.session.firstYearData = data.firstYearData;
         delete data.dailyData; // Remove dailyData object so that it isn't sent to the client
         delete data.userInput;
         res.send(data);
@@ -147,6 +160,8 @@ app.post('/locations', (req, res) => {
 // GET request to download the daily data
 app.get('/download', (req, res) => {
   var pondVol = req.query.pondVol;
+  var requestedGraph = req.query.graph;
+  var pondInc = req.query.pondInc;
   // If the daily data isn't there, return 404 NOT FOUND
   if (req.session.dailyData === null || typeof(req.session.dailyData[pondVol]) === 'undefined') {
     res.sendStatus(404);
@@ -166,9 +181,19 @@ app.get('/download', (req, res) => {
     }
   }
   dailyData[0] = userInput;
+  var data = [];
+
+  if (requestedGraph == '1') {
+    data = generateDownloadData.allYearsAveraged(req.session.graphData, req.session.incData);
+  } else if (requestedGraph == '2') {
+    data = generateDownloadData.allYearsByPondVolume(req.session.graphData, req.session.incData, pondInc, req.session.firstYearData);
+  } else {
+    data = dailyData;
+  }
+
   // Creates the CSV and writes it to the output stream
   csv
-    .writeToStream(res, dailyData, {
+    .writeToStream(res, data, {
       headers: true,
     });
 });
