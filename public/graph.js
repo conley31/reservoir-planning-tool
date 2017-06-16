@@ -12,6 +12,8 @@ $('form').submit(function(event) {
   if (!validation[0])
     return false;
 
+  //Dispaly results divider
+  $('.divider-results').show();
 
   event.preventDefault();
 
@@ -76,7 +78,7 @@ var drawChart = function() {
   options = {
     chartArea: {
       left: 130,
-      width: '85%',
+      width: '80%',
       height: '77%'
     },
     fontName: 'Roboto',
@@ -154,7 +156,7 @@ var drawChart2 = function() {
   if (graphData.length === 8) {
     yaxisTitle = graphData[7];
   } else {
-    yaxisTitle = graphData[12];
+    yaxisTitle = graphData[14];
   }
 
   //add array of data
@@ -164,7 +166,7 @@ var drawChart2 = function() {
   options = {
     chartArea: {
       left: 130,
-      width: '80%',
+      width: '75%',
       height: '75%'
     },
     fontName: 'Roboto',
@@ -176,8 +178,9 @@ var drawChart2 = function() {
     },
     legend: {
       textStyle: {
-       fontSize: 20
+       fontSize: 14
       },
+      maxLines: 3,
       position: 'top',
       alignment: 'end'
     },
@@ -216,7 +219,9 @@ var drawChart2 = function() {
       4: {targetAxisIndex: 0},
       5: {targetAxisIndex: 0},
       6: {targetAxisIndex: 0},
-      7: {targetAxisIndex: 0}
+      7: {targetAxisIndex: 0},
+      8: {targetAxisIndex: 0},
+      9: {targetAxisIndex: 0}
     },
     vAxes: {
       // Adds titles to each axis.
@@ -232,7 +237,7 @@ var drawChart2 = function() {
 
   //Hide columns for additional variables
   dataView = new google.visualization.DataView(data);
-  dataView.hideColumns([4,5,6,7,8]);
+  dataView.hideColumns([4,5,6,7,8,9,10]);
 
   //Currently active columns in graph
   var activeColumns = [0,1,2,3];
@@ -299,8 +304,8 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months (Pond Volume = ' + currentPondVolume + ')';
-  graphData[1] = 'Bypass Volume(Cumulative acre-feet)';
-  graphData[2] = 'Deficit Volume(Cumulative acre-feet)';
+  graphData[1] = 'Bypass (Cumulative acre-feet)';
+  graphData[2] = 'Deficit (Cumulative acre-feet)';
   graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
   graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
@@ -321,12 +326,14 @@ var graphThree = function(year) {
   graphData[4] = 'Evaporation (acre-feet)';
   graphData[5] = 'Irrigation (acre-feet)';
   graphData[6] = 'Seepage (acre-feet)';
-  graphData[7] = 'Bypass (acre-feet)';
-  graphData[8] = 'Deficit (acre-feet)';
-  graphData[9] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
-  graphData[10] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
-  graphData[11] = 'graph-3';
-  graphData[12] = 'Pond Water Depth\n(feet)';
+  graphData[7] = 'Drainflow (acre-feet)';
+  graphData[8] = 'Precipitation (acre-feet)';
+  graphData[9] = 'Bypass (acre-feet)';
+  graphData[10] = 'Deficit (acre-feet)';
+  graphData[11] = document.generateGraphData.allMonthsByYear(receivedArray.graphData, receivedArray.incData, receivedArray.firstYearData, currentPondVolume, parseInt(year));
+  graphData[12] = 'Volume (acre-feet)';
+  graphData[13] = 'graph-3';
+  graphData[14] = 'Depth (feet)';
   drawChart2();
 };
 

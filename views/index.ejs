@@ -79,11 +79,13 @@
                 <% include partials/calculator-input %>
             </div>
 
+            <hr class="divider-results">
+
             <!-- First Graph -->
             <div id="graph-body" class="card">
               <!-- Graph description -->
               <div id="graph-desc" class="card">
-                <h3 style="font-weight: bold">Results</h3>
+                <h3 style="font-weight: bold">Changes in Bypass Volume and Storage Deficit (Storage Effects) Across Pond Sizes</h3>
                 This graph shows two calculated values, averaged over all years simulated:
                 <ul>
                   <li>
@@ -122,7 +124,7 @@
             <div id="graph2-body" class="card">
               <!-- graph description -->
               <div id="graph-desc" class="card">
-                <h3 style="font-weight: bold">Results</h3>
+                <h3 style="font-weight: bold">Pond Water Depth and Storage Effects of a Single Pond Size Across Years</h3>
                 This graph shows the calculated pond depth, bypass flow, and storage deficit averaged over all years simulated.  It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance. For details on an individual years, select a year below.
               </div>
               <div id="graph-2" class="card text-center">
@@ -144,16 +146,27 @@
             <div id="graph3-body" class="card">
               <!-- graph description -->
               <div id="graph-desc" class="card">
-                <h3 style="font-weight: bold">Results</h3>
+                <h3 style="font-weight: bold">Pond Water Depth and Storage Effects of a Single Pond and Single Year</h3>
                 This graph shows the calculated pond depth, bypass flow, and storage deficit over the course of a single year. It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance.
               </div>
-              <h4>Click to toggle additional variables on/off.</h4>
-              <div style="height: 50px">
-              <button class="btn add-var off" value="4"> Evaporation </button>
-              <button class="btn add-var off" value="5"> Irrigation </button>
-              <button class="btn add-var off" value="6"> Seepage </button>
-              <button class="btn add-var off" value="7"> Bypass </button>
-              <button class="btn add-var off" value="8"> Deficit </button>
+              <div>
+                <strong>Pond Inflow: </strong>
+                <div class="btn-group" role="group" style="margin-right: 15px;">
+                  <button type="button" class="btn btn-sm add-var off" value="7"> Drainflow </button>
+                  <button type="button" class="btn btn-sm add-var off" value="8"> Precipitation </button>
+                  <!-- <button type="button" class="btn btn-sm add-var off" value="9"> Surface Runoff </button> -->
+                </div>
+                <strong>Pond Outflow: </strong>
+                <div class="btn-group" role="group" style="margin-right: 15px;">
+                  <button type="button" class="btn btn-sm add-var off" value="4"> Evaporation </button>
+                  <button type="button" class="btn btn-sm add-var off" value="5"> Irrigation </button>
+                  <button type="button" class="btn btn-sm add-var off" value="6"> Seepage </button>
+                </div>
+                <strong>Storage Effects: </strong>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm add-var off" value="9"> Bypass </button>
+                  <button type="button" class="btn btn-sm add-var off" value="10"> Deficit </button>
+                </div>
               </div>
               <div id="graph-3" class="card text-center">
                 <!-- This is where Google Charts will go -->
@@ -162,7 +175,7 @@
           </div>
         </div>
       </div>
-      
+
       <% include partials/footer %>
       <% include partials/scripts %>
   </body>

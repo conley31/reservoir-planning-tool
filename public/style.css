@@ -104,10 +104,7 @@ button {
 
 /*Additional variable buttons for third graph*/
 .add-var {
-  height: 35px;
-  width: 125px;
-  margin-right: 20px;
-  vertical-align: top;
+  border-color: #252525;
 }
 
 .add-var:focus {
@@ -116,13 +113,10 @@ button {
 
 .add-var.on {
   background-color: #0054a6;
-  height: 45px;
-  width: 135px;
-  margin-right: 10px;
 }
 
 .add-var.off {
-  background-color: #6a737c;
+  background-color: #636363;
 }
 
 select {
@@ -361,7 +355,7 @@ span p {
 
 #graph-desc {
   width: inherit;
-  margin: 10px;
+  /*margin: 10px;*/
   padding: 0 10px 10px 10px;
 
   font-size: 1.3em;
@@ -428,7 +422,7 @@ footer img {
   margin-left: 1vw;
 }
 
-#form-data hr.divider {
+#form-data hr.divider, .divider-results {
   border-top: 1px solid #222;
   text-align: center;
 
@@ -436,15 +430,31 @@ footer img {
   margin-bottom: 20px;
 }
 
-#form-data hr.divider:after {
+#form-data hr.divider:after, .divider-results:after {
   content: 'or';
   display: inline-block;
   position: relative;
-  top: -14px;
+  top: -17px;
   padding: 0 10px;
   background: #eee;
   color: #555;
   font-size: 18px;
+}
+
+#form-submit {
+  margin-bottom: 20px;
+}
+
+.divider-results {
+  border-bottom: solid 3px #1c5d99;
+  display: none;
+}
+
+.divider-results:after {
+  background: white;
+  content: 'Results';
+  font-size: 28px;
+  font-weight: bold;
 }
 
 /* Error Modal */
