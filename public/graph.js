@@ -290,10 +290,10 @@ var initGraph = function() {
 var graphOne = function() {
   graphData = [];
   graphData[0] = 'Pond Volume (acre-feet)';
-  graphData[1] = 'Bypass Volume';
-  graphData[2] = 'Storage Deficit Volume';
+  graphData[1] = 'Captured Flow';
+  graphData[2] = 'Irrigation';
   graphData[3] = document.generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
-  graphData[4] = 'Bypass Flow and Storage Deficit Volume\n(acre-feet)';
+  graphData[4] = 'Captured Flow and Irrigation Volume\n(acre-feet)';
   graphData[5] = 'graph-1';
   addIncDropdown(receivedArray.incData);
   initGraph();
@@ -304,11 +304,11 @@ var graphTwo = function(pondIncrement) {
   currentPondVolume = parseInt(pondIncrement);
   graphData = [];
   graphData[0] = 'Months (Pond Volume = ' + currentPondVolume + ')';
-  graphData[1] = 'Bypass (Cumulative acre-feet)';
-  graphData[2] = 'Deficit (Cumulative acre-feet)';
+  graphData[1] = 'Captured Flow (Cumulative acre-feet)';
+  graphData[2] = 'Irrigation (Cumulative acre-feet)';
   graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = document.generateGraphData.allYearsByPondVolume(receivedArray.graphData, receivedArray.incData, currentPondVolume, receivedArray.firstYearData);
-  graphData[5] = 'Bypass Flow or Storage Deficit Volume\n(acre-feet)';
+  graphData[5] = 'Captured Flow or Irrigation Volume\n(acre-feet)';
   graphData[6] = 'graph-2';
   graphData[7] = 'Pond Water Depth\n(feet)';
   addYearDropdown();
@@ -320,8 +320,8 @@ var graphThree = function(year) {
   currentYear = year;
   graphData = [];
   graphData[0] = 'Months (Year = ' + currentYear + ')';
-  graphData[1] = 'Bypass (Cumulative acre-feet)';
-  graphData[2] = 'Deficit (Cumulative acre-feet)';
+  graphData[1] = 'Captured Flow (Cumulative acre-feet)';
+  graphData[2] = 'Irrigation (Cumulative acre-feet)';
   graphData[3] = 'Pond Water Depth (feet)';
   graphData[4] = 'Evaporation (acre-feet)';
   graphData[5] = 'Irrigation (acre-feet)';

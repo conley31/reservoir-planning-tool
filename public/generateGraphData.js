@@ -75,8 +75,8 @@ document.generateGraphData.allYearsAveraged = function(allYears, increments){
 				if(allYears[i][j] && typeof allYears[i][j] !== 'undefined'){
 						var k = latestIndex(allYears[i][j]);
 						if(allYears[i][j][k] && typeof allYears[i][j][k] !== 'undefined'){
-							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
-							outputArray[j][2] += allYears[i][j][k].deficitVol;
+							outputArray[j][1] += allYears[i][j][k].capturedFlowVol;
+							outputArray[j][2] += allYears[i][j][k].irrigationVol;
 						}
 				}
 			}
@@ -111,8 +111,8 @@ document.generateGraphData.allYearsByPondVolume = function(allYears, increments,
 		if(allYears[i] && allYears[i][currentIncrement] && typeof allYears[i] !== 'undefined' && typeof allYears[i][currentIncrement] !== 'undefined'){
 			for(var k = 0; k < allYears[i][currentIncrement].length; k++){
 				if(allYears[i][currentIncrement][k] && typeof allYears[i][currentIncrement][k] !== 'undefined'){
-					outputArray[k][1] += allYears[i][currentIncrement][k].bypassFlowVol;
-					outputArray[k][2] += allYears[i][currentIncrement][k].deficitVol;
+					outputArray[k][1] += allYears[i][currentIncrement][k].capturedFlowVol;
+					outputArray[k][2] += allYears[i][currentIncrement][k].irrigationVol;
 					outputArray[k][3] += (allYears[i][currentIncrement][k].pondWaterDepth/daysInMonth(k, initialYear+i));
 				}
 
@@ -147,8 +147,8 @@ document.generateGraphData.allMonthsByYear = function(allYears, increments, init
 	/* Loop through all months using the specified year and volume increment */
 		for(var k = 0; k < allYears[yearIndex][currentIncrement].length; k++){
 			if(allYears[yearIndex][currentIncrement][k] && typeof allYears[yearIndex][currentIncrement][k] !== 'undefined'){
-				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].bypassFlowVol;
-				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].deficitVol;
+				outputArray[k][1] += allYears[yearIndex][currentIncrement][k].capturedFlowVol;
+				outputArray[k][2] += allYears[yearIndex][currentIncrement][k].irrigationVol;
 				outputArray[k][3] += (allYears[yearIndex][currentIncrement][k].pondWaterDepth /daysInMonth(k, specificYear));
 				outputArray[k][4] += allYears[yearIndex][currentIncrement][k].evapVol;
         outputArray[k][5] += allYears[yearIndex][currentIncrement][k].irrigationVol;

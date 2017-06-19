@@ -12,6 +12,7 @@ var userparse = require('./UserParse');
 
 /* monthlyData will be an object that is used inside of allYears to represent each month */
 function monthlyData() {
+  this.capturedFlowVol = 0;
   this.bypassFlowVol = 0;
   this.deficitVol = 0;
   this.pondWaterDepth = 0;
@@ -110,6 +111,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
+          var capturedFlowVolDay = 0;
 
           var evapVolDay = (evapDepthDay / 12) * pondArea;
 
@@ -148,6 +150,9 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           var bypassFlowVolDay = 0;
           if (pondWaterVolDay > pondVol) {
             bypassFlowVolDay = pondWaterVolDay - pondVol;
+            capturedFlowVolDay = inflowVolDay - bypassFlowVolDay
+            // capturedNitrateLoadDay = capturedFlowVolDay * table * factor
+            // totalNitrateLoadDay = inflowVolDay * table * factor
             pondWaterVolDay = pondVol;
           }
 
@@ -172,7 +177,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             "bypassVol (acre-feet)": bypassFlowVolDay,
             "pondWaterDepth (feet)": pondWaterDepthDay,
             "deficitVol (acre-feet)": deficitVolDay,
-            "precipDepth (feet)": precipDepthDay
+            "precipDepth (feet)": precipDepthDay,
+            "capturedFlowVolDay (acre-feet)": capturedFlowVolDay
           });
 
           /* update the (day-1) variables */
@@ -208,6 +214,18 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             }
           }
 
+          if (allYears[currentYear - initialYear][i][currentMonth].capturedFlowVol === 0) {
+            if (currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth - 1] !== 'undefined') {
+              allYears[currentYear - initialYear][i][currentMonth].capturedFlowVol = allYears[currentYear - initialYear][i][currentMonth - 1].capturedFlowVol;
+            }
+          }
+
+          if (allYears[currentYear - initialYear][i][currentMonth].irrigationVol === 0) {
+            if (currentMonth !== 0 && typeof allYears[currentYear - initialYear][i][currentMonth - 1] !== 'undefined') {
+              allYears[currentYear - initialYear][i][currentMonth].irrigationVol = allYears[currentYear - initialYear][i][currentMonth - 1].irrigationVol;
+            }
+          }
+
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVol += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVol += deficitVolDay;
           allYears[currentYear - initialYear][i][currentMonth].pondWaterDepth += pondWaterDepthDay;
@@ -218,6 +236,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           allYears[currentYear - initialYear][i][currentMonth].pondPrecipVol += pondPrecipVolDay;
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolM += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVolM += deficitVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].capturedFlowVol += capturedFlowVolDay;
         }
 
       }
