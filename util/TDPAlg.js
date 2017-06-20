@@ -23,6 +23,7 @@ function monthlyData() {
   this.pondPrecipVol = 0;
   this.bypassFlowVolM = 0;
   this.deficitVolM = 0;
+  this.irrigationVolM = 0;
 }
 
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
@@ -111,7 +112,6 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
 
           var irrigationVolDay = 0;
           var deficitVolDay = 0;
-          var capturedFlowVolDay = 0;
 
           var evapVolDay = (evapDepthDay / 12) * pondArea;
 
@@ -148,14 +148,16 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           }
 
           var bypassFlowVolDay = 0;
-          if (pondWaterVolDay > pondVol) {
+          var capturedFlowVolDay = 0;
+          if (pondVol === 0) {
             bypassFlowVolDay = pondWaterVolDay - pondVol;
-            capturedFlowVolDay = inflowVolDay - bypassFlowVolDay
-            // capturedNitrateLoadDay = capturedFlowVolDay * table * factor
-            // totalNitrateLoadDay = inflowVolDay * table * factor
+          } else if (pondVol > 0 && pondWaterVolDay > pondVol) {
+            bypassFlowVolDay = pondWaterVolDay - pondVol;
+            if (inflowVolDay - bypassFlowVolDay > 0) {
+              capturedFlowVolDay = inflowVolDay - bypassFlowVolDay;
+            }
             pondWaterVolDay = pondVol;
           }
-
 
           var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
@@ -237,6 +239,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolM += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVolM += deficitVolDay;
           allYears[currentYear - initialYear][i][currentMonth].capturedFlowVol += capturedFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].irrigationVolM += irrigationVolDay;
         }
 
       }
