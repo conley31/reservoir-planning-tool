@@ -26,6 +26,21 @@ function monthlyData() {
   this.irrigationVolM = 0;
 }
 
+var nitrateTable = {
+  1: 7.58,
+  2: 7.38,
+  3: 8.10,
+  4: 9.23,
+  5: 12.13,
+  6: 14.97,
+  7: 12.29,
+  8: 8.03,
+  9: 7.65,
+  10: 7.35,
+  11: 7.47,
+  12: 7.31
+};
+
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
   _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) {
 
@@ -88,7 +103,6 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
         var soilMoistureDepthDayPrev = _maxSoilMoisture; //inches
         var pondWaterVolDayPrev = _pondDepthInitial * pondArea; //acre-feet
 
-
         /* LOOP THROUGH EVERY DAY(ROW) in Database */
         for (var j = 0; j < data.length; j++) {
           /*
@@ -114,7 +128,6 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           var deficitVolDay = 0;
 
           var evapVolDay = (evapDepthDay / 12) * pondArea;
-
           var pondPrecipVolDay = (precipDepthDay / 12) * pondArea;
 
 
@@ -129,18 +142,24 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
 
           if (soilMoistureDepthDay < (0.5 * _availableWaterCapacity)) {
 
-            irrigationVolDay = (_irrigationDepth / 12) * _irrigationArea;
+            if (pondVol === 0) {
+              irrigationVolDay = 0;
+            } else {
+              irrigationVolDay = (_irrigationDepth / 12) * _irrigationArea;
+            }
 
             if (irrigationVolDay > pondWaterVolDay) {
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
 
+            if (deficitVolDay > 0) {
+              irrigationVolDay = irrigationVolDay - deficitVolDay;
+            }
+
             soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay + ((irrigationVolDay * 12) / _irrigationArea) - evapDepthDay);
           }
 
-
-
-          pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
+          pondWaterVolDay = (pondWaterVolDay + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
 
           /* pondWaterVolDay cannot be negative */
           if (pondWaterVolDay < 0) {
@@ -149,15 +168,16 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
 
           var bypassFlowVolDay = 0;
           var capturedFlowVolDay = 0;
-          if (pondVol === 0) {
+
+          if (pondWaterVolDay > pondVol) {
             bypassFlowVolDay = pondWaterVolDay - pondVol;
-          } else if (pondVol > 0 && pondWaterVolDay > pondVol) {
-            bypassFlowVolDay = pondWaterVolDay - pondVol;
-            if (inflowVolDay - bypassFlowVolDay > 0) {
-              capturedFlowVolDay = inflowVolDay - bypassFlowVolDay;
-            }
+            capturedFlowVolDay = Math.max(inflowVolDay, pondVol - pondWaterVolDay);
             pondWaterVolDay = pondVol;
           }
+
+          /* Nitrate calculations lbs/day */
+          capturedNitrateLoadDay = capturedFlowVolDay * nitrateTable[currentMonth] * 2.719
+          totalNitrateLoadDay = inflowVolDay * nitrateTable[currentMonth] * 2.719
 
           var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
@@ -180,7 +200,9 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             "pondWaterDepth (feet)": pondWaterDepthDay,
             "deficitVol (acre-feet)": deficitVolDay,
             "precipDepth (feet)": precipDepthDay,
-            "capturedFlowVolDay (acre-feet)": capturedFlowVolDay
+            "capturedFlowVolDay (acre-feet)": capturedFlowVolDay,
+            "capturedNitrateLoadDay (lb)": capturedNitrateLoadDay,
+            "totalNitrateLoadDay (lb)": totalNitrateLoadDay
           });
 
           /* update the (day-1) variables */
