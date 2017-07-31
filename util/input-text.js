@@ -21,11 +21,11 @@ exports.getPondArray = function() {
       tooltip: 'The Tool will conduct a simulation for each pond volume between the “Smallest Pond Volume” and the “Largest Pond Volume” using this increment.'
     },
     {
-      label: 'Pond Depth',
+      label: 'Avg. Pond Depth',
       value: '10',
       name: 'pondDepth',
       unit: 'feet',
-      tooltip: 'The maximum possible depth of water in the pond.'
+      tooltip: 'The average depth of the pond.  Equal to maximum pond volume (ac-ft) divided by pond area (ac) when full.'
     },
     {
       label: 'Depth of Water on First Day of Simulation',
