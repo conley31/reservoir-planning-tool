@@ -165,7 +165,7 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           }
 
           var capturedFlowVolDay = 0;
-          capturedFlowVolDay = Math.max(inflowVolDay, pondVol - pondWaterVolDay);
+          capturedFlowVolDay = Math.min(inflowVolDay, pondVol - pondWaterVolDay);
 
           var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
