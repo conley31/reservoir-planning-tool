@@ -9,6 +9,7 @@ Notes:
 
 var db = require('../db');
 var userparse = require('./UserParse');
+require('./decimal-round');
 
 /* monthlyData will be an object that is used inside of allYears to represent each month */
 function monthlyData() {
@@ -165,14 +166,14 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           */
           dailyData[pondVol].push({
             "date": currentDate,
-            "inflowVol (acre-feet)": inflowVolDay,
-            "evaporationVol (acre-feet)": evapVolDay,
-            "seepageVol (acre-feet)": seepageVolDay,
-            "irrigationVol (acre-feet)": irrigationVolDay,
-            "bypassVol (acre-feet)": bypassFlowVolDay,
-            "pondWaterDepth (feet)": pondWaterDepthDay,
-            "deficitVol (acre-feet)": deficitVolDay,
-            "precipDepth (feet)": precipDepthDay
+            "inflowVol (acre-feet)": Math.round10(inflowVolDay, -2),
+            "evaporationVol (acre-feet)": Math.round10(evapVolDay, -2),
+            "seepageVol (acre-feet)": Math.round10(seepageVolDay, -2),
+            "irrigationVol (acre-feet)": Math.round10(irrigationVolDay, -2),
+            "bypassVol (acre-feet)": Math.round10(bypassFlowVolDay, -2),
+            "pondWaterDepth (feet)": Math.round10(pondWaterDepthDay, -2),
+            "deficitVol (acre-feet)": Math.round10(deficitVolDay, -2),
+            "precipDepth (feet)": Math.round10(precipDepthDay, -2)
           });
 
           /* update the (day-1) variables */
