@@ -166,14 +166,14 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           */
           dailyData[pondVol].push({
             "date": currentDate,
-            "inflowVol (acre-feet)": Math.round10(inflowVolDay, -2),
-            "evaporationVol (acre-feet)": Math.round10(evapVolDay, -2),
-            "seepageVol (acre-feet)": Math.round10(seepageVolDay, -2),
-            "irrigationVol (acre-feet)": Math.round10(irrigationVolDay, -2),
-            "bypassVol (acre-feet)": Math.round10(bypassFlowVolDay, -2),
-            "pondWaterDepth (feet)": Math.round10(pondWaterDepthDay, -2),
-            "deficitVol (acre-feet)": Math.round10(deficitVolDay, -2),
-            "precipDepth (feet)": Math.round10(precipDepthDay, -2)
+            "inflowVol (acre-feet)": Math.round10(inflowVolDay, -3),
+            "evaporationVol (acre-feet)": Math.round10(evapVolDay, -3),
+            "seepageVol (acre-feet)": Math.round10(seepageVolDay, -3),
+            "irrigationVol (acre-feet)": Math.round10(irrigationVolDay, -3),
+            "bypassVol (acre-feet)": Math.round10(bypassFlowVolDay, -3),
+            "pondWaterDepth (feet)": Math.round10(pondWaterDepthDay, -3),
+            "deficitVol (acre-feet)": Math.round10(deficitVolDay, -3),
+            "precipDepth (feet)": Math.round10(precipDepthDay, -3)
           });
 
           /* update the (day-1) variables */
