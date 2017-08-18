@@ -143,11 +143,19 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
               deficitVolDay = (irrigationVolDay - pondWaterVolDay);
             }
 
-            if (deficitVolDay > pondWaterVolDay) {
-              deficitVolDay = (irrigationVolDay - pondWaterVolDay);
+            if (deficitVolDay > 0) {
+              irrigationVolDay = irrigationVolDay - deficitVolDay;
             }
 
             soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay + ((irrigationVolDay * 12) / _irrigationArea) - evapDepthDay);
+          }
+
+          if (soilMoistureDepthDay < 0) {
+            soilMoistureDepthDay = 0;
+          }
+
+          if (soilMoistureDepthDay > _maxSoilMoisture) {
+            soilMoistureDepthDay = _maxSoilMoisture;
           }
 
           pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay);
@@ -187,7 +195,10 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             "bypassVol (acre-feet)": Math.round10(bypassFlowVolDay, -3),
             "pondWaterDepth (feet)": Math.round10(pondWaterDepthDay, -3),
             "deficitVol (acre-feet)": Math.round10(deficitVolDay, -3),
-            "precipDepth (feet)": Math.round10(precipDepthDay, -3)
+            "precipDepth (feet)": Math.round10(precipDepthDay, -3),
+            "pondWaterVolDay": Math.round10(pondWaterVolDay, -3),
+            "capturedFlowVolDay": Math.round10(capturedFlowVolDay, -3),
+            "soilMoistureDepthDay": Math.round10(soilMoistureDepthDay, -3)
           });
 
           /* update the (day-1) variables */
