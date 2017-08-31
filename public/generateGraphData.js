@@ -75,8 +75,8 @@ document.generateGraphData.allYearsAveraged = function(allYears, increments){
 				if(allYears[i][j] && typeof allYears[i][j] !== 'undefined'){
 						var k = latestIndex(allYears[i][j]);
 						if(allYears[i][j][k] && typeof allYears[i][j][k] !== 'undefined'){
-							outputArray[j][1] += allYears[i][j][k].bypassFlowVol;
-							outputArray[j][2] += allYears[i][j][k].deficitVol;
+							outputArray[j][1] += allYears[i][j][k].capturedFlowVol;
+							outputArray[j][2] += allYears[i][j][k].irrigationVol;
 						}
 				}
 			}
@@ -85,9 +85,9 @@ document.generateGraphData.allYearsAveraged = function(allYears, increments){
 
 	for(i = 0; i < outputArray.length; i++){
 		if(typeof outputArray[i] !== 'undefined'){
-			outputArray[i][0] = increments[i];	//pondWaterDepth
-			outputArray[i][1] /= allYears.length;	//byPassFlow
-			outputArray[i][2] /= allYears.length; 	//deficitVol
+			outputArray[i][0] = increments[i];  //pondWaterDepth
+			outputArray[i][1] /= allYears.length;	 //capturedFlowVol
+			outputArray[i][2] /= allYears.length;  //irrigationVol
 		}
 	}
 

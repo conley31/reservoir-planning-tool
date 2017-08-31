@@ -290,10 +290,10 @@ var initGraph = function() {
 var graphOne = function() {
   graphData = [];
   graphData[0] = 'Pond Volume (acre-feet)';
-  graphData[1] = 'Bypass Volume';
-  graphData[2] = 'Storage Deficit Volume';
+  graphData[1] = 'Captured Flow';
+  graphData[2] = 'Irrigation';
   graphData[3] = document.generateGraphData.allYearsAveraged(receivedArray.graphData, receivedArray.incData);
-  graphData[4] = 'Bypass Flow and Storage Deficit Volume\n(acre-feet)';
+  graphData[4] = 'Captured Flow and Irrigation Volume\n(acre-feet)';
   graphData[5] = 'graph-1';
   addIncDropdown(receivedArray.incData);
   initGraph();
