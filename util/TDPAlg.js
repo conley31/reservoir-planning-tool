@@ -95,6 +95,10 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
         var pondArea = pondVol / _pondDepth;
         dailyData[pondVol] = [];
 
+        // Nitrate variables
+        var capturedNitrateLoadDay = 0;
+        var totalNitrateLoadDay = 0;
+
         /*
         **********************************************
                    DAY-1 VALUES
@@ -189,6 +193,10 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
 
           var capturedFlowVolDay = 0;
           capturedFlowVolDay = Math.min(inflowVolDay, pondVol - pondWaterVolDay);
+
+          // Nitrate calculations lbs/day
+          capturedNitrateLoadDay = capturedFlowVolDay * nitrateTable[currentMonth] * 2.719
+          totalNitrateLoadDay = inflowVolDay * nitrateTable[currentMonth] * 2.719
 
           var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
