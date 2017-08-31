@@ -26,6 +26,21 @@ function monthlyData() {
   this.capturedFlowVol = 0;
 }
 
+var nitrateTable = {
+  1: 7.58,
+  2: 7.38,
+  3: 8.10,
+  4: 9.23,
+  5: 12.13,
+  6: 14.97,
+  7: 12.29,
+  8: 8.03,
+  9: 7.65,
+  10: 7.35,
+  11: 7.47
+  12: 7.31
+};
+
 exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVolIncrement, _pondDepth, _pondDepthInitial,
   _maxSoilMoisture, _irrigationArea, _irrigationDepth, _availableWaterCapacity, _locationId, _csvFileStream) {
 
