@@ -24,6 +24,8 @@ function monthlyData() {
   this.bypassFlowVolM = 0;
   this.deficitVolM = 0;
   this.capturedFlowVol = 0;
+  this.bypassNitrateLoad = 0;
+  this.capturedNitrateLoad = 0;
 }
 
 var nitrateTable = {
@@ -195,8 +197,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           capturedFlowVolDay = Math.min(inflowVolDay, pondVol - pondWaterVolDay);
 
           // Nitrate calculations lbs/day
+          bypassNitrateLoadDay = bypassFlowVolDay * nitrateTable[currentMonth] * 2.719
           capturedNitrateLoadDay = capturedFlowVolDay * nitrateTable[currentMonth] * 2.719
-          totalNitrateLoadDay = inflowVolDay * nitrateTable[currentMonth] * 2.719
 
           var pondWaterDepthDay = pondWaterVolDay / pondArea;
 
@@ -219,9 +221,11 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
             "pondWaterDepth (feet)": Math.round10(pondWaterDepthDay, -3),
             "deficitVol (acre-feet)": Math.round10(deficitVolDay, -3),
             "precipDepth (feet)": Math.round10(precipDepthDay, -3),
-            "pondWaterVolDay": Math.round10(pondWaterVolDay, -3),
-            "capturedFlowVolDay": Math.round10(capturedFlowVolDay, -3),
-            "soilMoistureDepthDay": Math.round10(soilMoistureDepthDay, -3)
+            "pondWaterVol (acre-feet)": Math.round10(pondWaterVolDay, -3),
+            "capturedFlowVol (acre-feet)": Math.round10(capturedFlowVolDay, -3),
+            "soilMoistureDepth (inches)": Math.round10(soilMoistureDepthDay, -3),
+            "bypassNitrateLoad (lb)": Math.round10(bypassNitrateLoadDay, -3),
+            "capturedNitrateLoad (lb)": Math.round10(capturedNitrateLoadDay, -3)
           });
 
           /* update the (day-1) variables */
@@ -280,6 +284,8 @@ exports.calc = function(_drainedArea, _pondVolSmallest, _pondVolLargest, _pondVo
           allYears[currentYear - initialYear][i][currentMonth].bypassFlowVolM += bypassFlowVolDay;
           allYears[currentYear - initialYear][i][currentMonth].deficitVolM += deficitVolDay;
           allYears[currentYear - initialYear][i][currentMonth].capturedFlowVol += capturedFlowVolDay;
+          allYears[currentYear - initialYear][i][currentMonth].bypassNitrateLoad += bypassNitrateLoadDay;
+          allYears[currentYear - initialYear][i][currentMonth].capturedNitrateLoad += capturedNitrateLoadDay;
         }
 
       }
