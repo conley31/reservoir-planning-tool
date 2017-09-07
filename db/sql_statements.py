@@ -13,12 +13,14 @@ make_table = '''CREATE TABLE IF NOT EXISTS Location{}
               Drainflow FLOAT DEFAULT NULL,
               Precipitation FLOAT DEFAULT NULL,
               PET FLOAT DEFAULT NULL,
+              SurfaceRunoff FLOAT DEFAULT NULL,
+              DAE_PET FLOAT DEFAULT NULL,
               PRIMARY KEY (RecordedDate)
               );'''
 
 insert = '''INSERT INTO Location{}
-          (RecordedDate, Drainflow, Precipitation, PET)
-          VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {});'''
+          (RecordedDate, Drainflow, Precipitation, PET, SurfaceRunoff, DAE_PET)
+          VALUES (STR_TO_DATE('{}', '%Y-%m-%d'), {}, {}, {}, {}, {});'''
 
 select_from = '''SELECT *
                  FROM {};'''

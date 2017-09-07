@@ -25,13 +25,15 @@ def toStrDate(year, month, day):
 
 def ParseDailyData(table_id, textFile):
   with open('db/daily_files/' + textFile, 'rb') as csvfile:
-    stream = csv.reader(csvfile, delimiter=',')
+    stream = csv.reader(csvfile, delimiter='\t')
     for row in stream:
       date = toStrDate(row[0],row[1],row[2])
       dfInches = float(row[3]) * INCH_FACTOR
       precipInches = float(row[4]) * INCH_FACTOR
       PETInches = float(row[5]) * INCH_FACTOR
-      cur.execute(insert.format(table_id, date, dfInches, precipInches, PETInches))
+      surface_runoff = float(row[6]) * INCH_FACTOR
+      dae_pet = float(row[11]) * INCH_FACTOR
+      cur.execute(insert.format(table_id, date, dfInches, precipInches, PETInches, surface_runoff, dae_pet))
       con.commit()
 
 
