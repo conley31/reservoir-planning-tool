@@ -9,7 +9,7 @@ nconf.file({
 file: '../config/config.json'
 });
 if(!Object.keys(nconf.get()).length){
-  throw new Error('Unable t load config file. Make sure config/config.json exists.');
+  throw new Error('Unable to load config file. Make sure config/config.json exists.');
 }
 
 //Create mysql connection pool
