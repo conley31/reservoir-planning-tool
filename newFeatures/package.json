@@ -1,0 +1,17 @@
+{
+  "name": "test-table-count",
+  "version": "1.0.0",
+  "description": "",
+  "main": "iterate-database.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mocha": "^3.5.3",
+    "nconf": "^0.8.4",
+    "request": "^2.82.0"
+  }
+}
