@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<% include partials/head %>
+
+  <body>
+    <% include partials/header %>
+      <!-- Error Modal -->
+      <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Error</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- card container -->
+      <div id="main">
+        <div class="card-container">
+
+          <!-- title description -->
+          <div id="title-desc" class="jumbotron">
+            <h2 class="text-center">What Benefits Can You Expect From Various Storage Volumes?</h2>
+            <p style="font-weight: 300;">
+              The Pond Sizing Tool provides an estimate of the potential
+              benefits of various sizes of ponds or reservoirs for drainage
+              water recycling. Results provide insight into (1) the irrigation
+              potential, and (2) the water quality benefits due to reducing
+              nutrient-rich drainage water discharged for a range of pond sizes.
+			  The Regional Results Tab shows the results of all data calculated
+			  from the database, displayed over the regional map.
+			  
+              See
+              <a href="http://www.extension.purdue.edu/extmedia/ABE/ABE-156-W.pdf">
+                Questions and Answers About Drainage Water Recycling
+              </a> for the
+              Midwest for more information on this practice.
+            </p>
+          </div>
+
+          <!-- pseudo nav bar -->
+          <div id="pseudo-nav" class="card">
+            <button id="map-nav" class="btn" style="display: none;">Map</button>
+            <button id="graph-nav" class="btn active-button">Inputs and Results</button>
+<<<<<<< HEAD
+            <button id="all-map-nav" class="btn">All Results</button>
+=======
+			<button id="all-map-nav" class="btn active-button">Regional Results</button>
+>>>>>>> c9106988b6081848e181cc997c8468ade1b29d50
+            <div style="float:right;">
+              <a href="https://purdue.qualtrics.com/jfe/form/SV_b8YFTDX1ZZul0hv" target="_blank"><button class="btn orange-button">Provide Feedback</button></a>
+              <a href="https://docs.google.com/document/d/1g_BHL_RM6ZHZRVw49yvXK_d01mDOymnlxM9m7XVo4B4/edit?usp=sharing" target="_blank"><button class="btn orange-button">About This Tool</button></a>
+            </div>
+          </div>
+
+          <!-- Map Nav Display-->
+          <div id="map-nav-display" style="display: none;">
+            <h3>To begin, click on a location to select a grid cell that will be used in calculations. Make sure to confirm the selection.</h3>
+            <div id="map-container">
+
+              <!-- buffering overlay -->
+              <div id="map-buffer" class="buffer-container">
+                <div class="loader"></div>
+              </div>
+              <!-- Map -->
+              <div id="map"></div>
+            </div>
+
+            <!-- Prompt and Submit below map -->
+            <button id='map-submit' type="button" class="btn btn-block">Confirm Selection</button>
+          </div>
+
+          <!-- Graph Nav Display -->
+          <div id="graph-nav-display" class="card">
+
+            <!-- Form Input -->
+            <div id="form-data" class="card">
+                <% include partials/calculator-input %>
+            </div>
+
+            <hr class="divider-results">
+
+            <!-- First Graph -->
+            <div id="graph-body" class="card">
+              <!-- Graph description -->
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Changes in Bypass Volume and Storage Deficit (Storage Effects) Across Pond Sizes</h3>
+                This graph shows two calculated values, averaged over all years simulated:
+                <ul>
+                  <li>
+                    Bypass Volume: Amount of drain flow that will not be captured in the pond (less is better, to improve downstream water quality)
+                  </li>
+                  <li>
+                    Storage Deficit: Amount of irrigation water that would have benefited the crop, but was not available when needed (less is better, to improve crop yields)
+                  </li>
+                </ul>
+              </div>
+
+              <!-- buffering overlay -->
+              <div id="graph-buffer" class="buffer-container">
+                <div class="loader"></div>
+              </div>
+              <div id="graph-1" class="card text-center">
+                  <!-- This is where Google Charts will go -->
+              </div>
+            </div>
+
+            <!-- Dropdown for pond increment -->
+            <div id="pond-inc-card" class="card">
+                <h5 style="color: white;">Select a pond volume to view a monthly graph</h5>
+
+                <select id="pond-inc-dropdown" onchange="hideDownloadButton()">
+                </select>
+                &emsp;
+                <button id="pond-inc-submit" class="btn"> submit </button>
+                &emsp;
+
+                <!-- download button for csv -->
+                <a id="download-csv" target="_blank" class="btn">Download a CSV with Daily Data for this Pond Volume</a>
+            </div>
+
+            <!-- Second Graph -->
+            <div id="graph2-body" class="card">
+              <!-- graph description -->
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Pond Water Depth and Storage Effects of a Single Pond Size Across Years</h3>
+                This graph shows the calculated pond depth, bypass flow, and storage deficit averaged over all years simulated.  It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance. For details on an individual years, select a year below.
+              </div>
+              <div id="graph-2" class="card text-center">
+                <!-- This is where Google Charts will go -->
+              </div>
+            </div>
+
+            <!-- Dropdown for years -->
+            <div id="year-card" class="card">
+                <h5 style="color: white;">Select a year in the simulation to view a monthly graph</h5>
+
+                <select id="year-dropdown">
+                </select>
+                &emsp;
+                <button id="year-submit" class="btn"> submit </button>
+            </div>
+
+            <!-- Third Graph -->
+            <div id="graph3-body" class="card">
+              <!-- graph description -->
+              <div id="graph-desc" class="card">
+                <h3 style="font-weight: bold">Pond Water Depth and Storage Effects of a Single Pond and Single Year</h3>
+                This graph shows the calculated pond depth, bypass flow, and storage deficit over the course of a single year. It shows what month the bypass flow and storage deficit were most likely to occur, providing insight on the pond performance.
+              </div>
+              <div>
+                <strong>Pond Inflow: </strong>
+                <div class="btn-group" role="group" style="margin-right: 15px;">
+                  <button type="button" class="btn btn-sm add-var off" value="7"> Drainflow </button>
+                  <button type="button" class="btn btn-sm add-var off" value="8"> Precipitation </button>
+                  <!-- <button type="button" class="btn btn-sm add-var off" value="9"> Surface Runoff </button> -->
+                </div>
+                <strong>Pond Outflow: </strong>
+                <div class="btn-group" role="group" style="margin-right: 15px;">
+                  <button type="button" class="btn btn-sm add-var off" value="4"> Evaporation </button>
+                  <button type="button" class="btn btn-sm add-var off" value="5"> Irrigation </button>
+                  <button type="button" class="btn btn-sm add-var off" value="6"> Seepage </button>
+                </div>
+                <strong>Storage Effects: </strong>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm add-var off" value="9"> Bypass </button>
+                  <button type="button" class="btn btn-sm add-var off" value="10"> Deficit </button>
+                </div>
+              </div>
+              <div id="graph-3" class="card text-center">
+                <!-- This is where Google Charts will go -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% include partials/footer %>
+      <% include partials/scripts %>
+  </body>
+
+</html>
