@@ -1,0 +1,17 @@
+{
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "PondTool",
+        "database": "TDP",
+        "logLocation": ".db.log"
+    },
+    "google_maps": {
+        "key": "AIzaSyBzckXa_7NwI5KtchRMEOP-yPLGuFrp0PU"
+    },
+    "session_secret": "taco cat",
+    "redis ": {
+        "host": "127.0.0.1",
+        "port": 6379
+    }
+}
