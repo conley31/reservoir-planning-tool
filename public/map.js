@@ -5,6 +5,8 @@ document.map;
 document.selectedFeature;
 document.selectedLocationId;
 
+var disableListener = false;
+
 // Function to initialize the Google Map, this gets called by the Google maps API
 var initMap = function() {
   document.map = new google.maps.Map(document.getElementById('map'), {
@@ -53,6 +55,9 @@ var initMap = function() {
 
   // Registers a click event for a single polygon
   document.map.data.addListener('click', function(event) {
+    if(disableListener) {
+      return;
+    }
     selectFeature(event.feature);
   });
 

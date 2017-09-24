@@ -2,12 +2,19 @@
 
 //show map, hide everything else
 $('#map-nav').click(function() {
-
+  disableListener = false;
   //show change on pseudo nav
   $('#map-nav').fadeIn('fast', function() {
     //show change on pseudo nav
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
+    $('#all-map-nav').removeClass('active-button');
+    document.map.data.forEach(function(feature){
+      document.map.data.overrideStyle(feature, {
+        fillColor: 'white',
+        fillOpacity: 0
+      });
+    });
   });
 
   $('#graph-nav-display').fadeOut('fast', function() {
@@ -16,6 +23,30 @@ $('#map-nav').click(function() {
     var centerBeforeResize = document.map.getCenter();
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
     document.map.setCenter(centerBeforeResize); //re-center map after resize
+  });
+});
+
+//this shows the all results tab
+$('#all-map-nav').click(function() {
+  $('#all-map-nav').fadeIn('fast', function() {
+    $(this).addClass('active-button');
+    $('#graph-nav').removeClass('active-button');
+  })
+  $('#graph-nav-display').fadeOut('fast', function() {
+    $('#map-nav-display').fadeIn('fast');
+    $('#map-submit').fadeOut('fast');
+    $('#map-nav').removeClass('active-button');
+    var centerBeforeResize = document.map.getCenter();
+    google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
+    document.map.setCenter(centerBeforeResize); //re-center map after resize
+    document.map.data.forEach(function(feature){
+      document.map.data.overrideStyle(feature, {
+        fillColor: 'blue',
+        fillOpacity: 0.2
+      });
+    });
+    disableListener = true;
+    //document.map.data.removeListener(poly); //This breaks the code for right now
   });
 });
 
@@ -33,6 +64,7 @@ var hideAllGraphs = function() {
 
 //toggle radio button on drain flow options
 $('input[type=radio][name=flowOption]').change(function() {
+  disableListener = false;
   if ($(this).val() == 'option2') {
     $('#userCSV').val('');
     $('#file-div > input').val('');
@@ -60,6 +92,7 @@ $('#graph-nav').click(function() {
   //show change on pseudo nav
   $(this).addClass('active-button');
   $('#map-nav').removeClass('active-button');
+  $('#all-map-nav').removeClass('active-button');
 
   $('#map-nav-display').fadeOut('fast', function() {
     $('#graph-nav-display').fadeIn('fast');
