@@ -3,13 +3,17 @@
 var db = require('../db');
 var gettables = require('./iterate-database');
 
-/* Calculated data holds the algorithm's outputs */
-function calculatedData(){
-    /* TODO add needed vars to hold calculated values (supplied on Sprint 1 Map Goals.docx in slack) */
 
+function cellData() {
+     this.locationID = 0;
+     this.irrigationVolume = 0;
+     this.capturedFlow = 0;
+     this.drainFlow = 0;
+     this.annualIrrigationDepthSupplied = 0;
+     this.percentAnnualCapturedDrainFlow = 0;
 }
 
-exports.calcAllLocations = function(){
+exports.calcAllLocations = function(drainedArea, initialDepth, irrigationIncrement, pondVol, soilMoisture, waterCapacity){
     var tableCount = gettables.getNumberOfTables();
     for (var i = 0; i < tableCount; i++) {
         var locationId = ('Location' + i);
@@ -32,7 +36,9 @@ exports.calcAllLocations = function(){
              * Example: data[2].Precipitation resolves to the third recorded date's precipitation
              *
              */
-                
+
+             var cell = new cellData();
+             cell.locationID = locationId;
                 for(var j = 0; j < data.length; j++){
                     
                 }
