@@ -3,11 +3,41 @@
 var db = require('../db');
 var gettables = require('./iterate-database');
 
-/* Calculated data holds the algorithm's outputs */
-function calculatedData(){
-    /* TODO add needed vars to hold calculated values (supplied on Sprint 1 Map Goals.docx in slack) */
+/*
+ * Constants used in the algorithms. 
+ * Low, Medium, and High are 
+ * DRAINED_AREA is in acres
+ * DEPTH_FIRST_DAY is in feet
+ * IRRIGATION INCREMENT is in inches
+ * VOLUME is in acres
+ * MOISTURE is in ??
+ * WATER_CAPACITY is in ??
+ *
+ */
+const DRAINED_AREA = 80;     
+const DEPTH_FIRST_DAY = 10;
+const IRRIGATION_INCREMENT = 1;
+
+const LOW_VOLUME = 16; 
+const MEDIUM_VOLUME = 48;
+const HIGH_VOLUME = 80;          
+
+const LOW_SOIL_MOISTURE = 7.6;
+const MEDIUM_SOIL_MOISTURE =  12;
+const HIGH_SOIL_MOISTURE = 15.6;
+
+const LOW_WATER_CAPACITY = 4.2;
+const MEDIUM_WATER_CAPACITY = 6.1;
+const HIGH_WATER_CAPACITY = 10.2;
+
+function cellData(loctionID) {
+    this.locationID = locationID;
+    this.cumulativeIrrigationVol = 0;
+    this.AnnualIrrigation = 0;
+    this.annualDrainflowCaptubypassFlowVolred = 0;
 
 }
+
 
 exports.calcAllLocations = function(){
     var tableCount = gettables.getNumberOfTables();
