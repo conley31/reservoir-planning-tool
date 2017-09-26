@@ -99,6 +99,9 @@ var initMap = function() {
     locMarker.setPosition(places[0].geometry.location);
     document.map.setCenter(places[0].geometry.location);
     document.map.setZoom(11);
+    if(disableListener) {
+      return;
+    }
     selectLocation(places[0].geometry.location);
   });
 
