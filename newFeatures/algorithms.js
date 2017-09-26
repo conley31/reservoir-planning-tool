@@ -32,6 +32,24 @@ function cellData() {
              */
 
 exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity){
+    if (drainedArea <= 0) {
+	console.log("ILLEGAL VALUE drainedArea: " + drainedArea);
+    }
+    if (pondDepth <= 0) {
+	console.log("ILLEGAL VALUE pondDepth: " + pondDepth);
+    } 
+    if (irrigationDepth <= 0) {
+	console.log("ILLEGAL VALUE irrigationDepth: " + irrigationDepth);
+    }
+    if (pondVol <= 0) {
+	console.log("ILLEGAL VALUE pondVol: " + pondVol);
+    }
+    if (soilMoisture <= 0) {
+	console.log("ILLEGAL VALUE soilMoisture: " + soilMoisture);
+    }
+    if (waterCapacity <= 0) {
+	console.log("ILLEGAL VALUE waterCapacity: " + waterCapacity);
+    }
     var tableCount = gettables.getNumberOfTables();
 
     var allCells = [];
