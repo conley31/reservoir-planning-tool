@@ -38,11 +38,11 @@ var initMap = function() {
   }
   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
 
-  // Enforces a zoom level between 6 and 11
+  // Enforces a zoom level between 5 and 12
   document.map.addListener('zoom_changed', function() {
-    if (document.map.getZoom() < 6) {
+    if (document.map.getZoom() < 5) {
       document.map.setZoom(6);
-    } else if (document.map.getZoom() > 11) {
+    } else if (document.map.getZoom() > 12) {
       document.map.setZoom(11);
     }
   });
