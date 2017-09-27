@@ -27,6 +27,17 @@ var initMap = function() {
     strokeOpacity: 0.12
   });
 
+
+  // Function to initialize LEGEND
+  var legend = document.getElementById('legend');
+  for (var style in styles) {
+	var name = style.name;
+	var dive = document.createElement('div');
+	div.innerHTML = name;
+	legend.appendChild(div);
+  }
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+
   // Enforces a zoom level between 6 and 11
   document.map.addListener('zoom_changed', function() {
     if (document.map.getZoom() < 6) {
