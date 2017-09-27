@@ -27,7 +27,7 @@ var initMap = function() {
     strokeOpacity: 0.12
   });
 
-
+/*          Leaving this out for now, not sure how but it is causing bugs
   // Function to initialize LEGEND
   var legend = document.getElementById('legend');
   for (var style in styles) {
@@ -36,8 +36,8 @@ var initMap = function() {
 	div.innerHTML = name;
 	legend.appendChild(div);
   }
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
-
+//  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+*/
   // Enforces a zoom level between 5 and 12
   document.map.addListener('zoom_changed', function() {
     if (document.map.getZoom() < 5) {
