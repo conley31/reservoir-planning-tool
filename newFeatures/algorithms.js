@@ -56,9 +56,11 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   var allCells = [];
   var locationId;
   var allYears;
+  var csvData = {};
   for (var i = 0; i < tableCount; i++) {
     locationId = ('Location' + i);
     var cell = new cellData();     //create new cell to be inserted into the array. Each cell represents one location(grid cell).
+    csvData[i] = [];
     cell.locationID = locationId;
 
     TDPalg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, locationId).then(function(data){
@@ -73,18 +75,28 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
           }    
         }
       } 
-    }
+    });
     db.getLocationById(i).then(function(temp){   
       for(var j = 0; j < temp.lenght; j++){
         cell.cumulativeDrainflow += temp.Drainflow;
       }
-    }
+    });
 
     /* Perform Calculations */
     cell.annualIrrigationDepthSupplied = (cell.cumulativeIrrigationVolume * .15);
     cell.percentAnnualCapturedDrainflow = (cell.cumulativeCapturedFlow / cell.cumulativeDrainflow);
     allCells[i] = cell;
+
+    //update CSV data
+    csvData[i].push({
+        "LocationID": cell.locationID,
+        "Annual Irrigation Depth Supplied": cell.annualIrrigationDepthSupplied,
+        "Percent Annual Captured Dranflow": cell.percentAnnualCaptuedDrainflow
+    });
   }
-    return allCells;
+    return{
+        allCells: allCells,
+        csvData: csvData
+    };
 }
 
