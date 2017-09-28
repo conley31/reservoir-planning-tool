@@ -33,4 +33,4 @@ const HIGH_WATER_CAPACITY = 10.2;
  * Map[8] = calcAllLocations(DRAINED_AREA,DEPTH_FIRST_DAY,IRRIGATION_INCREMENT, HIGH_VOLUME, HIGH_SOIL_MOISTURE, HIGH_WATER_CAPACITY);
  *
  * where Map is an array holding our map data computed by calcAllLocations()
-/*
+ */
