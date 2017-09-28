@@ -6,7 +6,7 @@ var nconf = require('nconf');
 
 //set up config file
 nconf.file({
-file: '../config/config.json'
+file: './config/config.json'
 });
 if(!Object.keys(nconf.get()).length){
   throw new Error('Unable to load config file. Make sure config/config.json exists.');

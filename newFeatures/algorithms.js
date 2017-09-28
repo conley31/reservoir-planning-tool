@@ -2,7 +2,7 @@
 
 var db = require('../db');
 var gettables = require('./iterate-database');
-var TDPAlg = require('./util/TDPAlg.js');
+var TDPAlg = require('../util/TDPAlg.js');
 
 
 function cellData() {
