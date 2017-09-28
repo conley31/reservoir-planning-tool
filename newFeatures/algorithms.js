@@ -63,7 +63,7 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
     csvData[i] = [];
     cell.locationID = locationId;
 
-    TDPalg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, locationId).then(function(data){
+    TDPalg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, locationId,void 0).then(function(data){
       allYears = data.graphData;   //graphData is the allYears array computed by TDPalg.calc
       for(var j = 0; j < allYears.length; j++){
         if(typeof allYears[j] !== 'undefined'){

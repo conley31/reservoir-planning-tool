@@ -29,7 +29,7 @@ exports.getNumberOfTables = () => {
           if (err){
           reject(err);
           } else {
-          connection.query("SELECT count(*) AS tablesCount FROM information_schema.tables WHERE table_schema = 'TEMP'", function(error,results,fields){
+          connection.query("SELECT count(*) AS tablesCount FROM information_schema.tables WHERE table_schema = 'TDP'", function(error,results,fields){
               connection.release();
               if(error){
               reject(error);
