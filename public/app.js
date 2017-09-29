@@ -9,6 +9,7 @@ $('#map-nav').click(function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
     $('#all-map-nav').removeClass('active-button');
+	$('#legend').fadeOut('fast');
     document.map.data.forEach(function(feature){
       document.map.data.overrideStyle(feature, {
         fillColor: 'white',
@@ -36,6 +37,7 @@ $('#all-map-nav').click(function() {
     $('#map-nav-display').fadeIn('fast');
     $('#map-submit').fadeOut('fast');
     $('#map-nav').removeClass('active-button');
+	$('#legend').fadeIn('fast');
     var centerBeforeResize = document.map.getCenter();
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
     document.map.setCenter(centerBeforeResize); //re-center map after resize
