@@ -56,10 +56,10 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   var calculationPromises = [];
 
   for (var i = 0; i < 5; i++) {
-   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth,pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
+   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
    }
 
-   Promise.all(calculationPromises).then(function(data){
+   return Promise.all(calculationPromises).then(function(data){
     var allCells = [];
     for (var i = 0; i < 5; i++){
       allCells[i] = new cellData();
@@ -76,9 +76,9 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
         }
       }
       allCells[i].annualIrrigationDepthSupplied = (allCells[i].cumulativeIrrigationVolume * .15);
-      console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
+      //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
     }
+	
+	return allCells;
    });
-
-
 }
