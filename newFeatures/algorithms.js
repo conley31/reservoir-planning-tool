@@ -52,51 +52,33 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
     console.log("ILLEGAL VALUE waterCapacity: " + waterCapacity);
   }
 
-  var tableCount = gettables.getNumberOfTables();
-  var allCells = [];
-  var locationId;
-  var allYears;
   var csvData = {};
-  for (var i = 0; i < tableCount; i++) {
-    locationId = ('Location' + i);
-    var cell = new cellData();     //create new cell to be inserted into the array. Each cell represents one location(grid cell).
-    csvData[i] = [];
-    cell.locationID = locationId;
+  var calculationPromises = [];
 
-    TDPalg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, locationId,void 0).then(function(data){
-      allYears = data.graphData;   //graphData is the allYears array computed by TDPalg.calc
-      for(var j = 0; j < allYears.length; j++){
+  for (var i = 0; i < 5; i++) {
+   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth,pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
+   }
+
+   Promise.all(calculationPromises).then(function(data){
+    var allCells = [];
+    for (var i = 0; i < 5; i++){
+      allCells[i] = new cellData();
+      allCells[i].locationID = ('Location' + i);
+      var allYears = data[i].graphData;
+      for( var j = 0; j <allYears.length; j++){
         if(typeof allYears[j] !== 'undefined'){
-          for(var k = 0; k < allYears[j].length; k++){
-            if(typeof allYears[j][1][k] !== 'undefined'){   //using '1' because 0 is the empty pond
-              cell.cumulativeIrrigationVolume += allYears[j][1][m].irrigationVol;
-              cell.cumulativeCapturedFlow += allYears[j][1][m].capturedFlowVol;
-             }
-          }    
+          for ( var k = 0; k < allYears[j][1].length; k++){
+            if(typeof allYears[j][1][k] !== 'undefined'){
+              allCells[i].cumulativeIrrigationVolume += allYears[j][1][k].irrigationVol;
+              allCells[i].cumulativeCapturedFlow += allYears[j][1][k].capturedFlowVol;
+            }
+          }
         }
-      } 
-    });
-    db.getLocationById(i).then(function(temp){   
-      for(var j = 0; j < temp.lenght; j++){
-        cell.cumulativeDrainflow += temp.Drainflow;
       }
-    });
+      allCells[i].annualIrrigationDepthSupplied = (allCells[i].cumulativeIrrigationVolume * .15);
+      console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
+    }
+   });
 
-    /* Perform Calculations */
-    cell.annualIrrigationDepthSupplied = (cell.cumulativeIrrigationVolume * .15);
-    cell.percentAnnualCapturedDrainflow = (cell.cumulativeCapturedFlow / cell.cumulativeDrainflow);
-    allCells[i] = cell;
 
-    //update CSV data
-    csvData[i].push({
-        "LocationID": cell.locationID,
-        "Annual Irrigation Depth Supplied": cell.annualIrrigationDepthSupplied,
-        "Percent Annual Captured Dranflow": cell.percentAnnualCaptuedDrainflow
-    });
-  }
-    return{
-        allCells: allCells,
-        csvData: csvData
-    };
 }
-
