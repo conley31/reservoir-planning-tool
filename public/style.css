@@ -201,6 +201,13 @@ select {
   z-index:500;
 }
 
+#map2 {
+  width: inherit;
+  height: inherit;
+  position:relative;
+  z-index:500;
+}
+
 /*LEGEND*/
 #legend {
   font-family: Arial, sans-serif
