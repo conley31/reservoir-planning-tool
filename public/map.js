@@ -2,6 +2,7 @@
  *   Maps
  */
 document.map;
+document.regionalmap;
 document.selectedFeature;
 document.selectedLocationId;
 
@@ -119,6 +120,86 @@ var initMap = function() {
   //remove buffer after map is loaded
   google.maps.event.addListener(document.map, 'idle', function() {
     $('#map-buffer').fadeOut('fast');
+  });
+
+  document.regionalmap = new google.maps.Map(document.getElementById('map2'), {
+    center: {
+      lat: 41.8781, // Center at Chicago
+      lng: -87.6298
+    },
+    scrollwheel: false,
+    zoom: 6
+  });
+
+  document.regionalmap.data.loadGeoJson('final_index_FeaturesToJSON.json');
+  document.regionalmap.data.setStyle({
+    fillColor: 'white',
+    fillOpacity: 0,
+    strokeWeight: 1,
+    strokeColor: 'blue',
+    strokeOpacity: 0.12
+  });
+
+  // Enforces a zoom level between 5 and 12
+  document.regionalmap.addListener('zoom_changed', function() {
+    if (document.regionalmap.getZoom() < 5) {
+      document.regionalmap.setZoom(6);
+    } else if (document.regionalmap.getZoom() > 12) {
+      document.regionalmap.setZoom(11);
+    }
+  });
+
+  document.regionalmap.addListener('dragend', function() {
+    if (bounds.contains(document.regionalmap.getCenter())) {
+      return;
+    }
+    var center = document.regionalmap.getCenter();
+    if (center.lng() < bounds.getNorthEast().lng()) x = bounds.getNorthEast().lng();
+    if (center.lng() > bounds.getNorthEast().lat()) x = bounds.getNorthEast().lat();
+    if (center.lat() < bounds.getSouthWest().lng()) y = bounds.getSouthWest().lng();
+    if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
+    document.regionalmap.setCenter(new google.maps.LatLng(y, x));
+  });
+
+  // Geolocation for HTML5 compatible browsers
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      locMarker.setPosition(pos);
+    });
+  }
+
+  // Create the search box and link it to the UI element.
+  var input = document.getElementById('places-input');
+  var searchBox = new google.maps.places.SearchBox(input, {
+    bounds: bounds
+  });
+  document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  // Bias the SearchBox results towards current map's viewport.
+  document.regionalmap.addListener('bounds_changed', function() {
+    searchBox.setBounds(document.regionalmap.getBounds());
+  });
+  // Listen for a new place from the search box
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+      return;
+    }
+    // Center on the map and zoom in
+    locMarker.setPosition(places[0].geometry.location);
+    document.regionalmap.setCenter(places[0].geometry.location);
+    document.regionalmap.setZoom(11);
+  });
+
+  //remove buffer after map is loaded
+  google.maps.event.addListener(document.regionalmap, 'idle', function() {
+    $('#map-buffer2').fadeOut('fast');
   });
 };
 

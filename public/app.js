@@ -34,15 +34,16 @@ $('#all-map-nav').click(function() {
     $('#graph-nav').removeClass('active-button');
   })
   $('#graph-nav-display').fadeOut('fast', function() {
-    $('#map-nav-display').fadeIn('fast');
+    $('#map-nav-display').fadeOut('fast');
     $('#map-submit').fadeOut('fast');
     $('#map-nav').removeClass('active-button');
 	$('#legend').fadeIn('fast');
-    var centerBeforeResize = document.map.getCenter();
+    $('#regional-map').fadeIn('fast');
+    var centerBeforeResize = document.regionalmap.getCenter();
     google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
-    document.map.setCenter(centerBeforeResize); //re-center map after resize
-    document.map.data.forEach(function(feature){
-      document.map.data.overrideStyle(feature, {
+    document.regionalmap.setCenter(centerBeforeResize); //re-center map after resize
+    document.regionalmap.data.forEach(function(feature){
+      document.regionalmap.data.overrideStyle(feature, {
         fillColor: 'blue',
         fillOpacity: 0.2
       });
