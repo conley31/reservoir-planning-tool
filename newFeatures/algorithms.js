@@ -54,31 +54,51 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 
   var csvData = {};
   var calculationPromises = [];
+  var drainPromises = [];
 
   for (var i = 0; i < 5; i++) {
    calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
+   drainPromises[i] = calcDrainflow(i);
    }
 
-   return Promise.all(calculationPromises).then(function(data){
-    var allCells = [];
-    for (var i = 0; i < 5; i++){
-      allCells[i] = new cellData();
-      allCells[i].locationID = ('Location' + i);
-      var allYears = data[i].graphData;
-      for( var j = 0; j <allYears.length; j++){
-        if(typeof allYears[j] !== 'undefined'){
-          for ( var k = 0; k < allYears[j][1].length; k++){
-            if(typeof allYears[j][1][k] !== 'undefined'){
-              allCells[i].cumulativeIrrigationVolume += allYears[j][1][k].irrigationVol;
-              allCells[i].cumulativeCapturedFlow += allYears[j][1][k].capturedFlowVol;
-            }
-          }
-        }
-      }
-      allCells[i].annualIrrigationDepthSupplied = (allCells[i].cumulativeIrrigationVolume * .15);
-      //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
-    }
-	
-	return allCells;
+   return Promise.all(drainPromises).then(function(drainData) {
+	   return Promise.all(calculationPromises).then(function(data){
+			var allCells = [];
+			for (var i = 0; i < 5; i++){
+			  allCells[i] = new cellData();
+			  allCells[i].locationID = ('Location' + i);
+			  var allYears = data[i].graphData;
+			  for( var j = 0; j <allYears.length; j++){
+				if(typeof allYears[j] !== 'undefined'){
+				  for ( var k = 0; k < allYears[j][1].length; k++){
+					if(typeof allYears[j][1][k] !== 'undefined'){
+					  allCells[i].cumulativeIrrigationVolume += allYears[j][1][k].irrigationVol;
+					  allCells[i].cumulativeCapturedFlow += allYears[j][1][k].capturedFlowVol;
+					  allCells[i].cumulativeDrainflow = drainData[i];
+					}
+				  }
+				}
+			  }
+			  allCells[i].annualIrrigationDepthSupplied = (allCells[i].cumulativeIrrigationVolume * .15);
+			  allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
+			  //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
+			}
+			
+			return allCells;
+		});
+	   return allCells;
    });
+}
+
+function calcDrainflow(_locationId) {
+	var drainflow = 0;
+	return new Promise(function(resolve, reject) {
+		db.getLocationById(_locationId).then(function(data) {
+			for(var i = 0; i < data.length; i++) {
+				drainflow += data[i].Drainflow;
+			}
+			
+			resolve(drainflow);
+		});
+	});
 }
