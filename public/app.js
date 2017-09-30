@@ -9,13 +9,7 @@ $('#map-nav').click(function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
     $('#all-map-nav').removeClass('active-button');
-	$('#legend').fadeOut('fast');
-    document.map.data.forEach(function(feature){
-      document.map.data.overrideStyle(feature, {
-        fillColor: 'white',
-        fillOpacity: 0
-      });
-    });
+    $('#regional-map').fadeOut('fast');
   });
 
   $('#graph-nav-display').fadeOut('fast', function() {
@@ -37,10 +31,9 @@ $('#all-map-nav').click(function() {
     $('#map-nav-display').fadeOut('fast');
     $('#map-submit').fadeOut('fast');
     $('#map-nav').removeClass('active-button');
-	$('#legend').fadeIn('fast');
     $('#regional-map').fadeIn('fast');
     var centerBeforeResize = document.regionalmap.getCenter();
-    google.maps.event.trigger(map, 'resize'); //to make gmap fit to entire div
+    google.maps.event.trigger(map2, 'resize'); //to make gmap fit to entire div
     document.regionalmap.setCenter(centerBeforeResize); //re-center map after resize
     document.regionalmap.data.forEach(function(feature){
       document.regionalmap.data.overrideStyle(feature, {
@@ -96,6 +89,7 @@ $('#graph-nav').click(function() {
   $(this).addClass('active-button');
   $('#map-nav').removeClass('active-button');
   $('#all-map-nav').removeClass('active-button');
+  $('#regional-map').fadeOut('fast');
 
   $('#map-nav-display').fadeOut('fast', function() {
     $('#graph-nav-display').fadeIn('fast');

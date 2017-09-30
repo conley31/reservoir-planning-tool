@@ -174,7 +174,7 @@ var initMap = function() {
   }
 
   // Create the search box and link it to the UI element.
-  var input = document.getElementById('places-input');
+  /*var input = document.getElementById('places-input');
   var searchBox = new google.maps.places.SearchBox(input, {
     bounds: bounds
   });
@@ -195,7 +195,7 @@ var initMap = function() {
     locMarker.setPosition(places[0].geometry.location);
     document.regionalmap.setCenter(places[0].geometry.location);
     document.regionalmap.setZoom(11);
-  });
+  });*/
 
   //remove buffer after map is loaded
   google.maps.event.addListener(document.regionalmap, 'idle', function() {
