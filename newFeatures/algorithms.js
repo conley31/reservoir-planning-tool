@@ -56,7 +56,9 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   var calculationPromises = [];
   var drainPromises = [];
 
-  for (var i = 0; i < 5; i++) {
+  return gettables.getNumberOfTables().then(function(iterations){
+
+  for (var i = 0; i < iterations; i++) {
    calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
    drainPromises[i] = calcDrainflow(i);
    }
@@ -64,7 +66,7 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
    return Promise.all(drainPromises).then(function(drainData) {
 	   return Promise.all(calculationPromises).then(function(data){
 			var allCells = [];
-			for (var i = 0; i < 5; i++){
+			for (var i = 0; i < iterations; i++){
 			  allCells[i] = new cellData();
 			  allCells[i].locationID = ('Location' + i);
 			  var allYears = data[i].graphData;
@@ -88,6 +90,10 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 		});
 	   return allCells;
    });
+   return allCells;
+ });
+  return allCells;
+
 }
 
 function calcDrainflow(_locationId) {
