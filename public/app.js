@@ -41,6 +41,9 @@ $('#all-map-nav').click(function() {
         fillOpacity: 0.2
       });
     });
+    $('.add-var').unbind('click').bind('click', function () {
+      colorMap($(this));
+    });
     disableListener = true;
     //document.map.data.removeListener(poly); //This breaks the code for right now
   });
@@ -185,3 +188,4 @@ $(document).on('change', ':file', function() {
 $(function() {
   $("[data-toggle='popover']").popover();
 });
+
