@@ -82,7 +82,12 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 				}
 			  }
 			  allCells[i].annualIrrigationDepthSupplied = (allCells[i].cumulativeIrrigationVolume * .15);
-			  allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
+			  if (allCells[i].cumulativeCapturedFlow == 0 || allCells[i].cumulativeDrainflow == 0) {
+				  allCells[i].percentAnnualCapturedDrainFlow = 0;
+			  }
+			  else {
+				allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
+			  }
 			  //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
 			}
 			
