@@ -270,6 +270,33 @@ select {
   border-radius: 5px;
 }
 
+#legend-percentage {
+  position: relative !important;
+  float: right;
+  left:-15px !important;
+
+  height: 500px;
+  width: 30vw;
+  min-width: 100px;
+  max-width: 250px;
+  
+  margin-top: 30px;
+  padding: 0px 0px 0px 50px;
+  
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+  -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.35);
+  
+  font-size: 1.4em;
+
+  background-color: white;
+  background: url('legend_percentage.png') no-repeat;
+  background-size: cover;
+
+  border-style: none;
+  border-radius: 5px;
+}
+
 #map-submit {
   display: none;
 }

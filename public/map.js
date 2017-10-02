@@ -96,6 +96,10 @@ var initMap = function() {
   });
   document.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+
+  var legend
+
+
   // Bias the SearchBox results towards current map's viewport.
   document.map.addListener('bounds_changed', function() {
     searchBox.setBounds(document.map.getBounds());
@@ -160,6 +164,11 @@ var initMap = function() {
     if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
     document.regionalmap.setCenter(new google.maps.LatLng(y, x));
   });
+
+/*  input legend image
+  var legend_percentage = document.getElementById('legend-percentage');
+  document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
+*/
 
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
