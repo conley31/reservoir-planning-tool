@@ -32,7 +32,7 @@ function cellData() {
  *
  */
 
-exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity){
+exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity, position){
   if (drainedArea <= 0) {
     console.log("ILLEGAL VALUE drainedArea: " + drainedArea);
   }
@@ -55,20 +55,24 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   var csvData = {};
   var calculationPromises = [];
   var drainPromises = [];
+  var pos = position;
 
-  return gettables.getNumberOfTables().then(function(iterations){
+  //return gettables.getNumberOfTables().then(function(iterations){
 
+  var iterations = 936;
   for (var i = 0; i < iterations; i++) {
-   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
-   drainPromises[i] = calcDrainflow(i);
+   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, pos,void 0);
+   drainPromises[i] = calcDrainflow(pos);
+   pos++;
    }
 
+   pos = position;
    return Promise.all(drainPromises).then(function(drainData) {
 	   return Promise.all(calculationPromises).then(function(data){
 			var allCells = [];
 			for (var i = 0; i < iterations; i++){
 			  allCells[i] = new cellData();
-			  allCells[i].locationID = ('Location' + i);
+			  allCells[i].locationID = ('Location' + pos);
 			  var allYears = data[i].graphData;
 			  for( var j = 0; j <allYears.length; j++){
 				if(typeof allYears[j] !== 'undefined'){
@@ -88,6 +92,7 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 			  else {
 				allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
 			  }
+			  pos++;
 			  //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
 			}
 			
@@ -96,8 +101,8 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 	   return allCells;
    });
    return allCells;
- });
-  return allCells;
+ //});
+  //return allCells;
 
 }
 
