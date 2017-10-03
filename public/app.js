@@ -35,12 +35,7 @@ $('#all-map-nav').click(function() {
     var centerBeforeResize = document.regionalmap.getCenter();
     google.maps.event.trigger(map2, 'resize'); //to make gmap fit to entire div
     document.regionalmap.setCenter(centerBeforeResize); //re-center map after resize
-    document.regionalmap.data.forEach(function(feature){
-      document.regionalmap.data.overrideStyle(feature, {
-        fillColor: 'blue',
-        fillOpacity: 0.2
-      });
-    });
+    
     $('.add-var').unbind('click').bind('click', function () {
       colorMap($(this));
     });
