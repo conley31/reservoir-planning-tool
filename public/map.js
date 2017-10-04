@@ -165,10 +165,9 @@ var initMap = function() {
     document.regionalmap.setCenter(new google.maps.LatLng(y, x));
   });
 
-/*  input legend image
+  //input legend image;
   var legend_percentage = document.getElementById('legend-percentage');
   document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
-*/
 
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
@@ -209,6 +208,62 @@ var initMap = function() {
   //remove buffer after map is loaded
   google.maps.event.addListener(document.regionalmap, 'idle', function() {
     $('#map-buffer2').fadeOut('fast');
+  });
+
+  document.comparemap = new google.maps.Map(document.getElementById('map3'), {
+    center: {
+      lat: 41.8781, // Center at Chicago
+      lng: -87.6298
+    },
+    scrollwheel: false,
+    zoom: 6
+  });
+
+  document.comparemap.data.loadGeoJson('final_index_FeaturesToJSON.json');
+  document.comparemap.data.setStyle({
+    fillColor: 'white',
+    fillOpacity: 0,
+    strokeWeight: 1,
+    strokeColor: 'blue',
+    strokeOpacity: 0.12
+  });
+
+  // Enforces a zoom level between 5 and 12
+  document.comparemap.addListener('zoom_changed', function() {
+    if (document.comparemap.getZoom() < 5) {
+      document.comparemap.setZoom(6);
+    } else if (document.comparemap.getZoom() > 12) {
+      document.comparemap.setZoom(11);
+    }
+  });
+
+  document.comparemap.addListener('dragend', function() {
+    if (bounds.contains(document.comparemap.getCenter())) {
+      return;
+    }
+    var center = document.comparemap.getCenter();
+    if (center.lng() < bounds.getNorthEast().lng()) x = bounds.getNorthEast().lng();
+    if (center.lng() > bounds.getNorthEast().lat()) x = bounds.getNorthEast().lat();
+    if (center.lat() < bounds.getSouthWest().lng()) y = bounds.getSouthWest().lng();
+    if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
+    document.comparemap.setCenter(new google.maps.LatLng(y, x));
+  });
+
+
+  // Geolocation for HTML5 compatible browsers
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      locMarker.setPosition(pos);
+    });
+  }
+
+google.maps.event.addListener(document.comparemap, 'idle', function() {
+    $('#map-buffer3').fadeOut('fast');
   });
 };
 

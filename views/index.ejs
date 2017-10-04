@@ -63,22 +63,22 @@
             <h3>This is the desctription for the regional tab.</h3>
             <strong>Pond Size: </strong>
                 <div class="btn-group" role="group" style="margin-right: 15px;">
-                  <button type="button" class="btn btn-sm add-var on" name="pond-size" value="16"> 16 acre feet </button>
-                  <button type="button" class="btn btn-sm add-var off" name="pond-size" value="48"> 48 acre feet </button>
-                  <button type="button" class="btn btn-sm add-var off" name="pond-size" value="80"> 80 acre feet </button>
+                  <button type="button" class="btn btn-sm add-var off" name="pond-size" value="0"> 16 acre feet </button>
+                  <button type="button" class="btn btn-sm add-var off" name="pond-size" value="1"> 48 acre feet </button>
+                  <button type="button" class="btn btn-sm add-var off" name="pond-size" value="2"> 80 acre feet </button>
                 </div>
 
             <strong>Soil Water Storage: </strong>
               <div class="btn-group" role="group" style="margin-right: 15px;">
-                <button type="button" name="water" class="btn btn-sm add-var on" value="7"> Low </button>
-                  <button type="button" name="water" class="btn btn-sm add-var off" value="8"> Medium </button>
-                  <button type="button" name="water" class="btn btn-sm add-var off" value="8"> High </button>
+                <button type="button" name="water" class="btn btn-sm add-var off" value="0"> Low </button>
+                  <button type="button" name="water" class="btn btn-sm add-var off" value="1"> Medium </button>
+                  <button type="button" name="water" class="btn btn-sm add-var off" value="2"> High </button>
               </div>
 
             <strong>Results: </strong>
               <div class="btn-group" role="group" style="margin-right: 15px;">
-                <button type="button" name="results" class="btn btn-sm add-var on" value="7"> Annual irrigation (inches) </button>
-                  <button type="button" name="results" class="btn btn-sm add-var off" value="8"> Percent of annual drain</button>
+                <button type="button" name="results" class="btn btn-sm add-var off" value="0"> Annual irrigation (inches) </button>
+                  <button type="button" name="results" class="btn btn-sm add-var off" value="1"> Percent of annual drain</button>
               </div>
 
             <div id="map-container">
@@ -95,6 +95,42 @@
             <!-- LEGEND GOES HERE-->
             <div id="legend"><h3>Legend</h3></div>
             <button id="compare-maps" type="button" class="btn">Compare Maps</button>
+
+            <!--COMPARE MAP -->
+            <div id="comparemap">
+              <h3>This is the desctription for the Comparison Map.</h3>
+              <strong>Pond Size: </strong>
+              <div class="btn-group" role="group" style="margin-right: 15px;">
+                <button type="button" class="btn btn-sm add-var off" name="notpond-size" value="0"> 16 acre feet </button>
+                <button type="button" class="btn btn-sm add-var off" name="notpond-size" value="1"> 48 acre feet </button>
+                <button type="button" class="btn btn-sm add-var off" name="notpond-size" value="2"> 80 acre feet </button>
+              </div>
+
+              <strong>Soil Water Storage: </strong>
+              <div class="btn-group" role="group" style="margin-right: 15px;">
+                <button type="button" name="notwater" class="btn btn-sm add-var off" value="0"> Low </button>
+                <button type="button" name="notwater" class="btn btn-sm add-var off" value="1"> Medium </button>
+                <button type="button" name="notwater" class="btn btn-sm add-var off" value="2"> High </button>
+              </div>
+
+              <strong>Results: </strong>
+              <div class="btn-group" role="group" style="margin-right: 15px;">
+                <button type="button" name="notresults" class="btn btn-sm add-var off" value="0"> Annual irrigation (inches) </button>
+                <button type="button" name="notresults" class="btn btn-sm add-var off" value="1"> Percent of annual drain</button>
+              </div>
+
+              <!-- CODE FOR THE COMPARISON MAP -->
+              <div id="map-container">
+
+              <!-- buffering overlay -->
+              <div id="map-buffer3" class="buffer-container">
+                <div class="loader"></div>
+              </div>
+              <!-- Map -->
+              <div id="map3"></div>
+
+            </div>
+            </div>
             
           </div>
 

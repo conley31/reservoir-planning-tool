@@ -208,6 +208,13 @@ select {
   z-index:500;
 }
 
+#map3 {
+  width: inherit;
+  height: inherit;
+  position:relative;
+  z-index:500;
+}
+
 /*LEGEND*/
 #legend {
   font-family: Arial, sans-serif
@@ -273,7 +280,7 @@ select {
 #legend-percentage {
   position: relative !important;
   float: right;
-  left:-15px !important;
+  left: -40px !important;
 
   height: 500px;
   width: 30vw;

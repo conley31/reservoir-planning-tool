@@ -1,3 +1,8 @@
+
+var pondval = -1;
+var waterval = -1;
+var resultsval = -1;
+
 var colorMap = function(addVariable) {
   if (addVariable.hasClass('on')) {
     return;
@@ -7,11 +12,13 @@ var colorMap = function(addVariable) {
   var water = document.getElementsByName("water");
   var results = document.getElementsByName("results");
 
+  
+
   var contain = -1; //0 for pondsize 1 for water 2 for results
 
   for(var i = 0; i < pondsize.length; i++) {
     if($(pondsize[i]).is(addVariable)){
-      console.log("equal");
+      pondval = parseInt($(pondsize[i]).val());
       contain = 0;
       break;
     }
@@ -20,6 +27,7 @@ var colorMap = function(addVariable) {
   if(contain == -1) {
     for(var i = 0; i < water.length; i++) {
       if($(water[i]).is(addVariable)){
+        waterval = parseInt($(water[i]).val());
         contain = 1;
         break;
       }
@@ -27,6 +35,7 @@ var colorMap = function(addVariable) {
     if(contain == -1) {
       for(var i = 0; i < results.length; i++) {
         if($(results[i]).is(addVariable)){
+          resultsval = parseInt($(results[i]).val());
           contain = 2;
           break;
         }
@@ -62,5 +71,136 @@ var colorMap = function(addVariable) {
   addVariable.removeClass('off');
   addVariable.addClass('on');
 
+  if(pondval == -1 || waterval == -1 || resultsval == -1){
+    return;
+  }
 
+  if(pondval == 0 || waterval == 0){
+    $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 1 || waterval == 0){
+    $.getJSON("/data_sets/allData-48vol-Low.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 2 || waterval == 0){
+    $.getJSON("/data_sets/allData-80vol-Low.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 0 || waterval == 1){
+    $.getJSON("/data_sets/allData-16vol-Medium.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 0 || waterval == 2){
+    $.getJSON("/data_sets/allData-16vol-High.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 1 || waterval == 1){
+    $.getJSON("/data_sets/allData-48vol-Medium.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 1 || waterval == 2){
+    $.getJSON("/data_sets/allData-48vol-High.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 2 || waterval == 1){
+    $.getJSON("/data_sets/allData-80vol-Medium.json", function(json) {
+      setColor(json);
+    });
+  }
+  else if(pondval == 2 || waterval == 2){
+    $.getJSON("/data_sets/allData-80vol-High.json", function(json) {
+      setColor(json);
+    });
+  }
 }
+
+function setColor(objJson) {
+  document.regionalmap.data.forEach(function(feature){
+    var loc = feature.getProperty('Id');
+    console.log(resultsval);
+      if(resultsval == 0){
+        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#DDE500',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 500){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0ED900',
+            fillOpacity: 0.4
+          });
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 850){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#00CEAB',
+            fillOpacity: 0.4
+          });
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1200){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0070C6',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1550){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0500BF',
+            fillOpacity: 0.4
+          });
+        }
+        else{
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#D50023',
+            fillOpacity: 0.4
+          });
+        }
+      }
+      else {
+        if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 15) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#DDE500',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 25) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0ED900',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 35) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#00CEAB',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 45) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0070C6',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 55) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0500BF',
+            fillOpacity: 0.4
+          });
+        }
+        else {
+          console.log(objJson[loc].percentAnnualCapturedDrainFlow);
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#D50023',
+            fillOpacity: 0.4
+          });
+        }
+      }
+    });
+}
+
