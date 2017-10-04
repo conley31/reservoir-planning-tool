@@ -23,6 +23,7 @@ $('#map-nav').click(function() {
 
 //this shows the all results tab
 $('#all-map-nav').click(function() {
+  hideCompMap();
   $('#all-map-nav').fadeIn('fast', function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
@@ -106,6 +107,23 @@ $('#pond-inc-submit').click(function() {
 $('#year-submit').click(function() {
   showGraphThree();
 });
+
+$('#compare-maps').click(function() {
+  showCompMap();
+});
+
+//hides the comparision map
+var hideCompMap = function() {
+  $('#comparemap').fadeOut('fast');
+}
+
+var showCompMap = function() {
+  $('#comparemap').fadeIn('fast');
+
+  var centerBeforeResize = document.comparemap.getCenter();
+  google.maps.event.trigger(map3, 'resize'); //to make gmap fit to entire div
+  document.comparemap.setCenter(centerBeforeResize); //re-center map after resize
+}
 
 //Shows Graph One
 var showGraphOne = function() {
