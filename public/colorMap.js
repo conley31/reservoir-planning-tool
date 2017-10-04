@@ -18,7 +18,7 @@ var colorMap = function(addVariable) {
 
   for(var i = 0; i < pondsize.length; i++) {
     if($(pondsize[i]).is(addVariable)){
-      pondval = parseInt($(pondsize[i]));
+      pondval = parseInt($(pondsize[i]).val());
       contain = 0;
       break;
     }
@@ -35,7 +35,7 @@ var colorMap = function(addVariable) {
     if(contain == -1) {
       for(var i = 0; i < results.length; i++) {
         if($(results[i]).is(addVariable)){
-          resultsval = parseInt($(results).val());
+          resultsval = parseInt($(results[i]).val());
           contain = 2;
           break;
         }
@@ -125,55 +125,79 @@ var colorMap = function(addVariable) {
 function setColor(objJson) {
   document.regionalmap.data.forEach(function(feature){
     var loc = feature.getProperty('Id');
+    console.log(resultsval);
       if(resultsval == 0){
-        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 100){
+        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'red',
-            fillOpacity: 0.2
-          });
-        }
-        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 300){
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'yellow',
-            fillOpacity: 0.2
+            fillColor: '#DDE500',
+            fillOpacity: 0.4
           });
         }
         else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 500){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'green',
-            fillOpacity: 0.2
+            fillColor: '#0ED900',
+            fillOpacity: 0.4
+          });
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 850){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#00CEAB',
+            fillOpacity: 0.4
+          });
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1200){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0070C6',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1550){
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0500BF',
+            fillOpacity: 0.4
           });
         }
         else{
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'blue',
-            fillOpacity: 0.2
+            fillColor: '#D50023',
+            fillOpacity: 0.4
           });
         }
       }
       else {
-        if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 1) {
+        if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 15) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'red',
-            fillOpacity: 0.2
+            fillColor: '#DDE500',
+            fillOpacity: 0.4
           });
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 3) {
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 25) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'yellow',
-            fillOpacity: 0.2
+            fillColor: '#0ED900',
+            fillOpacity: 0.4
           });
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 6) {
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 35) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'green',
-            fillOpacity: 0.2
+            fillColor: '#00CEAB',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 45) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0070C6',
+            fillOpacity: 0.4
+          });
+        }
+        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 55) {
+          document.regionalmap.data.overrideStyle(feature, {
+            fillColor: '#0500BF',
+            fillOpacity: 0.4
           });
         }
         else {
+          console.log(objJson[loc].percentAnnualCapturedDrainFlow);
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: 'green',
-            fillOpacity: 0.2
+            fillColor: '#D50023',
+            fillOpacity: 0.4
           });
         }
       }

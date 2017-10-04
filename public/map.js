@@ -165,10 +165,9 @@ var initMap = function() {
     document.regionalmap.setCenter(new google.maps.LatLng(y, x));
   });
 
-/*  input legend image
+  //input legend image;
   var legend_percentage = document.getElementById('legend-percentage');
   document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
-*/
 
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
