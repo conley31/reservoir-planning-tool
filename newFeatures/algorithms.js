@@ -19,13 +19,13 @@ function comparisonData() {
 	this.yearArray = [];
 }
 
-function yearlyData(date, drainflow, precipitation, surfacerunoff, pet, dae_pet) {
-	this.date = date;
-	this.drainflow = drainflow;
-	this.precipitation = precipitation;
-	this.surfacerunoff = surfacerunoff;
-	this.pet = pet;
-	this.dae_pet = dae_pet;
+function yearlyData(currentYear) {
+	this.year = currentYear;
+	this.drainflow = 0;
+	this.precipitation = 0;
+	this.surfacerunoff = 0;
+	this.pet = 0;
+	this.dae_pet = 0;
 }
 /* 
  *  'data' is an array object that corresponds to a table (AKA Location) inside the mysql database
@@ -46,7 +46,7 @@ function yearlyData(date, drainflow, precipitation, surfacerunoff, pet, dae_pet)
  *
  */
 
-exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity, position){
+exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity){
   if (drainedArea <= 0) {
     console.log("ILLEGAL VALUE drainedArea: " + drainedArea);
   }
@@ -69,24 +69,20 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   var csvData = {};
   var calculationPromises = [];
   var drainPromises = [];
-  var pos = position;
 
-  //return gettables.getNumberOfTables().then(function(iterations){
+ // return gettables.getNumberOfTables().then(function(iterations){
 
-  var iterations = 936;
-  for (var i = 0; i < iterations; i++) {
-   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, pos,void 0);
-   drainPromises[i] = calcDrainflow(pos);
-   pos++;
+  for (var i = 0; i < 5; i++) {
+   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
+   drainPromises[i] = calcDrainflow(i);
    }
 
-   pos = position;
    return Promise.all(drainPromises).then(function(drainData) {
 	   return Promise.all(calculationPromises).then(function(data){
 			var allCells = [];
-			for (var i = 0; i < iterations; i++){
+			for (var i = 0; i < 5; i++){
 			  allCells[i] = new cellData();
-			  allCells[i].locationID = ('Location' + pos);
+			  allCells[i].locationID = ('Location' + i);
 			  var allYears = data[i].graphData;
 			  for( var j = 0; j <allYears.length; j++){
 				if(typeof allYears[j] !== 'undefined'){
@@ -106,7 +102,6 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 			  else {
 				allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
 			  }
-			  pos++;
 			  //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
 			}
 			
@@ -115,8 +110,8 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 	   return allCells;
    });
    return allCells;
- //});
-  //return allCells;
+// });
+// return allCells;
 
 }
 
@@ -132,7 +127,7 @@ function calcDrainflow(_locationId) {
 		});
 	});
 }
-
+/*
 function calcData(_locationId) {
 	var compData = new comparisonData();
 	compData.locationID = ('Location' + _locationId);
@@ -147,23 +142,32 @@ function calcData(_locationId) {
 		});
 	});
 }
+*/
 
-exports.getData = function(position) {
-	var iterations = 0;
-	var dbPromises = [];
-	var pos = position;
-	var allData = [];
+exports.getData = function(locationId) {
+	var allDates = [];
 	
-	for (var i = 0; i <= iterations; i++) {
-		dbPromises[i] = calcData(pos);
-		pos++;
-	}
-	
-	return Promise.all(dbPromises).then(function(data) {
-		for (var i = 0; i <= iterations; i++) {
-			allData[i] = data[i];
-		}
-		
-		return allData;
-	});
+	return new Promise(function(resolve,reject){
+    db.getLocationById(locationId).then(function(data){
+      var compData = new comparisonData();
+      compData.locationID = ('Location' + locationId);
+      var initialYear;
+      for(var i = 0; i < data.length; i++){
+        var currentDate = data[i].RecordedDate;
+        var currentYear = currentDate.getFullYear();
+        if(initialYear == null){
+           initialYear = currentYear;
+        }
+        if(typeof compData.yearArray[currentYear-initialYear] === 'undefined'){
+          compData.yearArray[currentYear-initialYear] = new yearlyData(currentYear);
+        }
+        compData.yearArray[currentYear-initialYear].drainflow += data[i].Drainflow;
+        compData.yearArray[currentYear-initialYear].precipitation += data[i].Precipitation;
+        compData.yearArray[currentYear-initialYear].surfacerunoff += data[i].SurfaceRunoff;
+        compData.yearArray[currentYear-initialYear].pet += data[i].PET;
+        compData.yearArray[currentYear-initialYear].dae_pet += data[i].DAE_PET;
+      }
+      resolve(compData);
+    });
+  });
 }

@@ -3,6 +3,7 @@
 
 var alg = require('./algorithms.js');
 var d = require('./calculate-map-data.js');
+var sizeof = require('object-sizeof');
 
 var i = 0;
 var f = 'comparison-map-data.json',
@@ -29,6 +30,28 @@ var f = 'comparison-map-data.json',
 }());
 **/
 
+(function loop(){
+  if(i == 0){
+    fs.appendFileSync(f,'[');
+  }
+  if(i < 11232){
+    alg.getData(i).then(function(data){
+      fs.appendFileSync(f, JSON.stringify(data));
+      i++;
+      if(i < 11232){
+        fs.appendFileSync(f,',');
+      }
+      loop();
+    });
+  }
+
+  else{
+    fs.appendFileSync(f,']');
+    process.exit();
+  }
+
+}());
+/*
 (function loop() {
 	if (i < 11232) {
 		alg.getData(i).then(function(result) {
@@ -54,4 +77,6 @@ var f = 'comparison-map-data.json',
 	else {
 		process.exit();
 	}
+
 }());
+*/
