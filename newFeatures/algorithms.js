@@ -13,6 +13,20 @@ function cellData() {
   this.annualIrrigationDepthSupplied = 0;
   this.percentAnnualCapturedDrainFlow = 0;
 }
+
+function comparisonData() {
+	this.locationID = 0;
+	this.yearArray = [];
+}
+
+function yearlyData(date, drainflow, precipitation, surfacerunoff, pet, dae_pet) {
+	this.date = date;
+	this.drainflow = drainflow;
+	this.precipitation = precipitation;
+	this.surfacerunoff = surfacerunoff;
+	this.pet = pet;
+	this.dae_pet = dae_pet;
+}
 /* 
  *  'data' is an array object that corresponds to a table (AKA Location) inside the mysql database
  *  'data' indices are days (example: data[3] corresponds to LocationX's data for the 4th recorded date.
@@ -116,5 +130,40 @@ function calcDrainflow(_locationId) {
 			
 			resolve(drainflow);
 		});
+	});
+}
+
+function calcData(_locationId) {
+	var compData = new comparisonData();
+	compData.locationID = ('Location' + _locationId);
+	return new Promise(function(resolve, reject) {
+		db.getLocationById(_locationId).then(function(data) {
+			for (var i = 0; i < data.length; i++) {
+				var year = new yearlyData(data[i].RecordedDate, data[i].Drainflow, data[i].Precipitation, data[i].SurfaceRunoff, data[i].PET, data[i].DAE_PET);
+				compData.yearArray[i] = year;
+			}
+			
+			resolve(compData);
+		});
+	});
+}
+
+exports.getData = function(position) {
+	var iterations = 0;
+	var dbPromises = [];
+	var pos = position;
+	var allData = [];
+	
+	for (var i = 0; i <= iterations; i++) {
+		dbPromises[i] = calcData(pos);
+		pos++;
+	}
+	
+	return Promise.all(dbPromises).then(function(data) {
+		for (var i = 0; i <= iterations; i++) {
+			allData[i] = data[i];
+		}
+		
+		return allData;
 	});
 }
