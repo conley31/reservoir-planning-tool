@@ -46,7 +46,15 @@ function yearlyData(currentYear) {
  *
  */
 
-exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity){
+/*
+ *
+ *  calcAllLocations    -   computes data for every location in the
+ *                          database and performs computations on it
+ *
+ *
+ *
+ */
+exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity, locations){
   if (drainedArea <= 0) {
     console.log("ILLEGAL VALUE drainedArea: " + drainedArea);
   }
@@ -66,21 +74,17 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
     console.log("ILLEGAL VALUE waterCapacity: " + waterCapacity);
   }
 
-  var csvData = {};
   var calculationPromises = [];
   var drainPromises = [];
 
- // return gettables.getNumberOfTables().then(function(iterations){
-
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < locations; i++) {
    calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
    drainPromises[i] = calcDrainflow(i);
    }
-
    return Promise.all(drainPromises).then(function(drainData) {
 	   return Promise.all(calculationPromises).then(function(data){
 			var allCells = [];
-			for (var i = 0; i < 5; i++){
+			for (var i = 0; i < locations; i++){
 			  allCells[i] = new cellData();
 			  allCells[i].locationID = ('Location' + i);
 			  var allYears = data[i].graphData;
@@ -102,7 +106,6 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 			  else {
 				allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
 			  }
-			  //console.log(allCells[i].locationID,"AnnualIrrigationDepthSupplied:", allCells[i].annualIrrigationDepthSupplied);
 			}
 			
 			return allCells;
@@ -110,11 +113,9 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 	   return allCells;
    });
    return allCells;
-// });
-// return allCells;
-
 }
 
+/* Function to get the drainflow from the database for use in the computing captured flow */
 function calcDrainflow(_locationId) {
 	var drainflow = 0;
 	return new Promise(function(resolve, reject) {
@@ -127,23 +128,17 @@ function calcDrainflow(_locationId) {
 		});
 	});
 }
-/*
-function calcData(_locationId) {
-	var compData = new comparisonData();
-	compData.locationID = ('Location' + _locationId);
-	return new Promise(function(resolve, reject) {
-		db.getLocationById(_locationId).then(function(data) {
-			for (var i = 0; i < data.length; i++) {
-				var year = new yearlyData(data[i].RecordedDate, data[i].Drainflow, data[i].Precipitation, data[i].SurfaceRunoff, data[i].PET, data[i].DAE_PET);
-				compData.yearArray[i] = year;
-			}
-			
-			resolve(compData);
-		});
-	});
-}
-*/
 
+/*
+ *
+ * getData  -   Computes data grouped by year for the given
+ *              locationId
+ *
+ * Return   -   Object representing location that contains an
+ *              array containing one yearlyData object per index
+ *
+ *
+ */
 exports.getData = function(locationId) {
 	var allDates = [];
 	
