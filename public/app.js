@@ -24,6 +24,8 @@ $('#map-nav').click(function() {
 //this shows the all results tab
 $('#all-map-nav').click(function() {
   hideCompMap();
+  $('#legend-percentage').fadeOut('fast');
+  $('#legend-annual').fadeOut('fast');
   $('#all-map-nav').fadeIn('fast', function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
