@@ -92,6 +92,7 @@ var initMap = function() {
 
   // Create the search box and link it to the UI element.
   var input = document.getElementById('places-input');
+  console.log(input);
   var searchBox = new google.maps.places.SearchBox(input, {
     bounds: bounds
   });

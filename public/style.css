@@ -240,7 +240,7 @@ select {
   margin: 10px;
   border: 2px solid #000;
 }
-/*
+
 #legend_button {
   background-color: #4CAF50;
   border: none;
@@ -255,7 +255,7 @@ select {
   transition-duration: 0.4sl
   cursor: pointer;
 }
-
+/*
 #legend_button1 {
   background-color: white;
   color: black;
@@ -297,12 +297,12 @@ select {
 #legend-percentage {
   position: relative !important;
   float: right;
-  left: -40px !important;
+  left: -15px !important;
 
-  height: 500px;
+  height: 350px;
   width: 30vw;
   min-width: 100px;
-  max-width: 250px;
+  max-width: 225px;
   
   margin-top: 30px;
   padding: 0px 0px 0px 50px;

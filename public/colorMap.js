@@ -75,6 +75,18 @@ var colorMap = function(addVariable) {
     return;
   }
 
+  if(resultsval == 1) {
+    var legend = document.getElementById('legend-percentage');
+    console.log(legend);
+
+    /*try{
+      document.regionalmap.controls[google.maps.ControlPosition.CENTER_RIGHT].push(legend);
+    }
+    catch(e){
+      alert(e.name + "\n" + e.message)
+    }*/
+  }
+
   if(pondval == 0 || waterval == 0){
     $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
       setColor(json);
@@ -123,6 +135,8 @@ var colorMap = function(addVariable) {
 }
 
 function setColor(objJson) {
+  console.log(document.map.controls[google.maps.ControlPosition.TOP_LEFT]);
+  console.log(document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT]);
   document.regionalmap.data.forEach(function(feature){
     var loc = feature.getProperty('Id');
     //console.log(resultsval);
@@ -163,6 +177,7 @@ function setColor(objJson) {
         }
       }
       else {
+        
         if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 15) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#DDE500',
