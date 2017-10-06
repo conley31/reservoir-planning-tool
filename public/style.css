@@ -119,6 +119,23 @@ button {
   background-color: #636363;
 }
 
+/*Aditional variable buttons for comaprison map*/
+.add-var2 {
+  border-color: #252525;
+}
+
+.add-var2:focus {
+  color: white;
+}
+
+.add-var2.on {
+  background-color: #0054a6;
+}
+
+.add-var2.off {
+  background-color: #636363;
+}
+
 select {
   color: black;
 }

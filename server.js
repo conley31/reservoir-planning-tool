@@ -50,7 +50,7 @@ app.use(bodyParser.json()); // Decode JSON from request bodies
 // Options for urlencoded requests
 app.use(bodyParser.urlencoded({
   extended: false,
-  limit: '5mb'
+  limit: '1000mb'
 }));
 app.set('view engine', 'ejs'); // Use ejs to render templates
 if (app.get('env') === 'production') {

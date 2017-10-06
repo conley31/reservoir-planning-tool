@@ -40,6 +40,12 @@ $('#all-map-nav').click(function() {
     $('.add-var').unbind('click').bind('click', function () {
       colorMap($(this));
     });
+    $('.add-var2').unbind('click').bind('click', function () {
+      colorComp($(this));
+    });
+    $('select').change(function() {
+      colorComp($(this));
+    });
     disableListener = true;
     //document.map.data.removeListener(poly); //This breaks the code for right now
   });

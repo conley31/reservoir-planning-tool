@@ -125,7 +125,7 @@ var colorMap = function(addVariable) {
 function setColor(objJson) {
   document.regionalmap.data.forEach(function(feature){
     var loc = feature.getProperty('Id');
-    console.log(resultsval);
+    //console.log(resultsval);
       if(resultsval == 0){
         if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
           document.regionalmap.data.overrideStyle(feature, {

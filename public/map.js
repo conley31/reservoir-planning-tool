@@ -3,6 +3,7 @@
  */
 document.map;
 document.regionalmap;
+document.comparemap;
 document.selectedFeature;
 document.selectedLocationId;
 
