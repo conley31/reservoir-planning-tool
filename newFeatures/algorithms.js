@@ -4,7 +4,6 @@ var db = require('../db');
 var gettables = require('./iterate-database');
 var TDPAlg = require('../util/TDPAlg.js');
 
-
 function cellData() {
   this.locationID = 0;
   this.cumulativeIrrigationVolume = 0;   //this member is not entirely necessary for the final product and can be replaced by a local variable
@@ -56,22 +55,22 @@ function yearlyData(currentYear) {
  */
 exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity, locations){
   if (drainedArea <= 0) {
-    console.log("ILLEGAL VALUE drainedArea: " + drainedArea);
+    return new Error("ILLEGAL VALUE drainedArea: " + drainedArea);
   }
   if (pondDepth <= 0) {
-    console.log("ILLEGAL VALUE pondDepth: " + pondDepth);
+    return new Error("ILLEGAL VALUE pondDepth: " + pondDepth);
   } 
   if (irrigationDepth <= 0) {
-    console.log("ILLEGAL VALUE irrigationDepth: " + irrigationDepth);
+    return new Error("ILLEGAL VALUE irrigationDepth: " + irrigationDepth);
   }
   if (pondVol <= 0) {
-    console.log("ILLEGAL VALUE pondVol: " + pondVol);
+    return new Error("ILLEGAL VALUE pondVol: " + pondVol);
   }
   if (soilMoisture <= 0) {
-    console.log("ILLEGAL VALUE soilMoisture: " + soilMoisture);
+    return new Error("ILLEGAL VALUE soilMoisture: " + soilMoisture);
   }
   if (waterCapacity <= 0) {
-    console.log("ILLEGAL VALUE waterCapacity: " + waterCapacity);
+    return new Error("ILLEGAL VALUE waterCapacity: " + waterCapacity);
   }
 
   var calculationPromises = [];
@@ -107,12 +106,19 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
 				allCells[i].percentAnnualCapturedDrainFlow = (allCells[i].cumulativeCapturedFlow/allCells[i].cumulativeDrainflow);
 			  }
 			}
-			
+
 			return allCells;
 		});
-	   return allCells;
    });
-   return allCells;
+   }
+
+exports.makeJson = function(allCells){
+  return new Promise(function(resolve, reject){
+  var f = 'mapData.json';
+  var  fs = require('fs');
+    fs.writeFileSync(f,JSON.stringify(allCells));
+    resolve(allCells);
+   });
 }
 
 /* Function to get the drainflow from the database for use in the computing captured flow */
@@ -166,3 +172,4 @@ exports.getData = function(locationId) {
     });
   });
 }
+
