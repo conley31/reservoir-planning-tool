@@ -78,15 +78,17 @@ var colorMap = function(addVariable) {
   if(resultsval == 0) {
     var legend_annual = document.getElementById('legend-annual');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
-    $('#legend-annual').fadeIn('fast');
     $('#legend-percentage').fadeOut('fast');
+    $('#legend-annual').fadeIn('fast');
+    
   }
 
   if(resultsval == 1) {
     var legend_percentage = document.getElementById('legend-percentage');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
-    $('#legend-percentage').fadeIn('fast');
     $('#legend-annual').fadeOut('fast');
+    $('#legend-percentage').fadeIn('fast');
+    
 
     /*try{
       document.regionalmap.controls[google.maps.ControlPosition.CENTER_RIGHT].push(legend);
