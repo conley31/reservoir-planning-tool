@@ -168,8 +168,6 @@ var initMap = function() {
   });
 
   //input legend image;
-  var legend_percentage = document.getElementById('legend-percentage');
-  document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
 
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
@@ -220,6 +218,10 @@ var initMap = function() {
     scrollwheel: false,
     zoom: 6
   });
+
+  var legend_annual = document.getElementById('legend-annual2');
+  console.log(legend_annual);
+  document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
 
   document.comparemap.data.loadGeoJson('final_index_FeaturesToJSON.json');
   document.comparemap.data.setStyle({
