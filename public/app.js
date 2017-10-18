@@ -120,6 +120,14 @@ $('#compare-maps').click(function() {
   showCompMap();
 });
 
+$('#download individual data').click(function() {
+
+});
+
+$('#download data').click(function() {
+
+});
+
 //hides the comparision map
 var hideCompMap = function() {
   $('#comparemap').fadeOut('fast');
