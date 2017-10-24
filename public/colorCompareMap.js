@@ -39,11 +39,38 @@ var colorComp = function(addVariable) {
     return;
   }
 
-  $.getJSON("/data_sets/comparison-map-data.json", function(json) {
+  /*$.getJSON("/data_sets/comparison-map-data.json", function(json) {
       setColorComp(json);
-    })
+    })*/
 
+    // use a BlobReader to read the zip from a Blob object
+    var blob = new Blob(["/data_sets/allData-16vol-Low.json.zip"], {type: "text/plain;charset=UTF-8"});
+	zip.createReader(new zip.BlobReader(blob), function(reader) {
+		//zip.workerScriptsPath = '/zip/';
 
+		console.log(zip.workerScriptsPath);
+  	// get all entries from the zip
+  	reader.getEntries(function(entries) {
+   	 if (entries.length) {
+
+     	 // get first entry content as text
+      	entries[0].getData(new zip.TextWriter(), function(text) {
+      	  // text contains the entry data as a String
+      	  console.log(text);
+
+      	  // close the zip reader
+      	  reader.close(function() {
+        	  // onclose callback
+       	 });
+
+     	 }, function(current, total) {
+      	  	// onprogress callback
+     	 });
+     }
+  	});
+	}, function(error) {
+  	// onerror callback
+	});
   /*if(pondval == 0 || waterval == 0){
     $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
       setColor(json);
@@ -90,6 +117,21 @@ var colorComp = function(addVariable) {
     });
   }*/
 
+}
+
+function unzipBlob(blob, callback) {
+  // use a zip.BlobReader object to read zipped data stored into blob variable
+  zip.createReader(new zip.BlobReader(blob), function(zipReader) {
+    // get entries from the zip file
+    zipReader.getEntries(function(entries) {
+      // get data from the first file
+      entries[0].getData(new zip.BlobWriter("text/plain"), function(data) {
+        // close the reader and calls callback function with uncompressed data as parameter
+        zipReader.close();
+        callback(data);
+      });
+    });
+  }, onerror);
 }
 
 function setColorComp(objJson) {
