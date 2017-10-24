@@ -13,11 +13,13 @@ function cellData() {
   this.percentAnnualCapturedDrainFlow = 0;
 }
 
+/* comparisonData holds a locationID and an array which holds yearlyData from 1981-2009 for each grid cell location */
 function comparisonData() {
 	this.locationID = 0;
 	this.yearArray = [];
 }
 
+/* yearlyData holds information from the database for one year*/
 function yearlyData(currentYear) {
 	this.year = currentYear;
 	this.drainflow = 0;
@@ -51,7 +53,9 @@ function yearlyData(currentYear) {
  *                          database and performs computations on it
  *
  *
- *
+ *  Return  -  allCells  -  array that holds cellData objects, each cellData object
+ *               			holds cumulative data that is used to color each cell
+ *               			location accordingly based on its value
  */
 exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pondVol, soilMoisture, waterCapacity, locations){
   if (drainedArea <= 0) {
@@ -72,22 +76,29 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
   if (waterCapacity <= 0) {
     return new Error("ILLEGAL VALUE waterCapacity: " + waterCapacity);
   }
-
-  var calculationPromises = [];
-  var drainPromises = [];
+ 
+  /* Arrays used to hold promises for different items */
+  var calculationPromises = []; //Holds the results from TDPAlg for each grid cell location
+  var drainPromises = []; //Holds the results from calcDrainflow for each grid cell location
 
   for (var i = 0; i < locations; i++) {
-   calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
-   drainPromises[i] = calcDrainflow(i);
-   }
+	calculationPromises[i] = TDPAlg.calc(drainedArea, 0, pondVol, pondVol, pondDepth, pondDepth, soilMoisture, drainedArea, irrigationDepth, waterCapacity, i,void 0);
+	drainPromises[i] = calcDrainflow(i);
+  }
+   
+   /*Once all the promises are finished we can begin calculating our results */
    return Promise.all(drainPromises).then(function(drainData) {
 	   return Promise.all(calculationPromises).then(function(data){
+		   
 			var allCells = [];
+			
 			for (var i = 0; i < locations; i++){
-			  allCells[i] = new cellData();
+			  allCells[i] = new cellData(); //a new cellData object is made for each location
 			  allCells[i].locationID = ('Location' + i);
+			  
 			  var allYears = data[i].graphData;
-			  for( var j = 0; j <allYears.length; j++){
+			  
+			  for( var j = 0; j < allYears.length; j++){
 				if(typeof allYears[j] !== 'undefined'){
 				  for ( var k = 0; k < allYears[j][1].length; k++){
 					if(typeof allYears[j][1][k] !== 'undefined'){
@@ -112,6 +123,7 @@ exports.calcAllLocations = function(drainedArea, pondDepth, irrigationDepth, pon
    });
    }
 
+/* Function to create and write to mapData.json*/
 exports.makeJson = function(allCells){
   return new Promise(function(resolve, reject){
   var f = 'mapData.json';
@@ -121,7 +133,7 @@ exports.makeJson = function(allCells){
    });
 }
 
-/* Function to get the drainflow from the database for use in the computing captured flow */
+/* Function to get the cumulative drainflow for one location from the database for use in the computing captured flow */
 function calcDrainflow(_locationId) {
 	var drainflow = 0;
 	return new Promise(function(resolve, reject) {
@@ -150,18 +162,22 @@ exports.getData = function(locationId) {
 	
 	return new Promise(function(resolve,reject){
     db.getLocationById(locationId).then(function(data){
+		
       var compData = new comparisonData();
       compData.locationID = ('Location' + locationId);
       var initialYear;
+	  
       for(var i = 0; i < data.length; i++){
         var currentDate = data[i].RecordedDate;
         var currentYear = currentDate.getFullYear();
+		
         if(initialYear == null){
            initialYear = currentYear;
         }
         if(typeof compData.yearArray[currentYear-initialYear] === 'undefined'){
           compData.yearArray[currentYear-initialYear] = new yearlyData(currentYear);
         }
+		
         compData.yearArray[currentYear-initialYear].drainflow += data[i].Drainflow;
         compData.yearArray[currentYear-initialYear].precipitation += data[i].Precipitation;
         compData.yearArray[currentYear-initialYear].surfacerunoff += data[i].SurfaceRunoff;
