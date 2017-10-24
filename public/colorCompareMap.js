@@ -42,11 +42,26 @@ var colorComp = function(addVariable) {
   /*$.getJSON("/data_sets/comparison-map-data.json", function(json) {
       setColorComp(json);
     })*/
+   /*$.ajax({
+        type: 'GET',
+        url: "/dat",
+        contentType: 'application/zip',
+        dataType: 'text',
+        headers: {
+            'Api-Version': '3.4'
+        }
+
+    }).then(function (data) {
+      console.log(data); //Basically prints the byte array
+      //Here I should build the file and download it
+    });*/
 
     // use a BlobReader to read the zip from a Blob object
-    var blob = new Blob(["/data_sets/allData-16vol-Low.json.zip"], {type: "text/plain;charset=UTF-8"});
+    var blob = new Blob(["/data_sets/comparison-map-data.json.zip"], {type: "application/zip"});
+    console.log(blob);
+    zip.workerScriptsPath = '/zip/';
 	zip.createReader(new zip.BlobReader(blob), function(reader) {
-		//zip.workerScriptsPath = '/zip/';
+		
 
 		console.log(zip.workerScriptsPath);
   	// get all entries from the zip
