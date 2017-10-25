@@ -42,95 +42,54 @@ var colorComp = function(addVariable) {
   /*$.getJSON("/data_sets/comparison-map-data.json", function(json) {
       setColorComp(json);
     })*/
-   /*$.ajax({
-        type: 'GET',
-        url: "/dat",
-        contentType: 'application/zip',
-        dataType: 'text',
-        headers: {
-            'Api-Version': '3.4'
-        }
 
-    }).then(function (data) {
-      console.log(data); //Basically prints the byte array
-      //Here I should build the file and download it
-    });*/
+    var request = new XMLHttpRequest();
+  	request.responseType = "blob";
+  	request.onload = handleFile;
+  	request.open("GET", "/data_sets/comparison-map-data.json.zip");
 
-    // use a BlobReader to read the zip from a Blob object
-    var blob = new Blob(["/data_sets/comparison-map-data.json.zip"], {type: "application/zip"});
-    console.log(blob);
-    zip.workerScriptsPath = '/zip/';
-	zip.createReader(new zip.BlobReader(blob), function(reader) {
-		
+  	request.send();
 
-		console.log(zip.workerScriptsPath);
-  	// get all entries from the zip
-  	reader.getEntries(function(entries) {
-   	 if (entries.length) {
-
+  	function handleFile(data) {
+  		//console.log(this.response);
+    	//console.log(blob);
+    	zip.workerScriptsPath = '/zip/';
+		zip.createReader(new zip.BlobReader(this.response), function(reader) {
+  		// get all entries from the zip
+  		//console.log("in reader");
+  		reader.getEntries(function(entries) {
+  			//console.log(entries.length);
+   	 	if (entries.length) {
+   	 		//console.log("getting entries")
      	 // get first entry content as text
-      	entries[0].getData(new zip.TextWriter(), function(text) {
-      	  // text contains the entry data as a String
-      	  console.log(text);
+      		entries[0].getData(new zip.TextWriter(), function(text) {
+      	 	 // text contains the entry data as a String
+      	  	//console.log(text);
+      	  	var temp = JSON.parse(text);
+      	  	setColorComp(temp);
 
-      	  // close the zip reader
-      	  reader.close(function() {
+      	  	// close the zip reader
+      	  	reader.close(function() {
         	  // onclose callback
-       	 });
+       	 	});
 
-     	 }, function(current, total) {
+     	 	}, function(current, total) {
       	  	// onprogress callback
-     	 });
-     }
-  	});
-	}, function(error) {
-  	// onerror callback
-	});
-  /*if(pondval == 0 || waterval == 0){
-    $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 1 || waterval == 0){
-    $.getJSON("/data_sets/allData-48vol-Low.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 2 || waterval == 0){
-    $.getJSON("/data_sets/allData-80vol-Low.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 0 || waterval == 1){
-    $.getJSON("/data_sets/allData-16vol-Medium.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 0 || waterval == 2){
-    $.getJSON("/data_sets/allData-16vol-High.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 1 || waterval == 1){
-    $.getJSON("/data_sets/allData-48vol-Medium.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 1 || waterval == 2){
-    $.getJSON("/data_sets/allData-48vol-High.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 2 || waterval == 1){
-    $.getJSON("/data_sets/allData-80vol-Medium.json", function(json) {
-      setColor(json);
-    });
-  }
-  else if(pondval == 2 || waterval == 2){
-    $.getJSON("/data_sets/allData-80vol-High.json", function(json) {
-      setColor(json);
-    });
-  }*/
+      	  		//console.log("current: " + current);
+      	  		//console.log("total: " + total);
+     	 	});
+     	}
+  		});
+		}, function(error) {
+  		// onerror callback
+  			console.log("error: " + error);
+		});
+  	}
+   /*$.get("/data_sets/comparison-map-data.json.zip", function(data) {
+
+   		//var testing = new File("/data_sets/comparison-map-data.json.zip")
+   		
+   })*/
 
 }
 
