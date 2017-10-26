@@ -15,6 +15,7 @@ log_location = config.get('mysql').get('logLocation')
 
 class LocationData(object):
   def __init__(self,locationid):
+    self.locationid = locationid
     self.annualIrrigationDepthSupplied = 0
     self.percentAnnualCapturedDrainflow = 0
 
@@ -32,8 +33,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
 
   sqlStringBeginning = "SELECT * FROM "
   sqlStringEnd = " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)"
-  #numLocations = getTableCount()
-  numLocations = 10
+  numLocations = getTableCount()
   all_locations = []
 
   #loop thru all locations
@@ -131,15 +131,21 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
       cumulativeIrrigation += irrigationVolDay
       cumulativeCapturedFlow += capturedFlowVolDay
       cumulativeDrainflow += data[j][1] 
+        
 
       j+=1
 
+
     con.close()
     currentLocation.annualIrrigationDepthSupplied = (.15*cumulativeIrrigation)
-    currentLocation.percentAnnualCapturedDrainflow =  cumulativeCapturedFlow/cumulativeDrainflow
+    if cumulativeDrainflow > 0:
+      currentLocation.percentAnnualCapturedDrainflow =  cumulativeCapturedFlow/cumulativeDrainflow
+    else :
+      currentLocation.percentAnnualCapturedDrainflow = 0
     
     all_locations.append(currentLocation)
+
     i+=1
 #end computeData()
 
-computeData(80,16,10,7.6,1,4.2)
+#computeData(80,16,10,7.6,1,4.2)
