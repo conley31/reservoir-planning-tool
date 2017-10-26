@@ -1,5 +1,8 @@
 // This file contains event handlers for elements displayed
 
+var loaded = 0;
+var compareMapData;
+
 //show map, hide everything else
 $('#map-nav').click(function() {
   disableListener = false;
@@ -92,6 +95,8 @@ $('#map-submit').click(function() {
 
 //show form input and graphs, hide map
 $('#graph-nav').click(function() {
+
+
   //show change on pseudo nav
   $(this).addClass('active-button');
   $('#map-nav').removeClass('active-button');
@@ -101,6 +106,11 @@ $('#graph-nav').click(function() {
   $('#map-nav-display').fadeOut('fast', function() {
     $('#graph-nav-display').fadeIn('fast');
   });
+  if(loaded == 0) {
+    console.log("load once");
+    //downloadJSON();
+    //loaded = 1;
+  }
 });
 
 //show graph for selected pond increment
@@ -217,4 +227,54 @@ $(document).on('change', ':file', function() {
 $(function() {
   $("[data-toggle='popover']").popover();
 });
+
+var downloadJSON = function() {
+  console.log("printing");
+  if(loaded == 1){
+    return;
+  }
+  loaded = 1;
+  var request = new XMLHttpRequest();
+    request.responseType = "blob";
+    request.onload = handleFile;
+    request.open("GET", "/data_sets/comparison-map-data.json.zip");
+
+    request.send();
+
+    function handleFile(data) {
+      //console.log(this.response);
+      //console.log(blob);
+      zip.workerScriptsPath = '/zip/';
+    zip.createReader(new zip.BlobReader(this.response), function(reader) {
+      // get all entries from the zip
+      //console.log("in reader");
+      reader.getEntries(function(entries) {
+        //console.log(entries.length);
+      if (entries.length) {
+        //console.log("getting entries")
+       // get first entry content as text
+          entries[0].getData(new zip.TextWriter(), function(text) {
+           // text contains the entry data as a String
+            //console.log(text);
+            compareMapData = JSON.parse(text);
+            //setColorComp(temp);
+
+            // close the zip reader
+            reader.close(function() {
+            // onclose callback
+          });
+
+        }, function(current, total) {
+            // onprogress callback
+              //console.log("current: " + current);
+              //console.log("total: " + total);
+        });
+      }
+      });
+    }, function(error) {
+      // onerror callback
+        console.log("error: " + error);
+    });
+    }
+}
 
