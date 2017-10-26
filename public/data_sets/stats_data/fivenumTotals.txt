@@ -1,0 +1,4 @@
+Five Number Summary:	Min		Q1		Median		Q3		Max
+Percent Total		4.109721	27.386272	38.737434	46.010928	60.159787
+
+Annual Total		0.2539102	1.7866948	3.4624545	9.9319653	27.2964879
