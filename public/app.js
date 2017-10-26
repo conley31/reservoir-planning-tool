@@ -108,7 +108,7 @@ $('#graph-nav').click(function() {
   });
   if(loaded == 0) {
     console.log("load once");
-    //downloadJSON();
+    downloadJSON();
     //loaded = 1;
   }
 });
@@ -257,6 +257,8 @@ var downloadJSON = function() {
            // text contains the entry data as a String
             //console.log(text);
             //compareMapData = JSON.parse(text);
+            //console.log(text.length);
+            HMSet("compareMapData", text);
             //setColorComp(temp);
 
             // close the zip reader

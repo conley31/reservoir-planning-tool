@@ -43,9 +43,11 @@ var colorComp = function(addVariable) {
       setColorComp(json);
     })*/
 
-    console.log(compareMapData);
+    //console.log(compareMapData);
+    var result = hmget("compareMapData");
+ 	//console.log(result);
 
-    setColorComp(compareMapData);
+    setColorComp(JSON.parse(result));
    /*$.get("/data_sets/comparison-map-data.json.zip", function(data) {
 
    		//var testing = new File("/data_sets/comparison-map-data.json.zip")
