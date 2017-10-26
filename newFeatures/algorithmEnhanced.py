@@ -33,7 +33,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   sqlStringBeginning = "SELECT * FROM "
   sqlStringEnd = " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)"
   #numLocations = getTableCount()
-  numLocations = 1000
+  numLocations = 10
   all_locations = []
 
   #loop thru all locations
@@ -64,16 +64,16 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
 
     j = 0 
     while (j < numrows):
-      inflowVolDay = ((data[j][1]) /12) * _drainedArea
+      inflowVolDay = ((data[j][1]) /12.0) * _drainedArea
       precipDepthDay = data[j][2]
       evapDepthDay = data[j][3]
 
       irrigationVolDay = 0
       defecitVolDay = 0
 
-      evapVolDay = (evapDepthDay/12) * pondArea
+      evapVolDay = (evapDepthDay/12.0) * pondArea
 
-      pondPrecipVolDay = (precipDepthDay/12) * pondArea
+      pondPrecipVolDay = (precipDepthDay/12.0) * pondArea
 
       soilMoistureDepthDay = (soilMoistureDepthDayPrev + precipDepthDay - evapDepthDay)
 
@@ -86,11 +86,12 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
       pondWaterVolDay = pondWaterVolDayPrev
     
       if soilMoistureDepthDay < (0.5 * _availableWaterCapacity):
+
         if _pondVolume == 0 :
           irrigationVolDay = 0
         else:
-          irrigationVolDay = (_irrigationDepth/12) * _drainedArea
-
+          irrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
+          
 
         if irrigationVolDay > pondWaterVolDay:
           defecitVolDay = (irrigationVolDay - pondWaterVolDay)
@@ -131,12 +132,14 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
       cumulativeCapturedFlow += capturedFlowVolDay
       cumulativeDrainflow += data[j][1] 
 
-
       j+=1
 
     con.close()
     currentLocation.annualIrrigationDepthSupplied = (.15*cumulativeIrrigation)
     currentLocation.percentAnnualCapturedDrainflow =  cumulativeCapturedFlow/cumulativeDrainflow
+    
     all_locations.append(currentLocation)
     i+=1
-#end calculateData()
+#end computeData()
+
+computeData(80,16,10,7.6,1,4.2)
