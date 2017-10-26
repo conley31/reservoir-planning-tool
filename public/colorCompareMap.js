@@ -1,6 +1,6 @@
 var results2val = -1;
 var dropdownval = -1;
-
+var compareKML;
 var colorComp = function(addVariable) {
 
 	var results2 = document.getElementsByName("results2");
@@ -237,4 +237,7 @@ function setColorComp(objJson) {
 		}
     });
     console.log("finished coloring");
+    var temp = document.comparemap.data.toGeoJson();
+    compareKML = tokml(temp);
+    console.log(compareKML);
 }
