@@ -256,7 +256,7 @@ var downloadJSON = function() {
           entries[0].getData(new zip.TextWriter(), function(text) {
            // text contains the entry data as a String
             //console.log(text);
-            compareMapData = JSON.parse(text);
+            //compareMapData = JSON.parse(text);
             //setColorComp(temp);
 
             // close the zip reader
