@@ -3,6 +3,36 @@ var pondval = -1;
 var waterval = -1;
 var resultsval = -1;
 
+var getFile = function() {
+  if(pondval == 0 || waterval == 0){
+    downloadFile("/data_sets/allData-16Vol-Low.json")
+  }
+  else if(pondval == 1 || waterval == 0){
+    downloadFile("/data_sets/allData-48Vol-Low.json")
+  }
+  else if(pondval == 2 || waterval == 0){
+	downloadFile("/data_sets/allData-80Vol-Low.json")
+  }
+  else if(pondval == 0 || waterval == 1){
+	downloadFile("/data_sets/allData-16Vol-Medium.json")
+  }
+  else if(pondval == 0 || waterval == 2){
+	downloadFile("/data_sets/allData-16Vol-High.json")
+  }
+  else if(pondval == 1 || waterval == 1){
+	downloadFile("/data_sets/allData-48Vol-Medium.json")
+  }
+  else if(pondval == 1 || waterval == 2){
+	downloadFile("/data_sets/allData-48Vol-High.json")
+  }
+  else if(pondval == 2 || waterval == 1){
+	downloadFile("/data_sets/allData-80Vol-Medium.json")
+  }
+  else if(pondval == 2 || waterval == 2){
+	downloadFile("/data_sets/allData-80Vol-High.json")
+  }
+}
+
 var colorMap = function(addVariable) {
   if (addVariable.hasClass('on')) {
     return;

@@ -131,11 +131,11 @@ $('#compare-maps').click(function() {
 });
 
 $('#download-individual-data').click(function() {
-	
+	downloadFile("/data_sets/comparison-map-data.json");
 });
 
 $('#download-data').click(function() {
-	
+	getFile();
 });
 
 //hides the comparision map
@@ -459,22 +459,11 @@ if (typeof module !== "undefined" && module.exports) {
   });
 }
 
-var downloadFile = function() {
+var downloadFile = function(filename) {
 	console.log('downloading');
-	
-	var request = new XMLHttpRequest();
-	request.responseType = "blob";
-	request.onload = handleFile;
-	request.open("GET", "/data_sets/comparison-map-data.json.zip"); //hardcoded for now
-	
-	request.send();
-	
-	function handleFile(data) {
-		var filename = "comparison-map-data.json.zip"; //hardcoded for now
-		var file = new Blob([data], {
-			type: "application/zip",
-		});
-		
-		saveAs(file, filename);
-	}
+
+	$.getJSON(filename, function(json) { //for now use a request to get the file
+		var blob = new Blob([JSON.stringify(json)], {type: "application/json"});
+		saveAs(blob, filename);
+    });
 }
