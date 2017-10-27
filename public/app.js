@@ -130,12 +130,13 @@ $('#compare-maps').click(function() {
   showCompMap();
 });
 
-$('#download individual data').click(function() {
-
+$('#download_individual_data').click(function() {
+  console.log(compareKML);
+  saveData(compareKML, "CompareData.kml");
 });
 
-$('#download data').click(function() {
-
+$('#download_data').click(function() {
+  console.log("data");
 });
 
 //hides the comparision map
@@ -277,4 +278,19 @@ var downloadJSON = function() {
     });
     }
 }
+
+var saveData = function (data, fileName) {
+  //console.log("printing");
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+      //console.log(data);
+        var json = data,
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+};
 
