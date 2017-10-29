@@ -3,6 +3,7 @@
 import MySQLdb as db
 import imp
 import json
+import datetime
 from sql_statements import *
 
 with open('../config/config.json') as json_data:
@@ -13,121 +14,119 @@ password = config.get('mysql').get('password')
 database = config.get('mysql').get('database')
 log_location = config.get('mysql').get('logLocation')
 
-#             
-#   Classes  
-#             
-
+####################             
+#   Classes        #
+####################             
+  
+#
+# LocationData contains the summed
+# values of all the yearlyData for a
+# single location. It also contains the
+# list that holds every yearlyData object
+# 
 class LocationData(object):
   def __init__(self,locationid):
-    self.annualIrrigationDepthSupplied = 0
-    self.percentAnnualCapturedDrainflow = 0
-    self.locationid = locationid
-
-class yearlyData(object):
-  def __init__(self,currentYear):
+    
     self.drainflow = 0
     self.precipitation = 0
     self.surfacerunoff = 0
     self.pet = 0
     self.dae_pet = 0
-    self.currentYear = currentYear
+    self.irrigationVolume = 0
+    self.capturedFlow = 0
+    self.annualIrrigationDepthSupplied = 0
+    self.percentAnnualCapturedDrainflow = 0
+    self.irrigationSufficienty = 0
+    self.allYears = []
 
-class ComparisonData(object):
-  def __init__(self,locationid):
     self.locationid = locationid
-    self.yearArray = []
+  def toJSON(self):
+    return json.dumps(self, default=lambda o: o.__dict__, indent=4)
 
-#                                                                       
-# Database funcitons                                                    
-# These funcitons take an established connection and query the database 
-#                                                                       
+    
+#
+# yearlyData contains data for one year
+# in the database for a single location
+#
+class YearlyData(object):
+  def __init__(self,year):
 
-def getTableCount(connection):
-  cur = connection.cursor()
-  cur.execute(select_table_count.format(database))
-  return  cur.fetchall()
+    self.year = year
+    self.drainflow = 0
+    self.precipitation = 0
+    self.surfacerunoff = 0
+    self.pet = 0
+    self.dae_pet = 0
+    self.irrigationVolume = 0
+    self.capturedFlow = 0
+    self.annualIrrigationDepthSupplied = 0
+    self.percentAnnualCapturedDrainflow = 0
+    self.irrigationSufficiency = 0
+    
+###################################################                                                                       
+# Database functions                              #                      
+# These funcitons take an established connection  #
+# and query the database                          #
+###################################################
+
+def getTableCount(cursor):
+  cursor.execute(select_table_count.format(database))
+  return  cursor.fetchone()[0]
   
 
-def getYearCount(locationid,connection):
-  cur = connection.cursor()
-  cur.execute("SELECT MAX(YEAR(RecordedDate)) - MIN(YEAR(RecordedDate)) FROM Location" + str(locationid))
-  return cur.fetchone()[0]
+def getYearCount(locationid,cursor):
+  cursor.execute("SELECT MAX(YEAR(RecordedDate)) - MIN(YEAR(RecordedDate)) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
 
-def getEarliestYear(locationid,connection):
-  cur = connection.cursor()
-  cur.execute("SELECT MIN(YEAR(RecordedDate)) FROM Location" + str(locationid))
-  return cur.fetchone()[0]
+def getEarliestYear(locationid,cursor):
+  cursor.execute("SELECT MIN(YEAR(RecordedDate)) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
   
-def getYearByIndex(yearIndex,locationid,connection):
-  return getEarliestYear(locationid,connection) + yearIndex
+def getAnnualDrainflow(locationid, year,cursor):
+ cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(year) + ";")  
+ return cursor.fetchone()[0]
 
-def getAnnualDrainflow(locationid, yearIndex,connection):
- cur = connection.cursor()
- realYear = getYearByIndex(yearIndex,locationid,connection)
- cur.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(realYear) + ";")  
- return cur.fetchone()[0]
+def getDrainflowCumulative(locationid,cursor):
+  cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
 
-def getAnnualPrecipitation(locationid,yearIndex,connection):
-  cur=connection.cursor()
-  realYear = getYearByIndex(yearIndex,locationid,connection)
-  cur.execute("SELECT SUM(Precipitation) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(realYear) + ";")
-  return cur.fetchone()[0]
+def getAnnualPrecipitation(locationid,year,cursor):
+  cursor.execute("SELECT SUM(Precipitation) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(year) + ";")
+  return cursor.fetchone()[0]
+
+def getPrecipitationCumulative(locationid,cursor):
+  cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
   
-def getAnnualPET(locationid,yearIndex,connection):
-  cur=connection.cursor()
-  realYear = getYearByIndex(yearIndex,locationid,connection)
-  cur.execute("SELECT SUM(PET) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(realYear) + ";")
-  return cur.fetchone()[0]
+def getAnnualPET(locationid,year,cursor):
+  cursor.execute("SELECT SUM(PET) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(year) + ";")
+  return cursor.fetchone()[0]
+
+def getPETCumulative(locationid,cursor):
+  cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
+
  
-def getAnnualSurfaceRunoff(locationid,yearIndex,connection):
-  cur=connection.cursor()
-  realYear = getYearByIndex(yearIndex,locationid,connection)
-  cur.execute("SELECT SUM(SurfaceRunoff) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(realYear) + ";")
-  return cur.fetchone()[0]
-  
-def getAnnualDAE_PET(locationid,yearIndex,connection):
-  cur=connection.cursor()
-  realYear = getYearByIndex(yearIndex,locationid,connection)
-  cur.execute("SELECT SUM(DAE_PET) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(realYear) + ";")
-  return cur.fetchone()[0]
+def getAnnualSurfacerunoff(locationid,year,cursor):
+  cursor.execute("SELECT SUM(SurfaceRunoff) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(year) + ";")
+  return cursor.fetchone()[0]
 
-def getLocationData(locationid,connection):
-  cur = connection.cursor()
-  cur.execute("SELECT * FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)")
-  return cur.fetchall()
+def getSurfacerunoffCumulative(locationid,cursor):
+  cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
+ 
+def getAnnualDAE_PET(locationid,year,cursor):
+  cursor.execute("SELECT SUM(DAE_PET) FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) = " + str(year) + ";")
+  return cursor.fetchone()[0]
 
+def getDAE_PETCumulative(locationid,cursor):
+  cursor.execute("SELECT SUM(Drainflow) FROM Location" + str(locationid))
+  return cursor.fetchone()[0]
 
-#
-#   computeComparisonData
-#  -returns an array of ComparisonData Objects,
-#   one for each of the locations in the database
-#
+def getLocationData(locationid,cursor):
+  cursor.execute("SELECT * FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)")
+  return cursor.fetchall()
 
-def computeComparisonData():
-  connection = db.connect(host,user,password,database)
-  all_comparison_data = []
-  numLocations = getTableCount(connection)
-  i = 0
-  while i < numLocations :
-    currentLocation = ComparisonData("Location"+str(i))
-    earliestYear = getEarliestYear(i,connection)
-    numYears = getYearCount(i,connection)
-    j = 0
-    while j < numYears :
-      currentYear = yearlyData(getYearByIndex(j,i,connection))
-      currentYear.drainflow = getAnnualDrainflow(i,j,connection)
-      currentYear.precipitation = getAnnualPrecipitation(i,j,connection)
-      currentYear.pet = getAnnualPET(i,j,connection)
-      currentYear.srufacerunoff = getAnnualSurfaceRunoff(i,j,connection)
-      currentYear.dae_pet = getAnnualDAE_PET(i,j,connection)
-
-      currentLocation.yearArray.append(currentYear)
-      j+=1
-
-    all_comparison_data.append(currentLocation)
-    i+=1
-  connection.close()
-#END computeComparisonData()  
 
 #
 #   computeData
@@ -141,26 +140,33 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   all_locations = []
 
   connection = db.connect(host,user,password,database)
-  numLocations = getTableCount(connection)
+  cur = connection.cursor()
+
+  pondArea = _pondVolume/_pondDepth
+  halfAvailableWaterCapacity = .5 * _availableWaterCapacity
+  expectedIrrigationVolDay = (_irrigationDepth/12) * _drainedArea
+
+  numLocations = getTableCount(cur) -1
 
   #loop through all locations
   i = 0
-  while i < numLocations:
+  while i < 100:
     currentLocation = LocationData('Location' + str(i))
-    data = getLocationData(i,connection)
+    currentLocation.drainflow = getDrainflowCumulative(i,cur)
+    currentLocation.precipitation = getPrecipitationCumulative(i,cur)
+    currentLocation.pet = getPETCumulative(i,cur)
+    currentLocation.dae_pet = getDAE_PETCumulative(i,cur)
+    data = getLocationData(i,cur)
     numDays = len(data)
-    pondArea = _pondVolume/_pondDepth
     seepageVolDay = 0.01
 
     soilMoistureDepthDayPrev = _maxSoilMoisture
     pondWaterVolDayPrev = _pondDepth * pondArea
-
-    cumulativeIrrigation = 0
-    cumulativeCapturedFlow = 0
-    cumulativeDrainflow = 0
-
+    yearValue = data[0][0].year
+    currentYear = YearlyData(yearValue)
     j = 0 
     while (j < numDays):
+      
       inflowVolDay = ((data[j][1]) /12.0) * _drainedArea
       precipDepthDay = data[j][2]
       evapDepthDay = data[j][3]
@@ -182,12 +188,12 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
     
       pondWaterVolDay = pondWaterVolDayPrev
     
-      if soilMoistureDepthDay < (0.5 * _availableWaterCapacity):
+      if soilMoistureDepthDay < (halfAvailableWaterCapacity):
 
         if _pondVolume == 0 :
           irrigationVolDay = 0
         else:
-          irrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
+          irrigationVolDay = expectedIrrigationVolDay
           
 
         if irrigationVolDay > pondWaterVolDay:
@@ -219,27 +225,65 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
 
       pondWaterDepthDay = (pondWaterVolDay/pondArea)
 
-
-
       #update prevDay Vars
       soilMoistureDepthDayPrev = soilMoistureDepthDay
       pondWaterVolDayPrev = pondWaterVolDay
     
       #update cumulative values
-      cumulativeIrrigation += irrigationVolDay
-      cumulativeCapturedFlow += capturedFlowVolDay
-      cumulativeDrainflow += data[j][1] 
+      currentYear.irrigationVolume += irrigationVolDay
+      currentYear.capturedFlow += capturedFlowVolDay
         
-
       j+=1
+      if j == numDays:
+        #last day of location, only update algorithm values
+        currentYear.annualIrrigationDepthSupplied = (currentYear.irrigationVolume *.15)
+        if currentYear.drainflow == 0:
+          currentYear.percentAnnualCapturedDrainflow = 0
+        else:
+          currentYear.percentAnnualCapturedDrainflow = (currentYear.capturedFlow/currentYear.drainflow)
+        #update location data
+        currentLocation.capturedFlow += currentYear.capturedFlow
+        currentLocation.irrigationVolume += currentYear.irrigationVolume
+        currentLocation.annualIrrigationDepthSupplied = (currentYear.irrigationVolume * .15)
+#        currentLocation.irrigationSufficiency = 
+        if currentLocation.drainflow == 0:
+          currentLocation.percentAnnualCapturedDrainflow = 0
+        else:
+          currentLocation.percentAnnualCapturedDrainflow = currentLocation.capturedFlow/currentLocation.drainflow
+        #append year to the list of all years
+        currentLocation.allYears.append(currentYear)
+
+      elif data[j][0].year != yearValue:
+        #last day of YEAR, update algorithm values and initialize the next year
+        currentYear.annualIrrigationDepthSupplied = (currentYear.irrigationVolume *.15)
+        if currentYear.drainflow == 0:
+          currentYear.percentAnnualCapturedDrainflow = 0
+        else:
+          currentYear.percentAnnualCapturedDrainflow = (currentYear.capturedFlow/currentYear.drainflow)
+
+        #update location data
+        currentLocation.capturedFlow += currentYear.capturedFlow
+        currentLocation.irrigationVolume += currentYear.irrigationVolume
+        currentLocation.annualIrrigationDepthSupplied = (currentYear.irrigationVolume * .15)
+        #currentLocation.irrigationSufficiency = 
+        if currentLocation.drainflow == 0:
+          currentLocation.percentAnnualCapturedDrainflow = 0
+        else:
+          currentLocation.percentAnnualCapturedDrainflow = currentLocation.capturedFlow/currentLocation.drainflow
+        #append year to the list of all years
+        currentLocation.allYears.append(currentYear)
+        yearValue = data[j][0].year
+        newYear = YearlyData(yearValue)
+        newYear.drainflow = getAnnualDrainflow(i, yearValue, cur)
+        newYear.precipitation = getAnnualPrecipitation(i, yearValue, cur)
+        newYear.surfacerunoff = getAnnualSurfacerunoff(i, yearValue, cur)
+        newYear.pet = getAnnualPET(i, yearValue, cur)
+        newYear.dae_pet = getAnnualDAE_PET(i, yearValue, cur)
+        currentYear = newYear
+     #while j < numDays loop
 
     #update Location Data
-    currentLocation.annualIrrigationDepthSupplied = (.15*cumulativeIrrigation)
-    if cumulativeDrainflow > 0:
-      currentLocation.percentAnnualCapturedDrainflow =  cumulativeCapturedFlow/cumulativeDrainflow
-    else :
-      currentLocation.percentAnnualCapturedDrainflow = 0
-    #add Location Data to array of all locations
+
     all_locations.append(currentLocation)
 
     i+=1
@@ -247,4 +291,3 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   return all_locations
 
 #end computeData()
-
