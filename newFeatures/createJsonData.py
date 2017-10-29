@@ -1,35 +1,69 @@
 #!/usr/bin/python
 
 import json
+import sys
+import time
 import algorithmEnhanced
-import multiprocessing
+from multiprocessing import Process as Task, Queue
+import collections
 
 #computeData(80,16,10,7.6,1,4.2)
 
-def worker(area,vol,depth,moisture,incr,water,num):
-  data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water)
-  json_string = json.dumps([ob.__dict__ for ob in data])
-  text_file = open("output.txt"+str(num),"w")
+def worker(area,vol,depth,moisture,incr,water,name,status):
+  data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water,name,status)
+  json_string = ""
+  for obj in data:
+    json_string += obj.toJSON()
+  text_file = open(name + ".json","w")
   text_file.write(json_string)
   text_file.close()
 
+def print_progress(progress):
+  sys.stdout.write('\033[2J\033[H') #clear screen 
+  for name, percent in progress.items():
+    bar = ('=' * int(percent * 20)).ljust(20)
+    percent = int(percent * 100)
+    sys.stdout.write("%s [%s] %s%%\n" % (name, bar, percent),)
+  sys.stdout.flush()
+
+
 if __name__ == '__main__':
-  jobs = []
-  p1 = multiprocessing.Process(target=worker, args=(80,16,10,7.6,1,4.2,1))
-  p2 = multiprocessing.Process(target=worker, args=(80,16,10,12,1,6.1,2))
-  p3 = multiprocessing.Process(target=worker, args=(80,16,10,15.6,1,10.2,3))
-  p4 = multiprocessing.Process(target=worker, args=(80,48,10,7.6,1,4.2,4))
-  p5 = multiprocessing.Process(target=worker, args=(80,48,10,12,1,6.1,5))
-  p6 = multiprocessing.Process(target=worker, args=(80,48,10,15.6,1,10.2,6))
-  p7 = multiprocessing.Process(target=worker, args=(80,80,10,7.6,1,4.2,7))
-  p8 = multiprocessing.Process(target=worker, args=(80,80,10,12,1,6.1,8))
-  p9 = multiprocessing.Process(target=worker, args=(80,80,10,15.6,1,10.2,9))
+  status = Queue()
+  progress = collections.OrderedDict()
+  workers = []
+  p1 = Task(target=worker, args=(80,16,10,7.6,1,4.2,'allData-16Vol-Low',status))
+  p2 = Task(target=worker, args=(80,16,10,12,1,6.1, 'allData-16Vol-Medium',status))
+  p3 = Task(target=worker, args=(80,16,10,15.6,1,10.2,'allData-16Vol-High',status))
+  p4 = Task(target=worker, args=(80,48,10,7.6,1,4.2,'allData-48Vol-Low',status))
+  p5 = Task(target=worker, args=(80,48,10,12,1,6.1,'allData-48Vol-Medium',status))
+  p6 = Task(target=worker, args=(80,48,10,15.6,1,10.2,'allData-48Vol-High',status))
+  p7 = Task(target=worker, args=(80,80,10,7.6,1,4.2,'allData-80Vol-Low',status))
+  p8 = Task(target=worker, args=(80,80,10,12,1,6.1,'allData-80Vol-Medium',status))
+  p9 = Task(target=worker, args=(80,80,10,15.6,1,10.2,'allData-80Vol-High',status))
+  
   p1.start()
+  workers.append(p1)
   p2.start()
+  workers.append(p2)
   p3.start()
+  workers.append(p3)
   p4.start()
+  workers.append(p4)
   p5.start()
+  workers.append(p5)
   p6.start()
+  workers.append(p6)
   p7.start()
+  workers.append(p7)
   p8.start()
+  workers.append(p8)
   p9.start()
+  workers.append(p9)
+
+  while any(i.is_alive() for i in workers):
+    while not status.empty():
+      name,percent = status.get()
+      progress[name] = percent
+      print_progress(progress)
+  
+  print 'JSON files built'

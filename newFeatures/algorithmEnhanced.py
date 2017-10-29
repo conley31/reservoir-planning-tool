@@ -1,10 +1,14 @@
 #!/usr/bin/python
 
 import MySQLdb as db
+import sys
 import imp
 import json
 import datetime
+import collections
+from Queue import Queue
 from sql_statements import *
+from time import sleep
 
 with open('../config/config.json') as json_data:
   config = json.load(json_data)
@@ -127,7 +131,6 @@ def getLocationData(locationid,cursor):
   cursor.execute("SELECT * FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)")
   return cursor.fetchall()
 
-
 #
 #   computeData
 #   -uses the Transforming Drainage Project's
@@ -136,7 +139,7 @@ def getLocationData(locationid,cursor):
 #   each location in the database
 #
 
-def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrigationDepth, _availableWaterCapacity):
+def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrigationDepth, _availableWaterCapacity,name,statusQueue):
   all_locations = []
 
   connection = db.connect(host,user,password,database)
@@ -144,13 +147,17 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
 
   pondArea = _pondVolume/_pondDepth
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
-  expectedIrrigationVolDay = (_irrigationDepth/12) * _drainedArea
+  expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
 
-  numLocations = getTableCount(cur) -1
+  #numLocations = getTableCount(cur) -1
+  numLocations = 20
 
   #loop through all locations
   i = 0
-  while i < 100:
+  while i < numLocations:
+    #update loading bar
+    statusQueue.put([name, (i/float(numLocations))])
+    #create new LocationData object and get cumulative values from the database
     currentLocation = LocationData('Location' + str(i))
     currentLocation.drainflow = getDrainflowCumulative(i,cur)
     currentLocation.precipitation = getPrecipitationCumulative(i,cur)
@@ -230,6 +237,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
       pondWaterVolDayPrev = pondWaterVolDay
     
       #update cumulative values
+
       currentYear.irrigationVolume += irrigationVolDay
       currentYear.capturedFlow += capturedFlowVolDay
         
@@ -291,3 +299,4 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   return all_locations
 
 #end computeData()
+#computeData(80,16,10,7.6,1,4.2,'All-data')
