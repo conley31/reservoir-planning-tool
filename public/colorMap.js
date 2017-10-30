@@ -1,14 +1,16 @@
+var frequency = new Array();
+
 var drawHist = function() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Range');
 	data.addColumn('number', 'Frequency');
 	data.addRows([
-	['0', arguments[0]],
-	['<150', arguments[1]],
-	['150-500', arguments[2]],
-	['500-850', arguments[3]],
-	['850-1200', arguments[4]],
-	['1200-1500', arguments[5]]
+	['0', frequency[0]],
+	['<150', frequency[1]],
+	['150-500', frequency[2]],
+	['500-850', frequency[3]],
+	['850-1200', frequency[4]],
+	['1200-1500', frequency[5]]
 	]);
 	
 	var options = {
@@ -16,13 +18,13 @@ var drawHist = function() {
 		legend: {position: 'none'}
 	};
 	
-	chart = new google.visualization.BarChart(document.getElementById('histogram-1'));
+	var chart = new google.visualization.BarChart(document.getElementById('histogram-1'));
 	chart.draw(data, options);
 }
 
 var initHistogram = function() {
-	google.charts.load("current", {package:["line", "corechart", "controls"]});
-	google.charts.setOnLoadCallback(drawHist(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]));
+	google.charts.load('current', {'packages':['bar', 'corechart', 'controls']});
+	google.charts.setOnLoadCallback(drawHist);
 };
 
 var pondval = -1;
@@ -215,7 +217,6 @@ function setColor(objJson) {
   console.log(document.map.controls[google.maps.ControlPosition.TOP_LEFT]);
   console.log(document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT]);
   
-  var frequency = new Array();
   frequency[0] = 0;
   frequency[1] = 0;
   frequency[2] = 0;
@@ -380,6 +381,6 @@ function setColor(objJson) {
 	  
     });
 	
-	initHistogram(frequency[0], frequency[1], frequency[2], frequency[3], frequency[4], frequency[5]);
+	initHistogram();
 }
 
