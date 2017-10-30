@@ -40,7 +40,7 @@ class LocationData(object):
     self.capturedFlow = 0
     self.annualIrrigationDepthSupplied = 0
     self.percentAnnualCapturedDrainflow = 0
-    self.irrigationSufficienty = 0
+    self.irrigationSufficiency = 0
     self.allYears = []
 
     self.locationid = locationid
@@ -149,18 +149,18 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
   expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
 
-  #numLocations = getTableCount(cur) -1
-  numLocations = 20
+  numLocations = getTableCount(cur) -1
 
   #loop through all locations
   i = 0
-  while i < 5:
+  while i < numLocations:
     #update loading bar
     statusQueue.put([name, (i/float(numLocations))])
     #create new LocationData object and get cumulative values from the database
     currentLocation = LocationData('Location' + str(i))
     currentLocation.drainflow = getDrainflowCumulative(i,cur)
     currentLocation.precipitation = getPrecipitationCumulative(i,cur)
+    currentLocation.surfacerunoff = getSurfacerunoffCumulative(i,cur)
     currentLocation.pet = getPETCumulative(i,cur)
     currentLocation.dae_pet = getDAE_PETCumulative(i,cur)
     data = getLocationData(i,cur)
@@ -256,7 +256,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
         currentLocation.irrigationVolume += currentYear.irrigationVolume
         #update location data that rely on algorithm
         currentLocation.annualIrrigationDepthSupplied = (currentLocation.irrigationVolume * .15)
-        currentLocation.irrigationSufficiency = (currentLocation.annualIrrigationDepthSupplied/1000) * 100
+        currentLocation.irrigationSufficiency = (currentLocation.annualIrrigationDepthSupplied/1000.0) * 100
         if currentLocation.drainflow == 0:
           currentLocation.percentAnnualCapturedDrainflow = 0
         else:
