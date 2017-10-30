@@ -54,6 +54,10 @@ $('#all-map-nav').click(function() {
     });
     disableListener = true;
     //document.map.data.removeListener(poly); //This breaks the code for right now
+	
+	$('#histogram1-body').fadeIn('slow',function() {
+		$('#histogram-buffer1').fadeOut('fast');
+	});
   });
 });
 
