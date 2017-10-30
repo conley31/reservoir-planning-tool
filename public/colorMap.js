@@ -109,6 +109,7 @@ var colorMap = function(addVariable) {
     var legend_annual = document.getElementById('legend-annual');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
     $('#legend-percentage').fadeOut('fast');
+    $('#legend-captured').fadeOut('fast');
     $('#legend-annual').fadeIn('fast');
     
   }
@@ -117,6 +118,7 @@ var colorMap = function(addVariable) {
     var legend_percentage = document.getElementById('legend-percentage');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
     $('#legend-annual').fadeOut('fast');
+    $('#legend-captured').fadeOut('fast');
     $('#legend-percentage').fadeIn('fast');
     
 
@@ -126,6 +128,14 @@ var colorMap = function(addVariable) {
     catch(e){
       alert(e.name + "\n" + e.message)
     }*/
+  }
+
+  if (resultsval == 2) {
+    var legend_captured = document.getElementById('legend-captured');
+    document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_captured);
+    $('#legend-annual').fadeOut('fast');
+    $('#legend-percentage').fadeOut('fast');
+    $('#legend-captured').fadeIn('fast');
   }
 
   if(pondval == 0 || waterval == 0){
