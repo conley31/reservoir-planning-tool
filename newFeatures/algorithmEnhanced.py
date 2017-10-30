@@ -154,7 +154,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
 
   #loop through all locations
   i = 0
-  while i < numLocations:
+  while i < 5:
     #update loading bar
     statusQueue.put([name, (i/float(numLocations))])
     #create new LocationData object and get cumulative values from the database
@@ -243,17 +243,20 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
         
       j+=1
       if j == numDays:
-        #last day of location, only update algorithm values
+        #last day of location, update values then compute overall location values that rely on algorithm
         currentYear.annualIrrigationDepthSupplied = (currentYear.irrigationVolume *.15)
+        currentYear.irrigationSufficiency = (currentYear.annualIrrigationDepthSupplied/1000) * 100
         if currentYear.drainflow == 0:
           currentYear.percentAnnualCapturedDrainflow = 0
         else:
           currentYear.percentAnnualCapturedDrainflow = (currentYear.capturedFlow/currentYear.drainflow)
+
         #update location data
         currentLocation.capturedFlow += currentYear.capturedFlow
         currentLocation.irrigationVolume += currentYear.irrigationVolume
-        currentLocation.annualIrrigationDepthSupplied = (currentYear.irrigationVolume * .15)
-#        currentLocation.irrigationSufficiency = 
+        #update location data that rely on algorithm
+        currentLocation.annualIrrigationDepthSupplied = (currentLocation.irrigationVolume * .15)
+        currentLocation.irrigationSufficiency = (currentLocation.annualIrrigationDepthSupplied/1000) * 100
         if currentLocation.drainflow == 0:
           currentLocation.percentAnnualCapturedDrainflow = 0
         else:
@@ -264,22 +267,20 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
       elif data[j][0].year != yearValue:
         #last day of YEAR, update algorithm values and initialize the next year
         currentYear.annualIrrigationDepthSupplied = (currentYear.irrigationVolume *.15)
+        currentYear.irrigationSufficiency = (currentYear.annualIrrigationDepthSupplied/1000) * 100
         if currentYear.drainflow == 0:
           currentYear.percentAnnualCapturedDrainflow = 0
         else:
           currentYear.percentAnnualCapturedDrainflow = (currentYear.capturedFlow/currentYear.drainflow)
 
-        #update location data
+        #update location data's cumulative vales
         currentLocation.capturedFlow += currentYear.capturedFlow
         currentLocation.irrigationVolume += currentYear.irrigationVolume
-        currentLocation.annualIrrigationDepthSupplied = (currentYear.irrigationVolume * .15)
-        #currentLocation.irrigationSufficiency = 
-        if currentLocation.drainflow == 0:
-          currentLocation.percentAnnualCapturedDrainflow = 0
-        else:
-          currentLocation.percentAnnualCapturedDrainflow = currentLocation.capturedFlow/currentLocation.drainflow
+
         #append year to the list of all years
         currentLocation.allYears.append(currentYear)
+
+        #set up new year
         yearValue = data[j][0].year
         newYear = YearlyData(yearValue)
         newYear.drainflow = getAnnualDrainflow(i, yearValue, cur)
