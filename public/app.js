@@ -132,11 +132,13 @@ $('#compare-maps').click(function() {
 });
 
 $('#download-individual-data').click(function() {
-	downloadFile("/data_sets/comparison-map-data.json");
+	//downloadFile("/data_sets/comparison-map-data.json");
+  saveData(compareKML, "CompareData.kml");
 });
 
 $('#download-data').click(function() {
-	getFile();
+	//getFile();
+  saveData(compareKML, "CompareData.kml");
 });
 
 //hides the comparision map
@@ -259,7 +261,7 @@ var downloadJSON = function() {
             //console.log(text);
             //compareMapData = JSON.parse(text);
             //console.log(text.length);
-            HMSet("compareMapData", text);
+            compareMapData = JSON.parse(text);
             //setColorComp(temp);
 
             // close the zip reader
@@ -468,3 +470,18 @@ var downloadFile = function(filename) {
 		saveAs(blob, filename);
     });
 }
+
+var saveData = function (data, fileName) {
+  //console.log("printing");
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+      //console.log(data);
+        var json = data,
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+};

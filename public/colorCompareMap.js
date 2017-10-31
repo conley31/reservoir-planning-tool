@@ -1,5 +1,6 @@
 var results2val = -1;
 var dropdownval = -1;
+var compareKML;
 
 var colorComp = function(addVariable) {
 
@@ -44,10 +45,10 @@ var colorComp = function(addVariable) {
     })*/
 
     //console.log(compareMapData);
-    var result = hmget("compareMapData");
+    //var result = hmget("compareMapData");
  	//console.log(result);
 
-    setColorComp(JSON.parse(result));
+    setColorComp(compareMapData);
    /*$.get("/data_sets/comparison-map-data.json.zip", function(data) {
 
    		//var testing = new File("/data_sets/comparison-map-data.json.zip")
@@ -239,4 +240,8 @@ function setColorComp(objJson) {
 		}
     });
     console.log("finished coloring");
+
+    document.comparemap.data.toGeoJson(function(data) {
+    	compareKML = tokml(data);
+    });
 }
