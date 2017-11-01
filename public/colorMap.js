@@ -251,39 +251,39 @@ function setColor(objJson) {
       if(resultsval == 0){
 		  freqChoice = 2;
 		  
-        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
+        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) == 0){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#DDE500',
-            fillOpacity: 0.4
+            fillColor: '#616161',
+            fillOpacity: 0.25
           });
 		  
 		  frequency[0] += 1;
         }
-        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 500){
+        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 50){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#0ED900',
+            fillColor: '#A6611A',
             fillOpacity: 0.4
           });
 		  
 		  frequency[1] += 1;
-        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 850){
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 100){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#00CEAB',
+            fillColor: '#DFC27D',
             fillOpacity: 0.4
           });
 		  
 		  frequency[2] += 1;
-        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1200){
+        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#0070C6',
+            fillColor: '#F5F5F5',
             fillOpacity: 0.4
           });
 		  
 		  frequency[3] += 1;
         }
-        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 1550){
+        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 200){
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#0500BF',
+            fillColor: '#80CDC1',
             fillOpacity: 0.4
           });
 		  
@@ -291,7 +291,7 @@ function setColor(objJson) {
         }
         else{
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#D50023',
+            fillColor: '#018571',
             fillOpacity: 0.4
           });
 		  
@@ -364,7 +364,7 @@ function setColor(objJson) {
 	}
 	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 3000) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#EDF8FB',
+            fillColor: '#D7191C',
             fillOpacity: 0.4
           });
 		  
@@ -372,7 +372,7 @@ function setColor(objJson) {
 	}
 	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 6000) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#B2E2E2',
+            fillColor: '#FDAE61',
             fillOpacity: 0.4
           });
 		  
@@ -380,7 +380,7 @@ function setColor(objJson) {
         }
 	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 9000) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#66C2A4',
+            fillColor: '#FFFFBF',
             fillOpacity: 0.4
           });
 		  
@@ -388,7 +388,7 @@ function setColor(objJson) {
         }
 	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 12000) {
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#2CA25F',
+            fillColor: '#ABD9E9',
             fillOpacity: 0.4
           });
 		  
@@ -397,7 +397,7 @@ function setColor(objJson) {
 	else  {
 	  console.log(objJson[loc].cumulativeCapturedFlow);
           document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#006D2C',
+            fillColor: '#2C7BBB',
             fillOpacity: 0.4
           });
 		  
