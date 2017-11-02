@@ -2,8 +2,9 @@ var results2val = -1;
 var dropdownval = -1;
 var compareKML;
 
-var frequency = new Array();
+var frequency = new Array(); //Array to hold count of each range
 
+//Draws the histogram/bar chart for the comparison map
 var drawHist2 = function() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Range');
@@ -23,15 +24,18 @@ var drawHist2 = function() {
 		legend: {position: 'none'}
 	};
 	
+	//Creates a new bar chart
 	var chart = new google.visualization.BarChart(document.getElementById('histogram-2'));
-	chart.draw(data, options);
+	chart.draw(data, options); //draws the bar chart with the given data and options
 }
 
+//Calls google loader to load charts needed
 var initHist2 = function() {
 	google.charts.load('current', {'packages':['bar', 'corechart', 'controls']});
 	google.charts.setOnLoadCallback(drawHist2);
 };
 
+//Increments/changes variables to reflect what data will be needed to display
 var colorComp = function(addVariable) {
 
 	var results2 = document.getElementsByName("results2");
@@ -87,6 +91,7 @@ var colorComp = function(addVariable) {
 
 }
 
+//Unzips large json data file
 function unzipBlob(blob, callback) {
   // use a zip.BlobReader object to read zipped data stored into blob variable
   zip.createReader(new zip.BlobReader(blob), function(zipReader) {
@@ -103,13 +108,17 @@ function unzipBlob(blob, callback) {
 }
 
 function setColorComp(objJson) {
+	//Resets counters
 	for (var i = 0; i < 6; i++) {
 	  frequency[i] = 0;
 	}
-	initHist2();
+	initHist2(); //initializes histogram/bar chart
 	
+	//For each GeoJSON grid cell - color according to its data, increment frequency counter as well
  	document.comparemap.data.forEach(function(feature){
     	var loc = feature.getProperty('Id');
+		
+		//Drainflow
     	if(results2val == 0){
 			if(parseInt(objJson[loc].yearArray[dropdownval-1981].drainflow) < 10){
           		document.comparemap.data.overrideStyle(feature, {
@@ -152,6 +161,8 @@ function setColorComp(objJson) {
 				frequency[4] += 1;
         	}
 		}
+		
+		//SurfaceRunoff
 		else if(results2val == 1){
 			if(parseInt(objJson[loc].yearArray[dropdownval-1981].surfacerunoff) < 10){
           		document.comparemap.data.overrideStyle(feature, {
@@ -194,6 +205,8 @@ function setColorComp(objJson) {
 				frequency[4] += 1;
         	}
 		}
+		
+		//Precipitation
 		else if (results2val == 2){
 			prop = "precipitation";
 			if(parseInt(objJson[loc].yearArray[dropdownval-1981].precipitation) < 10){
@@ -237,6 +250,8 @@ function setColorComp(objJson) {
 				frequency[4] += 1;
         	}
 		}
+		
+		//PET
 		else if(results2val == 3){
 			prop = "pet";
 			if(parseInt(objJson[loc].yearArray[dropdownval-1981].pet) < 10){
@@ -280,6 +295,8 @@ function setColorComp(objJson) {
 				frequency[4] += 1;
         	}
 		}
+		
+		//DEA_PET
 		else if(results2val == 4){
 			prop = "dea_pet";
 			if(parseInt(objJson[loc].yearArray[dropdownval-1981].dea_pet) < 10){
