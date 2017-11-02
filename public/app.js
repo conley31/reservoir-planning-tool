@@ -131,25 +131,29 @@ $('#year-submit').click(function() {
   showGraphThree();
 });
 
+//show comparison map
 $('#compare-maps').click(function() {
   showCompMap();
 });
 
+//Downloading data file
 $('#download-individual-data').click(function() {
 	//downloadFile("/data_sets/comparison-map-data.json");
   saveData(compareKML, "CompareData.kml");
 });
 
+//Downloading data file
 $('#download-data').click(function() {
 	//getFile();
   saveData(compareKML, "CompareData.kml");
 });
 
-//hides the comparision map
+//Hides the comparision map
 var hideCompMap = function() {
   $('#comparemap').fadeOut('fast');
 }
 
+//Shows the comparison map
 var showCompMap = function() {
   $('#comparemap').fadeIn('fast');
 
@@ -258,14 +262,17 @@ var downloadJSON = function() {
       zip.workerScriptsPath = '/zip/';
     zip.createReader(new zip.BlobReader(this.response), function(reader) {
       // get all entries from the zip
+	  
       //console.log("in reader");
       reader.getEntries(function(entries) {
         //console.log(entries.length);
       if (entries.length) {
         //console.log("getting entries")
+		
        // get first entry content as text
           entries[0].getData(new zip.TextWriter(), function(text) {
            // text contains the entry data as a String
+		   
             //console.log(text);
             //compareMapData = JSON.parse(text);
             //console.log(text.length);
@@ -279,6 +286,7 @@ var downloadJSON = function() {
 
         }, function(current, total) {
             // onprogress callback
+			
               //console.log("current: " + current);
               //console.log("total: " + total);
         });
@@ -295,6 +303,7 @@ var downloadJSON = function() {
 *  Project: FileSaver.js
 *  Copyright © 2016 Eli Grey
 *  License (MIT) https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+*  FileSaver.js is used to make files downloadable
 */
 var saveAs = saveAs || (function(view) {
 	"use strict";
@@ -470,10 +479,12 @@ if (typeof module !== "undefined" && module.exports) {
   });
 }
 
+//Function that implements saveAs from FileSaver.js to download files
 var downloadFile = function(filename) {
 	console.log('downloading');
 
-	$.getJSON(filename, function(json) { //for now use a request to get the file
+	//Use jquery request to get file - for now
+	$.getJSON(filename, function(json) {
 		var blob = new Blob([JSON.stringify(json)], {type: "application/json"});
 		saveAs(blob, filename);
     });

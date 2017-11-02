@@ -1,12 +1,13 @@
-var frequency = new Array();
+var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual
 
+//Draws the histogram/bar chart
 var drawHist = function() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Range');
 	data.addColumn('number', 'Frequency');
 	
-	if (freqChoice == 0) {
+	if (freqChoice == 0) { //use percentAnnualCapturedDrainFlow ranges
 		data.addRows([
 		['<15%', frequency[0]],
 		['15-25%', frequency[1]],
@@ -16,7 +17,7 @@ var drawHist = function() {
 		['>55%', frequency[5]]
 		]);
 	}
-	else if (freqChoice == 1) {
+	else if (freqChoice == 1) { //use cumulativeCapturedFlow ranges
 		data.addRows([
 		['Data Unavailable', frequency[0]],
 		['<3000', frequency[1]],
@@ -27,7 +28,7 @@ var drawHist = function() {
 		]);
 	}
 	else {
-		data.addRows([
+		data.addRows([ //use annualIrrigationDepthSupplied ranges
 		['<150', frequency[0]],
 		['150-500', frequency[1]],
 		['500-850', frequency[2]],
@@ -42,10 +43,12 @@ var drawHist = function() {
 		legend: {position: 'none'}
 	};
 	
+	//creates a new bar chart
 	var chart = new google.visualization.BarChart(document.getElementById('histogram-1'));
-	chart.draw(data, options);
+	chart.draw(data, options); //draws the chart using the data and options given
 }
 
+//Initializes the google charts needed
 var initHistogram = function() {
 	google.charts.load('current', {'packages':['bar', 'corechart', 'controls']});
 	google.charts.setOnLoadCallback(drawHist);
@@ -55,6 +58,7 @@ var pondval = -1;
 var waterval = -1;
 var resultsval = -1;
 
+//Checks which json file to download
 var getFile = function() {
   if(pondval == 0 || waterval == 0){
     downloadFile("/data_sets/allData-16vol-Low.json")
@@ -85,6 +89,7 @@ var getFile = function() {
   }
 }
 
+//Determines which map and json file to load
 var colorMap = function(addVariable) {
   if (addVariable.hasClass('on')) {
     return;
@@ -157,6 +162,7 @@ var colorMap = function(addVariable) {
     return;
   }
 
+  //Displays map for annualIrrigationDepthSupplied
   if(resultsval == 0) {
     var legend_annual = document.getElementById('legend-annual');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
@@ -166,6 +172,7 @@ var colorMap = function(addVariable) {
     
   }
 
+  //Displays map for percentAnnualCapturedDrainFlow
   if(resultsval == 1) {
     var legend_percentage = document.getElementById('legend-percentage');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
@@ -182,6 +189,7 @@ var colorMap = function(addVariable) {
     }*/
   }
 
+  //Displays map for capturedDrainflow
   if (resultsval == 2) {
     var legend_captured = document.getElementById('legend-captured');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_captured);
@@ -190,6 +198,7 @@ var colorMap = function(addVariable) {
     $('#legend-captured').fadeIn('fast');
   }
 
+  //Determines which json file to load for data
   if(pondval == 0 || waterval == 0){
     $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
       setColor(json);
@@ -237,20 +246,25 @@ var colorMap = function(addVariable) {
   }
 }
 
+//Colors the GeoJSON grids on the google map
 function setColor(objJson) {
   console.log(document.map.controls[google.maps.ControlPosition.TOP_LEFT]);
   console.log(document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT]);
   
+  //Reset frequency count to 0
   for (var i = 0; i < 6; i++) {
 	  frequency[i] = 0;
   }
   
+  //For each grid in the GeoJSON, decide which color to make it based on its value for the current map
+  //Increment frequency as well
   document.regionalmap.data.forEach(function(feature){
     var loc = feature.getProperty('Id');
     //console.log(resultsval);
       if(resultsval == 0){
 		  freqChoice = 2;
-		  
+		
+		//AnnualIrrigationDepthSupplied
         if(parseInt(objJson[loc].annualIrrigationDepthSupplied) == 0){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
@@ -266,14 +280,16 @@ function setColor(objJson) {
           });
 		  
 		  frequency[1] += 1;
-        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 100){
+        }
+		else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 100){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#DFC27D',
             fillOpacity: 0.4
           });
 		  
 		  frequency[2] += 1;
-        }else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
+        }
+		else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#F5F5F5',
             fillOpacity: 0.4
@@ -298,6 +314,8 @@ function setColor(objJson) {
 		  frequency[5] += 1;
         }
       }
+	  
+	  //PercentAnnualCapturedDrainFlow
       else if (resultsval == 1){
 		  
 		  freqChoice = 0;
@@ -351,63 +369,67 @@ function setColor(objJson) {
 		  
 		  frequency[5] += 1;
         }
-      } else {
+      } 
+	  
+	  //CumulativeCapturedFlow
+	  else {
 		  
 		  freqChoice = 1;
-	if(parseInt(objJson[loc].cumulativeCapturedFlow) == 0) {
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#616161',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[0] += 1;
-	}
-	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 3000) {
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#D7191C',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[1] += 1;
-	}
-	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 6000) {
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#FDAE61',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[2] += 1;
-        }
-	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 9000) {
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#FFFFBF',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[3] += 1;
-        }
-	else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 12000) {
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#ABD9E9',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[4] += 1;
-        }
-	else  {
-	  console.log(objJson[loc].cumulativeCapturedFlow);
-          document.regionalmap.data.overrideStyle(feature, {
-            fillColor: '#2C7BBB',
-            fillOpacity: 0.4
-          });
-		  
-		  frequency[5] += 1;
-        }
+		if(parseInt(objJson[loc].cumulativeCapturedFlow) == 0) {
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#616161',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[0] += 1;
+		}
+		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 3000) {
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#D7191C',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[1] += 1;
+		}
+		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 6000) {
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#FDAE61',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[2] += 1;
+			}
+		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 9000) {
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#FFFFBF',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[3] += 1;
+			}
+		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 12000) {
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#ABD9E9',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[4] += 1;
+			}
+		else  {
+		  console.log(objJson[loc].cumulativeCapturedFlow);
+			  document.regionalmap.data.overrideStyle(feature, {
+				fillColor: '#2C7BBB',
+				fillOpacity: 0.4
+			  });
+			  
+			  frequency[5] += 1;
+			}
 
-      }
+		  }
 	  
     });
 	
+	//Initialize the histogram/bar chart
 	initHistogram();
 }
 
