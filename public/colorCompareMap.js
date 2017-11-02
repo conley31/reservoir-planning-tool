@@ -2,6 +2,36 @@ var results2val = -1;
 var dropdownval = -1;
 var compareKML;
 
+var frequency = new Array();
+
+var drawHist2 = function() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Range');
+	data.addColumn('number', 'Frequency');
+
+	data.addRows([
+	['<10', frequency[0]],
+	['10-20', frequency[1]],
+	['20-30', frequency[2]],
+	['30-40', frequency[3]],
+	['40-50', frequency[4]],
+	['>50', frequency[5]]
+	]);
+	
+	var options = {
+		title: 'Frequency of Each Range',
+		legend: {position: 'none'}
+	};
+	
+	var chart = new google.visualization.BarChart(document.getElementById('histogram-2'));
+	chart.draw(data, options);
+}
+
+var initHist2 = function() {
+	google.charts.load('current', {'packages':['bar', 'corechart', 'controls']});
+	google.charts.setOnLoadCallback(drawHist2);
+};
+
 var colorComp = function(addVariable) {
 
 	var results2 = document.getElementsByName("results2");
@@ -73,6 +103,11 @@ function unzipBlob(blob, callback) {
 }
 
 function setColorComp(objJson) {
+	for (var i = 0; i < 6; i++) {
+	  frequency[i] = 0;
+	}
+	initHist2();
+	
  	document.comparemap.data.forEach(function(feature){
     	var loc = feature.getProperty('Id');
     	if(results2val == 0){
@@ -81,30 +116,40 @@ function setColorComp(objJson) {
             	fillColor: '#DDE500',
             	fillOpacity: 0.4
           		});
+				
+				frequency[0] += 1;
         	}
         	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].drainflow) < 20){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#00CEAB',
             		fillOpacity: 0.4
           		});
+				
+				frequency[1] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].drainflow) < 30){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0070C6',
             		fillOpacity: 0.4
           		});
+				
+				frequency[2] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].drainflow) < 40){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0500BF',
             		fillOpacity: 0.4
           		});
+				
+				frequency[3] += 1;
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#D50023',
             		fillOpacity: 0.4
           		});
+				
+				frequency[4] += 1;
         	}
 		}
 		else if(results2val == 1){
@@ -113,30 +158,40 @@ function setColorComp(objJson) {
             	fillColor: '#DDE500',
             	fillOpacity: 0.4
           		});
+				
+				frequency[0] += 1;
         	}
         	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].surfacerunoff) < 20){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#00CEAB',
             		fillOpacity: 0.4
           		});
+				
+				frequency[1] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].surfacerunoff) < 30){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0070C6',
             		fillOpacity: 0.4
           		});
+				
+				frequency[2] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].surfacerunoff) < 40){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0500BF',
             		fillOpacity: 0.4
           		});
+				
+				frequency[3] += 1;
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#D50023',
             		fillOpacity: 0.4
           		});
+				
+				frequency[4] += 1;
         	}
 		}
 		else if (results2val == 2){
@@ -146,30 +201,40 @@ function setColorComp(objJson) {
             	fillColor: '#DDE500',
             	fillOpacity: 0.4
           		});
+				
+				frequency[0] += 1;
         	}
         	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].precipitation) < 20){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#00CEAB',
             		fillOpacity: 0.4
           		});
+				
+				frequency[1] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].precipitation) < 30){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0070C6',
             		fillOpacity: 0.4
           		});
+				
+				frequency[2] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].precipitation) < 40){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0500BF',
             		fillOpacity: 0.4
           		});
+				
+				frequency[3] += 1;
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#D50023',
             		fillOpacity: 0.4
           		});
+				
+				frequency[4] += 1;
         	}
 		}
 		else if(results2val == 3){
@@ -179,30 +244,40 @@ function setColorComp(objJson) {
             	fillColor: '#DDE500',
             	fillOpacity: 0.4
           		});
+				
+				frequency[0] += 1;
         	}
         	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].pet) < 20){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#00CEAB',
             		fillOpacity: 0.4
           		});
+				
+				frequency[1] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].pet) < 30){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0070C6',
             		fillOpacity: 0.4
           		});
+				
+				frequency[2] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].pet) < 40){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0500BF',
             		fillOpacity: 0.4
           		});
+				
+				frequency[3] += 1;
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#D50023',
             		fillOpacity: 0.4
           		});
+				
+				frequency[4] += 1;
         	}
 		}
 		else if(results2val == 4){
@@ -212,30 +287,40 @@ function setColorComp(objJson) {
             	fillColor: '#DDE500',
             	fillOpacity: 0.4
           		});
+				
+				frequency[0] += 1;
         	}
         	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].dea_pet) < 20){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#00CEAB',
             		fillOpacity: 0.4
           		});
+				
+				frequency[1] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].dea_pet) < 30){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0070C6',
             		fillOpacity: 0.4
           		});
+				
+				frequency[2] += 1;
           	}
           	else if(parseInt(objJson[loc].yearArray[dropdownval-1981].dea_pet) < 40){
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#0500BF',
             		fillOpacity: 0.4
           		});
+				
+				frequency[3] += 1;
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
             		fillColor: '#D50023',
             		fillOpacity: 0.4
           		});
+				
+				frequency[4] += 1;
         	}
 		}
     });

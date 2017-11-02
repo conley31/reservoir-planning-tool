@@ -156,6 +156,10 @@ var showCompMap = function() {
   var centerBeforeResize = document.comparemap.getCenter();
   google.maps.event.trigger(map3, 'resize'); //to make gmap fit to entire div
   document.comparemap.setCenter(centerBeforeResize); //re-center map after resize
+  
+  $('#histogram2-body').fadeIn('slow',function() {
+		$('#histogram-buffer2').fadeOut('fast');
+	});
 }
 
 //Shows Graph One
