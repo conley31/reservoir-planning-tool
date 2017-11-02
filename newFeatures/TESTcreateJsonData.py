@@ -10,11 +10,15 @@ import collections
 #computeData(80,16,10,7.6,1,4.2)
 
 def worker(area,vol,depth,moisture,incr,water,name,status):
-  data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water,name,status,0)
+  data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water,name,status,1)
   json_string = "["
+  comma = 0
   for obj in data:
+    if comma > 0:
+      json_string += ','
+    else:
+      comma = 1
     json_string += obj.toJSON()
-    json_string += ","
   json_string += "]"
   text_file = open(name + ".json","w")
   text_file.write(json_string)
@@ -33,9 +37,9 @@ if __name__ == '__main__':
   status = Queue()
   progress = collections.OrderedDict()
   workers = []
-  filenames = ['allData-16Vol-Low', 'allData-16Vol-Medium', 'allData-16Vol-High',
-               'allData-48Vol-Low', 'allData-48Vol-Medium', 'allData-48Vol-High',
-               'allData-80Vol-Low', 'allData-80Vol-Medium', 'allData-80Vol-High']
+  filenames = ['allData-16Vol-Low-test', 'allData-16Vol-Medium-test', 'allData-16Vol-High-test',
+               'allData-48Vol-Low-test', 'allData-48Vol-Medium-test', 'allData-48Vol-High-test',
+               'allData-80Vol-Low-test', 'allData-80Vol-Medium-test', 'allData-80Vol-High-test']
   p1 = Task(target=worker, args=(80,16,10,7.6,1,4.2,filenames[0],status))
   p2 = Task(target=worker, args=(80,16,10,12,1,6.1, filenames[1],status))
   p3 = Task(target=worker, args=(80,16,10,15.6,1,10.2,filenames[2],status))
@@ -62,16 +66,17 @@ if __name__ == '__main__':
   workers.append(p7)
   p8.start()
   workers.append(p8)
- # p9.start()
- # workers.append(p9)
+  p9.start()
+  workers.append(p9)
 
   while any(i.is_alive() for i in workers):
     while not status.empty():
       name,percent = status.get()
       progress[name] = percent
       print_progress(progress)
-  
+      time.sleep(.1)
   print 'JSON files built'
   for i in filenames:
-    if algorithmEnhanced.checkJsonIntegrity(i) == True:
-      print("complete json")
+    currfile = i + ".json"
+    if algorithmEnhanced.checkJsonIntegrity(currfile) == True:
+      print(currfile + " is a valid JSON")

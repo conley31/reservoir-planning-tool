@@ -131,6 +131,17 @@ def getLocationData(locationid,cursor):
   cursor.execute("SELECT * FROM Location" + str(locationid) + " WHERE YEAR(RecordedDate) > 1980 AND YEAR(RecordedDate) < 2010 ORDER BY (RecordedDate)")
   return cursor.fetchall()
 
+
+def checkJsonIntegrity(jsonfile):
+  with open(jsonfile) as data_file:
+    try:
+      json_object = json.load(data_file)
+    except ValueError, e:
+      return False
+    return True
+
+  
+
 #
 #   computeData
 #   -uses the Transforming Drainage Project's
@@ -139,7 +150,7 @@ def getLocationData(locationid,cursor):
 #   each location in the database
 #
 
-def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrigationDepth, _availableWaterCapacity,name,statusQueue):
+def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrigationDepth, _availableWaterCapacity,name,statusQueue,testFlag):
   all_locations = []
 
   connection = db.connect(host,user,password,database)
@@ -149,13 +160,20 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture,  _irrig
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
   expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
 
-  numLocations = getTableCount(cur) -1
+  if testFlag == 1:
+    numLocations = 5;
+  else:
+    numLocations = getTableCount(cur) -1
 
   #loop through all locations
   i = 0
   while i < numLocations:
     #update loading bar
-    statusQueue.put([name, (i/float(numLocations))])
+    if i == numLocations-1 :
+      statusQueue.put([name,(1)])
+    else:
+      statusQueue.put([name, (i/float(numLocations))])
+
     #create new LocationData object and get cumulative values from the database
     currentLocation = LocationData('Location' + str(i))
     currentLocation.drainflow = getDrainflowCumulative(i,cur)
