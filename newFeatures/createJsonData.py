@@ -12,9 +12,13 @@ import collections
 def worker(area,vol,depth,moisture,incr,water,name,status):
   data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water,name,status,0)
   json_string = "["
+  comma = 0
   for obj in data:
+    if comma > 0:
+        json_string += ","
+    else:
+        comma = 1
     json_string += obj.toJSON()
-    json_string += ","
   json_string += "]"
   text_file = open(name + ".json","w")
   text_file.write(json_string)
