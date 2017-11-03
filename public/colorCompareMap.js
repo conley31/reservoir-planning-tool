@@ -383,6 +383,9 @@ function setColorComp(objJson) {
     });
     console.log("finished coloring");
     $('#map-buffer3').fadeOut('fast');
+    $('#histogram2-body').fadeIn('slow',function() {
+    $ ('#histogram-buffer2').fadeOut('fast');
+    });
     document.comparemap.data.toGeoJson(function(data) {
     	compareKML = tokml(data);
     });

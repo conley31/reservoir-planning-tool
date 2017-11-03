@@ -1,6 +1,7 @@
 var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
+var regKML;
 
 //Draws the histogram/bar chart
 var drawHist = function() {
@@ -102,9 +103,6 @@ var getFile = function() {
 
 //Determines which map and json file to load
 var colorMap = function(addVariable) {
-  if (addVariable.hasClass('on')) {
-    return;
-  }
 
   var pondsize = document.getElementsByName("pond-size");
   var water = document.getElementsByName("water");
@@ -553,6 +551,12 @@ function setColor(objJson) {
     });
 	//Initialize the histogram/bar chart
 	initHistogram();
+  $('#histogram1-body').fadeIn('slow',function() {
+    $('#histogram-buffer1').fadeOut('fast');
+  });
   $('#map-buffer2').fadeOut('fast');
+  document.comparemap.data.toGeoJson(function(data) {
+      regKML = tokml(data);
+    });
 }
 

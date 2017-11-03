@@ -710,3 +710,12 @@ footer img {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.child {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 85%;
+  height: 25%;
+  background: none;
+}
