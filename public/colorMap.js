@@ -314,11 +314,11 @@ function setColor(objJson) {
           tempJSON = objJson[loc].annualIrrigationDepthSupplied;
         }
         else {
-          var ob = {
+          /*var ob = {
             annualIrrigationDepthSupplied: objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied
           }
 
-          array.push(ob);
+          array.push(ob);*/
           //console.log(array);
           //array[loc].annualIrrigationDepthSupplied = objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied;
           tempJSON = objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied;
@@ -572,6 +572,7 @@ function setColor(objJson) {
   $('#map-buffer2').fadeOut('fast');
   array = JSON.stringify(array);
   //saveData(array, '1981-0-0-0-reg.json');
+  tempStor = JSON.stringify(objJson);
   document.comparemap.data.toGeoJson(function(data) {
       regKML = tokml(data);
   });

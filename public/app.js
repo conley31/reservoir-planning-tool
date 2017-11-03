@@ -2,6 +2,7 @@
 
 var loaded = 0;
 var compareMapData;
+var tempStor;
 
 //show map, hide everything else
 $('#map-nav').click(function() {
@@ -146,6 +147,7 @@ $('#download-individual-data').click(function() {
 //Downloading data file
 $('#download-data').click(function() {
 	//getFile();
+  saveData(tempStor, 'ComputedResults.json');
   saveData(regKML, "RegonalData.kml");
 });
 
