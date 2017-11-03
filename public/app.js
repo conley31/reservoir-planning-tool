@@ -244,62 +244,6 @@ $(function() {
   $("[data-toggle='popover']").popover();
 });
 
-var downloadJSON = function() {
-  console.log("printing");
-  if(loaded == 1){
-    return;
-  }
-  loaded = 1;
-  var request = new XMLHttpRequest();
-    request.responseType = "blob";
-    request.onload = handleFile;
-    request.open("GET", "/data_sets/comparison-map-data.json.zip");
-
-    request.send();
-
-    function handleFile(data) {
-      //console.log(this.response);
-      //console.log(blob);
-      zip.workerScriptsPath = '/zip/';
-    zip.createReader(new zip.BlobReader(this.response), function(reader) {
-      // get all entries from the zip
-	  
-      //console.log("in reader");
-      reader.getEntries(function(entries) {
-        //console.log(entries.length);
-      if (entries.length) {
-        //console.log("getting entries")
-		
-       // get first entry content as text
-          entries[0].getData(new zip.TextWriter(), function(text) {
-           // text contains the entry data as a String
-		   
-            //console.log(text);
-            //compareMapData = JSON.parse(text);
-            //console.log(text.length);
-            compareMapData = JSON.parse(text);
-            //setColorComp(temp);
-
-            // close the zip reader
-            reader.close(function() {
-            // onclose callback
-          });
-
-        }, function(current, total) {
-            // onprogress callback
-			
-              //console.log("current: " + current);
-              //console.log("total: " + total);
-        });
-      }
-      });
-    }, function(error) {
-      // onerror callback
-        console.log("error: " + error);
-    });
-    }
-}
-
 /* 
 *  Project: FileSaver.js
 *  Copyright © 2016 Eli Grey

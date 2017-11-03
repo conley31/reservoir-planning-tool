@@ -1,5 +1,6 @@
 var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
+var drop = -1;
 
 //Draws the histogram/bar chart
 var drawHist = function() {
@@ -108,10 +109,15 @@ var colorMap = function(addVariable) {
   var pondsize = document.getElementsByName("pond-size");
   var water = document.getElementsByName("water");
   var results = document.getElementsByName("results");
-
+  var years = document.getElementById("year-dropdownReg");
   
 
-  var contain = -1; //0 for pondsize 1 for water 2 for results
+  var contain = -1; //0 for pondsize 1 for water 2 for results 3 for dropdown
+  if(parseInt($(years).val()) != drop) {
+    contain == 0;
+    drop = parseInt($(years).val());
+    //console.log(dropdownval);
+  }
 
   for(var i = 0; i < pondsize.length; i++) {
     if($(pondsize[i]).is(addVariable)){
@@ -224,49 +230,58 @@ var colorMap = function(addVariable) {
 
   //Determines which json file to load for data
   if(pondval == 0 || waterval == 0){
-    $.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
+    downloadJSON("/data_sets/all-Data-16vol-Low.zip");
+    /*$.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 1 || waterval == 0){
-    $.getJSON("/data_sets/allData-48vol-Low.json", function(json) {
+    downloadJSON("/data_sets/all-Data-48vol-Low.zip");
+    /*$.getJSON("/data_sets/allData-48vol-Low.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 2 || waterval == 0){
-    $.getJSON("/data_sets/allData-80vol-Low.json", function(json) {
+    downloadJSON("/data_sets/all-Data-80vol-Low.zip");    
+    /*$.getJSON("/data_sets/allData-80vol-Low.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 0 || waterval == 1){
-    $.getJSON("/data_sets/allData-16vol-Medium.json", function(json) {
+    downloadJSON("/data_sets/all-Data-16vol-Medium.zip");    
+    /*$.getJSON("/data_sets/allData-16vol-Medium.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 0 || waterval == 2){
-    $.getJSON("/data_sets/allData-16vol-High.json", function(json) {
+    downloadJSON("/data_sets/all-Data-16vol-High.zip");    
+    /*$.getJSON("/data_sets/allData-16vol-High.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 1 || waterval == 1){
-    $.getJSON("/data_sets/allData-48vol-Medium.json", function(json) {
+    downloadJSON("/data_sets/all-Data-48vol-Medium.zip");
+    /*$.getJSON("/data_sets/allData-48vol-Medium.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 1 || waterval == 2){
-    $.getJSON("/data_sets/allData-48vol-High.json", function(json) {
+    downloadJSON("/data_sets/all-Data-48vol-High.zip");
+    /*$.getJSON("/data_sets/allData-48vol-High.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 2 || waterval == 1){
-    $.getJSON("/data_sets/allData-80vol-Medium.json", function(json) {
+    downloadJSON("/data_sets/all-Data-80vol-Medium.zip");
+    /*$.getJSON("/data_sets/allData-80vol-Medium.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
   else if(pondval == 2 || waterval == 2){
-    $.getJSON("/data_sets/allData-80vol-High.json", function(json) {
+    downloadJSON("/data_sets/all-Data-80vol-High.zip");
+    /*$.getJSON("/data_sets/allData-80vol-High.json", function(json) {
       setColor(json);
-    });
+    });*/
   }
 }
 
@@ -284,12 +299,18 @@ function setColor(objJson) {
   //Increment frequency as well
   document.regionalmap.data.forEach(function(feature){
     var loc = feature.getProperty('Id');
+    var tempJSON;
     //console.log(resultsval);
       if(resultsval == 0){
-		  freqChoice = 2;
-		
-		//AnnualIrrigationDepthSupplied
-        if(parseInt(objJson[loc].annualIrrigationDepthSupplied) == 0){
+		    freqChoice = 2;
+		    if(drop == 0){
+          tempJSON = objJson[loc].annualIrrigationDepthSupplied;
+        }
+        else {
+          tempJSON = objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied;
+        }
+		    //AnnualIrrigationDepthSupplied
+        if(parseInt(tempJSON) == 0){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.25
@@ -297,7 +318,7 @@ function setColor(objJson) {
 		  
 		  frequency[0] += 1;
         }
-        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 50){
+        else if(parseInt(tempJSON) < 50){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#A6611A',
             fillOpacity: 0.4
@@ -305,7 +326,7 @@ function setColor(objJson) {
 		  
 		  frequency[1] += 1;
         }
-		else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 100){
+		else if(parseInt(tempJSON) < 100){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#DFC27D',
             fillOpacity: 0.4
@@ -313,7 +334,7 @@ function setColor(objJson) {
 		  
 		  frequency[2] += 1;
         }
-		else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 150){
+		else if(parseInt(tempJSON) < 150){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#F5F5F5',
             fillOpacity: 0.4
@@ -321,7 +342,7 @@ function setColor(objJson) {
 		  
 		  frequency[3] += 1;
         }
-        else if(parseInt(objJson[loc].annualIrrigationDepthSupplied) < 200){
+        else if(parseInt(tempJSON) < 200){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#80CDC1',
             fillOpacity: 0.4
@@ -342,9 +363,16 @@ function setColor(objJson) {
 	  //PercentAnnualCapturedDrainFlow
       else if (resultsval == 1){
 		  
-		  freqChoice = 0;
+		    freqChoice = 0;
+        if(drop == 0){
+          tempJSON = objJson[loc].percentAnnualCapturedDrainflow;
+        }
+        else {
+          tempJSON = objJson[loc].allYears[drop-1981].percentAnnualCapturedDrainflow;
+        }
+
         
-        if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) == 0) {
+        if(parseInt(tempJSON) == 0) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#DDE500',
             fillOpacity: 0.4
@@ -352,7 +380,7 @@ function setColor(objJson) {
 		  
 		  frequency[0] += 1;
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 12.5) {
+        else if(parseInt(tempJSON) < 12.5) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#0ED900',
             fillOpacity: 0.4
@@ -360,7 +388,7 @@ function setColor(objJson) {
 		  
 		  frequency[1] += 1;
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 25) {
+        else if(parseInt(tempJSON) < 25) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#00CEAB',
             fillOpacity: 0.4
@@ -368,7 +396,7 @@ function setColor(objJson) {
 		  
 		  frequency[2] += 1;
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 37.5) {
+        else if(parseInt(tempJSON) < 37.5) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#0070C6',
             fillOpacity: 0.4
@@ -376,7 +404,7 @@ function setColor(objJson) {
 		  
 		  frequency[3] += 1;
         }
-        else if(parseInt(objJson[loc].percentAnnualCapturedDrainFlow) < 50) {
+        else if(parseInt(tempJSON) < 50) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#0500BF',
             fillOpacity: 0.4
@@ -385,7 +413,6 @@ function setColor(objJson) {
 		  frequency[4] += 1;
         }
         else {
-          console.log(objJson[loc].percentAnnualCapturedDrainFlow);
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#D50023',
             fillOpacity: 0.4
@@ -399,7 +426,13 @@ function setColor(objJson) {
 	  else if (resultsval == 2) {
 		  
 		  freqChoice = 1;
-		if(parseInt(objJson[loc].cumulativeCapturedFlow) == 0) {
+      if(drop == 0){
+          tempJSON = objJson[loc].capturedFlow;
+        }
+        else {
+          tempJSON = objJson[loc].allYears[drop-1981].capturedFlow;
+        }
+		if(parseInt(tempJSON) == 0) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -407,7 +440,7 @@ function setColor(objJson) {
 			  
 			  frequency[0] += 1;
 		}
-		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 3000) {
+		else if(parseInt(tempJSON) < 3000) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#D7191C',
 				fillOpacity: 0.4
@@ -415,7 +448,7 @@ function setColor(objJson) {
 			  
 			  frequency[1] += 1;
 		}
-		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 6000) {
+		else if(parseInt(tempJSON) < 6000) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#FDAE61',
 				fillOpacity: 0.4
@@ -423,7 +456,7 @@ function setColor(objJson) {
 			  
 			  frequency[2] += 1;
 			}
-		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 9000) {
+		else if(parseInt(tempJSON) < 9000) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#FFFFBF',
 				fillOpacity: 0.4
@@ -431,7 +464,7 @@ function setColor(objJson) {
 			  
 			  frequency[3] += 1;
 			}
-		else if(parseInt(objJson[loc].cumulativeCapturedFlow) < 12000) {
+		else if(parseInt(tempJSON) < 12000) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#ABD9E9',
 				fillOpacity: 0.4
@@ -440,7 +473,7 @@ function setColor(objJson) {
 			  frequency[4] += 1;
 			}
 		else  {
-		  console.log(objJson[loc].cumulativeCapturedFlow);
+		  console.log(tempJSON);
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#2C7BBB',
 				fillOpacity: 0.4
@@ -454,8 +487,14 @@ function setColor(objJson) {
 		  //irrigationSufficiency
 		  else {
 			  freqChoice = 3;
+        if(drop == 0){
+          tempJSON = objJson[loc].irrigationSufficiency;
+        }
+        else {
+          tempJSON = objJson[loc].allYears[drop-1981].irrigationSufficiency;
+        }
 			  
-			if(parseInt(objJson[loc].irrigationSufficiency) == 0) {
+			if(parseInt(tempJSON) == 0) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -464,7 +503,7 @@ function setColor(objJson) {
 			  frequency[0] += 1;
 			}
 			
-			else if(parseInt(objJson[loc].irrigationSufficiency) < 7.5) {
+			else if(parseInt(tempJSON) < 7.5) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -473,7 +512,7 @@ function setColor(objJson) {
 			  frequency[1] += 1;
 			}
 			
-			else if(parseInt(objJson[loc].irrigationSufficiency) < 15) {
+			else if(parseInt(tempJSON) < 15) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -482,7 +521,7 @@ function setColor(objJson) {
 			  frequency[2] += 1;
 			}
 			
-			else if(parseInt(objJson[loc].irrigationSufficiency) < 22.5) {
+			else if(parseInt(tempJSON) < 22.5) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -491,7 +530,7 @@ function setColor(objJson) {
 			  frequency[3] += 1;
 			}
 			
-			else if(parseInt(objJson[loc].irrigationSufficiency) < 30) {
+			else if(parseInt(tempJSON) < 30) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4

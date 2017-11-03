@@ -2,7 +2,7 @@
 <html>
 <% include partials/head %>
 
-  <body onload="downloadJSON();">
+  <body>
     <% include partials/header %>
       <!-- Error Modal -->
       <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -65,7 +65,7 @@
 
             <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
             <select id="year-dropdownReg" style="">
-                <option value="allyears">allyears</option>
+                <option value="0">allyears</option>
                 <option value="1981">1981</option>
                 <option value="1982">1982</option>
                 <option value="1983">1983</option>
@@ -162,7 +162,7 @@
               <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
               <strong>Year: </strong>
               <select id="year-dropdown2" style="">
-                <option value="allyears">allyears</option>
+                <option value="0">allyears</option>
                 <option value="1981">1981</option>
                 <option value="1982">1982</option>
                 <option value="1983">1983</option>
