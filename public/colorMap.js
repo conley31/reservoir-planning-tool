@@ -441,7 +441,7 @@ function setColor(objJson) {
 			  
 			  frequency[0] += 1;
 		}
-		else if(parseInt(tempJSON) < 3000) {
+		else if(parseInt(tempJSON) < 30) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#D7191C',
 				fillOpacity: 0.4
@@ -449,7 +449,7 @@ function setColor(objJson) {
 			  
 			  frequency[1] += 1;
 		}
-		else if(parseInt(tempJSON) < 6000) {
+		else if(parseInt(tempJSON) < 60) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#FDAE61',
 				fillOpacity: 0.4
@@ -457,7 +457,7 @@ function setColor(objJson) {
 			  
 			  frequency[2] += 1;
 			}
-		else if(parseInt(tempJSON) < 9000) {
+		else if(parseInt(tempJSON) < 90) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#FFFFBF',
 				fillOpacity: 0.4
@@ -465,7 +465,7 @@ function setColor(objJson) {
 			  
 			  frequency[3] += 1;
 			}
-		else if(parseInt(tempJSON) < 12000) {
+		else if(parseInt(tempJSON) < 120) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#ABD9E9',
 				fillOpacity: 0.4
