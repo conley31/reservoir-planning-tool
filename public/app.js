@@ -45,10 +45,23 @@ $('#all-map-nav').click(function() {
     google.maps.event.trigger(map2, 'resize'); //to make gmap fit to entire div
     document.regionalmap.setCenter(centerBeforeResize); //re-center map after resize
     $('#histogram1-body').fadeOut('fast');
+    
+    //limit the resizeing of the map, this also enables the resizing of the map
+    var w = document.getElementById('map-container');
+  	var h = document.getElementById('map-container');
+  	h = h.clientHeight;
+  	h = parseInt(h);
+  	w = w.clientWidth;
+  	w = parseInt(w);
     $('#map-container').resizable({
     	minHeigh: 200,
+    	minWidth: 500,
     	direction: 'bottom'
 	});
+	$('#map-container').resizable("option", "maxWidth", w);
+  	$('#map-container').resizable("option", "maxHight", h*2);
+  	$('#map-container').resizable("option", "minHeigh", h);
+
     $('.add-var').unbind('click').bind('click', function () {
       colorMap($(this));
     });
@@ -165,6 +178,20 @@ var showCompMap = function() {
   document.comparemap.setCenter(centerBeforeResize); //re-center map after resize
   
   $('#histogram2-body').fadeOut('fast');
+  var w = document.getElementById('map-container2');
+  var h = document.getElementById('map-container2');
+  h = h.clientHeight;
+  h = parseInt(h);
+  w = w.clientWidth;
+  w = parseInt(w);
+  $('#map-container2').resizable({
+    	minHeigh: 500,
+    	minWidth: 500,
+    	direction: 'bottom'
+	});
+  $('#map-container2').resizable("option", "maxWidth", w);
+  $('#map-container2').resizable("option", "maxHight", h*2);
+  $('#map-container2').resizable("option", "minHeigh", h);
 }
 
 //Shows Graph One

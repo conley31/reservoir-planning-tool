@@ -211,6 +211,12 @@ select {
   background: #357cce;
 }
 
+#map-container2 {
+  height: 65vh;
+  width: inherit;
+  background: #357cce;
+}
+
 #map {
   width: inherit;
   height: inherit;
