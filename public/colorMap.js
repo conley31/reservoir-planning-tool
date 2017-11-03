@@ -228,7 +228,10 @@ var colorMap = function(addVariable) {
 
   $('#map-buffer2').fadeIn('fast');
   //Determines which json file to load for data
-  if(pondval == 0 || waterval == 0){
+  if(drop == 1981 && pondval == 0 && waterval == 0 && resultsval == 0){
+    downloadJSON("1981-0-0-0-reg.zip");
+  }
+  else if(pondval == 0 || waterval == 0){
     downloadJSON("/data_sets/all-Data-16vol-Low.zip");
     /*$.getJSON("/data_sets/allData-16vol-Low.json", function(json) {
       setColor(json);
@@ -293,6 +296,8 @@ function setColor(objJson) {
   for (var i = 0; i < 6; i++) {
 	  frequency[i] = 0;
   }
+  var array = [];
+  //array = JSON.parse(array);
   
   //For each grid in the GeoJSON, decide which color to make it based on its value for the current map
   //Increment frequency as well
@@ -302,10 +307,20 @@ function setColor(objJson) {
     //console.log(resultsval);
       if(resultsval == 0){
 		    freqChoice = 2;
-		    if(drop == 0){
+        if(drop == 1981 && pondval == 0 && waterval == 0 ){
+          tempJSON = objJson[loc].annualIrrigationDepthSupplied;
+        }
+		    else if(drop == 0){
           tempJSON = objJson[loc].annualIrrigationDepthSupplied;
         }
         else {
+          var ob = {
+            annualIrrigationDepthSupplied: objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied
+          }
+
+          array.push(ob);
+          //console.log(array);
+          //array[loc].annualIrrigationDepthSupplied = objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied;
           tempJSON = objJson[loc].allYears[drop-1981].annualIrrigationDepthSupplied;
         }
 		    //AnnualIrrigationDepthSupplied
@@ -555,11 +570,9 @@ function setColor(objJson) {
     $('#histogram-buffer1').fadeOut('fast');
   });
   $('#map-buffer2').fadeOut('fast');
+  array = JSON.stringify(array);
+  //saveData(array, '1981-0-0-0-reg.json');
   document.comparemap.data.toGeoJson(function(data) {
-      data.features[0].properties.styleUrl = '#transRedPoly';
-      data.features[0].properties.fill = '#018571';
-      data.features[0].properties.fillOpacity = '0.4'
-      console.log(data.features[0].properties);
       regKML = tokml(data);
   });
 }
