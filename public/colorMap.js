@@ -228,6 +228,7 @@ var colorMap = function(addVariable) {
     $('#legend-sufficiency').fadeIn('fast');
   }
 
+  $('#map-buffer2').fadeIn('fast');
   //Determines which json file to load for data
   if(pondval == 0 || waterval == 0){
     downloadJSON("/data_sets/all-Data-16vol-Low.zip");
@@ -550,8 +551,8 @@ function setColor(objJson) {
 		  }
 	  
     });
-	
 	//Initialize the histogram/bar chart
 	initHistogram();
+  $('#map-buffer2').fadeOut('fast');
 }
 
