@@ -3,6 +3,8 @@
 <% include partials/head %>
 
   <body>
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+
     <% include partials/header %>
       <!-- Error Modal -->
       <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -64,7 +66,7 @@
             <h5>To display the results click one button from each block</h5>
 
             <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
-            <select id="year-dropdownReg" style="">
+            <select id="year-dropdownReg" onchange="colorMap($(this))">
                 <option value="0">allyears</option>
                 <option value="1981">1981</option>
                 <option value="1982">1982</option>
@@ -137,10 +139,10 @@
             <div id="legend-annual"></div>
             <div id="legend-percentage"></div>
 	          <div id="legend-captured"></div>
-		<div id="legend-sufficiency"></div>
+		        <div id="legend-sufficiency"></div>
 
 			<!-- HISTOGRAM 1-->
-			<div id="histogram1-body" class="card">
+			      <div id="histogram1-body" class="card">
 			
 			<!-- buffering overlay -->
               <div id="histogram-buffer1" class="buffer-container">
@@ -148,7 +150,7 @@
               </div>
               <div id="histogram-1" class="card text-center">
 			  <!-- This is where the histogram goes-->
-			  </div>
+			        </div>
             </div>
 				
  
@@ -161,7 +163,7 @@
 
               <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
               <strong>Year: </strong>
-              <select id="year-dropdown2" style="">
+              <select id="year-dropdown2" onchange="colorComp($(this))">
                 <option value="0">allyears</option>
                 <option value="1981">1981</option>
                 <option value="1982">1982</option>

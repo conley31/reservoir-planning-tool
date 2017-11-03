@@ -43,7 +43,11 @@ $('#all-map-nav').click(function() {
     var centerBeforeResize = document.regionalmap.getCenter();
     google.maps.event.trigger(map2, 'resize'); //to make gmap fit to entire div
     document.regionalmap.setCenter(centerBeforeResize); //re-center map after resize
-    
+    $('#histogram1-body').fadeOut('fast');
+    $('#map-container').resizable({
+    	minHeigh: 200,
+    	direction: 'bottom'
+	});
     $('.add-var').unbind('click').bind('click', function () {
       colorMap($(this));
     });
@@ -51,14 +55,10 @@ $('#all-map-nav').click(function() {
       colorComp($(this));
     });
     $('select').change(function() {
-      colorComp($(this));
+      //colorComp($(this));
     });
     disableListener = true;
     //document.map.data.removeListener(poly); //This breaks the code for right now
-	
-	$('#histogram1-body').fadeIn('slow',function() {
-		$('#histogram-buffer1').fadeOut('fast');
-	});
   });
 });
 
@@ -139,14 +139,14 @@ $('#compare-maps').click(function() {
 
 //Downloading data file
 $('#download-individual-data').click(function() {
-	//downloadFile("/data_sets/comparison-map-data.json");
-  saveData(compareKML, "CompareData.kml");
+	downloadFile("/data_sets/comparison-map-data.json");
+  	saveData(compareKML, "CompareData.kml");
 });
 
 //Downloading data file
 $('#download-data').click(function() {
 	//getFile();
-  saveData(compareKML, "CompareData.kml");
+  saveData(regKML, "RegonalData.kml");
 });
 
 //Hides the comparision map
@@ -162,9 +162,7 @@ var showCompMap = function() {
   google.maps.event.trigger(map3, 'resize'); //to make gmap fit to entire div
   document.comparemap.setCenter(centerBeforeResize); //re-center map after resize
   
-  $('#histogram2-body').fadeIn('slow',function() {
-		$('#histogram-buffer2').fadeOut('fast');
-	});
+  $('#histogram2-body').fadeOut('fast');
 }
 
 //Shows Graph One
@@ -449,3 +447,7 @@ var saveData = function (data, fileName) {
         a.click();
         window.URL.revokeObjectURL(url);
 };
+
+var hide = function(object){
+	$(this).fadeOut('fast');
+}
