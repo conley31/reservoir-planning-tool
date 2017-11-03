@@ -556,7 +556,11 @@ function setColor(objJson) {
   });
   $('#map-buffer2').fadeOut('fast');
   document.comparemap.data.toGeoJson(function(data) {
+      data.features[0].properties.styleUrl = '#transRedPoly';
+      data.features[0].properties.fill = '#018571';
+      data.features[0].properties.fillOpacity = '0.4'
+      console.log(data.features[0].properties);
       regKML = tokml(data);
-    });
+  });
 }
 

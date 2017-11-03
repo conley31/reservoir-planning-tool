@@ -84,6 +84,8 @@ var colorComp = function(addVariable) {
 
     //setColorComp(compareMapData);
     $('#map-buffer3').fadeIn('fast');
+      //document.comparemap.data.loadGeoJson('testgeo.json');
+
     downloadJSON("/data_sets/comparison-map-data.zip");
    /*$.get("/data_sets/comparison-map-data.json.zip", function(data) {
 
