@@ -168,6 +168,7 @@ var colorMap = function(addVariable) {
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
     $('#legend-percentage').fadeOut('fast');
     $('#legend-captured').fadeOut('fast');
+    $('#legend-sufficiency').fadeOut('fast');
     $('#legend-annual').fadeIn('fast');
     
   }
@@ -178,6 +179,7 @@ var colorMap = function(addVariable) {
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_percentage);
     $('#legend-annual').fadeOut('fast');
     $('#legend-captured').fadeOut('fast');
+    $('#legend-sufficiency').fadeOut('fast');
     $('#legend-percentage').fadeIn('fast');
     
 
@@ -195,7 +197,19 @@ var colorMap = function(addVariable) {
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_captured);
     $('#legend-annual').fadeOut('fast');
     $('#legend-percentage').fadeOut('fast');
+    $('#legend-sufficiency').fadeOut('fast');
     $('#legend-captured').fadeIn('fast');
+  }
+
+
+  //Displays map for irrigationSufficiency
+  if (resultsval == 3) {
+    var legend_sufficiency = document.getElementById('legend-sufficiency');
+    document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_sufficiency);
+    $('#legend-annual').fadeOut('fast');
+    $('#legend-percentage').fadeOut('fast');
+    $('#legend-captured').fadeOut('fast');
+    $('#legend-sufficiency').fadeIn('fast');
   }
 
   //Determines which json file to load for data
