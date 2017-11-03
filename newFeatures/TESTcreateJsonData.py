@@ -2,6 +2,7 @@
 
 import json
 import sys
+import datetime
 import time
 import algorithmEnhanced
 from multiprocessing import Process as Task, Queue
@@ -80,3 +81,11 @@ if __name__ == '__main__':
     currfile = i + ".json"
     if algorithmEnhanced.checkJsonIntegrity(currfile) == True:
       print(currfile + " is a valid JSON")
+  tmpfd = open("../db/database-timestamp.txt","r")
+  fstr = tmpfd.read()
+  now = datetime.datetime.now()
+  #dbDate = datetime.strptime(fstr)
+ # if dbDate < now:
+ #   print "old"
+
+#  print fstr

@@ -9,10 +9,11 @@
   "scripts": {
     "test": "mocha",
     "db_setup": "pip2 install -r db/requirements.txt; python db/setupdb.py;",
-    "db_update": "pip2 install -r db/requirements.txt; python db/update.py;",
+    "db_update": "pip2 install -r db/requirements.txt; python db/update.py; python db/update-db-stamp.py;",
     "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;",
     "test-db-quick": "cd db; nosetests -a '!slow'; cd ../",
-    "test-db-complete": "cd db; nosetests -a 'slow'; cd ../"
+    "test-db-complete": "cd db; nosetests -a 'slow'; cd ../",
+    "test_updatefiles": "python db/update-db-stamp.py; cd newFeatures; python TESTcreateJsonData.py; cd ../"
   },
   "repository": {
     "type": "git",
