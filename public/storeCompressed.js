@@ -38,7 +38,7 @@ var downloadJSON = function(source) {
             if(text != null){
             	console.log("notNULL");
             }
-            if(source == "/data_sets/comparison-map-data.json.zip"){
+            if(source == "/data_sets/comparison-map-data.zip"){
               setColorComp(JSON.parse(text));
             }
             else {

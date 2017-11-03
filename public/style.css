@@ -683,7 +683,9 @@ footer img {
   width: inherit;
   position:absolute;
   z-index:1000;
-  background: white;
+  left: 0;
+  right: 0;
+  background: none;
 }
 
 #graph-buffer {
