@@ -25,22 +25,10 @@ log_location = config.get('mysql').get('logLocation')
 # To button number     #
 ########################
 regionalValues = ["AnnualIrrigation","PercentAnnualDrainflow","CapturedDrainflow","IrrigationSufficiency"] 
-comparisonValues = ["Drainflow","SurfaceRunoff","Precipitation","Evapotranspiration","OpenWaterEvaporation"]
-
-
-
-####################             
-#   Classes        #
-#################### 
-
-class mapData(object):
-  def __init__(self,locationID):
-    self.locationID = locationID
-    self.value = 0
-  def toJSON(self):
-    return json.dumps(self,default=lambda o: o.__dict__, indent=4)
+databaseValues = ["Drainflow","SurfaceRunoff","Precipitation","Evapotranspiration","OpenWaterEvaporation"]
 
 def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irrigationDepth, _availableWaterCapacity,_volumeTag,_soilTag,statusQueue):
+  TEMPFLAG = 0
   connection = db.connect(host,user,password,database)
   cur = connection.cursor()
 
@@ -50,15 +38,26 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
 
   tagname = str(_volumeTag) + "-" + str(_soilTag)
 
- # numLocations = algorithmEnhanced.getTableCount(cur) -1
-  numLocations = 200
+  #numLocations = algorithmEnhanced.getTableCount(cur) -1
+  numLocations = 1
+  earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
+  numYears = algorithmEnhanced.getYearCount(0,cur)
 
+  #[year][data][location]
+  year = []
+  value = []
+  for i in range(numYears + 1):
+    year.append([])
+    for j in range(len(regionalValues)):
+      year[i].append([])
+  #[data][location]
+  allYears = []
+  for i in range(len(regionalValues)):
+    allYears.append([])
   i = 0
   while i < numLocations:
-    currentData = mapData('Location' + str(i))
-
-
     #update loading bar
+    locationstr = "Location" + str(i)
     if i == numLocations-1:
       statusQueue.put([tagname,1],)
     else:
@@ -76,7 +75,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     locCapturedFlow = 0
 
     yearIrrigationVolume = 0
-    yearCapturedflow = 0
+    yearCapturedFlow = 0
     yearDrainflow = 0
 
     data = algorithmEnhanced.getLocationData(i,cur)
@@ -88,6 +87,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
 
     j = 0
     while (j < numDays):
+      
       #data[j][0] = date, data[j][1] = drainflow, data[j][2] = precipitation, data[j][3] = evaporation
       inflowVolDay = ((data[j][1]) /12) * _drainedArea
       precipDepthDay = data[j][2]
@@ -154,88 +154,120 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
       locIrrigationVolume += irrigationVolDay
       locCapturedFlow += capturedFlowVolDay
       yearIrrigationVolume += irrigationVolDay
-      yearCapturedflow += capturedFlowVolDay
+      yearCapturedFlow += capturedFlowVolDay
       yearDrainflow += data[j][1]
       j+=1
       if j == numDays:
         #finished this location
         #compute year first:
-        yearIrrigationDepthSupplied = (yearIrrigationVolume * .15)
-        if yearDrainflow == 0 :
-          yearPercentAnnualDrainflow = 0
-        else:
-          yearPercentAnnualDrainflow = (yearCapturedflow/yearDrainflow)
-        yearIrrigationSufficiency = 1
         tempValues = []
-        tempValues.append(yearIrrigationDepthSupplied)
-        tempValues.append(yearPercentAnnualDrainflow) 
-        tempValues.append(yearCapturedflow)
-        tempValues.append(yearIrrigationSufficiency)
-        #for each value
-        index = 0
-        for val in regionalValues:
-          currentData.value = tempValues[index] 
-          filestring = str(yearValue) + "-" + str(_volumeTag) + "-" + str(_soilTag) + "-" + val + ".json"
-          data_file = open(filestring, "a")
-          obj = currentData
-          json_string = obj.toJSON()
-          data_file.write(json_string)
-          data_file.close()
-          index += 1
+        tempValues.append(yearIrrigationVolume * .15)
+        if yearDrainflow == 0 :
+          tempValues.append(0)
+        else:
+          tempValues.append(yearCapturedFlow/yearDrainflow)
+        tempValues.append(yearCapturedFlow)
+        tempValues.append(1)
+        k = 0
+        while k < len(tempValues):
+          year[yearValue-earliestYear][k].append(tempValues[k])
+          k += 1
 
-        #now compute location
-        locIrrigationDepthSupplied = (locIrrigationVolume *.15)
-        locIrrigationSufficiency = 2
+        #reset yearly cumulative values
+        yearCapturedFlow = 0
+        yearDrainflow = 0
+        yearIrrigationVolume = 0
+
+        #now compute location data
+        tempValues = []
+        tempValues.append(locIrrigationVolume * .15)
         if locDrainflow == 0:
-          locPercentAnnualDrainflow = 0
+          tempValues.append(0)
         else:
-          locPercentAnnualDrainflow = (locCapturedFlow/locDrainflow)
-        tempValues = []
-        tempValues.append(locIrrigationDepthSupplied)
-        tempValues.append(locPercentAnnualDrainflow)
+          tempValues.append(locCapturedFlow/locDrainflow)
         tempValues.append(locCapturedFlow)
-        tempValues.append(locIrrigationSufficiency)
-        index = 0
-        for val in regionalValues:
-          currentData.value = tempValues[index]
-          filestring = "0000-" + str(_volumeTag) + "-" + str(_soilTag) + "-" + val + ".json"
-          data_file = open(filestring, "a")
-          obj = currentData
-          json_string = obj.toJSON()
-          data_file.write(json_string)
-          data_file.close()
-          index += 1
+        tempValues.append(2)
+        k = 0
+        while k < len(tempValues):
+          allYears[k].append(tempValues[k])
+          k += 1
 
-
-      elif data[j][0].year != yearValue:  #finished with year. write data to file.
-        yearIrrigationDepthSupplied = (yearIrrigationVolume * .15)
-        if yearDrainflow == 0 :
-          yearPercentAnnualDrainflow = 0
-        else:
-          yearPercentAnnualDrainflow = (yearCapturedflow/yearDrainflow)
-        yearIrrigationSufficiency = 1
+      elif data[j][0].year != yearValue:  
+        #finished with year, but still on same location. So compute values, then push to data arrays
         tempValues = []
-        tempValues.append(yearIrrigationDepthSupplied)
-        tempValues.append(yearPercentAnnualDrainflow) 
-        tempValues.append(yearCapturedflow)
-        tempValues.append(yearIrrigationSufficiency)
-        #for each value
-        index = 0
-        for val in regionalValues:
-          currentData.value = tempValues[index] 
-          filestring = str(yearValue) + "-" + str(_volumeTag) + "-" + str(_soilTag) + "-" + val + ".json"
-          data_file = open(filestring, "a")
-          obj = currentData
-          json_string = obj.toJSON()
-          data_file.write(json_string)
-          data_file.close()
-          index += 1
+        tempValues.append(yearIrrigationVolume * .15)
+        if yearDrainflow == 0 :
+          tempValues.append(0)
+        else:
+          tempValues.append(yearCapturedFlow/yearDrainflow)
+        tempValues.append(yearCapturedFlow)
+        tempValues.append(1)
+        k = 0
+        while k < len(tempValues):
+          year[yearValue-earliestYear][k].append(tempValues[k])
+          k += 1
         yearValue = data[j][0].year
 
+        #reset yearly cumulative values
+        yearCapturedFlow = 0
+        yearDrainflow = 0
+        yearIrrigationVolume = 0
+  
     i+=1
+  for i in range(len(year)):
+    for j in range(len(regionalValues)):
+      filestring = str(earliestYear + i) + "-" + tagname + "-" + regionalValues[j] + ".json"
+      data_file = open(filestring,"w")
+      json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
+      data_file.write(json_string)
+      data_file.close()
+  
+  for i in range(len(regionalValues)):
+    filestring = "0000-" + tagname + regionalValues[i] + ".json"
+    data_file = open(filestring,"w")
+    json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
+    data_file.write(json_string)
+    data_file.close()
+
+def generateDatabaseMaps():
+  connection = db.connect(host,user,password,database)
+  cur = connection.cursor()
+  earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
+  numYears = algorithmEnhanced.getYearCount(0,cur)
+  year = []
+  value = []
+  allYears = []
+  for i in range(numYears + 1):
+    year.append([])
+    for j in range(len(databaseValues)):
+      year[i].append([])
+  currentYear = earliestYear
+  #numLocations = algorithmEnhanced.getTableCount(cur) - 1
+  numLocations = 10
+  for i in range(numLocations):
+    currentYear = earliestYear
+    for j in range(numYears):
+     currentYear += 1
+     print(currentYear)
+     tempValues = []
+     tempValues.append(algorithmEnhanced.getAnnualDrainflow(i,currentYear,cur))
+     tempValues.append(algorithmEnhanced.getAnnualSurfacerunoff(i,currentYear,cur))
+     tempValues.append(algorithmEnhanced.getAnnualPrecipitation(i,currentYear,cur))
+     tempValues.append(algorithmEnhanced.getAnnualPET(i,currentYear,cur))
+     tempValues.append(algorithmEnhanced.getAnnualDAE_PET(i,currentYear,cur))
+     print(tempValues)
+     k = 0
+     while k < len(tempValues):
+       year[j][k].append(tempValues[k])
+       k+=1
+  for i in range(len(year)):
+    for j in range(len(databaseValues)):
+      filestring = str(earliestYear + i) + "-" + databaseValues[j] + ".json"
+      data_file = open(filestring,"w")
+      json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
+      data_file.write(json_string)
+      data_file.close()
 
 
-
-
-#computeData(_drainedArea, _pondVolume, _maxSoilMoisture, _irrigationDepth, _availableWaterCapacity,_volumeTag,_soilTag):
-#computeData(80,16,10,7.6,1,4.2,0,0)
+    
+generateDatabaseMaps()

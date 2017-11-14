@@ -12,13 +12,6 @@ import collections
 
 def worker(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status):
  map_data_algorithms.computeData(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status)
- # comma = 0
- # json_string= 0
- # for obj in data:
- #   print obj.drainflow
- # text_file = open(name,"w")
- # text_file.write(str(json_string))
- # text_file.close()
 
 def print_progress(progress):
   sys.stdout.write('\033[2J\033[H') #clear screen 
@@ -48,28 +41,28 @@ if __name__ == '__main__':
   
   p1.start()
   workers.append(p1)
-  p2.start()
-  workers.append(p2)
-  p3.start()
-  workers.append(p3)
-  p4.start()
-  workers.append(p4)
-  p5.start()
-  workers.append(p5)
-  p6.start()
-  workers.append(p6)
-  p7.start()
-  workers.append(p7)
-  p8.start()
-  workers.append(p8)
-  p9.start()
-  workers.append(p9)
+#  p2.start()
+#  workers.append(p2)
+#  p3.start()
+#  workers.append(p3)
+#  p4.start()
+#  workers.append(p4)
+#  p5.start()
+#  workers.append(p5)
+#  p6.start()
+#  workers.append(p6)
+#  p7.start()
+#  workers.append(p7)
+#  p8.start()
+#  workers.append(p8)
+#  p9.start()
+#  workers.append(p9)
 
   while any(i.is_alive() for i in workers):
     while not status.empty():
       name,percent = status.get()
       progress[name] = percent
-      print_progress(progress)
+     # print_progress(progress)
   
 #  print 'JSON files built'
 #  for i in filenames:
