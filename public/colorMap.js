@@ -2,6 +2,12 @@ var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
+var created = 0;
+
+var contentArray = new Array();
+for(var i = 0; i < 11233; i++) {
+	contentArray[i] = 0;
+}
 
 //Draws the histogram/bar chart
 var drawHist = function() {
@@ -302,6 +308,7 @@ function setColor(objJson) {
   //For each grid in the GeoJSON, decide which color to make it based on its value for the current map
   //Increment frequency as well
   document.regionalmap.data.forEach(function(feature){
+	  
     var loc = feature.getProperty('Id');
     var tempJSON;
     //console.log(resultsval);
@@ -331,6 +338,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[0] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 50){
           document.regionalmap.data.overrideStyle(feature, {
@@ -339,6 +347,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[1] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
 		else if(parseInt(tempJSON) < 100){
           document.regionalmap.data.overrideStyle(feature, {
@@ -347,6 +356,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[2] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
 		else if(parseInt(tempJSON) < 150){
           document.regionalmap.data.overrideStyle(feature, {
@@ -355,6 +365,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[3] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 200){
           document.regionalmap.data.overrideStyle(feature, {
@@ -363,6 +374,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[4] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else{
           document.regionalmap.data.overrideStyle(feature, {
@@ -371,6 +383,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[5] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
       }
 	  
@@ -393,6 +406,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[0] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 12.5) {
           document.regionalmap.data.overrideStyle(feature, {
@@ -401,6 +415,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[1] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 25) {
           document.regionalmap.data.overrideStyle(feature, {
@@ -409,6 +424,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[2] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 37.5) {
           document.regionalmap.data.overrideStyle(feature, {
@@ -417,6 +433,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[3] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else if(parseInt(tempJSON) < 50) {
           document.regionalmap.data.overrideStyle(feature, {
@@ -425,6 +442,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[4] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
         else {
           document.regionalmap.data.overrideStyle(feature, {
@@ -433,6 +451,7 @@ function setColor(objJson) {
           });
 		  
 		  frequency[5] += 1;
+		  contentArray[loc] = parseFloat(tempJSON);
         }
       } 
 	  
@@ -453,6 +472,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[0] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 		}
 		else if(parseInt(tempJSON) < 30) {
 			  document.regionalmap.data.overrideStyle(feature, {
@@ -461,6 +481,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[1] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 		}
 		else if(parseInt(tempJSON) < 60) {
 			  document.regionalmap.data.overrideStyle(feature, {
@@ -469,6 +490,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[2] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 		else if(parseInt(tempJSON) < 90) {
 			  document.regionalmap.data.overrideStyle(feature, {
@@ -477,6 +499,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[3] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 		else if(parseInt(tempJSON) < 120) {
 			  document.regionalmap.data.overrideStyle(feature, {
@@ -485,6 +508,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[4] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 		else  {
 		  console.log(tempJSON);
@@ -494,6 +518,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[5] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 
 		  }
@@ -515,6 +540,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[0] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 7.5) {
@@ -524,6 +550,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[1] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 15) {
@@ -533,6 +560,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[2] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 22.5) {
@@ -542,6 +570,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[3] += 1;
+			  contentArray[loc] = parseInt(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 30) {
@@ -551,6 +580,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[4] += 1;
+			  contentArray[loc] = parseInt(tempJSON);
 			}
 			
 			else {
@@ -560,10 +590,13 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[5] += 1;
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 		  }
 	  
     });
+	created = 1;
+	
 	//Initialize the histogram/bar chart
 	initHistogram();
   $('#histogram1-body').fadeIn('slow',function() {
@@ -578,3 +611,15 @@ function setColor(objJson) {
   });
 }
 
+// Select a polygon on the map
+var selectFeature_regional = function(event) {
+	var loc = event.feature.getProperty('Id');
+	var contentString = "Location ID: " + loc + "," + "Value: " + contentArray[loc];
+	
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString,
+		position: event.latLng
+	});
+	
+	infowindow.open(document.regionalmap);
+};

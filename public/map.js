@@ -166,6 +166,11 @@ var initMap = function() {
     if (center.lat() > bounds.getSouthWest().lat()) y = bounds.getSouthWest().lat();
     document.regionalmap.setCenter(new google.maps.LatLng(y, x));
   });
+  
+  // Registers a click event for a single polygon
+  document.regionalmap.data.addListener('click', function(event) {
+    selectFeature_regional(event);
+  });
 
   //input legend image;
 
@@ -253,6 +258,10 @@ var initMap = function() {
     document.comparemap.setCenter(new google.maps.LatLng(y, x));
   });
 
+  // Registers a click event for a single polygon
+  document.comparemap.data.addListener('click', function(event) {
+    selectFeature_compare(event);
+  });
 
   // Geolocation for HTML5 compatible browsers
   if (navigator.geolocation) {
