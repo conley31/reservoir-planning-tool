@@ -3,11 +3,22 @@ var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
 var created = 0;
+var prevEvent = null;
+var prevWindow = null;
+
+class infoContent {
+  constructor(event, info) {
+    this.event = event;
+    this.info = info;
+  }
+}
 
 var contentArray = new Array();
 for(var i = 0; i < 11233; i++) {
 	contentArray[i] = 0;
 }
+
+var infoArray = new Array();
 
 //Draws the histogram/bar chart
 var drawHist = function() {
@@ -613,13 +624,42 @@ function setColor(objJson) {
 
 // Select a polygon on the map
 var selectFeature_regional = function(event) {
+  if (prevEvent != null && prevWindow != null) {
+    //Remove download button from prevEvent
+    var prevloc = prevEvent.feature.getProperty('Id');
+    var prevContentString = "Location ID:" + prevloc + ",Value: " + contentArray[prevloc];
+    var prevInfoWindow = new google.maps.InfoWindow({
+      content: prevContentString,
+      position: prevEvent.latLng
+    });
+
+    prevWindow.close();
+    prevInfoWindow.open(document.regionalmap);
+  }
+
 	var loc = event.feature.getProperty('Id');
-	var contentString = "Location ID: " + loc + "," + "Value: " + contentArray[loc];
+	var contentString = '<div style="text-align: center;">' +
+  "Location ID: " + loc + ",Value: " + contentArray[loc] +
+  '<br><button onclick="downloadLocations()">Download Selected Locations</button></br></div>';
 	
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString,
 		position: event.latLng
 	});
+
+  var newInfo = new infoContent(event, infowindow);
+  infoArray.push(newInfo);
+
+  google.maps.event.addListener(infowindow, 'closeclick', function() {
+    for(var i = 0; i < infoArray.length; i++) {
+      if (infoArray[i].info === infowindow) {
+        infoArray.splice(i, 1); //remove the event and infowindow from the array
+      }
+    }
+  }); 
 	
 	infowindow.open(document.regionalmap);
+
+  prevEvent = event;
+  prevWindow = infowindow;
 };
