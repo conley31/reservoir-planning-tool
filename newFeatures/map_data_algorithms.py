@@ -33,7 +33,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
   cur = connection.cursor()
   
   #initialize values that will not change throughout the simulation
-  pondArea = _pondVolume/_pondDepth
+  pondArea = float(_pondVolume)/_pondDepth
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
   expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
   numLocations = algorithmEnhanced.getTableCount(cur) -1
@@ -44,7 +44,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
 
   #values beginning with 'bottomless' are used to compute the irrigation sufficiency
   bottomlessDepth = 1000.0
-  bottomlessPondArea = _pondVolume/bottomlessDepth
+  bottomlessPondArea = float(_pondVolume)/bottomlessDepth
 
   #this is the prefix of the filename
   tagname = str(_volumeTag) + "-" + str(_soilTag)
@@ -64,7 +64,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     allYears.append([])
 
   i = 0
-  while i < numLocations:
+  while i < 200:
     #update loading bar
     locationstr = "Location" + str(i)
     if i == numLocations-1:
@@ -84,7 +84,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     yearCapturedFlow = 0
     yearDrainflow = 0
 
-    bottomlessYearIrrigationVolume = 0
+    bottomlessYearIrrigationVolume = 0.0
     bottomlessyearCapturedFlow = 0
     
     #
@@ -159,12 +159,14 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
       if soilMoistureDepthDay > _maxSoilMoisture :
         soilMoistureDepthDay = _maxSoilMoisture
 
+
       pondWaterVolDay = (pondWaterVolDayPrev + inflowVolDay + pondPrecipVolDay - irrigationVolDay - seepageVolDay - evapVolDay)
 
       if pondWaterVolDay < 0 :
         pondWaterVolDay = 0
 
       bypassFlowVolDay = 0
+
 
       if pondWaterVolDay > _pondVolume :
         bypassFlowVolDay = pondWaterVolDay - _pondVolume
@@ -192,7 +194,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
           bottomlessIrrigationVolDay = expectedIrrigationVolDay
 
         if bottomlessIrrigationVolDay > bottomlessPondWaterVolDay:
-          bottomessDefecitVolDay = (bottomlessIrrigationVolDay - bottomlessPondWaterVolDay)
+          bottomlessDefecitVolDay = (bottomlessIrrigationVolDay - bottomlessPondWaterVolDay)
 
         if bottomlessDefecitVolDay > 0:
           bottomlessIrrigationVolDay = bottomlessIrrigationVolDay - bottomlessDefecitVolDay
@@ -254,17 +256,16 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
         else:
           tempValues.append(yearCapturedFlow/yearDrainflow)
         tempValues.append(yearCapturedFlow)
-        print(bottomlessYearIrrigationVolume)
         bottomlessIrrigationSupplied = (bottomlessYearIrrigationVolume * .15)
         if bottomlessIrrigationSupplied == 0:
           irrigationSufficiency = 0
         else :
-          irrigationSufficiency = 100.0 * (irrigationSupplied/bottomlessIrrigationSupplied)
+          irrigationSufficiency = (100 * (irrigationSupplied/bottomlessIrrigationSupplied))
+        if irrigationSufficiency > 100:
+          irrigationSufficiency = 100
+        elif irrigationSufficiency < 0:
+          irrigationSufficiency = 0
         tempValues.append(irrigationSufficiency)
-      #  print(irrigationSufficiency)
-
-      #  print(irrigationSupplied)
-      #  print(bottomlessIrrigationSupplied)
 
         #apend the values to the 3d year array
         k = 0
@@ -293,7 +294,11 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
         if bottomlessIrrigationSupplied == 0:
           irrigationSufficiency = 0
         else :
-          irrigationSufficiency = 100.0 * (irrigationSupplied/bottomlessIrrigationSupplied)
+          irrigationSufficiency = (100 *(irrigationSupplied/bottomlessIrrigationSupplied))
+        if irrigationSufficiency > 100:
+          irrigationSufficiency = 100
+        elif irrigationSufficiency < 0:
+          irrigationSufficiency = 0
         tempValues.append(irrigationSufficiency)
         k = 0
         while k < len(tempValues):
@@ -311,10 +316,15 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
           tempValues.append(yearCapturedFlow/yearDrainflow)
         tempValues.append(yearCapturedFlow)
         bottomlessIrrigationSupplied = (bottomlessYearIrrigationVolume * .15)
+
         if bottomlessIrrigationSupplied == 0:
           irrigationSufficiency = 0
         else :
-          irrigationSufficiency = 100.0 * (irrigationSupplied/bottomlessIrrigationSupplied)
+          irrigationSufficiency = (100 * (irrigationSupplied/bottomlessIrrigationSupplied))
+        if irrigationSufficiency > 100:
+          irrigationSufficiency = 100
+        elif irrigationSufficiency < 0:
+          irrigationSufficiency = 0
         tempValues.append(irrigationSufficiency)
         k = 0
         while k < len(tempValues):
@@ -339,7 +349,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
       data_file.close()
   
   for i in range(len(regionalValues)):
-    filestring = "0000-" + tagname + regionalValues[i] + ".json"
+    filestring = "0000-" + tagname + "-" + regionalValues[i] + ".json"
     data_file = open(filestring,"w")
     json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
     data_file.write(json_string)
@@ -359,23 +369,21 @@ def generateDatabaseMaps():
       year[i].append([])
   currentYear = earliestYear
   #numLocations = algorithmEnhanced.getTableCount(cur) - 1
-  numLocations = 10
+  numLocations = 1
   for i in range(numLocations):
     currentYear = earliestYear
-    for j in range(numYears):
-     currentYear += 1
-    # print(currentYear)
+    for j in range(numYears + 1):
      tempValues = []
      tempValues.append(algorithmEnhanced.getAnnualDrainflow(i,currentYear,cur))
      tempValues.append(algorithmEnhanced.getAnnualSurfacerunoff(i,currentYear,cur))
      tempValues.append(algorithmEnhanced.getAnnualPrecipitation(i,currentYear,cur))
      tempValues.append(algorithmEnhanced.getAnnualPET(i,currentYear,cur))
      tempValues.append(algorithmEnhanced.getAnnualDAE_PET(i,currentYear,cur))
-    # print(tempValues)
      k = 0
      while k < len(tempValues):
        year[j][k].append(tempValues[k])
        k+=1
+     currentYear += 1
   for i in range(len(year)):
     for j in range(len(databaseValues)):
       filestring = str(earliestYear + i) + "-" + databaseValues[j] + ".json"
