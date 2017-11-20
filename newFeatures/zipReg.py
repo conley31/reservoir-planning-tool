@@ -42,26 +42,26 @@ for j in range(0,3):
 				zf.write(rfile)
 
 
-#for l in range(0,5):
-	#zfile = ""
-	#rfile = ""
-	#if(l == 0):
-	#	zfile = "0000-Drainflow.zip"
-	#	rfile = "0000-Drainflow.json"
-	#elif(l == 1):
-	#	zfile = "0000-SurfaceRunoff.zip"
-	#	rfile = "0000-SurfaceRunoff.json"
-	#elif(l == 2):
-	#	zfile = "0000-Precipitation.zip"
-	#	rfile = "0000-Precipitation.json"
-	#elif(l == 3):
-	#	zfile = "0000-Evapotranspiration.zip"
-	#	rfile = "0000-Evapotranspiration.json"
-	#elif(l == 4):
-	#	zfile = "0000-OpenWaterEvaporation.zip"
-	#	rfile = "0000-OpenWaterEvaporation.json"
-	#zf = zipfile.ZipFile(zfile, mode = 'w')
-	#zf.write(rfile)
+for l in range(0,5):
+	zfile = ""
+	rfile = ""
+	if(l == 0):
+		zfile = "0000-Drainflow.zip"
+		rfile = "0000-Drainflow.json"
+	elif(l == 1):
+		zfile = "0000-SurfaceRunoff.zip"
+		rfile = "0000-SurfaceRunoff.json"
+	elif(l == 2):
+		zfile = "0000-Precipitation.zip"
+		rfile = "0000-Precipitation.json"
+	elif(l == 3):
+		zfile = "0000-Evapotranspiration.zip"
+		rfile = "0000-Evapotranspiration.json"
+	elif(l == 4):
+		zfile = "0000-OpenWaterEvaporation.zip"
+		rfile = "0000-OpenWaterEvaporation.json"
+	zf = zipfile.ZipFile(zfile, mode = 'w')
+	zf.write(rfile)
 
 for i in range(1981,2010):
 	for l in range(0,5):
