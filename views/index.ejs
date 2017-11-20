@@ -66,8 +66,10 @@
             <h5>To display the results click one button from each block</h5>
 
             <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
+            <div style="margin: auto">
+            <div style="margin-left: 15%">
             <select id="year-dropdownReg" onchange="colorMap($(this))">
-                <option value="0">allyears</option>
+                <option value="0000">allyears</option>
                 <option value="1981">1981</option>
                 <option value="1982">1982</option>
                 <option value="1983">1983</option>
@@ -101,26 +103,30 @@
 
             <!-- THESE ARE THE SELECTION BUTTONS ABOVE THE MAP -->
             <strong>Pond Size: </strong>
-                <div class="btn-group" role="group" style="margin-right: 15px;">
+                <div class="btn-group" role="group" style="margin-right: 15px">
                   <button type="button" class="btn btn-sm add-var off" name="pond-size" value="0"> 16 acre feet </button>
                   <button type="button" class="btn btn-sm add-var off" name="pond-size" value="1"> 48 acre feet </button>
                   <button type="button" class="btn btn-sm add-var off" name="pond-size" value="2"> 80 acre feet </button>
                 </div>
 
             <strong>Soil Water Storage: </strong>
-              <div class="btn-group" role="group" style="margin-right: 15px;">
+              <div class="btn-group" role="group" style="margin-right: 15px">
                 <button type="button" name="water" class="btn btn-sm add-var off" value="0"> Low </button>
                   <button type="button" name="water" class="btn btn-sm add-var off" value="1"> Medium </button>
                   <button type="button" name="water" class="btn btn-sm add-var off" value="2"> High </button>
               </div>
-
+            </div>
+            
+            <div style="margin-left: 20%;">
             <strong>Results: </strong>
-              <div class="btn-group" role="group" style="margin-right: 15px;">
-                <button type="button" name="results" class="btn btn-sm add-var off" value="0"> Annual irrigation (inches) </button>
+              <div class="btn-group" role="group">
+                <button type="button" name="results" class="btn btn-sm add-var off" value="0"> Annual irrigation Supplied (inches) </button>
                   <button type="button" name="results" class="btn btn-sm add-var off" value="1"> Percent of annual drain</button>
-		    <button type="button" name="results" class="btn btn-sm add-var off" value="2"> Captured Drain Flow</button>
-                      <button type="button" name="results" class="btn btn-sm add-var off" value="3"> Irrigation Sufficiency</button>
+		              <button type="button" name="results" class="btn btn-sm add-var off" value="2"> Captured Drain Flow</button>
+                  <button type="button" name="results" class="btn btn-sm add-var off" value="3"> Irrigation Sufficiency</button>
               </div>
+            </div>
+            </div>
 
             <div id="map-container">
 
