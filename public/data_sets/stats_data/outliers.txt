@@ -1,0 +1,11 @@
+Percent Outliers: x > 73.947912: no outliers
+
+Captured Outliers: x > 74.331329: outliers only on Q3 side
+
+Annual Outliers: x > 46.53580418: outliers only on Q3 side
+
+Precipitation: x < 11.70688, x > 55.424928: outliers only on Q3 side
+
+Surface Runoff Outliers: x > 27.99584814: outliers only on Q3 side
+
+Drain Flow: x > 1.465003 x 10^15: outliers only on Q3 side
