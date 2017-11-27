@@ -11,11 +11,11 @@ import collections
 # generates map data by running the Transforming Drainage Project simulation algorithms with the
 # specified arguments
 def worker(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status):
- map_data_algorithms.computeData(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status)
+ map_data_algorithms.computeData(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status,0)
 
 #generates map data that uses values queried directly from the db
 def databaseWorker(zero,status):
-  map_data_algorithms.generateDatabaseMaps(status)
+  map_data_algorithms.generateDatabaseMaps(status,0)
 
 def print_progress(progress):
   sys.stdout.write('\033[2J\033[H') #clear screen 

@@ -13,7 +13,8 @@
     "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;",
     "test-db-quick": "cd db; nosetests -a '!slow'; cd ../",
     "test-db-complete": "cd db; nosetests -a 'slow'; cd ../",
-    "test_updatefiles": "python db/update-db-stamp.py; cd newFeatures; python TESTcreateJsonData.py; cd ../"
+    "test_updatefiles": "python db/update-db-stamp.py; cd newFeatures; python TESTcreateJsonData.py; cd ../",
+    "generate_map_data": "cd newFeatures; python createJsonData.py; cd ../"
   },
   "repository": {
     "type": "git",

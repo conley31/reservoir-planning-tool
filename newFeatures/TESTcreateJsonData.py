@@ -2,28 +2,21 @@
 
 import json
 import sys
-import datetime
 import time
 import algorithmEnhanced
+import map_data_algorithms
 from multiprocessing import Process as Task, Queue
 import collections
 
-#computeData(80,16,10,7.6,1,4.2)
+# generates map data by running the Transforming Drainage Project simulation algorithms with the
+# specified arguments
+# the one specifies that this is a sample set of data
+def worker(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status):
+ map_data_algorithms.computeData(area,vol,depth,moisture,incr,water,volumeTag,soilTag,status,1)
 
-def worker(area,vol,depth,moisture,incr,water,name,status):
-  data = algorithmEnhanced.computeData(area,vol,depth,moisture,incr,water,name,status,1)
-  json_string = "["
-  comma = 0
-  for obj in data:
-    if comma > 0:
-      json_string += ','
-    else:
-      comma = 1
-    json_string += obj.toJSON()
-  json_string += "]"
-  text_file = open(name + ".json","w")
-  text_file.write(json_string)
-  text_file.close()
+#generates map data that uses values queried directly from the db
+def databaseWorker(zero,status):
+  map_data_algorithms.generateDatabaseMaps(status,1)
 
 def print_progress(progress):
   sys.stdout.write('\033[2J\033[H') #clear screen 
@@ -33,24 +26,28 @@ def print_progress(progress):
     sys.stdout.write("%s [%s] %s%%\n" % (name, bar, percent),)
   sys.stdout.flush()
 
-
 if __name__ == '__main__':
   status = Queue()
   progress = collections.OrderedDict()
   workers = []
-  filenames = ['allData-16Vol-Low-test', 'allData-16Vol-Medium-test', 'allData-16Vol-High-test',
-               'allData-48Vol-Low-test', 'allData-48Vol-Medium-test', 'allData-48Vol-High-test',
-               'allData-80Vol-Low-test', 'allData-80Vol-Medium-test', 'allData-80Vol-High-test']
-  p1 = Task(target=worker, args=(80,16,10,7.6,1,4.2,filenames[0],status))
-  p2 = Task(target=worker, args=(80,16,10,12,1,6.1, filenames[1],status))
-  p3 = Task(target=worker, args=(80,16,10,15.6,1,10.2,filenames[2],status))
-  p4 = Task(target=worker, args=(80,48,10,7.6,1,4.2,filenames[3],status))
-  p5 = Task(target=worker, args=(80,48,10,12,1,6.1,filenames[4],status))
-  p6 = Task(target=worker, args=(80,48,10,15.6,1,10.2,filenames[5],status))
-  p7 = Task(target=worker, args=(80,80,10,7.6,1,4.2,filenames[6],status))
-  p8 = Task(target=worker, args=(80,80,10,12,1,6.1,filenames[7],status))
-  p9 = Task(target=worker, args=(80,80,10,15.6,1,10.2,filenames[8],status))
-  
+
+  #spawns a process (and creates thread) for each set of data
+  # where args=(area,volume,depth,soil moisture, water capacity, volumeTag, soilTag)
+  # volumeTag and soilTag are used to name the output files
+  # example (0-1-IrrigationSufficiency) would be the smallest volume with the second lowest soil params
+
+  p1 = Task(target=worker, args=(80,16,10,7.6,1,4.2,0,0,status))
+  p2 = Task(target=worker, args=(80,16,10,12,1,6.1, 0,1,status))
+  p3 = Task(target=worker, args=(80,16,10,15.6,1,10.2,0,2,status))
+  p4 = Task(target=worker, args=(80,48,10,7.6,1,4.2,1,0,status))
+  p5 = Task(target=worker, args=(80,48,10,12,1,6.1,1,1,status))
+  p6 = Task(target=worker, args=(80,48,10,15.6,1,10.2,1,2,status))
+  p7 = Task(target=worker, args=(80,80,10,7.6,1,4.2,2,0,status))
+  p8 = Task(target=worker, args=(80,80,10,12,1,6.1,2,1,status))
+  p9 = Task(target=worker, args=(80,80,10,15.6,1,10.2,2,2,status))
+
+  p10 = Task(target=databaseWorker,args=(0,status))
+
   p1.start()
   workers.append(p1)
   p2.start()
@@ -69,6 +66,8 @@ if __name__ == '__main__':
   workers.append(p8)
   p9.start()
   workers.append(p9)
+  p10.start()
+  workers.append(p10)
 
   while any(i.is_alive() for i in workers):
     while not status.empty():
@@ -76,16 +75,8 @@ if __name__ == '__main__':
       progress[name] = percent
       print_progress(progress)
       time.sleep(.1)
-  print 'JSON files built'
-  for i in filenames:
-    currfile = i + ".json"
-    if algorithmEnhanced.checkJsonIntegrity(currfile) == True:
-      print(currfile + " is a valid JSON")
- # tmpfd = open("../db/database-timestamp.txt","r")
-  #fstr = tmpfd.read()
-  #now = datetime.datetime.now()
-  #dbDate = datetime.strptime(fstr)
- # if dbDate < now:
- #   print "old"
-
-#  print fstr
+  
+#  print 'JSON files built'
+#  for i in filenames:
+#    if algorithmEnhanced.checkJsonIntegrity(i) == True:
+#      print("complete json")
