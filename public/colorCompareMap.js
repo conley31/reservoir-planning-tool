@@ -454,7 +454,7 @@ var selectFeature_compare = function(event) {
 	var loc = event.feature.getProperty('Id');
 	var contentString = '<div style="text-align: center;">' +
   "Location ID: " + loc + ",Value: " + contentArraycmp[loc] +
-  '<br><button onclick="downloadLocations()">Download Selected Locations</button></br></div>';
+  '<br><button onclick="downloadLocationscmp()">Download Selected Locations</button></br></div>';
 	
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString,
@@ -478,7 +478,7 @@ var selectFeature_compare = function(event) {
   prevWindowcmp = infowindow;
 };
 
-function downloadLocations() {
+function downloadLocationscmp() {
 	var csv = "";
 	
 	for(var i = 0; i < infoArraycmp.length; i++) {
