@@ -2,7 +2,6 @@ var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
-var created = 0;
 var prevEvent = null;
 var prevWindow = null;
 
@@ -516,7 +515,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[3] += 1;
-			  contentArray[loc] = parseInt(tempJSON);
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 30) {
@@ -526,7 +525,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[4] += 1;
-			  contentArray[loc] = parseInt(tempJSON);
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else {
@@ -541,7 +540,6 @@ function setColor(objJson) {
 		  }
 	  
     });
-	created = 1;
 	
 	//Initialize the histogram/bar chart
 	initHistogram();
