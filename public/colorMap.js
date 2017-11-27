@@ -593,8 +593,45 @@ var selectFeature_regional = function(event) {
     }
   }); 
 	
-	infowindow.open(document.regionalmap);
+  infowindow.open(document.regionalmap);
 
   prevEvent = event;
   prevWindow = infowindow;
 };
+
+function downloadLocations() {
+	var csv = "";
+	
+	for(var i = 0; i < infoArray.length; i++) {
+		var loc = infoArray[i].event.feature.getProperty('Id');
+		var csvString;
+		
+		if(i === infoArray.length - 1) {
+			csvString = loc + ',' + contentArray[loc] + '\n';
+		}
+		
+		else {
+			csvString = loc + ',' + contentArray[loc] + ',\n';
+		}
+		csv += csvString;
+	} 
+	
+	var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, 'data.csv');
+    } 
+		
+	else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", 'data.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
