@@ -37,7 +37,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
   expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
   numLocations = algorithmEnhanced.getTableCount(cur) -1
-  #numLocations = 1
+  #numLocations = 200
   earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
   numYears = algorithmEnhanced.getYearCount(0,cur)
 
@@ -64,7 +64,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     allYears.append([])
 
   i = 0
-  while i < 200:
+  while i < numLocations:
     #update loading bar
     locationstr = "Location" + str(i)
     if i == numLocations-1:
@@ -355,7 +355,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     data_file.write(json_string)
     data_file.close()
 
-def generateDatabaseMaps():
+def generateDatabaseMaps(statusQueue):
   connection = db.connect(host,user,password,database)
   cur = connection.cursor()
   earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
@@ -367,11 +367,27 @@ def generateDatabaseMaps():
     year.append([])
     for j in range(len(databaseValues)):
       year[i].append([])
+  for i in range(len(databaseValues)):
+    allYears.append([])
   currentYear = earliestYear
-  #numLocations = algorithmEnhanced.getTableCount(cur) - 1
-  numLocations = 1
+  numLocations = algorithmEnhanced.getTableCount(cur) - 1
+  #numLocations = 1
   for i in range(numLocations):
+    if i == numLocations-1:
+      statusQueue.put(["database_map",1])
+    else:
+      statusQueue.put(["database_map", (i/float(numLocations))])
     currentYear = earliestYear
+    tempValues = []
+    tempValues.append(algorithmEnhanced.getDrainflowCumulative(i,cur))
+    tempValues.append(algorithmEnhanced.getSurfacerunoffCumulative(i,cur))
+    tempValues.append(algorithmEnhanced.getPrecipitationCumulative(i,cur))
+    tempValues.append(algorithmEnhanced.getPETCumulative(i,cur))
+    tempValues.append(algorithmEnhanced.getDAE_PETCumulative(i,cur))
+    k = 0
+    while k < len(tempValues):
+      allYears[k].append(tempValues[k])
+      k+=1
     for j in range(numYears + 1):
      tempValues = []
      tempValues.append(algorithmEnhanced.getAnnualDrainflow(i,currentYear,cur))
@@ -384,6 +400,7 @@ def generateDatabaseMaps():
        year[j][k].append(tempValues[k])
        k+=1
      currentYear += 1
+  print(allYears)
   for i in range(len(year)):
     for j in range(len(databaseValues)):
       filestring = str(earliestYear + i) + "-" + databaseValues[j] + ".json"
@@ -391,7 +408,12 @@ def generateDatabaseMaps():
       json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
       data_file.write(json_string)
       data_file.close()
+  for i in range(len(databaseValues)):
+    filestring = "0000-" + databaseValues[i] + ".json"
+    data_file = open(filestring, "w")
+    json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
+    data_file.write(json_string)
+    data_file.close()
 
 
     
-generateDatabaseMaps()
