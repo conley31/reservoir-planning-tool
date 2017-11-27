@@ -8,4 +8,8 @@ Precipitation: x < 11.70688, x > 55.424928: outliers only on Q3 side
 
 Surface Runoff Outliers: x > 27.99584814: outliers only on Q3 side
 
-Drain Flow: x > 1.465003 x 10^15: outliers only on Q3 side
+Drain Flow Outliers: x > 1.465003 x 10^15: outliers only on Q3 side
+
+Evaporation Outliers: x < 32.3106577, x > 74.1659641: outliers on both sides
+
+ET Outliers: x < 14.050775, x > 24.759455: outliers on both sides
