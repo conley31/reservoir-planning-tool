@@ -291,7 +291,7 @@ function setColor(objJson) {
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
-        if(parseInt(tempJSON) == 0){
+        if(parseInt(tempJSON) < 250){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.25
@@ -354,7 +354,7 @@ function setColor(objJson) {
         tempJSON = objJson[loc];
 
         
-        if(parseInt(tempJSON) == 0) {
+        if(parseInt(tempJSON) > 73.947912) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.4
@@ -415,7 +415,7 @@ function setColor(objJson) {
 		  
 		  freqChoice = 1;
       tempJSON = objJson[loc];
-		if(parseInt(tempJSON) == 0) {
+		if(parseInt(tempJSON) > 74.331329) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
