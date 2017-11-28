@@ -584,6 +584,7 @@ var selectFeature_regional = function(event) {
   infoArray.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
+    console.log("close");
     for(var i = 0; i < infoArray.length; i++) {
       if (infoArray[i].info === infowindow) {
         infoArray.splice(i, 1); //remove the event and infowindow from the array
