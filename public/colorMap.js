@@ -2,7 +2,6 @@ var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
-var created = 0;
 var prevEvent = null;
 var prevWindow = null;
 
@@ -516,7 +515,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[3] += 1;
-			  contentArray[loc] = parseInt(tempJSON);
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else if(parseInt(tempJSON) < 30) {
@@ -526,7 +525,7 @@ function setColor(objJson) {
 			  });
 			  
 			  frequency[4] += 1;
-			  contentArray[loc] = parseInt(tempJSON);
+			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
 			else {
@@ -541,7 +540,6 @@ function setColor(objJson) {
 		  }
 	  
     });
-	created = 1;
 	
 	//Initialize the histogram/bar chart
 	initHistogram();
@@ -593,8 +591,45 @@ var selectFeature_regional = function(event) {
     }
   }); 
 	
-	infowindow.open(document.regionalmap);
+  infowindow.open(document.regionalmap);
 
   prevEvent = event;
   prevWindow = infowindow;
 };
+
+function downloadLocations() {
+	var csv = "";
+	
+	for(var i = 0; i < infoArray.length; i++) {
+		var loc = infoArray[i].event.feature.getProperty('Id');
+		var csvString;
+		
+		if(i === infoArray.length - 1) {
+			csvString = loc + ',' + contentArray[loc] + '\n';
+		}
+		
+		else {
+			csvString = loc + ',' + contentArray[loc] + ',\n';
+		}
+		csv += csvString;
+	} 
+	
+	var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, 'data.csv');
+    } 
+		
+	else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", 'data.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}

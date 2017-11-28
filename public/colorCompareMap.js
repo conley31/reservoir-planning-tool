@@ -3,11 +3,24 @@ var dropdownval = -1;
 var compareKML;
 var whatMap = "";
 
-var frequency = new Array(); //Array to hold count of each range
-var contentArray = new Array();
-for(var i = 0; i < 11233; i++) {
-	contentArray[i] = 0;
+var frequencycmp = new Array(); //Array to hold count of each range
+
+var prevEventcmp = null;
+var prevWindowcmp = null;
+
+class infoContentcmp {
+  constructor(event, info) {
+    this.event = event;
+    this.info = info;
+  }
 }
+
+var contentArraycmp = new Array();
+for(var i = 0; i < 11233; i++) {
+	contentArraycmp[i] = 0;
+}
+
+var infoArraycmp = new Array();
 
 //Draws the histogram/bar chart for the comparison map
 var drawHist2 = function() {
@@ -16,12 +29,12 @@ var drawHist2 = function() {
 	data.addColumn('number', 'Frequency');
 
 	data.addRows([
-	['<10', frequency[0]],
-	['10-20', frequency[1]],
-	['20-30', frequency[2]],
-	['30-40', frequency[3]],
-	['40-50', frequency[4]],
-	['>50', frequency[5]]
+	['<10', frequencycmp[0]],
+	['10-20', frequencycmp[1]],
+	['20-30', frequencycmp[2]],
+	['30-40', frequencycmp[3]],
+	['40-50', frequencycmp[4]],
+	['>50', frequencycmp[5]]
 	]);
 	
 	var options = {
@@ -144,7 +157,7 @@ function unzipBlob(blob, callback) {
 function setColorComp(objJson) {
 	//Resets counters
 	for (var i = 0; i < 6; i++) {
-	  frequency[i] = 0;
+	  frequencycmp[i] = 0;
 	}
 	initHist2(); //initializes histogram/bar chart
 	
@@ -161,8 +174,8 @@ function setColorComp(objJson) {
             	fillOpacity: 0.25
           		});
 				
-				frequency[0] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 1.5){
           		document.comparemap.data.overrideStyle(feature, {
@@ -170,8 +183,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[1] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[1] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 3){
           		document.comparemap.data.overrideStyle(feature, {
@@ -179,8 +192,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[2] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[2] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 4.5){
           		document.comparemap.data.overrideStyle(feature, {
@@ -188,16 +201,16 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[3] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[3] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
 		else if(parseInt(tempJSON) < 6){
 			document.comparemap.data.overrideStyle(feature, {
 			fillColor: '#2B8CBE',
 			fillOpacity: 0.4
 			});
-				frequency[4] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
 		}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
@@ -205,8 +218,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[5] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[5] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
 		
@@ -219,8 +232,8 @@ function setColorComp(objJson) {
             	fillOpacity: 0.4
           		});
 				
-				frequency[0] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
@@ -228,8 +241,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[1] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[1] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 30){
           		document.comparemap.data.overrideStyle(feature, {
@@ -237,8 +250,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[2] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[2] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 40){
           		document.comparemap.data.overrideStyle(feature, {
@@ -246,8 +259,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[3] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[3] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
@@ -255,8 +268,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[4] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
 		
@@ -270,8 +283,8 @@ function setColorComp(objJson) {
             	fillOpacity: 0.4
           		});
 				
-				frequency[0] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
@@ -279,8 +292,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[1] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[1] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 30){
           		document.comparemap.data.overrideStyle(feature, {
@@ -288,8 +301,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[2] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[2] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 40){
           		document.comparemap.data.overrideStyle(feature, {
@@ -297,8 +310,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[3] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[3] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
@@ -306,8 +319,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[4] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
 		
@@ -321,8 +334,8 @@ function setColorComp(objJson) {
             	fillOpacity: 0.4
           		});
 				
-				frequency[0] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
@@ -330,8 +343,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[1] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[1] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 30){
           		document.comparemap.data.overrideStyle(feature, {
@@ -339,8 +352,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[2] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[2] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 40){
           		document.comparemap.data.overrideStyle(feature, {
@@ -348,8 +361,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[3] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[3] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
@@ -357,8 +370,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[4] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
 		
@@ -372,8 +385,8 @@ function setColorComp(objJson) {
             	fillOpacity: 0.4
           		});
 				
-				frequency[0] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
@@ -381,8 +394,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[1] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[1] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 30){
           		document.comparemap.data.overrideStyle(feature, {
@@ -390,8 +403,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[2] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[2] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 40){
           		document.comparemap.data.overrideStyle(feature, {
@@ -399,8 +412,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[3] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[3] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
@@ -408,8 +421,8 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequency[4] += 1;
-				contentArray[loc] = parseFloat(tempJSON);
+				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
     });
@@ -425,13 +438,79 @@ function setColorComp(objJson) {
 
 // Select a polygon on the map
 var selectFeature_compare = function(event) {
+	if (prevEventcmp != null && prevWindowcmp != null) {
+    //Remove download button from prevEvent
+    var prevloc = prevEventcmp.feature.getProperty('Id');
+    var prevContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc];
+    var prevInfoWindow = new google.maps.InfoWindow({
+      content: prevContentString,
+      position: prevEventcmp.latLng
+    });
+
+    prevWindowcmp.close();
+    prevInfoWindow.open(document.comparemap);
+  }
+
 	var loc = event.feature.getProperty('Id');
-	var contentString = "Location ID: " + loc + "," + "Value: " + contentArray[loc];
+	var contentString = '<div style="text-align: center;">' +
+  "Location ID: " + loc + ",Value: " + contentArraycmp[loc] +
+  '<br><button onclick="downloadLocationscmp()">Download Selected Locations</button></br></div>';
 	
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString,
 		position: event.latLng
 	});
+
+  var newInfo = new infoContentcmp(event, infowindow);
+  infoArraycmp.push(newInfo);
+
+  google.maps.event.addListener(infowindow, 'closeclick', function() {
+    for(var i = 0; i < infoArraycmp.length; i++) {
+      if (infoArraycmp[i].info === infowindow) {
+        infoArraycmp.splice(i, 1); //remove the event and infowindow from the array
+      }
+    }
+  }); 
 	
-	infowindow.open(document.regionalmap);
+  infowindow.open(document.comparemap);
+
+  prevEventcmp = event;
+  prevWindowcmp = infowindow;
 };
+
+function downloadLocationscmp() {
+	var csv = "";
+	
+	for(var i = 0; i < infoArraycmp.length; i++) {
+		var loc = infoArraycmp[i].event.feature.getProperty('Id');
+		var csvString;
+		
+		if(i === infoArraycmp.length - 1) {
+			csvString = loc + ',' + contentArraycmp[loc] + '\n';
+		}
+		
+		else {
+			csvString = loc + ',' + contentArraycmp[loc] + ',\n';
+		}
+		csv += csvString;
+	} 
+	
+	var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, 'data.csv');
+    } 
+		
+	else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", 'data.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
