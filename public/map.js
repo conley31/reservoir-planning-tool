@@ -137,6 +137,14 @@ var initMap = function() {
     zoom: 6
   });
 
+  document.regionalmap.addListener('zoom_changed', function() {
+    if (document.regionalmap.getZoom() < 5) {
+      document.regionalmap.setZoom(6);
+    } else if (document.regionalmap.getZoom() > 12) {
+      document.regionalmap.setZoom(11);
+    }
+  });
+
   document.regionalmap.data.loadGeoJson('final_index_FeaturesToJSON.json');
   document.regionalmap.data.setStyle({
     fillColor: 'white',
@@ -222,6 +230,14 @@ var initMap = function() {
     },
     scrollwheel: false,
     zoom: 6
+  });
+
+  document.comparemap.addListener('zoom_changed', function() {
+    if (document.comparemap.getZoom() < 5) {
+      document.comparemap.setZoom(6);
+    } else if (document.comparemap.getZoom() > 12) {
+      document.comparemap.setZoom(11);
+    }
   });
 
   var legend_annual = document.getElementById('legend-annual2');
