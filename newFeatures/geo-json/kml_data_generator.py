@@ -11,7 +11,7 @@ prefix = "../../public/data_sets/map_data_named/"
 computed_file_suffixes = ['AnnualIrrigation','PercentAnnualDrainflow','CapturedDrainflow','IrrigationSufficiency']
 database_file_suffixes = ['Drainflow','SurfaceRunoff','Precipitation','Evapotranspiration','OpenWaterEvaporation']
 
-numLocations = 20
+numLocations = 11231
 volTagCount = 3
 soilTagCount = 3
 
@@ -125,6 +125,7 @@ def generateYearlyKml(statusQueue):
           else:
             statusQueue.put(["yearlyKml",(filesMade/float(maxFiles))])
           filestr = str(currentYear) + '-' + str(i) + '-' + str(j) + '-' + computed_file_suffixes[k]
+          print(filestr)
           currentYear += 1
           jsonfilestr = prefix + filestr + ".json"
           kmlfilestr ="../../public/data_sets/kml_files/" + filestr + ".kml"
