@@ -55,6 +55,8 @@ def generateCumulativeKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
               if val > 250 :
                 polygon.styleUrl = '#darkGray'
               elif val < 50:
@@ -73,6 +75,9 @@ def generateCumulativeKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 73.947912 :
                 polygon.styleUrl = '#darkGray'
               elif val < 12.5:
@@ -91,6 +96,9 @@ def generateCumulativeKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 74.331329 :
                 polygon.styleUrl = '#darkGray'
               elif val < 30:
@@ -109,6 +117,9 @@ def generateCumulativeKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 100 :
                 polygon.styleUrl = '#darkGray'
               elif val == 0:
@@ -148,7 +159,6 @@ def generateYearlyKml(statusQueue,testFlag):
           else:
             statusQueue.put(["yearlyKml",(filesMade/float(maxFiles))])
           filestr = str(currentYear) + '-' + str(i) + '-' + str(j) + '-' + computed_file_suffixes[k]
-          print(filestr)
           currentYear += 1
           jsonfilestr = prefix + filestr + ".json"
           if testFlag == 0:
@@ -164,6 +174,9 @@ def generateYearlyKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 250 :
                 polygon.styleUrl = '#darkGray'
               elif val < 50:
@@ -182,6 +195,9 @@ def generateYearlyKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 73.947912 :
                 polygon.styleUrl = '#darkGray'
               elif val < 12.5:
@@ -200,6 +216,9 @@ def generateYearlyKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 74.331329 :
                 polygon.styleUrl = '#darkGray'
               elif val < 30:
@@ -218,6 +237,9 @@ def generateYearlyKml(statusQueue,testFlag):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
+              polygon.name = "Location ID: " + str(loc)
+              polygon.description = computed_file_suffixes[k] + ' ' + str(val)
+
               if val > 100 :
                 polygon.styleUrl = '#darkGray'
               elif val == 0:
@@ -261,6 +283,9 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
       while loc < numLocations:
         val = data[loc]
         polygon = root.Document.Folder.Placemark[loc]
+        polygon.name = "Location ID: " + str(loc)
+        polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
         if val == 0:
           polygon.styleUrl = '#darkGray'
         elif val < 1.5 :
@@ -279,6 +304,9 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
       while loc < numLocations:
         val = data[loc]
         polygon = root.Document.Folder.Placemark[loc]
+        polygon.name = "Location ID: " + str(loc)
+        polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
         if val < 10:
           polygon.styleUrl = '#pureYellow'
         elif val < 20 :
@@ -295,6 +323,9 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
       while loc < numLocations:
         val = data[loc]
         polygon = root.Document.Folder.Placemark[loc]
+        polygon.name = "Location ID: " + str(loc)
+        polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
         if val < 10:
           polygon.styleUrl = '#pureYellow'
         elif val < 20 :
@@ -311,6 +342,9 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
       while loc < numLocations:
         val = data[loc]
         polygon = root.Document.Folder.Placemark[loc]
+        polygon.name = "Location ID: " + str(loc)
+        polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
         if val < 10:
           polygon.styleUrl = '#pureYellow'
         elif val < 20 :
@@ -327,6 +361,9 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
       while loc < numLocations:
         val = data[loc]
         polygon = root.Document.Folder.Placemark[loc]
+        polygon.name = "Location ID: " + str(loc)
+        polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
         if val < 10:
           polygon.styleUrl = '#pureYellow'
         elif val < 20 :
@@ -362,7 +399,6 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
         statusQueue.put(["YearlyDatabaseKml",(filesMade/float(maxFiles))])
 
       filestr = str(currentYear) + '-' + database_file_suffixes[i]
-      print filestr
       currentYear += 1
       jsonfilestr = prefix + filestr + ".json"
       if testFlag == 0:
@@ -377,6 +413,9 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
         while loc < numLocations:
           val = data[loc]
           polygon = root.Document.Folder.Placemark[loc]
+          polygon.name = "Location ID: " + str(loc)
+          polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
           if val == 0:
             polygon.styleUrl = '#darkGray'
           elif val < 1.5 :
@@ -395,6 +434,9 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
         while loc < numLocations:
           val = data[loc]
           polygon = root.Document.Folder.Placemark[loc]
+          polygon.name = "Location ID: " + str(loc)
+          polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
           if val < 10:
             polygon.styleUrl = '#pureYellow'
           elif val < 20 :
@@ -411,6 +453,9 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
         while loc < numLocations:
           val = data[loc]
           polygon = root.Document.Folder.Placemark[loc]
+          polygon.name = "Location ID: " + str(loc)
+          polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
           if val < 10:
             polygon.styleUrl = '#pureYellow'
           elif val < 20 :
@@ -427,6 +472,9 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
           while loc < numLocations:
             val = data[loc]
             polygon = root.Document.Folder.Placemark[loc]
+            polygon.name = "Location ID: " + str(loc)
+            polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
             if val < 10:
               polygon.styleUrl = '#pureYellow'
             elif val < 20 :
@@ -443,6 +491,9 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
           while loc < numLocations:
             val = data[loc]
             polygon = root.Document.Folder.Placemark[loc]
+            polygon.name = "Location ID: " + str(loc)
+            polygon.description = database_file_suffixes[i] + ' ' + str(val)
+
             if val < 10:
               polygon.styleUrl = '#pureYellow'
             elif val < 20 :
