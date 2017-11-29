@@ -291,7 +291,7 @@ function setColor(objJson) {
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
-        if(parseInt(tempJSON) < 250){
+        if(parseInt(tempJSON) > 250){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.25
@@ -478,7 +478,7 @@ function setColor(objJson) {
 			  freqChoice = 3;
         tempJSON = objJson[loc];
 			  
-			if(parseInt(tempJSON) == 0) {
+			if(parseInt(tempJSON) > 100) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -488,7 +488,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 7.5) {
+			else if(parseInt(tempJSON) == 0) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#A6611A',
 				fillOpacity: 0.4
@@ -498,7 +498,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 15) {
+			else if(parseInt(tempJSON) < 25) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#DFC27D',
 				fillOpacity: 0.4
@@ -508,7 +508,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 22.5) {
+			else if(parseInt(tempJSON) < 50) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#F5F5F5',
 				fillOpacity: 0.4
@@ -518,7 +518,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 30) {
+			else if(parseInt(tempJSON) < 75) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#80CDC1',
 				fillOpacity: 0.4
@@ -584,6 +584,7 @@ var selectFeature_regional = function(event) {
   infoArray.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
+    console.log("close");
     for(var i = 0; i < infoArray.length; i++) {
       if (infoArray[i].info === infowindow) {
         infoArray.splice(i, 1); //remove the event and infowindow from the array

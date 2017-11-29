@@ -32,6 +32,7 @@ $('#all-map-nav').click(function() {
   $('#legend-annual').fadeOut('fast');
   $('#legend-captured').fadeOut('fast');
   $('#legend-sufficiency').fadeOut('fast');
+  $('#legend-drain').fadeOut('fast');
   $('#all-map-nav').fadeIn('fast', function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');

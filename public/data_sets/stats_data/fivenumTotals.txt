@@ -5,7 +5,7 @@ Captured Total   2.650920e-05 7.300631e+00 2.033784e+01 4.081598e+01 1.527740e+0
 
 Annual Total		0.00009695   0.63919928   2.24316159  18.99784124 335.74870016
 
-Irrigation Sufficiency Total
+Irrigation Sufficiency Total   0  0 0 100 100
 
 Evaporation Total       0.4598114  48.0063976  52.0118195  58.4702242 610.1174979
 
