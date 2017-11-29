@@ -39,7 +39,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
   if testFlag == 0:
     numLocations = algorithmEnhanced.getTableCount(cur) -1
   else:
-    numLocations = 25
+    numLocations = 20
   earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
   numYears = algorithmEnhanced.getYearCount(0,cur)
 
@@ -348,7 +348,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
       if testFlag == 0:
         data_file = open("../public/data_sets/map_data_named" + filestring,"w")
       else:
-        data_file = open("./sample_data/" + filestring,"w")
+        data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
       json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
       data_file.write(json_string)
       data_file.close()
@@ -358,7 +358,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     if testFlag == 0:
       data_file = open("../public/data_sets/map_data_named" + filestring,"w")
     else:
-      data_file = open("./sample_data/" + filestring,"w")
+      data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
     json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
     data_file.write(json_string)
     data_file.close()
@@ -419,7 +419,7 @@ def generateDatabaseMaps(statusQueue,testFlag):
       if testFlag == 0:
         data_file = open("../public/data_sets/map_data_named" + filestring,"w")
       else:
-        data_file = open("./sample_data/" + filestring,"w")
+        data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
       json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
       data_file.write(json_string)
       data_file.close()
@@ -428,7 +428,7 @@ def generateDatabaseMaps(statusQueue,testFlag):
     if testFlag == 0:
       data_file = open("../public/data_sets/map_data_named" + filestring,"w")
     else:
-      data_file = open("./sample_data/" + filestring,"w")
+      data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
     json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
     data_file.write(json_string)
     data_file.close()

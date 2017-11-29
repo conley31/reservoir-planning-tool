@@ -90,15 +90,15 @@ def generateCumulativeKml(statusQueue):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
-              if val == 0 :
+              if val > 100 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 7.5:
+              elif val == 0:
                 polygon.styleUrl = '#darkOrange'
-              elif val < 15:
+              elif val < 25:
                 polygon.styleUrl = '#softOrange'
-              elif val < 22.5:
+              elif val < 50:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 30:
+              elif val < 75:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#strongYellow'
@@ -191,15 +191,15 @@ def generateYearlyKml(statusQueue):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
-              if val == 0 :
+              if val > 100 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 7.5:
+              elif val == 0:
                 polygon.styleUrl = '#darkOrange'
-              elif val < 15:
+              elif val < 25:
                 polygon.styleUrl = '#softOrange'
-              elif val < 22.5:
+              elif val < 50:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 30:
+              elif val < 75:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#strongYellow'

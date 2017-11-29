@@ -21,22 +21,87 @@ class TestDatabaseQuality(unittest.TestCase):
 		self.assertEqual(algorithm.getTableCount(cur),11232)
 
 	def test_negative(self):
-		connection = db.connect(host,user,password,database)
-		cur = connection.cursor()
-		for i in range(0, 11232):
-			self.assertGreaterEqual(algorithm.getDrainflowCumulative(i,cur), 0)
-			self.assertGreaterEqual(algorithm.getPrecipitationCumulative(i,cur), 0)
-			self.assertGreaterEqual(algorithm.getPETCumulative(i,cur), 0)
-			self.assertGreaterEqual(algorithm.getSurfacerunoffCumulative(i,cur), 0)
-			self.assertGreaterEqual(algorithm.getDAE_PETCumulative(i,cur), 0)
+		for i in range(1981, 2010):
+			for j in range(0,3):
+				for k in range(0,3):
+					for l in range(0,4):
+						rfile = ""
+						if(l == 0):
+							rfile = "../public/data_sets/map_data_named/%d-%d-%d-AnnualIrrigation.json"%(i,j,k)
+						elif(l == 1):
+							rfile = "../public/data_sets/map_data_named/%d-%d-%d-PercentAnnualDrainflow.json"%(i,j,k)
+						elif(l == 2):
+							rfile = "../public/data_sets/map_data_named/%d-%d-%d-CapturedDrainflow.json"%(i,j,k)
+						elif(l == 3):
+							rfile = "../public/data_sets/map_data_named/%d-%d-%d-IrrigationSufficiency.json"%(i,j,k)
+						with open(rfile) as json_data:
+							d = json.load(json_data)
+							f = open(rfile, 'r')
+							for a in range(0,11231):
+								self.assertGreaterEqual(d[a], 0)
+							f.close()
 
-			for j in range(1981, 2010):
-				self.assertGreaterEqual(algorithm.getAnnualDrainflow(i,j,cur), 0)
-				self.assertGreaterEqual(algorithm.getAnnualPrecipitation(i,j,cur), 0)
-				self.assertGreaterEqual(algorithm.getAnnualPET(i,j,cur), 0)
-				self.assertGreaterEqual(algorithm.getAnnualSurfacerunoff(i,j,cur), 0)
-				self.assertGreaterEqual(algorithm.getAnnualDAE_PET(i,j,cur), 0)
+		for j in range(0,3):
+				for k in range(0,3):
+					for l in range(0,4):
+						rfile = ""
+						if(l == 0):
+							rfile = "../public/data_sets/map_data_named/0000-%d-%d-AnnualIrrigation.json"%(j,k)
+						elif(l == 1):
+							rfile = "../public/data_sets/map_data_named/0000-%d-%d-PercentAnnualDrainflow.json"%(j,k)
+						elif(l == 2):
+							rfile = "../public/data_sets/map_data_named/0000-%d-%d-CapturedDrainflow.json"%(j,k)
+						elif(l == 3):
+							rfile = "../public/data_sets/map_data_named/0000-%d-%d-IrrigationSufficiency.json"%(j,k)
+						with open(rfile) as json_data:
+							d = json.load(json_data)
+							counter = 0
+							f = open(rfile, 'r')
+							for a in range(0,11231):
+								self.assertGreaterEqual(d[a], 0)
+							f.close()
 
+
+		for l in range(0,5):
+			rfile = ""
+			if(l == 0):
+				rfile = "../public/data_sets/map_data_named/0000-Drainflow.json"
+			elif(l == 1):
+				rfile = "../public/data_sets/map_data_named/0000-SurfaceRunoff.json"
+			elif(l == 2):
+				rfile = "../public/data_sets/map_data_named/0000-Precipitation.json"
+			elif(l == 3):
+				rfile = "../public/data_sets/map_data_named/0000-Evapotranspiration.json"
+			elif(l == 4):
+				rfile = "../public/data_sets/map_data_named/0000-OpenWaterEvaporation.json"
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				counter = 0
+				f = open(rfile, 'r')
+				for a in range(0,11231):
+					self.assertGreaterEqual(d[a], 0)
+				f.close()
+
+		for i in range(1981,2010):
+			for l in range(0,5):
+				rfile = ""
+				if(l == 0):
+					rfile = "../public/data_sets/map_data_named/%d-Drainflow.json"%(i)
+				elif(l == 1):
+					rfile = "../public/data_sets/map_data_named/%d-SurfaceRunoff.json"%(i)
+				elif(l == 2):
+					rfile = "../public/data_sets/map_data_named/%d-Precipitation.json"%(i)
+				elif(l == 3):
+					rfile = "../public/data_sets/map_data_named/%d-Evapotranspiration.json"%(i)
+				elif(l == 4):
+					rfile = "../public/data_sets/map_data_named/%d-OpenWaterEvaporation.json"%(i)
+				with open(rfile) as json_data:
+					d = json.load(json_data)
+					counter = 0
+					f = open(rfile, 'r')
+					for a in range(0,11231):
+						self.assertGreaterEqual(d[a], 0)
+					f.close()
 
 
 if __name__ == '__main__':
