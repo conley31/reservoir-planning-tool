@@ -565,6 +565,20 @@ var selectFeature_regional = function(event) {
       content: prevContentString,
       position: prevEvent.latLng
     });
+	
+	for(var i = 0; i < infoArray.length; i++) {
+		if (infoArray[i].event === prevEvent) {
+			infoArray[i].info = prevInfoWindow;
+		}
+	}
+	
+	google.maps.event.addListener(prevInfoWindow, 'closeclick', function() {
+		for (var i = 0; i < infoArray.length; i++) {
+			if (infoArray[i].info === prevInfoWindow) {
+				infoArray.splice(i, 1);
+			}
+		}
+	});
 
     prevWindow.close();
     prevInfoWindow.open(document.regionalmap);
@@ -584,7 +598,43 @@ var selectFeature_regional = function(event) {
   infoArray.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
-    console.log("close");
+	if (prevWindow === infowindow) {
+		if (infoArray.length < 2) {
+			prevWindow = null;
+			prevEvent = null;
+		}
+		
+		else {
+			var i = infoArray.length - 2;
+			var loc = infoArray[i].event.feature.getProperty('Id');
+			
+			var oldInfoWindow = infoArray[i].info;
+			oldInfoWindow.close();
+			
+			var contentString = '<div style="text-align: center;">' +
+			"Location ID: " + loc + ",Value: " + contentArray[loc] +
+			'<br><button onclick="downloadLocations()">Download Selected Locations</button></br></div>';
+			
+			var newInfoWindow = new google.maps.InfoWindow({
+				content: contentString,
+				position: infoArray[i].event.latLng
+			});
+			
+			infoArray[i].info = newInfoWindow;
+			google.maps.event.addListener(newInfoWindow, 'closeclick', function() {
+				for (var i = 0; i < infoArray.length; i++) {
+					if (infoArray[i].info === newInfoWindow) {
+						infoArray.splice(i, 1);
+					}
+				}
+			});
+			newInfoWindow.open(document.regionalmap);
+			
+			prevEvent = infoArray[i].event;
+			prevWindow = newInfoWindow;
+		}
+	}
+	  
     for(var i = 0; i < infoArray.length; i++) {
       if (infoArray[i].info === infowindow) {
         infoArray.splice(i, 1); //remove the event and infowindow from the array
