@@ -291,7 +291,7 @@ function setColor(objJson) {
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
-        if(parseInt(tempJSON) < 250){
+        if(parseInt(tempJSON) > 250){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.25
