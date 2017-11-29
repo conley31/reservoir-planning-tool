@@ -11,7 +11,7 @@ prefix = "../../public/data_sets/map_data_named/"
 computed_file_suffixes = ['AnnualIrrigation','PercentAnnualDrainflow','CapturedDrainflow','IrrigationSufficiency']
 database_file_suffixes = ['Drainflow','SurfaceRunoff','Precipitation','Evapotranspiration','OpenWaterEvaporation']
 
-numLocations = 20
+numLocations = 11231
 volTagCount = 3
 soilTagCount = 3
 
@@ -90,15 +90,15 @@ def generateCumulativeKml(statusQueue):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
-              if val == 0 :
+              if val > 100 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 7.5:
+              elif val == 0:
                 polygon.styleUrl = '#darkOrange'
-              elif val < 15:
+              elif val < 25:
                 polygon.styleUrl = '#softOrange'
-              elif val < 22.5:
+              elif val < 50:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 30:
+              elif val < 75:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#strongYellow'
@@ -190,15 +190,15 @@ def generateYearlyKml(statusQueue):
             while loc < numLocations:
               val = data[loc]
               polygon = root.Document.Folder.Placemark[loc]
-              if val == 0 :
+              if val > 100 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 7.5:
+              elif val == 0:
                 polygon.styleUrl = '#darkOrange'
-              elif val < 15:
+              elif val < 25:
                 polygon.styleUrl = '#softOrange'
-              elif val < 22.5:
+              elif val < 50:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 30:
+              elif val < 75:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#strongYellow'
