@@ -467,15 +467,17 @@ var selectFeature_compare = function(event) {
   google.maps.event.addListener(infowindow, 'closeclick', function() {
 	  if (infoArraycmp.length >= 2) {
 		  
-		if (infowindow === infoArraycmp[infoArraycmp.length - 1].info) {
-			var i = infoArraycmp.length - 2;
-			var prevloc = infoArraycmp[i].event.feature.getProperty('Id');
-			var newContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc] +
-			'<br><button onclick="downloadLocationscmp()">Download Selected Locations</button></br></div>';
-		
-			var newWindow = infoArraycmp[i].info;
-			newWindow.setContent(newContentString);
-		}
+  		if (infowindow === infoArraycmp[infoArraycmp.length - 1].info) {
+  			var i = infoArraycmp.length - 2;
+  			var prevloc = infoArraycmp[i].event.feature.getProperty('Id');
+  			var newContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc] +
+  			'<br><button onclick="downloadLocationscmp()">Download Selected Locations</button></br></div>';
+  		
+  			var newWindow = infoArraycmp[i].info;
+  			newWindow.setContent(newContentString);
+
+        console.log("compare popup download button changed");
+  		}
 	  }
     
 	
@@ -484,9 +486,13 @@ var selectFeature_compare = function(event) {
         infoArraycmp.splice(i, 1); //remove the event and infowindow from the array
       }
     }
+
+    console.log("compare popup closed");
   }); 
 	
   infowindow.open(document.comparemap);
+
+  console.log("compare popup open");
   
 	if (infoArraycmp.length >= 2) {
 		var i = infoArraycmp.length - 2;
@@ -497,6 +503,7 @@ var selectFeature_compare = function(event) {
 		
 		var newWindow = infoArraycmp[i].info;
 		newWindow.setContent(newContentString);
+    console.log("compare popup download button changed");
     }
 };
 

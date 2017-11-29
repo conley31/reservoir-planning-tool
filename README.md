@@ -7,6 +7,7 @@
 - Redis >= 2.0.0 (Saves user session data)
 
 ## Installation
+More detailed installation instructions can be found in `docs/ExtraDocumentation`
 1. Clone the repository, then `cd reservoir-planning-tool`
 2. Run `npm install` in the parent directory to install Node dependencies
 3. Copy the example config file to a new file `cp config/config.example.json config/config.json`
