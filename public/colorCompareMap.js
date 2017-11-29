@@ -5,9 +5,6 @@ var whatMap = "";
 
 var frequencycmp = new Array(); //Array to hold count of each range
 
-var prevEventcmp = null;
-var prevWindowcmp = null;
-
 class infoContentcmp {
   constructor(event, info) {
     this.event = event;
@@ -447,19 +444,6 @@ function setColorComp(objJson) {
 
 // Select a polygon on the map
 var selectFeature_compare = function(event) {
-	if (prevEventcmp != null && prevWindowcmp != null) {
-    //Remove download button from prevEvent
-    var prevloc = prevEventcmp.feature.getProperty('Id');
-    var prevContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc];
-    var prevInfoWindow = new google.maps.InfoWindow({
-      content: prevContentString,
-      position: prevEventcmp.latLng
-    });
-
-    prevWindowcmp.close();
-    prevInfoWindow.open(document.comparemap);
-  }
-
 	var loc = event.feature.getProperty('Id');
 	var contentString = '<div style="text-align: center;">' +
   "Location ID: " + loc + ",Value: " + contentArraycmp[loc] +
@@ -474,7 +458,21 @@ var selectFeature_compare = function(event) {
   infoArraycmp.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
-    for(var i = 0; i < infoArraycmp.length; i++) {
+	  if (infoArraycmp.length >= 2) {
+		  
+		if (infowindow === infoArraycmp[infoArraycmp.length - 1].info) {
+			var i = infoArraycmp.length - 2;
+			var prevloc = infoArraycmp[i].event.feature.getProperty('Id');
+			var newContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc] +
+			'<br><button onclick="downloadLocationscmp()">Download Selected Locations</button></br></div>';
+		
+			var newWindow = infoArraycmp[i].info;
+			newWindow.setContent(newContentString);
+		}
+	  }
+    
+	
+	for(var i = 0; i < infoArraycmp.length; i++) {
       if (infoArraycmp[i].info === infowindow) {
         infoArraycmp.splice(i, 1); //remove the event and infowindow from the array
       }
@@ -482,9 +480,17 @@ var selectFeature_compare = function(event) {
   }); 
 	
   infowindow.open(document.comparemap);
-
-  prevEventcmp = event;
-  prevWindowcmp = infowindow;
+  
+	if (infoArraycmp.length >= 2) {
+		var i = infoArraycmp.length - 2;
+		
+		//Remove download button from previous event
+		var prevloc = infoArraycmp[i].event.feature.getProperty('Id');
+		var newContentString = "Location ID:" + prevloc + ",Value: " + contentArraycmp[prevloc];
+		
+		var newWindow = infoArraycmp[i].info;
+		newWindow.setContent(newContentString);
+    }
 };
 
 function downloadLocationscmp() {
