@@ -276,6 +276,13 @@ function setColor(objJson) {
 	  frequency[i] = 0;
   }
   var array = [];
+
+  //Close previous infowindows, remove all events from infoArray
+  for(var i = 0; i < infoArray.length; i++) {
+    var win = infoArray[i].info;
+    win.close();
+  }
+  infoArray = new Array();
   //array = JSON.parse(array);
   
   //For each grid in the GeoJSON, decide which color to make it based on its value for the current map

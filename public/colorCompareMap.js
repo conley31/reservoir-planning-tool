@@ -166,6 +166,13 @@ function setColorComp(objJson) {
 	  frequencycmp[i] = 0;
 	}
 	initHist2(); //initializes histogram/bar chart
+
+  //Close previous infowindows and remove them from infoArraycmp
+  for (var i = 0; i < infoArraycmp.length; i++) {
+    var win = infoArraycmp[i].info;
+    win.close();
+  }
+  infoArraycmp = new Array();
 	
 	//For each GeoJSON grid cell - color according to its data, increment frequency counter as well
  	document.comparemap.data.forEach(function(feature){
