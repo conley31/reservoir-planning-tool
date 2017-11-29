@@ -92,7 +92,7 @@ var colorComp = function(addVariable) {
     return;
   }
 
-if(resultsval == 0) {
+if(results2val == 0) {
     var legend_drain = document.getElementById('legend-drain');
     document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_drain);
     $('#legend-precipitation').fadeOut('fast');
