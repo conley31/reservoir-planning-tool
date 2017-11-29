@@ -1,21 +1,37 @@
 import lxml
 import json
+import algorithmEnhanced
+import MySQLdb as db
 from pykml import parser
 from lxml import etree
+
+with open('../config/config.json') as json_data:
+  config = json.load(json_data)
+host = config.get('mysql').get('host')
+user = config.get('mysql').get('user')
+password = config.get('mysql').get('password')
+database = config.get('mysql').get('database')
+log_location = config.get('mysql').get('logLocation')
 
 with open('doc.kml','rw') as stockKml:
   kmlstr = stockKml.read()
 
 root = parser.fromstring(kmlstr)
-prefix = "../../public/data_sets/map_data_named/"
+prefix = "../public/data_sets/map_data_named/"
 computed_file_suffixes = ['AnnualIrrigation','PercentAnnualDrainflow','CapturedDrainflow','IrrigationSufficiency']
 database_file_suffixes = ['Drainflow','SurfaceRunoff','Precipitation','Evapotranspiration','OpenWaterEvaporation']
 
-numLocations = 11231
+connection = db.connect(host,user,password,database)
+cur = connection.cursor()
+numLocationsDB = algorithmEnhanced.getTableCount(cur) - 1
 volTagCount = 3
 soilTagCount = 3
 
-def generateCumulativeKml(statusQueue):
+def generateCumulativeKml(statusQueue,testFlag):
+  if testFlag == 0:
+    numLocations = numLocationsDB
+  else: 
+    numLocations = 25
   filesMade = 0
   maxFiles = volTagCount*soilTagCount*len(computed_file_suffixes)
   for i in range(volTagCount):
@@ -27,7 +43,10 @@ def generateCumulativeKml(statusQueue):
           statusQueue.put(["cumulativeKml",(filesMade/float(maxFiles))])
         filestr = "0000-" + str(i) + '-' + str(j) + '-' + computed_file_suffixes[k]
         jsonfilestr = prefix + filestr + ".json"
-        kmlfilestr ="../../public/data_sets/kml_files/" + filestr + ".kml"
+        if testFlag == 0:
+            kmlfilestr ="../public/data_sets/kml_files/" + filestr + ".kml"
+        else:
+            kmlfilestr ="../public/data_sets/TEST_kml_files/" + filestr + ".kml"
         with open(jsonfilestr) as data_file:
           data = json.load(data_file)
           loc = 0
@@ -110,7 +129,11 @@ def generateCumulativeKml(statusQueue):
 
 
 #now do the yearly data
-def generateYearlyKml(statusQueue):
+def generateYearlyKml(statusQueue,testFlag):
+  if testFlag == 0:
+    numLocations = numLocationsDB
+  else: 
+    numLocations = 25
   earliestYear = 1981
   numYears = 28 + 1
   filesMade = 0
@@ -128,7 +151,11 @@ def generateYearlyKml(statusQueue):
           print(filestr)
           currentYear += 1
           jsonfilestr = prefix + filestr + ".json"
-          kmlfilestr ="../../public/data_sets/kml_files/" + filestr + ".kml"
+          if testFlag == 0:
+            kmlfilestr ="../public/data_sets/kml_files/" + filestr + ".kml"
+          else:
+            kmlfilestr ="../public/data_sets/TEST_kml_files/" + filestr + ".kml"
+
           with open(jsonfilestr) as data_file:
             data = json.load(data_file)
           loc = 0
@@ -209,7 +236,11 @@ def generateYearlyKml(statusQueue):
           new_kml.close()
           filesMade += 1
 
-def generateCumulativeDatabaseKml(statusQueue):
+def generateCumulativeDatabaseKml(statusQueue,testFlag):
+  if testFlag == 0:
+    numLocations = numLocationsDB
+  else: 
+    numLocations = 25
   filesMade = 0
   maxFiles = len(database_file_suffixes)
   for i in range(len(database_file_suffixes)):
@@ -219,7 +250,10 @@ def generateCumulativeDatabaseKml(statusQueue):
       statusQueue.put(["cumulativeDatabaseKml",(filesMade/float(maxFiles))])
     filestr = "0000-" + database_file_suffixes[i]
     jsonfilestr = prefix + filestr + ".json"
-    kmlfilestr ="../../public/data_sets/kml_files/" + filestr + ".kml"
+    if testFlag == 0:
+        kmlfilestr ="../public/data_sets/kml_files/" + filestr + ".kml"
+    else:
+        kmlfilestr ="../public/data_sets/TEST_kml_files/" + filestr + ".kml"
     with open(jsonfilestr) as data_file:
       data = json.load(data_file)
     loc = 0
@@ -310,7 +344,11 @@ def generateCumulativeDatabaseKml(statusQueue):
     new_kml.close()
     filesMade += 1
 
-def generateYearlyDatabaseKml(statusQueue):
+def generateYearlyDatabaseKml(statusQueue,testFlag):
+  if testFlag == 0:
+    numLocations = numLocationsDB
+  else: 
+    numLocations = 25
   earliestYear = 1981
   numYears = 28 + 1
   filesMade = 0
@@ -327,7 +365,10 @@ def generateYearlyDatabaseKml(statusQueue):
       print filestr
       currentYear += 1
       jsonfilestr = prefix + filestr + ".json"
-      kmlfilestr ="../../public/data_sets/kml_files/" + filestr + ".kml"
+      if testFlag == 0:
+        kmlfilestr ="../public/data_sets/kml_files/" + filestr + ".kml"
+      else:
+        kmlfilestr ="../public/data_sets/TEST_kml_files/" + filestr + ".kml"
       with open(jsonfilestr) as data_file:
         data = json.load(data_file)
       loc = 0

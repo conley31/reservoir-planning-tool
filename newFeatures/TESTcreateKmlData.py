@@ -5,17 +5,17 @@ import kml_data_generator
 from multiprocessing import Process as Task, Queue
 import collections
 
-def generateCumulativeKml(zero,status):
-  kml_data_generator.generateCumulativeKml(status)
+def generateCumulativeKml(status,testFlag):
+  kml_data_generator.generateCumulativeKml(status,testFlag)
 
-def generateYearlyKml(zero,status):
-  kml_data_generator.generateYearlyKml(status)
+def generateYearlyKml(status,testFlag):
+  kml_data_generator.generateYearlyKml(status,testFlag)
 
-def generateCumulativeDatabaseKml(zero,status):
-  kml_data_generator.generateCumulativeDatabaseKml(status)
+def generateCumulativeDatabaseKml(status,testFlag):
+  kml_data_generator.generateCumulativeDatabaseKml(status,testFlag)
 
-def generateYearlyDatabaseKml(zero,status):
-  kml_data_generator.generateYearlyDatabaseKml(status)
+def generateYearlyDatabaseKml(status,testFlag):
+  kml_data_generator.generateYearlyDatabaseKml(status,testFlag)
 
 def print_progress(progress):
   sys.stdout.write('\033[2J\033[H') #clear screen 
@@ -29,11 +29,11 @@ if __name__ == '__main__':
   status = Queue()
   progress = collections.OrderedDict()
   workers = []
-  
-  p1 = Task(target=generateCumulativeKml, args=(0,status))
-  p2 = Task(target=generateYearlyKml, args=(0,status))
-  p3 = Task(target=generateCumulativeDatabaseKml, args=(0,status))
-  p4 = Task(target=generateYearlyDatabaseKml, args=(0,status))
+  testFlag = 1 
+  p1 = Task(target=generateCumulativeKml, args=(status,testFlag))
+  p2 = Task(target=generateYearlyKml, args=(status,testFlag))
+  p3 = Task(target=generateCumulativeDatabaseKml, args=(status,testFlag))
+  p4 = Task(target=generateYearlyDatabaseKml, args=(status,testFlag))
 
   p1.start()
   workers.append(p1)

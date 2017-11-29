@@ -276,6 +276,13 @@ function setColor(objJson) {
 	  frequency[i] = 0;
   }
   var array = [];
+
+  //Close previous infowindows, remove all events from infoArray
+  for(var i = 0; i < infoArray.length; i++) {
+    var win = infoArray[i].info;
+    win.close();
+  }
+  infoArray = new Array();
   //array = JSON.parse(array);
   
   //For each grid in the GeoJSON, decide which color to make it based on its value for the current map
@@ -578,6 +585,8 @@ var selectFeature_regional = function(event) {
 			
 			var win = infoArray[i].info;
 			win.setContent(str);
+      
+      console.log("regional popup donwload button changed");
 		}
 	}
 	  
@@ -586,9 +595,13 @@ var selectFeature_regional = function(event) {
         infoArray.splice(i, 1); //remove the event and infowindow from the array
       }
     }
+
+    console.log("regional popup closed");
   }); 
 	
   infowindow.open(document.regionalmap);
+
+  console.log("regional popup open");
 
   if (infoArray.length >= 2) {
 		var i = infoArray.length - 2;
@@ -599,6 +612,7 @@ var selectFeature_regional = function(event) {
 		
 		var win = infoArray[i].info;
 		win.setContent(str);
+    console.log("regional popup donwload button changed");
 	}
 };
 
@@ -622,6 +636,7 @@ function downloadLocations() {
 	var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, 'data.csv');
+        console.log("regional data donwloaded");
     } 
 		
 	else {
@@ -635,6 +650,7 @@ function downloadLocations() {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            console.log("regional data donwloaded");
         }
     }
 }
