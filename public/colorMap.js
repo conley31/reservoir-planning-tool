@@ -292,7 +292,7 @@ function setColor(objJson) {
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
-        if(parseInt(tempJSON) < 250){
+        if(parseInt(tempJSON) > 250){
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.25
@@ -479,7 +479,7 @@ function setColor(objJson) {
 			  freqChoice = 3;
         tempJSON = objJson[loc];
 			  
-			if(parseInt(tempJSON) == 0) {
+			if(parseInt(tempJSON) > 100) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
 				fillOpacity: 0.4
@@ -489,7 +489,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 7.5) {
+			else if(parseInt(tempJSON) == 0) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#A6611A',
 				fillOpacity: 0.4
@@ -499,7 +499,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 15) {
+			else if(parseInt(tempJSON) < 25) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#DFC27D',
 				fillOpacity: 0.4
@@ -509,7 +509,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 22.5) {
+			else if(parseInt(tempJSON) < 50) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#F5F5F5',
 				fillOpacity: 0.4
@@ -519,7 +519,7 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 			
-			else if(parseInt(tempJSON) < 30) {
+			else if(parseInt(tempJSON) < 75) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#80CDC1',
 				fillOpacity: 0.4
@@ -566,6 +566,20 @@ var selectFeature_regional = function(event) {
       content: prevContentString,
       position: prevEvent.latLng
     });
+	
+	for(var i = 0; i < infoArray.length; i++) {
+		if (infoArray[i].event === prevEvent) {
+			infoArray[i].info = prevInfoWindow;
+		}
+	}
+	
+	google.maps.event.addListener(prevInfoWindow, 'closeclick', function() {
+		for (var i = 0; i < infoArray.length; i++) {
+			if (infoArray[i].info === prevInfoWindow) {
+				infoArray.splice(i, 1);
+			}
+		}
+	});
 
     prevWindow.close();
     prevInfoWindow.open(document.regionalmap);
@@ -585,7 +599,43 @@ var selectFeature_regional = function(event) {
   infoArray.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
-    console.log("close");
+	if (prevWindow === infowindow) {
+		if (infoArray.length < 2) {
+			prevWindow = null;
+			prevEvent = null;
+		}
+		
+		else {
+			var i = infoArray.length - 2;
+			var loc = infoArray[i].event.feature.getProperty('Id');
+			
+			var oldInfoWindow = infoArray[i].info;
+			oldInfoWindow.close();
+			
+			var contentString = '<div style="text-align: center;">' +
+			"Location ID: " + loc + ",Value: " + contentArray[loc] +
+			'<br><button onclick="downloadLocations()">Download Selected Locations</button></br></div>';
+			
+			var newInfoWindow = new google.maps.InfoWindow({
+				content: contentString,
+				position: infoArray[i].event.latLng
+			});
+			
+			infoArray[i].info = newInfoWindow;
+			google.maps.event.addListener(newInfoWindow, 'closeclick', function() {
+				for (var i = 0; i < infoArray.length; i++) {
+					if (infoArray[i].info === newInfoWindow) {
+						infoArray.splice(i, 1);
+					}
+				}
+			});
+			newInfoWindow.open(document.regionalmap);
+			
+			prevEvent = infoArray[i].event;
+			prevWindow = newInfoWindow;
+		}
+	}
+	  
     for(var i = 0; i < infoArray.length; i++) {
       if (infoArray[i].info === infowindow) {
         infoArray.splice(i, 1); //remove the event and infowindow from the array
