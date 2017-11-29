@@ -94,7 +94,7 @@ var colorComp = function(addVariable) {
 
 if(results2val == 0) {
     var legend_drain = document.getElementById('legend-drain');
-    document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_drain);
+    document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_drain);
     $('#legend-precipitation').fadeOut('fast');
     $('#legend-runoff').fadeOut('fast');
     $('#legend-drain').fadeIn('fast');
