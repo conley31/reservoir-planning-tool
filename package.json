@@ -14,7 +14,9 @@
     "test-db-quick": "cd db; nosetests -a '!slow'; cd ../",
     "test-db-complete": "cd db; nosetests -a 'slow'; cd ../",
     "test_generate_map_data": "cd newFeatures; python TESTcreateJsonData.py; cd ../public/data_sets/TEST_map_data_named; python zipReg.py; cd ../../..",
-    "generate_map_data": "cd newFeatures; python createJsonData.py; cd ../public/data_sets/map_data_named; python zipReg.py; cd ../../.."
+    "generate_map_data": "cd newFeatures; python createJsonData.py; cd ../public/data_sets/map_data_named; python zipReg.py; cd ../../..",
+    "test_generate_kml_data": "cd newFeatures; python TESTcreateKmlData.py; cd ../public/data_sets/TEST_kml_map_data; cd ../../..",
+    "generate_kml_data": "cd newFeatures; python createKmlData.py cd ../public/data_sets/kml_map_data; cd ../../.."
   },
   "repository": {
     "type": "git",
