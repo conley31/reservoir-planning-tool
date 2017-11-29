@@ -2,9 +2,6 @@ var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
-var prevEvent = null;
-var prevWindow = null;
-var count = 0;
 
 class infoContent {
   constructor(event, info) {
@@ -558,33 +555,6 @@ function setColor(objJson) {
 
 // Select a polygon on the map
 var selectFeature_regional = function(event) {
-  if (prevEvent != null && prevWindow != null) {
-    //Remove download button from prevEvent
-    var prevloc = prevEvent.feature.getProperty('Id');
-    var prevContentString = "Location ID:" + prevloc + ",Value: " + contentArray[prevloc];
-    var prevInfoWindow = new google.maps.InfoWindow({
-      content: prevContentString,
-      position: prevEvent.latLng
-    });
-	
-	for(var i = 0; i < infoArray.length; i++) {
-		if (infoArray[i].event === prevEvent) {
-			infoArray[i].info = prevInfoWindow;
-		}
-	}
-	
-	google.maps.event.addListener(prevInfoWindow, 'closeclick', function() {
-		for (var i = 0; i < infoArray.length; i++) {
-			if (infoArray[i].info === prevInfoWindow) {
-				infoArray.splice(i, 1);
-			}
-		}
-	});
-
-    prevWindow.close();
-    prevInfoWindow.open(document.regionalmap);
-  }
-
 	var loc = event.feature.getProperty('Id');
 	var contentString = '<div style="text-align: center;">' +
   "Location ID: " + loc + ",Value: " + contentArray[loc] +
@@ -599,40 +569,15 @@ var selectFeature_regional = function(event) {
   infoArray.push(newInfo);
 
   google.maps.event.addListener(infowindow, 'closeclick', function() {
-	if (prevWindow === infowindow) {
-		if (infoArray.length < 2) {
-			prevWindow = null;
-			prevEvent = null;
-		}
-		
-		else {
+	if (infoArray.length >= 2) {
+		if (infowindow === infoArray[infoArray.length - 1].info) {
 			var i = infoArray.length - 2;
 			var loc = infoArray[i].event.feature.getProperty('Id');
-			
-			var oldInfoWindow = infoArray[i].info;
-			oldInfoWindow.close();
-			
-			var contentString = '<div style="text-align: center;">' +
-			"Location ID: " + loc + ",Value: " + contentArray[loc] +
+			var str = "Location ID:" + loc + ",Value: " + contentArray[loc] +
 			'<br><button onclick="downloadLocations()">Download Selected Locations</button></br></div>';
 			
-			var newInfoWindow = new google.maps.InfoWindow({
-				content: contentString,
-				position: infoArray[i].event.latLng
-			});
-			
-			infoArray[i].info = newInfoWindow;
-			google.maps.event.addListener(newInfoWindow, 'closeclick', function() {
-				for (var i = 0; i < infoArray.length; i++) {
-					if (infoArray[i].info === newInfoWindow) {
-						infoArray.splice(i, 1);
-					}
-				}
-			});
-			newInfoWindow.open(document.regionalmap);
-			
-			prevEvent = infoArray[i].event;
-			prevWindow = newInfoWindow;
+			var win = infoArray[i].info;
+			win.setContent(str);
 		}
 	}
 	  
@@ -645,8 +590,16 @@ var selectFeature_regional = function(event) {
 	
   infowindow.open(document.regionalmap);
 
-  prevEvent = event;
-  prevWindow = infowindow;
+  if (infoArray.length >= 2) {
+		var i = infoArray.length - 2;
+		
+		//Remove download button from previous event
+		var loc = infoArray[i].event.feature.getProperty('Id');
+		var str = "Location ID:" + loc + ",Value: " + contentArray[loc];
+		
+		var win = infoArray[i].info;
+		win.setContent(str);
+	}
 };
 
 function downloadLocations() {
