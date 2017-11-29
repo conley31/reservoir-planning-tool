@@ -4,6 +4,7 @@ var drop = -1;
 var regKML;
 var prevEvent = null;
 var prevWindow = null;
+var count = 0;
 
 class infoContent {
   constructor(event, info) {
