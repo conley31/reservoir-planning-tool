@@ -33,6 +33,10 @@ $('#all-map-nav').click(function() {
   $('#legend-captured').fadeOut('fast');
   $('#legend-sufficiency').fadeOut('fast');
   $('#legend-drain').fadeOut('fast');
+	$('#legend-et').fadeOut('fast');
+	$('#legend-precipitation').fadeOut('fast');
+	$('#legend-runoff').fadeOut('fast');
+	$('#legend-evaporation').fadeOut('fast');
   $('#all-map-nav').fadeIn('fast', function() {
     $(this).addClass('active-button');
     $('#graph-nav').removeClass('active-button');
