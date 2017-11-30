@@ -36,13 +36,13 @@ class VerifyMapDataCount(unittest.TestCase):
   #assert the number of kml files is correct
   def test_kml_file_count(self):
     DIR = '../public/data_sets/kml_files'
-    kml_files_count = len([name for name in os.listdir(DIR) if name.endswith(".kml")])
+    kml_files_count = len([name for name in os.listdir(DIR) if name.endswith(".zip")])
     print("Asserting the number of .kml files(" + str(kml_files_count) + ") is equal to expected(" + str(expected_data_file_count) + ')') 
     self.assertEqual(kml_files_count ,expected_data_file_count)
 
  #the next four functions check whether each file used to color the map contains all the locations expected
   def test_num_locations_json_computed(self):
-    print("Asserting that the files used to color the map have a value for each location. Also ensures json structure, as they would not otherwise parse in this unit test")
+    print("Asserting that the files used to color the map have a value for each of the " + str(numLocations) + " locations. Also ensures json structure, as they would not otherwise parse in this unit test")
     DIR = '../public/data_sets/map_data_named/'
     for i in range(volTagCount):
       for j in range(soilTagCount):
