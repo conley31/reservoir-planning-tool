@@ -4,6 +4,7 @@ import sys
 import algorithmEnhanced as algorithm
 import json
 import imp
+import math
 
 with open('../config/config.json') as json_data:                                                                                          
 	config = json.load(json_data)
@@ -103,6 +104,178 @@ class TestDatabaseQuality(unittest.TestCase):
 						self.assertGreaterEqual(d[a], 0)
 					f.close()
 
+	def test_percentage(self):
+		for i in range(1981, 2010):
+			for j in range(0,3):
+				for k in range(0,3):
+					rfile = ""
+					rfile = "../public/data_sets/map_data_named/%d-%d-%d-IrrigationSufficiency.json"%(i,j,k)
+					with open(rfile) as json_data:
+						d = json.load(json_data)
+						f = open(rfile, 'r')
+						for a in range(0,11231):
+							self.assertLessEqual(d[a], 100)
+						f.close()
+
+		for j in range(0,3):
+			for k in range(0,3):
+				rfile = ""
+				rfile = "../public/data_sets/map_data_named/0000-%d-%d-IrrigationSufficiency.json"%(j,k)
+				with open(rfile) as json_data:
+					d = json.load(json_data)
+					counter = 0
+					f = open(rfile, 'r')
+					for a in range(0,11231):
+						self.assertLessEqual(d[a], 100)
+					f.close()
+
+	
+	def test_capturedOutlier(self):
+		for i in range(1981, 2010):
+			for j in range(0,3):
+				for k in range(0,3):
+					rfile = ""
+					rfile = "../public/data_sets/map_data_named/%d-%d-%d-CapturedDrainflow.json"%(i,j,k)
+					with open(rfile) as json_data:
+						d = json.load(json_data)
+						f = open(rfile, 'r')
+						count = 0
+						for a in range(0,11231):
+							if(d[a] > 74.331329):
+								count = count + 1
+						self.assertLessEqual(count, math.ceil(.25*11231))
+						f.close()
+
+		for j in range(0,3):
+			for k in range(0,3):
+				rfile = ""
+				rfile = "../public/data_sets/map_data_named/0000-%d-%d-CapturedDrainflow.json"%(j,k)
+				with open(rfile) as json_data:
+					d = json.load(json_data)
+					counter = 0
+					f = open(rfile, 'r')
+					count = 0
+					for a in range(0,11231):
+						if(d[a] > 74.331329):
+								count = count + 1
+						self.assertLessEqual(count, math.ceil(.4 * 11231))
+					f.close()
+
+	def test_annualOutlier(self):
+		for i in range(1981, 2010):
+			for j in range(0,3):
+				for k in range(0,3):
+					rfile = ""
+					rfile = "../public/data_sets/map_data_named/%d-%d-%d-AnnualIrrigation.json"%(i,j,k)
+					with open(rfile) as json_data:
+						d = json.load(json_data)
+						f = open(rfile, 'r')
+						count = 0
+						for a in range(0,11231):
+							if(d[a] > 46.53580418):
+								count = count + 1
+						self.assertLessEqual(count, math.ceil(.25*11231))
+						f.close()
+
+		for j in range(0,3):
+			for k in range(0,3):
+				rfile = ""
+				rfile = "../public/data_sets/map_data_named/0000-%d-%d-AnnualIrrigation.json"%(j,k)
+				with open(rfile) as json_data:
+					d = json.load(json_data)
+					counter = 0
+					f = open(rfile, 'r')
+					count = 0
+					for a in range(0,11231):
+						if(d[a] > 46.53580418):
+								count = count + 1
+						self.assertLessEqual(count, math.ceil(.80 * 11231))
+					f.close()
+
+	def test_precipicationOutlier(self):
+		for i in range(1981, 2010):
+			rfile = ""
+			rfile = "../public/data_sets/map_data_named/%d-Precipitation.json"%(i)
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				f = open(rfile, 'r')
+				count = 0
+				for a in range(0,11231):
+					if(d[a] > 55.424928):
+						count = count + 1
+					if(d[a] < 11.70688):
+						count = count + 1								
+				self.assertLessEqual(count, math.ceil(.25*11231))
+				f.close()
+
+		rfile = ""
+		rfile = "../public/data_sets/map_data_named/0000-Precipitation.json"
+		with open(rfile) as json_data:
+			d = json.load(json_data)
+			counter = 0
+			f = open(rfile, 'r')
+			count = 0
+			for a in range(0,11231):
+				if(d[a] > 55.424928):
+						count = count + 1
+				if(d[a] < 11.70688):
+					count = count + 1
+				self.assertLessEqual(count, math.ceil(.99 * 11231))
+			f.close()
+
+	def test_precipicationOutlier(self):
+		for i in range(1981, 2010):
+			rfile = ""
+			rfile = "../public/data_sets/map_data_named/%d-SurfaceRunoff.json"%(i)
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				f = open(rfile, 'r')
+				count = 0
+				for a in range(0,11231):
+					if(d[a] > 27.99584814):
+						count = count + 1								
+				self.assertLessEqual(count, math.ceil(.25*11231))
+				f.close()
+
+		rfile = ""
+		rfile = "../public/data_sets/map_data_named/0000-SurfaceRunoff.json"
+		with open(rfile) as json_data:
+			d = json.load(json_data)
+			counter = 0
+			f = open(rfile, 'r')
+			count = 0
+			for a in range(0,11231):
+				if(d[a] > 27.99584814):
+						count = count + 1
+				self.assertLessEqual(count, math.ceil(.4 * 11231))
+			f.close()
+
+	def test_drainFlowOutlier(self):
+		for i in range(1981, 2010):
+			rfile = ""
+			rfile = "../public/data_sets/map_data_named/%d-Drainflow.json"%(i)
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				f = open(rfile, 'r')
+				count = 0
+				for a in range(0,11231):
+					if(d[a] > 1.465003 * (10**15)):
+						count = count + 1								
+				self.assertLessEqual(count, math.ceil(.25*11231))
+				f.close()
+
+		rfile = ""
+		rfile = "../public/data_sets/map_data_named/0000-Drainflow.json"
+		with open(rfile) as json_data:
+			d = json.load(json_data)
+			counter = 0
+			f = open(rfile, 'r')
+			count = 0
+			for a in range(0,11231):
+				if(d[a] > 1.465003 * (10**15)):
+						count = count + 1
+				self.assertLessEqual(count, math.ceil(.3 * 11231))
+			f.close()
 
 if __name__ == '__main__':
 	unittest.main()

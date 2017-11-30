@@ -2,6 +2,7 @@ var results2val = -1;
 var dropdownval = -1;
 var compareKML;
 var whatMap = "";
+var ckml;
 
 var frequencycmp = new Array(); //Array to hold count of each range
 
@@ -163,35 +164,32 @@ if(results2val == 4) {
   }
   whatMap = "compare";
   var file = "/data_sets/map_data_named/" + dropdownval;
-  var kml = "/data_sets/kml_files/" + dropdownval;
+  ckml = "/data_sets/kml_files/" + dropdownval;
   if(results2val == 0){
     file = file + "-Drainflow.zip";
-    kml = kml + "-Drainflow.zip";
+    ckml = ckml + "-Drainflow.zip";
     downloadJSON(file)
   }
   else if (results2val == 1){
     file = file + "-SurfaceRunoff.zip";
-    kml = kml + "-SurfaceRunoff.zip";
+    ckml = ckml + "-SurfaceRunoff.zip";
     downloadJSON(file);
   }
   else if (results2val == 2){
     file = file + "-Precipitation.zip";
-    kml = kml + "-Precipitation.zip";
+    ckml = ckml + "-Precipitation.zip";
     downloadJSON(file);
   }
   else if(results2val == 3){
     file = file + "-Evapotranspiration.zip";
-    kml = kml + "-Evapotranspiration.zip";
+    ckml = ckml + "-Evapotranspiration.zip";
     downloadJSON(file);
   }
   else if(results2val == 4){
     file = file + "-OpenWaterEvaporation.zip";
-    kml = kml + "-OpenWaterEvaporation.zip";
+    ckml = ckml + "-OpenWaterEvaporation.zip";
     downloadJSON(file);
   }
-
-  whatMap = "ckml";
-  downloadJSON(kml);
 
 }
 
@@ -523,9 +521,12 @@ function setColorComp(objJson) {
     $('#histogram2-body').fadeIn('slow',function() {
     $ ('#histogram-buffer2').fadeOut('fast');
     });
-    document.comparemap.data.toGeoJson(function(data) {
+
+    whatMap = "ckml";
+    downloadJSON(ckml);
+    /*document.comparemap.data.toGeoJson(function(data) {
     	compareKML = tokml(data);
-    });
+    });*/
 }
 
 // Select a polygon on the map

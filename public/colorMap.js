@@ -2,6 +2,7 @@ var frequency = new Array(); //Array to hold count of each range
 var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
+var rkml;
 
 class infoContent {
   constructor(event, info) {
@@ -247,30 +248,28 @@ var colorMap = function(addVariable) {
     drop = "0000";
   }
   var file = "/data_sets/map_data_named/" + drop + "-" + pondval + "-" + waterval;
-  var kml = "/data_sets/kml_files/" + drop + "-" + pondval + "-" + waterval;
+  rkml = "/data_sets/kml_files/" + drop + "-" + pondval + "-" + waterval;
   if(resultsval == 0){
     file = file + "-AnnualIrrigation.zip";
-    kml = kml + "-AnnualIrrigation.zip";
+    rkml = rkml + "-AnnualIrrigation.zip";
     downloadJSON(file)
   }
   else if (resultsval == 1){
     file = file + "-PercentAnnualDrainflow.zip";
-    kml = kml + "-PercentAnnualDrainflow.zip";
+    rkml = rkml + "-PercentAnnualDrainflow.zip";
     downloadJSON(file);
   }
   else if (resultsval == 2){
     file = file + "-CapturedDrainflow.zip";
-    kml = kml + "-CapturedDrainflow.zip";
+    rkml = rkml + "-CapturedDrainflow.zip";
     downloadJSON(file);
   }
   else if(resultsval == 3){
     file = file + "-IrrigationSufficiency.zip";
-    kml = kml + "-IrrigationSufficiency.zip";
+    rkml = rkml + "-IrrigationSufficiency.zip";
     downloadJSON(file);
   }
   
-  whatMap = "rkml";
-  downloadJSON(kml);
 }
 
 //Colors the GeoJSON grids on the google map
@@ -562,6 +561,8 @@ function setColor(objJson) {
   array = JSON.stringify(array);
   //saveData(array, '1981-0-0-0-reg.json');
   tempStor = JSON.stringify(objJson);
+  whatMap = "rkml";
+  downloadJSON(rkml);
   /*document.comparemap.data.toGeoJson(function(data) {
       regKML = tokml(data);
   });*/

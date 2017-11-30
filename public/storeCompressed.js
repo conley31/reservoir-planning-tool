@@ -41,6 +41,9 @@ var downloadJSON = function(source) {
             if(whatMap == "compare"){
               setColorComp(JSON.parse(text));
             }
+            else if(whatMap == "regional"){
+              setColor(JSON.parse(text));
+            }
             else if(whatMap == "rkml"){
               regKML = text;
             }
