@@ -469,49 +469,58 @@ function setColorComp(objJson) {
 		else if(results2val == 4){
 			prop = "dea_pet";
       tempJSON = objJson[loc];
-			if(parseInt(tempJSON) < 10){
+			if(parseInt(tempJSON) > 24.759455){
           		document.comparemap.data.overrideStyle(feature, {
-            	fillColor: '#DDE500',
-            	fillOpacity: 0.4
+            	fillColor: '#616161',
+            	fillOpacity: 0.25
           		});
 				
 				frequencycmp[0] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
-        	else if(parseInt(tempJSON) < 20){
+			else if(parseInt(tempJSON) < 5){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#00CEAB',
-            		fillOpacity: 0.4
+            	fillColor: '#EDF8FB',
+            	fillOpacity: 0.4
           		});
 				
 				frequencycmp[1] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
-          	}
-          	else if(parseInt(tempJSON) < 30){
+        	}
+        	else if(parseInt(tempJSON) < 10){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0070C6',
+            		fillColor: '#B2E2E2',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[2] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else if(parseInt(tempJSON) < 40){
+          	else if(parseInt(tempJSON) < 15){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0500BF',
+            		fillColor: '#66C2A4',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[3] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else{
+          	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#D50023',
+            		fillColor: '#2CA25F',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
+          	}
+          	else{
+          		document.comparemap.data.overrideStyle(feature, {
+            		fillColor: '#006D2C',
+            		fillOpacity: 0.4
+          		});
+				
+				frequencycmp[5] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
