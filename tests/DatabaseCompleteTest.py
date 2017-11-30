@@ -15,6 +15,9 @@ user = config.get('mysql').get('user')
 password = config.get('mysql').get('password')
 database = config.get('mysql').get('database')
 log_location = config.get('mysql').get('logLocation')
+connection = db.connect(host,user,password,database)
+cur = connection.cursor()
+numLocations = algorithm.getTableCount(cur)
 
 class TestDatabaseCompletion(unittest.TestCase):
 	def test_filesExist(self):
@@ -95,7 +98,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 							d = json.load(json_data)
 							counter = 0
 							f = open(rfile, 'r')
-							self.assertEqual(len(d), 11231)
+							self.assertEqual(len(d), numLocations)
 							f.close()
 
 		for j in range(0,3):
@@ -114,7 +117,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 							d = json.load(json_data)
 							counter = 0
 							f = open(rfile, 'r')
-							self.assertEqual(len(d), 11231)
+							self.assertEqual(len(d), numLocations)
 							f.close()
 
 
@@ -134,7 +137,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 				d = json.load(json_data)
 				counter = 0
 				f = open(rfile, 'r')
-				self.assertEqual(len(d), 11231)
+				self.assertEqual(len(d), numLocations)
 				f.close()
 
 		for i in range(1981,2010):
@@ -154,7 +157,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					self.assertEqual(len(d), 11231)
+					self.assertEqual(len(d), numLocations)
 					f.close()
 
 
