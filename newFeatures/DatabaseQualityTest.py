@@ -277,5 +277,67 @@ class TestDatabaseQuality(unittest.TestCase):
 				self.assertLessEqual(count, math.ceil(.3 * 11231))
 			f.close()
 
+	def test_evaporationOutlier(self):
+		for i in range(1981, 2010):
+			rfile = ""
+			rfile = "../public/data_sets/map_data_named/%d-Evapotranspiration.json"%(i)
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				f = open(rfile, 'r')
+				count = 0
+				for a in range(0,11231):
+					if(d[a] > 74.1659641):
+						count = count + 1
+					if(d[a] < 32.3106577):
+						count = count + 1								
+				self.assertLessEqual(count, math.ceil(.25*11231))
+				f.close()
+
+		rfile = ""
+		rfile = "../public/data_sets/map_data_named/0000-Evapotranspiration.json"
+		with open(rfile) as json_data:
+			d = json.load(json_data)
+			counter = 0
+			f = open(rfile, 'r')
+			count = 0
+			for a in range(0,11231):
+				if(d[a] > 74.1659641):
+					count = count + 1
+				if(d[a] < 32.3106577):
+					count = count + 1
+				self.assertLessEqual(count, math.ceil(.99* 11231))
+			f.close()
+
+	def test_etOutlier(self):
+		for i in range(1981, 2010):
+			rfile = ""
+			rfile = "../public/data_sets/map_data_named/%d-OpenWaterEvaporation.json"%(i)
+			with open(rfile) as json_data:
+				d = json.load(json_data)
+				f = open(rfile, 'r')
+				count = 0
+				for a in range(0,11231):
+					if(d[a] > 24.759455):
+						count = count + 1
+					if(d[a] < 14.050775):
+						count = count + 1								
+				self.assertLessEqual(count, math.ceil(.4*11231))
+				f.close()
+
+		rfile = ""
+		rfile = "../public/data_sets/map_data_named/0000-OpenWaterEvaporation.json"
+		with open(rfile) as json_data:
+			d = json.load(json_data)
+			counter = 0
+			f = open(rfile, 'r')
+			count = 0
+			for a in range(0,11231):
+				if(d[a] > 24.759455):
+					count = count + 1
+				if(d[a] < 14.050775):
+					count = count + 1
+				self.assertLessEqual(count, math.ceil(1 * 11231))
+			f.close()
+
 if __name__ == '__main__':
 	unittest.main()
