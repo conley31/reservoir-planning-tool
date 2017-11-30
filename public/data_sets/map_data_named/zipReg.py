@@ -1,4 +1,5 @@
 import zipfile
+import zlib
 
 for i in range(1981, 2010):
 	for j in range(0,3):
@@ -18,7 +19,7 @@ for i in range(1981, 2010):
 				elif(l == 3):
 					zfile = "%d-%d-%d-IrrigationSufficiency.zip"%(i,j,k)
 					rfile = "%d-%d-%d-IrrigationSufficiency.json"%(i,j,k)
-				zf = zipfile.ZipFile(zfile, mode = 'w')
+				zf = zipfile.ZipFile(zfile,'w',zipfile.ZIP_DEFLATED)
 				zf.write(rfile)
 
 for j in range(0,3):
@@ -38,7 +39,7 @@ for j in range(0,3):
 				elif(l == 3):
 					zfile = "0000-%d-%d-IrrigationSufficiency.zip"%(j,k)
 					rfile = "0000-%d-%d-IrrigationSufficiency.json"%(j,k)
-				zf = zipfile.ZipFile(zfile, mode = 'w')
+				zf = zipfile.ZipFile(zfile, 'w', zipfile.ZIP_DEFLATED)
 				zf.write(rfile)
 
 
@@ -60,7 +61,7 @@ for l in range(0,5):
 	elif(l == 4):
 		zfile = "0000-OpenWaterEvaporation.zip"
 		rfile = "0000-OpenWaterEvaporation.json"
-	zf = zipfile.ZipFile(zfile, mode = 'w')
+	zf = zipfile.ZipFile(zfile,'w',zipfile.ZIP_DEFLATED)
 	zf.write(rfile)
 
 for i in range(1981,2010):
@@ -82,5 +83,5 @@ for i in range(1981,2010):
 		elif(l == 4):
 			zfile = "%d-OpenWaterEvaporation.zip"%(i)
 			rfile = "%d-OpenWaterEvaporation.json"%(i)
-		zf = zipfile.ZipFile(zfile, mode = 'w')
+		zf = zipfile.ZipFile(zfile,'w', zipfile.ZIP_DEFLATED)
 		zf.write(rfile)

@@ -247,23 +247,30 @@ var colorMap = function(addVariable) {
     drop = "0000";
   }
   var file = "/data_sets/map_data_named/" + drop + "-" + pondval + "-" + waterval;
+  var kml = "/data_sets/kml_files/" + drop + "-" + pondval + "-" + waterval;
   if(resultsval == 0){
-    file = file + "-AnnualIrrigation.zip"
+    file = file + "-AnnualIrrigation.zip";
+    kml = kml + "-AnnualIrrigation.zip";
     downloadJSON(file)
   }
   else if (resultsval == 1){
     file = file + "-PercentAnnualDrainflow.zip";
+    kml = kml + "-PercentAnnualDrainflow.zip";
     downloadJSON(file);
   }
   else if (resultsval == 2){
     file = file + "-CapturedDrainflow.zip";
+    kml = kml + "-CapturedDrainflow.zip";
     downloadJSON(file);
   }
   else if(resultsval == 3){
     file = file + "-IrrigationSufficiency.zip";
+    kml = kml + "-IrrigationSufficiency.zip";
     downloadJSON(file);
   }
   
+  whatMap = "rkml";
+  downloadJSON(kml);
 }
 
 //Colors the GeoJSON grids on the google map
@@ -555,9 +562,9 @@ function setColor(objJson) {
   array = JSON.stringify(array);
   //saveData(array, '1981-0-0-0-reg.json');
   tempStor = JSON.stringify(objJson);
-  document.comparemap.data.toGeoJson(function(data) {
+  /*document.comparemap.data.toGeoJson(function(data) {
       regKML = tokml(data);
-  });
+  });*/
 }
 
 // Select a polygon on the map

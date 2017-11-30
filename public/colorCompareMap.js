@@ -163,26 +163,35 @@ if(results2val == 4) {
   }
   whatMap = "compare";
   var file = "/data_sets/map_data_named/" + dropdownval;
+  var kml = "/data_sets/kml_files/" + dropdownval;
   if(results2val == 0){
-    file = file + "-Drainflow.zip"
+    file = file + "-Drainflow.zip";
+    kml = kml + "-Drainflow.zip";
     downloadJSON(file)
   }
   else if (results2val == 1){
     file = file + "-SurfaceRunoff.zip";
+    kml = kml + "-SurfaceRunoff.zip";
     downloadJSON(file);
   }
   else if (results2val == 2){
     file = file + "-Precipitation.zip";
+    kml = kml + "-Precipitation.zip";
     downloadJSON(file);
   }
   else if(results2val == 3){
     file = file + "-Evapotranspiration.zip";
+    kml = kml + "-Evapotranspiration.zip";
     downloadJSON(file);
   }
   else if(results2val == 4){
     file = file + "-OpenWaterEvaporation.zip";
+    kml = kml + "-OpenWaterEvaporation.zip";
     downloadJSON(file);
   }
+
+  whatMap = "ckml";
+  downloadJSON(kml);
 
 }
 
