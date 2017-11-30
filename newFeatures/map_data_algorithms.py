@@ -37,7 +37,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
   halfAvailableWaterCapacity = .5 * _availableWaterCapacity
   expectedIrrigationVolDay = (_irrigationDepth/12.0) * _drainedArea
   if testFlag == 0:
-    numLocations = algorithmEnhanced.getTableCount(cur) -1
+    numLocations = algorithmEnhanced.getTableCount(cur)
   else:
     numLocations = 20
   earliestYear = algorithmEnhanced.getEarliestYear(0,cur)
@@ -269,7 +269,7 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
           irrigationSufficiency = 0
         tempValues.append(irrigationSufficiency)
 
-        #apend the values to the 3d year array
+        #append the values to the 3d year array
         k = 0
         while k < len(tempValues):
           year[yearValue-earliestYear][k].append(tempValues[k])
@@ -346,17 +346,17 @@ def computeData(_drainedArea, _pondVolume, _pondDepth, _maxSoilMoisture, _irriga
     for j in range(len(regionalValues)):
       filestring = str(earliestYear + i) + "-" + tagname + "-" + regionalValues[j] + ".json"
       if testFlag == 0:
-        data_file = open("../public/data_sets/map_data_named" + filestring,"w")
+        data_file = open("../public/data_sets/map_data_named/" + filestring,"w")
       else:
         data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
       json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
       data_file.write(json_string)
       data_file.close()
-  
-  for i in range(len(regionalValues)):
+  print(len(regionalValues)+1) 
+  for i in range(len(regionalValues)+1):
     filestring = "0000-" + tagname + "-" + regionalValues[i] + ".json"
     if testFlag == 0:
-      data_file = open("../public/data_sets/map_data_named" + filestring,"w")
+      data_file = open("../public/data_sets/map_data_named/" + filestring,"w")
     else:
       data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
     json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
@@ -379,12 +379,11 @@ def generateDatabaseMaps(statusQueue,testFlag):
     allYears.append([])
   currentYear = earliestYear
   if testFlag == 0:
-    numLocations = algorithmEnhanced.getTableCount(cur) - 1
+    numLocations = algorithmEnhanced.getTableCount(cur)
   else:
     numLocations = 25
   #numLocations = 1
   for i in range(numLocations):
-    print(i)
     if i == numLocations-1:
       statusQueue.put(["database_map",1])
     else:
@@ -412,12 +411,11 @@ def generateDatabaseMaps(statusQueue,testFlag):
        year[j][k].append(tempValues[k])
        k+=1
      currentYear += 1
-  print(allYears)
   for i in range(len(year)):
     for j in range(len(databaseValues)):
       filestring = str(earliestYear + i) + "-" + databaseValues[j] + ".json"
       if testFlag == 0:
-        data_file = open("../public/data_sets/map_data_named" + filestring,"w")
+        data_file = open("../public/data_sets/map_data_named/" + filestring,"w")
       else:
         data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
       json_string = json.dumps(year[i][j],default=lambda o: o.__dict__,indent=4)
@@ -426,7 +424,7 @@ def generateDatabaseMaps(statusQueue,testFlag):
   for i in range(len(databaseValues)):
     filestring = "0000-" + databaseValues[i] + ".json"
     if testFlag == 0:
-      data_file = open("../public/data_sets/map_data_named" + filestring,"w")
+      data_file = open("../public/data_sets/map_data_named/" + filestring,"w")
     else:
       data_file = open("../public/data_sets/TEST_map_data_named/" + filestring,"w")
     json_string = json.dumps(allYears[i],default=lambda o: o.__dict__,indent=4)
