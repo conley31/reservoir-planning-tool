@@ -1,6 +1,7 @@
 import unittest
-import MySQLdb as db
 import sys
+sys.path.insert(0, '../util/')
+import MySQLdb as db
 import algorithmEnhanced as algorithm
 import json
 import imp

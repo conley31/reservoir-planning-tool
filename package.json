@@ -13,11 +13,11 @@
     "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;",
     "test-db-quick": "cd db; nosetests -a '!slow'; cd ../",
     "test-db-complete": "cd db; nosetests -a 'slow'; cd ../",
-    "test_generate_map_data": "cd newFeatures; python TESTcreateJsonData.py; cd ../public/data_sets/TEST_map_data_named; python zipReg.py;rm *.json; cd ../../..",
-    "generate_map_data": "cd newFeatures; python createJsonData.py; cd ../public/data_sets/map_data_named; python zipReg.py; rm *.json; cd ../../..",
-    "test_generate_kml_data": "cd newFeatures; python TESTcreateKmlData.py; cd ../public/data_sets/TEST_kml_files; python zipkml.py; rm *.kml; cd ../../..",
-    "generate_kml_data": "cd newFeatures; python createKmlData.py; cd ../public/data_sets/kml_files; python zipkml.py; rm *.kml; cd ../../..",
-    "verify_computed_data": "cd public/data_sets/map_data_named; unzip \"*.zip\"; cd ../../../newFeatures; python verifyData.py; cd ../public/data_sets/map_data_named; python zipReg.py; cd ../../.."
+    "test_generate_map_data": "cd util; python TESTcreateJsonData.py; cd ../public/data_sets/TEST_map_data_named; python zipReg.py;rm *.json; cd ../../..",
+    "generate_map_data": "cd util; python createJsonData.py; cd ../public/data_sets/map_data_named; python zipReg.py; rm *.json; cd ../../..",
+    "test_generate_kml_data": "cd util; python TESTcreateKmlData.py; cd ../public/data_sets/TEST_kml_files; python zipkml.py; rm *.kml; cd ../../..",
+    "generate_kml_data": "cd util; python createKmlData.py; cd ../public/data_sets/kml_files; python zipkml.py; rm *.kml; cd ../../..",
+    "verify_computed_data": "cd public/data_sets/map_data_named; unzip \"*.zip\"; cd ../../../tests; python verifyData.py; cd ../public/data_sets/map_data_named; python zipReg.py; cd ../../.."
   },
   "repository": {
     "type": "git",

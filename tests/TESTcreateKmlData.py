@@ -1,5 +1,6 @@
 import json
 import sys
+sys.path.insert(0, '../util/')
 import time
 import kml_data_generator
 from multiprocessing import Process as Task, Queue
