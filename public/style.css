@@ -397,7 +397,7 @@ select {
   font-size: 1.4em;
   
   background-color: white;
-  background: url('legend_sufficiency.png') no-repeat;
+  background: url('legend_sufficiency2.png') no-repeat;
   background-size: cover;
 
   border-style: none;
@@ -423,7 +423,7 @@ select {
   font-size: 1.4em;
   
   background-color: white;
-  background: url('legend_captured2.png') no-repeat;
+  background: url('legend_captured3.png') no-repeat;
   background-size: cover;
 
   border-style: none;
@@ -450,7 +450,7 @@ select {
   font-size: 1.4em;
 
   background-color: white;
-  background: url('legend_percentage2.png') no-repeat;
+  background: url('legend_percentage3.png') no-repeat;
   background-size: cover;
 
   border-style: none;
@@ -477,7 +477,7 @@ select {
   font-size: 1.4em;
 
   background-color: white;
-  background: url('legend_annual.png') no-repeat;
+  background: url('legend_annual2.png') no-repeat;
   background-size: cover;
 
   border-style: none;
