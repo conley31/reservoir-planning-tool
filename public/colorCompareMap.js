@@ -95,6 +95,48 @@ if(results2val == 0) {
     $('#legend-precipitation').fadeOut('fast');
     $('#legend-runoff').fadeOut('fast');
     $('#legend-drain').fadeIn('fast');
+    $('#legend-et').fadeOut('fast');
+    $('#legend-evaporation').fadeOut('fast');
+  }
+
+if(results2val == 1) {
+    var legend_runoff = document.getElementById('legend-runoff');
+    document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_runoff);
+    $('#legend-precipitation').fadeOut('fast');
+    $('#legend-runoff').fadeIn('fast');
+    $('#legend-drain').fadeOut('fast');
+    $('#legend-et').fadeOut('fast');
+    $('#legend-evaporation').fadeOut('fast');
+  }
+	
+if(results2val == 2) {
+    var legend_precipitation = document.getElementById('legend-precipitation');
+    document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_precipitation);
+    $('#legend-precipitation').fadeIn('fast');
+    $('#legend-runoff').fadeOut('fast');
+    $('#legend-drain').fadeOut('fast');
+    $('#legend-et').fadeOut('fast');
+    $('#legend-evaporation').fadeOut('fast');
+  }
+	
+if(results2val == 3) {
+    var legend_evaporation = document.getElementById('legend-evaporation');
+    document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_evaporation);
+    $('#legend-precipitation').fadeOut('fast');
+    $('#legend-runoff').fadeOut('fast');
+    $('#legend-drain').fadeOut('fast');
+    $('#legend-et').fadeOut('fast');
+    $('#legend-evaporation').fadeIn('fast');
+  }
+	
+if(results2val == 4) {
+    var legend_et = document.getElementById('legend-et');
+    document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_et);
+    $('#legend-precipitation').fadeOut('fast');
+    $('#legend-runoff').fadeOut('fast');
+    $('#legend-drain').fadeOut('fast');
+    $('#legend-et').fadeIn('fast');
+    $('#legend-evaporation').fadeOut('fast');
   }
 	
 
@@ -181,7 +223,7 @@ function setColorComp(objJson) {
 		//Drainflow
     	if(results2val == 0){
         tempJSON = objJson[loc];
-			if(parseInt(tempJSON) == 0){
+			if(parseInt(tempJSON) > 20){
           		document.comparemap.data.overrideStyle(feature, {
             	fillColor: '#616161',
             	fillOpacity: 0.25
@@ -239,13 +281,22 @@ function setColorComp(objJson) {
 		//SurfaceRunoff
 		else if(results2val == 1){
       tempJSON = objJson[loc];
-			if(parseInt(tempJSON) < 10){
+			if(parseInt(tempJSON) > 50){
           		document.comparemap.data.overrideStyle(feature, {
-            	fillColor: '#DDE500',
-            	fillOpacity: 0.4
+            	fillColor: '#616161',
+            	fillOpacity: 0.25
           		});
 				
 				frequencycmp[0] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
+        	}
+		else if(parseInt(tempJSON) < 10){
+          		document.comparemap.data.overrideStyle(feature, {
+            		fillColor: '#DDE500',
+            		fillOpacity: 0.4
+          		});
+				
+				frequencycmp[1] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
         	else if(parseInt(tempJSON) < 20){
@@ -254,7 +305,7 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequencycmp[1] += 1;
+				frequencycmp[2] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 30){
@@ -263,7 +314,7 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequencycmp[2] += 1;
+				frequencycmp[3] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else if(parseInt(tempJSON) < 40){
@@ -272,7 +323,7 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequencycmp[3] += 1;
+				frequencycmp[4] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
           	else{
@@ -281,7 +332,7 @@ function setColorComp(objJson) {
             		fillOpacity: 0.4
           		});
 				
-				frequencycmp[4] += 1;
+				frequencycmp[5] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
@@ -290,100 +341,119 @@ function setColorComp(objJson) {
 		else if (results2val == 2){
 			prop = "precipitation";
       tempJSON = objJson[loc];
-			if(parseInt(tempJSON) < 10){
+			
+			if(parseInt(tempJSON) < 11.70688 || parseInt(tempJSON) > 55.424928){
           		document.comparemap.data.overrideStyle(feature, {
-            	fillColor: '#DDE500',
-            	fillOpacity: 0.4
+            	fillColor: '#616161',
+            	fillOpacity: 0.25
           		});
 				
 				frequencycmp[0] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
-        	else if(parseInt(tempJSON) < 20){
+		else if(parseInt(tempJSON) < 12.5){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#00CEAB',
-            		fillOpacity: 0.4
+            	fillColor: '#FFFFCC',
+            	fillOpacity: 0.4
           		});
 				
 				frequencycmp[1] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
-          	}
-          	else if(parseInt(tempJSON) < 30){
+        	}
+        	else if(parseInt(tempJSON) < 25){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0070C6',
+            		fillColor: '#A1DAB4',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[2] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else if(parseInt(tempJSON) < 40){
+          	else if(parseInt(tempJSON) < 37.5){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0500BF',
+            		fillColor: '#41B6C4',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[3] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else{
+          	else if(parseInt(tempJSON) < 50){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#D50023',
+            		fillColor: '#2C7FB8',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
+          	}
+          	else{
+          		document.comparemap.data.overrideStyle(feature, {
+            		fillColor: '#253494',
+            		fillOpacity: 0.4
+          		});
+				
+				frequencycmp[5] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
 		
-		//PET
+		//evaporation
 		else if(results2val == 3){
 			prop = "pet";
       tempJSON = objJson[loc];
-			if(parseInt(tempJSON) < 10){
+			if(parseInt(tempJSON) > 24.759455){
           		document.comparemap.data.overrideStyle(feature, {
-            	fillColor: '#DDE500',
-            	fillOpacity: 0.4
+            	fillColor: '#616161',
+            	fillOpacity: 0.25
           		});
 				
 				frequencycmp[0] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
-        	else if(parseInt(tempJSON) < 20){
+		else if(parseInt(tempJSON) < 5){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#00CEAB',
-            		fillOpacity: 0.4
+            	fillColor: '#EDF8FB',
+            	fillOpacity: 0.4
           		});
 				
 				frequencycmp[1] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
-          	}
-          	else if(parseInt(tempJSON) < 30){
+        	}
+        	else if(parseInt(tempJSON) < 10){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0070C6',
+            		fillColor: '#B3CDE3',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[2] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else if(parseInt(tempJSON) < 40){
+          	else if(parseInt(tempJSON) < 15){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0500BF',
+            		fillColor: '#8C96C6',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[3] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else{
+          	else if(parseInt(tempJSON) < 20){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#D50023',
+            		fillColor: '#8856A7',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[4] += 1;
+				contentArraycmp[loc] = parseFloat(tempJSON);
+          	}
+          	else{
+          		document.comparemap.data.overrideStyle(feature, {
+            		fillColor: '#810F7C',
+            		fillOpacity: 0.4
+          		});
+				
+				frequencycmp[5] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
 		}
