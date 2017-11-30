@@ -23,7 +23,7 @@ database_file_suffixes = ['Drainflow','SurfaceRunoff','Precipitation','Evapotran
 
 connection = db.connect(host,user,password,database)
 cur = connection.cursor()
-numLocationsDB = algorithmEnhanced.getTableCount(cur) - 1
+numLocationsDB = algorithmEnhanced.getTableCount(cur)
 volTagCount = 3
 soilTagCount = 3
 
