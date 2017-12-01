@@ -271,6 +271,7 @@ function setColorComp(objJson) {
 		  var tempJSON;
 		//Drainflow
     	if(results2val == 0){
+		document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.000000e+00, 1.643583e+00, 8.386946e+00, 5.860012e+14, 6.326299e+16 | Mean = 1.332241e+15, SD = 4.28131e+15";
 		cmpChoice = 0;
         tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 20){
@@ -330,6 +331,7 @@ function setColorComp(objJson) {
 		
 		//SurfaceRunoff
 		else if(results2val == 1){
+			document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.00324803, 1.62379931, 3.20490982, 12.17261884, 622.00229983 | Mean = 34.97021, SD = 77.23314";
 			cmpChoice = 1;
       tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 110){
@@ -390,6 +392,7 @@ function setColorComp(objJson) {
 		
 		//Precipitation
 		else if (results2val == 2){
+			document.getElementById("five-nums").innerHTML = "Five Number Summary: 12.63610, 28.12480, 34.00826, 39.07008, 58.22912 | Mean = 33.4969, SD = 77.23314";
 			cmpChoice = 2;
 			prop = "precipitation";
       tempJSON = objJson[loc];
