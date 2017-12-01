@@ -3,6 +3,7 @@ var dropdownval = -1;
 var compareKML;
 var whatMap = "";
 var ckml;
+var cmpChoice = 0;
 
 var frequencycmp = new Array(); //Array to hold count of each range
 
@@ -26,14 +27,56 @@ var drawHist2 = function() {
 	data.addColumn('string', 'Range');
 	data.addColumn('number', 'Frequency');
 
-	data.addRows([
-	['<10', frequencycmp[0]],
-	['10-20', frequencycmp[1]],
-	['20-30', frequencycmp[2]],
-	['30-40', frequencycmp[3]],
-	['40-50', frequencycmp[4]],
-	['>50', frequencycmp[5]]
-	]);
+	if (cmpChoice == 0) { //drainflow
+		data.addRows([
+		['Data Unavailable', frequencycmp[0]],
+		['<1.5', frequencycmp[1]],
+		['1.5-3.0', frequencycmp[2]],
+		['3.0-4.5', frequencycmp[3]],
+		['4.5-6.0', frequencycmp[4]],
+		['>6.0', frequencycmp[5]]
+		]);
+	}
+	else if (cmpChoice == 1) { //surface runoff
+		data.addRows([
+		['Outlier', frequencycmp[0]],
+		['<25', frequencycmp[1]],
+		['25-50', frequencycmp[2]],
+		['50-75', frequencycmp[3]],
+		['75-100', frequencycmp[4]],
+		['>100', frequencycmp[5]]
+		]);
+	}
+	else if (cmpChoice == 2) { //precipitation
+		data.addRows([
+		['Outliers', frequencycmp[0]],
+		['<12.5', frequencycmp[1]],
+		['12.5-25', frequencycmp[2]],
+		['25-37.5', frequencycmp[3]],
+		['37.5-50', frequencycmp[4]],
+		['>50', frequencycmp[5]]
+		]);
+	}
+	else if (cmpChoice === 3) { //evapotranspiration
+		data.addRows([
+		['Outliers', frequencycmp[0]],
+		['<75', frequencycmp[1]],
+		['75-150', frequencycmp[2]],
+		['150-225', frequencycmp[3]],
+		['225-300', frequencycmp[4]],
+		['>300', frequencycmp[5]]
+		]);
+	}
+	else {
+		data.addRows([ //open water evaporation
+		['Outliers', frequencycmp[0]],
+		['<5', frequencycmp[1]],
+		['5-10', frequencycmp[2]],
+		['10-15', frequencycmp[3]],
+		['15-20', frequencycmp[4]],
+		['>20', frequencycmp[5]]
+		]);
+	}
 	
 	var options = {
 		title: 'Frequency of Each Range',
@@ -228,6 +271,7 @@ function setColorComp(objJson) {
 		  var tempJSON;
 		//Drainflow
     	if(results2val == 0){
+		cmpChoice = 0;
         tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 20){
           		document.comparemap.data.overrideStyle(feature, {
@@ -286,6 +330,7 @@ function setColorComp(objJson) {
 		
 		//SurfaceRunoff
 		else if(results2val == 1){
+			cmpChoice = 1;
       tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 110){
           		document.comparemap.data.overrideStyle(feature, {
@@ -345,6 +390,7 @@ function setColorComp(objJson) {
 		
 		//Precipitation
 		else if (results2val == 2){
+			cmpChoice = 2;
 			prop = "precipitation";
       tempJSON = objJson[loc];
 			
@@ -406,6 +452,7 @@ function setColorComp(objJson) {
 		
 		//evaporation
 		else if(results2val == 3){
+			cmpChoice = 3;
 			prop = "pet";
       tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 24.759455){
@@ -466,6 +513,7 @@ function setColorComp(objJson) {
 		
 		//DEA_PET
 		else if(results2val == 4){
+			cmpChoice = 4;
 			prop = "dea_pet";
       tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 24.759455){

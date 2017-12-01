@@ -27,27 +27,27 @@ var drawHist = function() {
 	
 	if (freqChoice == 0) { //use percentAnnualCapturedDrainFlow ranges
 		data.addRows([
-		['Data Unavailable', frequency[0]],
-		['<12.5', frequency[1]],
-		['12.5-25%', frequency[2]],
-		['25-37.5%', frequency[3]],
-		['37.5-50%', frequency[4]],
-		['>50%', frequency[5]]
+		['Outliers', frequency[0]],
+		['<1.5%', frequency[1]],
+		['1.5-3%', frequency[2]],
+		['3-4.5%', frequency[3]],
+		['4.5-6%', frequency[4]],
+		['>6%', frequency[5]]
 		]);
 	}
 	else if (freqChoice == 3) { //use cumulativeCapturedFlow ranges
 		data.addRows([
-		['Data Unavailable', frequency[0]],
-		['<3000', frequency[1]],
-		['3000-6000', frequency[2]],
-		['6000-9000', frequency[3]],
-		['9000-12000', frequency[4]],
-		['>12000', frequency[5]]
+		['Outliers', frequency[0]],
+		['<30', frequency[1]],
+		['30-60', frequency[2]],
+		['60-90', frequency[3]],
+		['90-120', frequency[4]],
+		['>120', frequency[5]]
 		]);
 	}
 	else if (freqChoice == 2) {
 		data.addRows([ //use annualIrrigationDepthSupplied ranges
-		['Data Unavailable', frequency[0]],
+		['Outliers', frequency[0]],
 		['<50', frequency[1]],
 		['50-100', frequency[2]],
 		['100-150', frequency[3]],
@@ -57,12 +57,12 @@ var drawHist = function() {
 	}
 	else {
 		data.addRows([ //use irrigationSufficiency ranges
-		['Data Unavailable', frequency[0]],
-		['<7.5%', frequency[1]],
-		['7.5-15%', frequency[2]],
-		['15-22.5%', frequency[3]],
-		['22.5-30%', frequency[4]],
-		['>30%', frequency[5]]
+		['Outliers', frequency[0]],
+		['0', frequency[1]],
+		['0-25', frequency[2]],
+		['25-50', frequency[3]],
+		['50-75', frequency[4]],
+		['>75', frequency[5]]
 		]);
 	}
 	

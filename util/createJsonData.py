@@ -74,8 +74,5 @@ if __name__ == '__main__':
       progress[name] = percent
       print_progress(progress)
       time.sleep(.1)
+  print("logs displayed outliers located in public/data_sets/logs")
   
-#  print 'JSON files built'
-#  for i in filenames:
-#    if algorithmEnhanced.checkJsonIntegrity(i) == True:
-#      print("complete json")
