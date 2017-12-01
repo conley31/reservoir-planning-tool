@@ -6,6 +6,7 @@ import json
 import imp
 import os.path
 import math
+from random import randint
 
 with open('../config/config.json') as json_data:                                                                                          
 	config = json.load(json_data)
@@ -28,9 +29,9 @@ class TestDatabaseCompletion(unittest.TestCase):
 				with open(rfile) as json_data:
 					d = json.load(json_data)
 					counter = 0
+					rand = randint(0,11232)
 					f = open(rfile, 'r')
-					for a in range(0,11232):
-						self.assertEqual(d[a], algorithm.getDrainflowCumulative(a, cur))
+					self.assertEqual(d[rand], algorithm.getDrainflowCumulative(rand, cur))
 					f.close()
 			elif(l == 1):
 				rfile = "../public/data_sets/map_data_named/0000-SurfaceRunoff.json"
@@ -38,8 +39,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11232):
-						self.assertEqual(d[a], algorithm.getSurfacerunoffCumulative(a, cur))
+					rand = randint(0,11232)
+					self.assertEqual(d[rand], algorithm.getSurfacerunoffCumulative(rand, cur))
 					f.close()
 			elif(l == 2):
 				rfile = "../public/data_sets/map_data_named/0000-Precipitation.json"
@@ -47,8 +48,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11232):
-						self.assertEqual(d[a], algorithm.getPrecipitationCumulative(a, cur))
+					rand = randint(0,11232)
+					self.assertEqual(d[rand], algorithm.getPrecipitationCumulative(rand, cur))
 					f.close()
 			elif(l == 3):
 				rfile = "../public/data_sets/map_data_named/0000-Evapotranspiration.json"
@@ -56,8 +57,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11232):
-						self.assertEqual(d[a], algorithm.getDAE_PETCumulative(a, cur))
+					rand = randint(0,11232)
+					self.assertEqual(d[rand], algorithm.getDAE_PETCumulative(rand, cur))
 					f.close()
 			elif(l == 4):
 				rfile = "../public/data_sets/map_data_named/0000-OpenWaterEvaporation.json"
@@ -65,11 +66,12 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11232):
-						self.assertEqual(d[a], algorithm.getPETCumulative(a, cur))
+					rand = randint(0,11232)
+					self.assertEqual(d[rand], algorithm.getPETCumulative(rand, cur))
 					f.close()
 
 		for i in range(1981,2010):
+			print(i)
 			for l in range(0,5):
 				rfile = ""
 				if(l == 0):
@@ -78,8 +80,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 						d = json.load(json_data)
 						counter = 0
 						f = open(rfile, 'r')
-						for a in range(0,11232):
-							self.assertEqual(d[a], algorithm.getAnnualDrainflow(a, i, cur))
+						rand = randint(0,11232)
+						self.assertEqual(d[rand], algorithm.getAnnualDrainflow(rand, i, cur))
 						f.close()
 				elif(l == 1):
 					rfile = "../public/data_sets/map_data_named/%d-SurfaceRunoff.json"%(i)
@@ -87,8 +89,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 						d = json.load(json_data)
 						counter = 0
 						f = open(rfile, 'r')
-						for a in range(0,11232):
-							self.assertEqual(d[a], algorithm.getAnnualSurfacerunoff(a, i, cur))
+						rand = randint(0,11232)
+						self.assertEqual(d[rand], algorithm.getAnnualSurfacerunoff(rand, i, cur))
 						f.close()
 				elif(l == 2):
 					rfile = "../public/data_sets/map_data_named/%d-Precipitation.json"%(i)
@@ -96,8 +98,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 						d = json.load(json_data)
 						counter = 0
 						f = open(rfile, 'r')
-						for a in range(0,11232):
-							self.assertEqual(d[a], algorithm.getAnnualPrecipitation(a, i, cur))
+						rand = randint(0,11232)
+						self.assertEqual(d[rand], algorithm.getAnnualPrecipitation(rand, i, cur))
 						f.close()
 				elif(l == 3):
 					rfile = "../public/data_sets/map_data_named/%d-Evapotranspiration.json"%(i)
@@ -105,8 +107,8 @@ class TestDatabaseCompletion(unittest.TestCase):
 						d = json.load(json_data)
 						counter = 0
 						f = open(rfile, 'r')
-						for a in range(0,11232):
-							self.assertEqual(d[a], algorithm.getAnnualPET(a, i, cur))
+						rand = randint(0,11232)
+						self.assertEqual(d[rand], algorithm.getAnnualPET(rand, i, cur))
 						f.close()
 				elif(l == 4):
 					rfile = "../public/data_sets/map_data_named/%d-OpenWaterEvaporation.json"%(i)
@@ -114,8 +116,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 						d = json.load(json_data)
 						counter = 0
 						f = open(rfile, 'r')
-						for a in range(0,11232):
-							self.assertEqual(d[a], algorithm.getAnnualDAE_PET(a, i, cur))
+						self.assertEqual(d[rand], algorithm.getAnnualDAE_PET(rand, i, cur))
 						f.close()
 				
 
