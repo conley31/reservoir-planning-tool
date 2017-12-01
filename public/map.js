@@ -92,7 +92,6 @@ var initMap = function() {
 
   // Create the search box and link it to the UI element.
   var input = document.getElementById('places-input');
-  console.log(input);
   var searchBox = new google.maps.places.SearchBox(input, {
     bounds: bounds
   });
@@ -241,7 +240,6 @@ var initMap = function() {
   });
 
   var legend_annual = document.getElementById('legend-annual2');
-  console.log(legend_annual);
   document.comparemap.controls[google.maps.ControlPosition.TOP_LEFT].push(legend_annual);
 
   document.comparemap.data.loadGeoJson('final_index_FeaturesToJSON.json');

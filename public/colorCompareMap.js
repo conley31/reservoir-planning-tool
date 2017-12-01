@@ -65,7 +65,6 @@ var colorComp = function(addVariable) {
 	}
 	if(contain == -1){
   		for(var i = 0; i < results2.length; i++) {
-  			console.log($(results2[i]));
     		if($(results2[i]).is(addVariable)){
       			results2val = parseInt($(results2[i]).val());
       			contain = 1;
@@ -73,7 +72,6 @@ var colorComp = function(addVariable) {
     		}
   		}
 	}
-	console.log(contain);
   	if(contain == 1) {
     	for(var i = 0; i < results2.length; i++) {
       		if($(results2[i]).hasClass('on')){
@@ -163,6 +161,7 @@ if(results2val == 4) {
     dropdownval = "0000";
   }
   whatMap = "compare";
+  console.time("compMapLoad");
   var file = "/data_sets/map_data_named/" + dropdownval;
   ckml = "/data_sets/kml_files/" + dropdownval;
   if(results2val == 0){
@@ -525,7 +524,6 @@ function setColorComp(objJson) {
         	}
 		}
     });
-    console.log("finished coloring");
     $('#map-buffer3').fadeOut('fast');
     $('#histogram2-body').fadeIn('slow',function() {
     $ ('#histogram-buffer2').fadeOut('fast');
@@ -533,6 +531,7 @@ function setColorComp(objJson) {
 
     whatMap = "ckml";
     downloadJSON(ckml);
+    console.timeEnd("compMapLoad");
     /*document.comparemap.data.toGeoJson(function(data) {
     	compareKML = tokml(data);
     });*/

@@ -5,6 +5,7 @@ var compareMapData;
 var tempStor;
 
 //show map, hide everything else
+testing = 1;
 $('#map-nav').click(function() {
   disableListener = false;
   //show change on pseudo nav
@@ -132,7 +133,6 @@ $('#graph-nav').click(function() {
     $('#graph-nav-display').fadeIn('fast');
   });
   if(loaded == 0) {
-    console.log("load once");
     downloadJSON();
     //loaded = 1;
   }
@@ -458,7 +458,6 @@ if (typeof module !== "undefined" && module.exports) {
 
 //Function that implements saveAs from FileSaver.js to download files
 var downloadFile = function(filename) {
-	console.log('downloading');
 
 	//Use jquery request to get file - for now
 	$.getJSON(filename, function(json) {
@@ -468,11 +467,13 @@ var downloadFile = function(filename) {
 }
 
 var saveData = function (data, fileName) {
-  //console.log("printing");
+    console.assert(data != null, {"message":"data is null or filename is null"})
+    if(data == null){
+      return;
+    }
     var a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
-      //console.log(data);
         var json = data,
             blob = new Blob([json], {type: "octet/stream"}),
             url = window.URL.createObjectURL(blob);

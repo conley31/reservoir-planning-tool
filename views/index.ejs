@@ -62,12 +62,13 @@
 
           <!-- Regional Map Dispaly -->
           <div id="regional-map" style="display: none;">
-            <h3>The Reginal map displays the Annual Irrigation Supplied and the Percent of Annual Drain flow Captured.</h3>
+            <h3>The Regional map displays the Annual Irrigation Supplied and the Percent of Annual Drain flow Captured.</h3>
             <h5>To display the results click one button from each block</h5>
 
             <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
             <div style="margin: auto">
             <div style="margin-left: 15%">
+            <strong>Year: </strong>
             <select id="year-dropdownReg" onchange="colorMap($(this))">
                 <option value="0000">allyears</option>
                 <option value="1981">1981</option>
@@ -120,8 +121,8 @@
             <div style="margin-left: 20%;">
             <strong>Results: </strong>
               <div class="btn-group" role="group">
-                <button type="button" name="results" class="btn btn-sm add-var off" value="0"> Annual irrigation Supplied (inches) </button>
-                  <button type="button" name="results" class="btn btn-sm add-var off" value="1"> Percent of annual drain</button>
+                <button type="button" name="results" class="btn btn-sm add-var off" value="0"> Annual Irrigation Supplied (inches) </button>
+                  <button type="button" name="results" class="btn btn-sm add-var off" value="1"> Percent of Annual Drain</button>
 		              <button type="button" name="results" class="btn btn-sm add-var off" value="2"> Captured Drain Flow</button>
                   <button type="button" name="results" class="btn btn-sm add-var off" value="3"> Irrigation Sufficiency</button>
               </div>
@@ -168,6 +169,7 @@
               <h3>This Map allows for comparison between yearly data sets from the database.</h3>
 
               <!-- THIS IS THE DROP DOWN FOR THE YEARLY VALUES -->
+              <div style="margin-left: 15%">
               <strong>Year: </strong>
               <select id="year-dropdown2" onchange="colorComp($(this))">
                 <option value="0">allyears</option>
@@ -202,7 +204,7 @@
                 <option value="2009">2009</option>
               </select>
 
-              <strong>Data Sets: </strong>
+              <strong style="margin-left: 15px;">Data Sets: </strong>
               <div class="btn-group" role="group" style="margin-right: 15px;">
                 <button type="button" name="results2" class="btn btn-sm add-var2 off" value="0"> drainflow </button>
                 <button type="button" name="results2" class="btn btn-sm add-var2 off" value="1"> surface runoff </button>
@@ -210,6 +212,7 @@
                 <button type="button" name="results2" class="btn btn-sm add-var2 off" value="3"> evapotranspiration </button>
                 <button type="button" name="results2" class="btn btn-sm add-var2 off" value="4"> open water evaporation </button>
               </div>
+            </div>
 
               <!-- CODE FOR THE COMPARISON MAP -->
               <div id="map-container2">

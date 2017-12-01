@@ -3,6 +3,7 @@ var freqChoice = 0; //0 - percentage, 1 - captured, 2 - annual, 3 - sufficiency
 var drop = -1;
 var regKML;
 var rkml;
+var testing;
 
 class infoContent {
   constructor(event, info) {
@@ -247,6 +248,8 @@ var colorMap = function(addVariable) {
   if(drop == 0){
     drop = "0000";
   }
+
+  console.time("regMapLoad");
   var file = "/data_sets/map_data_named/" + drop + "-" + pondval + "-" + waterval;
   rkml = "/data_sets/kml_files/" + drop + "-" + pondval + "-" + waterval;
   if(resultsval == 0){
@@ -274,8 +277,6 @@ var colorMap = function(addVariable) {
 
 //Colors the GeoJSON grids on the google map
 function setColor(objJson) {
-  console.log(document.map.controls[google.maps.ControlPosition.TOP_LEFT]);
-  console.log(document.regionalmap.controls[google.maps.ControlPosition.TOP_LEFT]);
   
   //Reset frequency count to 0
   for (var i = 0; i < 6; i++) {
@@ -472,7 +473,6 @@ function setColor(objJson) {
 			  contentArray[loc] = parseFloat(tempJSON);
 			}
 		else  {
-		  console.log(tempJSON);
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#2C7BBB',
 				fillOpacity: 0.4
@@ -566,6 +566,7 @@ function setColor(objJson) {
   /*document.comparemap.data.toGeoJson(function(data) {
       regKML = tokml(data);
   });*/
+  console.timeEnd("regMapLoad");
 }
 
 // Select a polygon on the map
