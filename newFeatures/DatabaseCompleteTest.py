@@ -94,7 +94,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 							d = json.load(json_data)
 							counter = 0
 							f = open(rfile, 'r')
-							self.assertEqual(len(d), 11231)
+							self.assertEqual(len(d), 11232)
 							f.close()
 
 		for j in range(0,3):
@@ -113,7 +113,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 							d = json.load(json_data)
 							counter = 0
 							f = open(rfile, 'r')
-							self.assertEqual(len(d), 11231)
+							self.assertEqual(len(d), 11232)
 							f.close()
 
 
@@ -133,7 +133,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 				d = json.load(json_data)
 				counter = 0
 				f = open(rfile, 'r')
-				self.assertEqual(len(d), 11231)
+				self.assertEqual(len(d), 11232)
 				f.close()
 
 		for i in range(1981,2010):
@@ -153,7 +153,7 @@ class TestDatabaseCompletion(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					self.assertEqual(len(d), 11231)
+					self.assertEqual(len(d), 11232)
 					f.close()
 
 

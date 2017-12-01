@@ -38,7 +38,7 @@ class TestDatabaseQuality(unittest.TestCase):
 						with open(rfile) as json_data:
 							d = json.load(json_data)
 							f = open(rfile, 'r')
-							for a in range(0,11231):
+							for a in range(0,11232):
 								self.assertGreaterEqual(d[a], 0)
 							f.close()
 
@@ -58,7 +58,7 @@ class TestDatabaseQuality(unittest.TestCase):
 							d = json.load(json_data)
 							counter = 0
 							f = open(rfile, 'r')
-							for a in range(0,11231):
+							for a in range(0,11232):
 								self.assertGreaterEqual(d[a], 0)
 							f.close()
 
@@ -79,7 +79,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				counter = 0
 				f = open(rfile, 'r')
-				for a in range(0,11231):
+				for a in range(0,11232):
 					self.assertGreaterEqual(d[a], 0)
 				f.close()
 
@@ -100,7 +100,7 @@ class TestDatabaseQuality(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11231):
+					for a in range(0,11232):
 						self.assertGreaterEqual(d[a], 0)
 					f.close()
 
@@ -113,7 +113,7 @@ class TestDatabaseQuality(unittest.TestCase):
 					with open(rfile) as json_data:
 						d = json.load(json_data)
 						f = open(rfile, 'r')
-						for a in range(0,11231):
+						for a in range(0,11232):
 							self.assertLessEqual(d[a], 100)
 						f.close()
 
@@ -125,7 +125,7 @@ class TestDatabaseQuality(unittest.TestCase):
 					d = json.load(json_data)
 					counter = 0
 					f = open(rfile, 'r')
-					for a in range(0,11231):
+					for a in range(0,11232):
 						self.assertLessEqual(d[a], 100)
 					f.close()
 
@@ -155,7 +155,7 @@ class TestDatabaseQuality(unittest.TestCase):
 					counter = 0
 					f = open(rfile, 'r')
 					count = 0
-					for a in range(0,11231):
+					for a in range(0,11232):
 						if(d[a] > 74.331329):
 								count = count + 1
 						self.assertLessEqual(count, math.ceil(.4 * 11231))
@@ -171,7 +171,7 @@ class TestDatabaseQuality(unittest.TestCase):
 						d = json.load(json_data)
 						f = open(rfile, 'r')
 						count = 0
-						for a in range(0,11231):
+						for a in range(0,11232):
 							if(d[a] > 46.53580418):
 								count = count + 1
 						self.assertLessEqual(count, math.ceil(.25*11231))
@@ -186,7 +186,7 @@ class TestDatabaseQuality(unittest.TestCase):
 					counter = 0
 					f = open(rfile, 'r')
 					count = 0
-					for a in range(0,11231):
+					for a in range(0,11232):
 						if(d[a] > 46.53580418):
 								count = count + 1
 						self.assertLessEqual(count, math.ceil(.80 * 11231))
@@ -200,7 +200,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				f = open(rfile, 'r')
 				count = 0
-				for a in range(0,11231):
+				for a in range(0,11232):
 					if(d[a] > 55.424928):
 						count = count + 1
 					if(d[a] < 11.70688):
@@ -215,7 +215,7 @@ class TestDatabaseQuality(unittest.TestCase):
 			counter = 0
 			f = open(rfile, 'r')
 			count = 0
-			for a in range(0,11231):
+			for a in range(0,11232):
 				if(d[a] > 55.424928):
 						count = count + 1
 				if(d[a] < 11.70688):
@@ -231,7 +231,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				f = open(rfile, 'r')
 				count = 0
-				for a in range(0,11231):
+				for a in range(0,11232):
 					if(d[a] > 27.99584814):
 						count = count + 1								
 				self.assertLessEqual(count, math.ceil(.25*11231))
@@ -244,7 +244,7 @@ class TestDatabaseQuality(unittest.TestCase):
 			counter = 0
 			f = open(rfile, 'r')
 			count = 0
-			for a in range(0,11231):
+			for a in range(0,11232):
 				if(d[a] > 27.99584814):
 						count = count + 1
 				self.assertLessEqual(count, math.ceil(.4 * 11231))
@@ -258,7 +258,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				f = open(rfile, 'r')
 				count = 0
-				for a in range(0,11231):
+				for a in range(0,11232):
 					if(d[a] > 1.465003 * (10**15)):
 						count = count + 1								
 				self.assertLessEqual(count, math.ceil(.25*11231))
@@ -271,7 +271,7 @@ class TestDatabaseQuality(unittest.TestCase):
 			counter = 0
 			f = open(rfile, 'r')
 			count = 0
-			for a in range(0,11231):
+			for a in range(0,11232):
 				if(d[a] > 1.465003 * (10**15)):
 						count = count + 1
 				self.assertLessEqual(count, math.ceil(.3 * 11231))
@@ -285,7 +285,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				f = open(rfile, 'r')
 				count = 0
-				for a in range(0,11231):
+				for a in range(0,11232):
 					if(d[a] > 74.1659641):
 						count = count + 1
 					if(d[a] < 32.3106577):
@@ -300,7 +300,7 @@ class TestDatabaseQuality(unittest.TestCase):
 			counter = 0
 			f = open(rfile, 'r')
 			count = 0
-			for a in range(0,11231):
+			for a in range(0,11232):
 				if(d[a] > 74.1659641):
 					count = count + 1
 				if(d[a] < 32.3106577):
@@ -316,7 +316,7 @@ class TestDatabaseQuality(unittest.TestCase):
 				d = json.load(json_data)
 				f = open(rfile, 'r')
 				count = 0
-				for a in range(0,11231):
+				for a in range(0,11232):
 					if(d[a] > 24.759455):
 						count = count + 1
 					if(d[a] < 14.050775):
@@ -331,7 +331,7 @@ class TestDatabaseQuality(unittest.TestCase):
 			counter = 0
 			f = open(rfile, 'r')
 			count = 0
-			for a in range(0,11231):
+			for a in range(0,11232):
 				if(d[a] > 24.759455):
 					count = count + 1
 				if(d[a] < 14.050775):
