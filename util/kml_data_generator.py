@@ -55,7 +55,7 @@ def generateCumulativeKml(statusQueue,testFlag):
           if k == 0: #annual irrigation values
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_annual2.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_annual2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -76,21 +76,21 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k == 1:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_percentage4.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_percentage4.png"
 
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
 
-              if val > 73.947912 :
+              if val > 8 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 12.5:
+              elif val < 1.5:
                 polygon.styleUrl = '#strongRed'
-              elif val < 25:
+              elif val < 3:
                 polygon.styleUrl = '#softOrange'
-              elif val < 37.5:
+              elif val < 4.5:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 50:
+              elif val < 6:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#darkBlue'
@@ -99,7 +99,7 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k ==2:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_captured3.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_captured3.png"
 
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
@@ -122,7 +122,7 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k == 3:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_sufficiency2.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_sufficiency2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -180,7 +180,7 @@ def generateYearlyKml(statusQueue,testFlag):
           if k == 0: #annual irrigation values
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_annual2.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_annual2.png"
 
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
@@ -203,20 +203,20 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k == 1:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_percentage4.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_percentage4.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
 
-              if val > 73.947912 :
+              if val > 8 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 12.5:
+              elif val < 1.5:
                 polygon.styleUrl = '#strongRed'
-              elif val < 25:
+              elif val < 3:
                 polygon.styleUrl = '#softOrange'
-              elif val < 37.5:
+              elif val < 4.5:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 50:
+              elif val < 6:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#darkBlue'
@@ -225,7 +225,7 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k ==2:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_captured3.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_captured3.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -247,7 +247,7 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k == 3:
             while loc < numLocations:
               val = data[loc]
-              root.Document.ScreenOverlay.Icon = "../../legend_sufficiency2.png"
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_sufficiency2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -294,7 +294,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     if i == 0: #drainflow
       while loc < numLocations:
         val = data[loc]
-        root.Document.ScreenOverlay.Icon = "../../legend_drain.png"
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_drain.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
@@ -316,7 +316,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     elif i == 1: #surface runoff
       while loc < numLocations:
         val = data[loc]
-        root.Document.ScreenOverlay.Icon = "../../legend_runoff.png"
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_runoff.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
@@ -338,7 +338,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     elif i == 2: #Precipitation
       while loc < numLocations:
         val = data[loc]
-        root.Document.ScreenOverlay.Icon = "../../legend_precipitation.png"
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_precipitation.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
@@ -360,7 +360,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     elif i == 3: #PET
       while loc < numLocations:
         val = data[loc]
-        root.Document.ScreenOverlay.Icon = "../../legend_evaporation.png"
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_evaporation.png"
 
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
@@ -383,7 +383,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     elif i == 4: #DAE_PET
       while loc < numLocations:
         val = data[loc]
-        root.Document.ScreenOverlay.Icon = "../../legend_et2.png"
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_et2.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
@@ -438,7 +438,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       if i == 0: #drainflow
         while loc < numLocations:
           val = data[loc]
-          root.Document.ScreenOverlay.Icon = "../../legend_drain.png"
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_drain.png"
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
           polygon.description = database_file_suffixes[i] + ' ' + str(val)
@@ -460,7 +460,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       elif i == 1: #surface runoff
         while loc < numLocations:
           val = data[loc]
-          root.Document.ScreenOverlay.Icon = "../../legend_runoff.png"
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_runoff.png"
 
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
@@ -483,7 +483,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       elif i == 2: #Precipitation
         while loc < numLocations:
           val = data[loc]
-          root.Document.ScreenOverlay.Icon = "../../legend_precipitation.png"
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_precipitation.png"
 
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
@@ -506,7 +506,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       elif i == 3: #PET
           while loc < numLocations:
             val = data[loc]
-            root.Document.ScreenOverlay.Icon = "../../legend_evaporation.png"
+            root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_evaporation.png"
 
             polygon = root.Document.Folder.Placemark[loc]
             polygon.name = "Location ID: " + str(loc)
@@ -529,7 +529,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       elif i == 4: #DAE_PET
           while loc < numLocations:
             val = data[loc]
-            root.Document.ScreenOverlay.Icon = "../../legend_et2.png"
+            root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_et2.png"
 
             polygon = root.Document.Folder.Placemark[loc]
             polygon.name = "Location ID: " + str(loc)
