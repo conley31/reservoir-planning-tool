@@ -300,7 +300,7 @@ function setColor(objJson) {
     var tempJSON;
     //console.log(resultsval);
       if(resultsval == 0){
-	     document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.00009695 0.63919928 2.24316159 18.99784124 335.74870016 | Mean = 23.13214, SD = 47.23474";
+	     document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.00009695, 0.63919928, 2.24316159, 18.99784124, 335.74870016 | Mean = 23.13214, SD = 47.23474";
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
@@ -362,7 +362,7 @@ function setColor(objJson) {
 	  
 	  //PercentAnnualCapturedDrainFlow
       else if (resultsval == 1){
-		  
+		  document.getElementById("five-nums").innerHTML = "Five Number Summary: 0, 0, 0, 3.520540, 6.6666673.5 | Mean = 1.699097, SD = 2.715284";
 		    freqChoice = 0;
         tempJSON = objJson[loc];
 
@@ -425,7 +425,7 @@ function setColor(objJson) {
 	  
 	  //CumulativeCapturedFlow
 	  else if (resultsval == 2) {
-		  
+		   document.getElementById("five-nums").innerHTML = "Five Number Summary: 2.6509020e-05, 7.300631e+00, 2.033784e+01, 4.081598e+01, 1.527740e+02 | Mean = 26.85291, SD = 23.96047";
 		  freqChoice = 1;
       tempJSON = objJson[loc];
 		if(parseInt(tempJSON) > 74.331329) {
@@ -487,6 +487,7 @@ function setColor(objJson) {
 		  
 		  //irrigationSufficiency
 		  else {
+			  document.getElementById("five-nums").innerHTML = "Five Number Summary: 0, 0, 0, 100, 100 | Mean = 45.43403, SD = 49.25111";
 			  freqChoice = 3;
         tempJSON = objJson[loc];
 
