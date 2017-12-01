@@ -366,7 +366,7 @@ function setColor(objJson) {
         tempJSON = objJson[loc];
 
         
-        if(parseInt(tempJSON) > 73.947912) {
+        if(parseInt(tempJSON) > 8) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#616161',
             fillOpacity: 0.4
@@ -375,7 +375,7 @@ function setColor(objJson) {
 		  frequency[0] += 1;
 		  contentArray[loc] = parseFloat(tempJSON);
         }
-        else if(parseInt(tempJSON) < 12.5) {
+        else if(parseInt(tempJSON) < 1.5) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#D7191C',
             fillOpacity: 0.4
@@ -384,7 +384,7 @@ function setColor(objJson) {
 		  frequency[1] += 1;
 		  contentArray[loc] = parseFloat(tempJSON);
         }
-        else if(parseInt(tempJSON) < 25) {
+        else if(parseInt(tempJSON) < 3) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#FDAE61',
             fillOpacity: 0.4
@@ -393,7 +393,7 @@ function setColor(objJson) {
 		  frequency[2] += 1;
 		  contentArray[loc] = parseFloat(tempJSON);
         }
-        else if(parseInt(tempJSON) < 37.5) {
+        else if(parseInt(tempJSON) < 4.5) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#FFFFBF',
             fillOpacity: 0.4
@@ -402,7 +402,7 @@ function setColor(objJson) {
 		  frequency[3] += 1;
 		  contentArray[loc] = parseFloat(tempJSON);
         }
-        else if(parseInt(tempJSON) < 50) {
+        else if(parseInt(tempJSON) < 6) {
           document.regionalmap.data.overrideStyle(feature, {
             fillColor: '#ABD9E9',
             fillOpacity: 0.4

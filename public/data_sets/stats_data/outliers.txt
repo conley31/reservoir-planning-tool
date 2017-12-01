@@ -1,15 +1,17 @@
-Percent Outliers: x > 73.947912: no outliers
+Percent Outliers: no outliers | mean = 1.699097, sd = 2.715284
 
-Captured Outliers: x > 74.331329: outliers only on Q3 side
+Captured Outliers: x > 74.331329: outliers only on Q3 side | mean = 26.85291, sd = 23.96047
 
-Annual Outliers: x > 46.53580418: outliers only on Q3 side
+Annual Outliers: x > 46.53580418: outliers only on Q3 side | mean = 23.13214, sd = 47.23474
 
-Precipitation: x < 11.70688, x > 55.424928: outliers only on Q3 side
+Irrigation Sufficiency: no outliers | mean = 45.43403, sd = 49.25111
 
-Surface Runoff Outliers: x > 27.99584814: outliers only on Q3 side
+Precipitation: x < 11.70688, x > 55.424928: outliers only on Q3 side | mean = 33.4969, sd = 7.665988
 
-Drain Flow Outliers: x > 1.465003 x 10^15: outliers only on Q3 side
+Surface Runoff Outliers: x > 27.99584814: outliers only on Q3 side | mean = 34.97021, sd = 77.23314
 
-Evaporation Outliers: x < 32.3106577, x > 74.1659641: outliers on both sides
+Drain Flow Outliers: x > 1.465003 x 10^15: outliers only on Q3 side | mean = 1.332241e+15, sd = 4.28131e+15
 
-ET Outliers: x < 14.050775, x > 24.759455: outliers on both sides
+Evaporation Outliers: x < 32.3106577, x > 74.1659641: outliers on both sides | mean = 74.0531, sd = 62.38632
+
+ET Outliers: x < 14.050775, x > 24.759455: outliers on both sides | mean = 19.65112, sd = 2.263488
