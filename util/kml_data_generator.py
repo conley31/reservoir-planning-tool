@@ -375,7 +375,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
         elif val < 15:
           polygon.styleUrl = '#desaturatedBlue'
         elif val < 20:
-          polygon.styleUrl - '#violet'
+          polygon.styleUrl = '#violet'
         else:
          polygon.styleUrl = '#magenta'
         loc += 1
@@ -521,7 +521,7 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
             elif val < 15:
               polygon.styleUrl = '#desaturatedBlue'
             elif val < 20:
-              polygon.styleUrl - '#violet'
+              polygon.styleUrl = '#violet'
             else:
               polygon.styleUrl = '#magenta'
             loc += 1
