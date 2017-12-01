@@ -91,3 +91,11 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 - `util/polygons.js`: Function to retrieve the id of a polygon given coordinates
 - `views/`: EJS templates to be used in the website
 - `tests/`: Test scripts for components inside of TDPAlg.js
+
+## Creating New Legends
+ Currently the implementation of legends loads in a static unique image for each individual map. We created these legends after analyzing the data to find the best fit for each result. However, if the database is ever significantly changed these legends may no longer be accurate representations of the numbers, so here are a few easy steps to create your own:
+  1. Save the legend template we have provided. It can be found in the public folder under the name 'legend template.png'.
+  2. Open the template in an image editor of your choice, and insert text aligned with the color boxes. The colors of the boxes can also      be easily changed with the use of a Fill tool.
+  3. Upload your newly created legend to the public folder.
+  4. Navigate to style.css in the public folder, find the legend for the result you're changing and insert your image's name inside the      background: url() line.
+  Your legend should now be inside the application and fully functional.
