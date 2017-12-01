@@ -300,6 +300,7 @@ function setColor(objJson) {
     var tempJSON;
     //console.log(resultsval);
       if(resultsval == 0){
+	     document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.00009695 0.63919928 2.24316159 18.99784124 335.74870016 | Mean = 23.13214, SD = 47.23474";
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
