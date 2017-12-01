@@ -288,7 +288,7 @@ function setColorComp(objJson) {
 		//SurfaceRunoff
 		else if(results2val == 1){
       tempJSON = objJson[loc];
-			if(parseInt(tempJSON) > 50){
+			if(parseInt(tempJSON) > 110){
           		document.comparemap.data.overrideStyle(feature, {
             	fillColor: '#616161',
             	fillOpacity: 0.25
@@ -297,36 +297,36 @@ function setColorComp(objJson) {
 				frequencycmp[0] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
-		else if(parseInt(tempJSON) < 10){
+		else if(parseInt(tempJSON) < 25){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#DDE500',
+            		fillColor: '#FFFFD4',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[1] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
         	}
-        	else if(parseInt(tempJSON) < 20){
+        	else if(parseInt(tempJSON) < 50){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#00CEAB',
+            		fillColor: '#FED98E',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[2] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else if(parseInt(tempJSON) < 30){
+          	else if(parseInt(tempJSON) < 75){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0070C6',
+            		fillColor: '#FE9929',
             		fillOpacity: 0.4
           		});
 				
 				frequencycmp[3] += 1;
 				contentArraycmp[loc] = parseFloat(tempJSON);
           	}
-          	else if(parseInt(tempJSON) < 40){
+          	else if(parseInt(tempJSON) < 100){
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#0500BF',
+            		fillColor: '#D95F0E',
             		fillOpacity: 0.4
           		});
 				
@@ -335,7 +335,7 @@ function setColorComp(objJson) {
           	}
           	else{
           		document.comparemap.data.overrideStyle(feature, {
-            		fillColor: '#D50023',
+            		fillColor: '#993404',
             		fillOpacity: 0.4
           		});
 				
