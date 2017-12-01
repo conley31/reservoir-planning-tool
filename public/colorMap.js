@@ -299,7 +299,7 @@ function setColor(objJson) {
     var loc = feature.getProperty('Id');
     var tempJSON;
     //console.log(resultsval);
-      if(resultsval == 0){
+    if(resultsval == 0){
 		    freqChoice = 2;
         tempJSON = objJson[loc];
 		    //AnnualIrrigationDepthSupplied
@@ -423,7 +423,7 @@ function setColor(objJson) {
       } 
 	  
 	  //CumulativeCapturedFlow
-	  else if (resultsval == 3) {
+	  else if (resultsval == 2) {
 		  
 		  freqChoice = 1;
       tempJSON = objJson[loc];
@@ -488,7 +488,7 @@ function setColor(objJson) {
 		  else {
 			  freqChoice = 3;
         tempJSON = objJson[loc];
-			  
+
 			if(parseInt(tempJSON) > 100) {
 			  document.regionalmap.data.overrideStyle(feature, {
 				fillColor: '#616161',
