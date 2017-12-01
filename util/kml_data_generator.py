@@ -28,6 +28,7 @@ volTagCount = 3
 soilTagCount = 3
 
 def generateCumulativeKml(statusQueue,testFlag):
+  print(str(root.Document.ScreenOverlay.Icon))
   if testFlag == 0:
     numLocations = numLocationsDB
   else: 
@@ -54,6 +55,7 @@ def generateCumulativeKml(statusQueue,testFlag):
           if k == 0: #annual irrigation values
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_annual2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -74,19 +76,21 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k == 1:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_percentage4.png"
+
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
 
-              if val > 73.947912 :
+              if val > 8 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 12.5:
+              elif val < 1.5:
                 polygon.styleUrl = '#strongRed'
-              elif val < 25:
+              elif val < 3:
                 polygon.styleUrl = '#softOrange'
-              elif val < 37.5:
+              elif val < 4.5:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 50:
+              elif val < 6:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#darkBlue'
@@ -95,6 +99,8 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k ==2:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_captured3.png"
+
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -116,6 +122,7 @@ def generateCumulativeKml(statusQueue,testFlag):
           elif k == 3:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_sufficiency2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -173,6 +180,8 @@ def generateYearlyKml(statusQueue,testFlag):
           if k == 0: #annual irrigation values
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_annual2.png"
+
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -194,19 +203,20 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k == 1:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_percentage4.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
 
-              if val > 73.947912 :
+              if val > 8 :
                 polygon.styleUrl = '#darkGray'
-              elif val < 12.5:
+              elif val < 1.5:
                 polygon.styleUrl = '#strongRed'
-              elif val < 25:
+              elif val < 3:
                 polygon.styleUrl = '#softOrange'
-              elif val < 37.5:
+              elif val < 4.5:
                 polygon.styleUrl = '#paleYellow'
-              elif val < 50:
+              elif val < 6:
                 polygon.styleUrl = '#verySoftBlue'
               else:
                 polygon.styleUrl = '#darkBlue'
@@ -215,6 +225,7 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k ==2:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_captured3.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -236,6 +247,7 @@ def generateYearlyKml(statusQueue,testFlag):
           elif k == 3:
             while loc < numLocations:
               val = data[loc]
+              root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_sufficiency2.png"
               polygon = root.Document.Folder.Placemark[loc]
               polygon.name = "Location ID: " + str(loc)
               polygon.description = computed_file_suffixes[k] + ' ' + str(val)
@@ -282,11 +294,12 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     if i == 0: #drainflow
       while loc < numLocations:
         val = data[loc]
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_drain.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-        if val == 0:
+        if val  > 20:
           polygon.styleUrl = '#darkGray'
         elif val < 1.5 :
           polygon.styleUrl = '#lightGrayishViolet'
@@ -303,77 +316,90 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     elif i == 1: #surface runoff
       while loc < numLocations:
         val = data[loc]
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_runoff.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-        if val < 10:
-          polygon.styleUrl = '#pureYellow'
-        elif val < 20 :
-          polygon.styleUrl = '#strongCyan'
-        elif val < 30:
-          polygon.styleUrl = '#strongBlue'
-        elif val < 40:
-          polygon.styleUrl = '#strongDarkBlue'
+        if val > 110:
+          polygon.styleUrl = '#darkGray'
+        elif val < 25 :
+          polygon.styleUrl = '#paleYellow'
+        elif val < 50:
+          polygon.styleUrl = '#softOrange'
+        elif val < 75:
+          polygon.styleUrl = '#brightOrange'
+        elif val < 100:
+          polygon.styleUrl = '#vividOrange'
         else:
-          polygon.styleUrl = '#strongRed'
+          polygon.styleUrl = '#darkOrange'
         loc += 1
 
     elif i == 2: #Precipitation
       while loc < numLocations:
         val = data[loc]
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_precipitation.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-        if val < 10:
-          polygon.styleUrl = '#pureYellow'
-        elif val < 20 :
-          polygon.styleUrl = '#strongCyan'
-        elif val < 30:
-          polygon.styleUrl = '#strongBlue'
-        elif val < 40:
-          polygon.styleUrl = '#strongDarkBlue'
+        if val < 11.70688 or val > 55.424928:
+          polygon.styleUrl = '#darkGray'
+        elif val < 12.5 :
+          polygon.styleUrl = '#veryPaleYellow'
+        elif val < 25:
+          polygon.styleUrl = '#limeGreen'
+        elif val < 37.5:
+          polygon.styleUrl = '#cyan'
+        elif val < 50:
+          polygon.styleUrl = '#stongBlue'
         else:
-          polygon.styleUrl = '#strongRed'
+          polygon.styleUrl = '#darkBlue'
         loc += 1
 
     elif i == 3: #PET
       while loc < numLocations:
         val = data[loc]
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_evaporation.png"
+
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-        if val < 10:
-          polygon.styleUrl = '#pureYellow'
-        elif val < 20 :
-          polygon.styleUrl = '#strongCyan'
-        elif val < 30:
-          polygon.styleUrl = '#strongBlue'
-        elif val < 40:
-          polygon.styleUrl = '#strongDarkBlue'
+        if val > 24.759455:
+          polygon.styleUrl = '#darkGray'
+        elif val < 5 :
+          polygon.styleUrl = '#lightGray'
+        elif val < 10:
+          polygon.styleUrl = '#verySoftBlue'
+        elif val < 15:
+          polygon.styleUrl = '#desaturatedBlue'
+        elif val < 20:
+          polygon.styleUrl = '#violet'
         else:
-         polygon.styleUrl = '#strongRed'
+         polygon.styleUrl = '#magenta'
         loc += 1
 
     elif i == 4: #DAE_PET
       while loc < numLocations:
         val = data[loc]
+        root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_et2.png"
         polygon = root.Document.Folder.Placemark[loc]
         polygon.name = "Location ID: " + str(loc)
         polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-        if val < 10:
-          polygon.styleUrl = '#pureYellow'
-        elif val < 20 :
-          polygon.styleUrl = '#strongCyan'
-        elif val < 30:
-          polygon.styleUrl = '#strongBlue'
-        elif val < 40:
-          polygon.styleUrl = '#strongDarkBlue'
+        if val > 24.759455:
+          polygon.styleUrl = '#darkGray'
+        elif val < 5 :
+          polygon.styleUrl = '#lightGray'
+        elif val < 10:
+          polygon.styleUrl = '#cyan'
+        elif val < 15:
+          polygon.styleUrl = '#limeGreen'
+        elif val < 20:
+          polygon.styleUrl = '#darkGreen'
         else:
-          polygon.styleUrl = '#strongRed'
+          polygon.styleUrl = '#veryDarkGreen'
         loc += 1
 
     new_kml = open(kmlfilestr,'w')
@@ -412,11 +438,12 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       if i == 0: #drainflow
         while loc < numLocations:
           val = data[loc]
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_drain.png"
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
           polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-          if val == 0:
+          if val > 20:
             polygon.styleUrl = '#darkGray'
           elif val < 1.5 :
             polygon.styleUrl = '#lightGrayishViolet'
@@ -433,77 +460,93 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       elif i == 1: #surface runoff
         while loc < numLocations:
           val = data[loc]
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_runoff.png"
+
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
           polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-          if val < 10:
-            polygon.styleUrl = '#pureYellow'
-          elif val < 20 :
-            polygon.styleUrl = '#strongCyan'
-          elif val < 30:
-            polygon.styleUrl = '#strongBlue'
-          elif val < 40:
-            polygon.styleUrl = '#strongDarkBlue'
+          if val > 110:
+            polygon.styleUrl = '#darkGray'
+          elif val < 25 :
+            polygon.styleUrl = '#paleYellow'
+          elif val < 50:
+            polygon.styleUrl = '#softOrange'
+          elif val < 75:
+            polygon.styleUrl = '#brightOrange'
+          elif val < 100:
+            polygon.styleUrl = '#vividOrange'
           else:
-            polygon.styleUrl = '#strongRed'
+            polygon.styleUrl = '#darkOrange'
           loc += 1
 
       elif i == 2: #Precipitation
         while loc < numLocations:
           val = data[loc]
+          root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_precipitation.png"
+
           polygon = root.Document.Folder.Placemark[loc]
           polygon.name = "Location ID: " + str(loc)
           polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-          if val < 10:
-            polygon.styleUrl = '#pureYellow'
-          elif val < 20 :
-            polygon.styleUrl = '#strongCyan'
-          elif val < 30:
-            polygon.styleUrl = '#strongBlue'
-          elif val < 40:
-            polygon.styleUrl = '#strongDarkBlue'
+          if val < 11.70688 or val > 55.424928:
+            polygon.styleUrl = '#darkGray'
+          elif val < 12.5 :
+            polygon.styleUrl = '#veryPaleYellow'
+          elif val < 25:
+            polygon.styleUrl = '#limeGreen'
+          elif val < 37.5:
+            polygon.styleUrl = '#cyan'
+          elif val < 50:
+            polygon.styleUrl = '#stongBlue'
           else:
-            polygon.styleUrl = '#strongRed'
+            polygon.styleUrl = '#darkBlue'
           loc += 1
 
       elif i == 3: #PET
           while loc < numLocations:
             val = data[loc]
+            root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_evaporation.png"
+
             polygon = root.Document.Folder.Placemark[loc]
             polygon.name = "Location ID: " + str(loc)
             polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-            if val < 10:
-              polygon.styleUrl = '#pureYellow'
-            elif val < 20 :
-              polygon.styleUrl = '#strongCyan'
-            elif val < 30:
-              polygon.styleUrl = '#strongBlue'
-            elif val < 40:
-              polygon.styleUrl = '#strongDarkBlue'
+            if val > 24.759455:
+              polygon.styleUrl = '#darkGray'
+            elif val < 5 :
+              polygon.styleUrl = '#lightGray'
+            elif val < 10:
+              polygon.styleUrl = '#verySoftBlue'
+            elif val < 15:
+              polygon.styleUrl = '#desaturatedBlue'
+            elif val < 20:
+              polygon.styleUrl = '#violet'
             else:
-              polygon.styleUrl = '#strongRed'
+              polygon.styleUrl = '#magenta'
             loc += 1
 
       elif i == 4: #DAE_PET
           while loc < numLocations:
             val = data[loc]
+            root.Document.ScreenOverlay.Icon = "https://raw.githubusercontent.com/conley31/reservoir-planning-tool/master/public/legend_et2.png"
+
             polygon = root.Document.Folder.Placemark[loc]
             polygon.name = "Location ID: " + str(loc)
             polygon.description = database_file_suffixes[i] + ' ' + str(val)
 
-            if val < 10:
-              polygon.styleUrl = '#pureYellow'
-            elif val < 20 :
-              polygon.styleUrl = '#strongCyan'
-            elif val < 30:
-              polygon.styleUrl = '#strongBlue'
-            elif val < 40:
-              polygon.styleUrl = '#strongDarkBlue'
+            if val > 24.759455:
+              polygon.styleUrl = '#darkGray'
+            elif val < 5 :
+              polygon.styleUrl = '#lightGray'
+            elif val < 10:
+              polygon.styleUrl = '#cyan'
+            elif val < 15:
+              polygon.styleUrl = '#limeGreen'
+            elif val < 20:
+              polygon.styleUrl = '#darkGreen'
             else:
-              polygon.styleUrl = '#strongRed'
+              polygon.styleUrl = '#veryDarkGreen'
             loc += 1
 
       new_kml = open(kmlfilestr,'w')
