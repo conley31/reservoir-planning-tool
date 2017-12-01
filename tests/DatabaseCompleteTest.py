@@ -19,6 +19,13 @@ connection = db.connect(host,user,password,database)
 cur = connection.cursor()
 numLocations = algorithm.getTableCount(cur)
 
+#expected number of files is (number of volumes * number of soil constraints * 4 computed values)
+#                           +(number of volumes * number of soil constraints * 4 computed values * number of years)_
+#                           +(database values)
+#                           +(database values * number of years)
+expected_data_file_count = (3 * 3 * 4) + (3 * 3 * 4 * 29) + (5) + (5 * 29)
+
+
 class TestDatabaseCompletion(unittest.TestCase):
 	def test_filesExist(self):
 		for i in range(1981, 2010):
@@ -79,6 +86,18 @@ class TestDatabaseCompletion(unittest.TestCase):
 				elif(l == 4):
 					rfile = "../public/data_sets/map_data_named/%d-OpenWaterEvaporation.json"%(i)
 				self.assertTrue(os.path.isfile(rfile))
+
+	def test_map_data_file_count(self):
+		DIR = '../public/data_sets/map_data_named'
+		map_data_named_count = len([name for name in os.listdir(DIR) if name.endswith(".json")])
+		print("Asserting the number of .json files(" + str(map_data_named_count) + ") is equal to expected(" + str(expected_data_file_count) + ')') 
+		self.assertEqual(map_data_named_count,expected_data_file_count)
+
+	def test_kml_file_count(self):
+		DIR = '../public/data_sets/kml_files'
+		kml_files_count = len([name for name in os.listdir(DIR) if name.endswith(".zip")])
+		print("Asserting the number of .kml files(" + str(kml_files_count) + ") is equal to expected(" + str(expected_data_file_count) + ')') 
+		self.assertEqual(kml_files_count ,expected_data_file_count)
 
 	def test_fileSize(self):
 		for i in range(1981, 2010):
