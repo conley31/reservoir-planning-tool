@@ -20,6 +20,22 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 - Each table follows the naming convention of: `Location{ID}`. Where ID is specified in the `db/index.csv`.
 - Schema: `Location{ID}(RecordedDate:Date, Drainflow:Float, Precipitation:Float, PET:Float)`
 
+## Regional Results
+- The application contains features that allows users to view interactive maps displaying data computed using the TDP algorithms
+- Because this data is a conglomerate of all 112,000+ database Locations, which each contain data for each day for each year spanning
+1981-2009, generating the data for these maps is quite time consuming. 
+- Each potential map configuration corresponds to a JSON file that is read by the Google Maps geo-json formatter.
+- The .zip files located in `public/data_sets/map_data_named` and `public/data_sets/kml_files` contain these files, however, if the database is updated then these files will not be up to date without running the following node scripts
+#### Node scripts for updating regional map data:
+- `npm run generate_map_data`
+- `npm run generate_kml_data`
+- Each of these will present you with loading bars to track the progress
+- After the files are generated, they will be compressed and ready for use in the live map, and for optional kml download
+- If you would like to preview the generation process, run the test scripts below to get a sample of 25 locations
+- `npm run test_generate_map_data`
+- `npm run test_generate_kml_data`
+- This will NOT override any values. The outputs are located in `public/data_sets/TEST_map_data_named` and `public/data_sets/TEST_kml_files`
+
 ## Converting Whitespace Delimited Daily Files into CSVs
 - When exported, the daily data files do not have a common delimiter. One row is delimited a tab and a space and the others are delimited by two spaces.
 - To fix this, running the following command: `find . -name '*.txt' | xargs -n 10 sed -E -i '' 's/[[:space:]]+/,/g'` in the db/daily_files directory will convert all daily files to CSVs in-place.
@@ -46,6 +62,7 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 #### `npm test tests/<test folder>`
 #### `npm run test-db-quick`
 #### `npm run test-db-complete`
+#### `npm run data_test` checks the data computed for the regional maps
 
 ## Folder Structure and important files
 - `config/`: Configuration Files
