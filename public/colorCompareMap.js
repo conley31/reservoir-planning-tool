@@ -455,6 +455,7 @@ function setColorComp(objJson) {
 		
 		//evaporation
 		else if(results2val == 3){
+			document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.4598114, 48.0063976, 52.0118195, 58.4702242, 610.1174979 | Mean = 74.0531, SD = 62.38632";
 			cmpChoice = 3;
 			prop = "pet";
       tempJSON = objJson[loc];
@@ -516,6 +517,8 @@ function setColorComp(objJson) {
 		
 		//DEA_PET
 		else if(results2val == 4){
+			document.getElementById("five-nums").innerHTML = "Five Number Summary: 2.0000, 18.06653, 19.19257, 20.74370, 219.79867 | Mean = 19.65112, SD = 2.263488";
+
 			cmpChoice = 4;
 			prop = "dea_pet";
       tempJSON = objJson[loc];
