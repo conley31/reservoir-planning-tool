@@ -17,7 +17,7 @@
     "generate_map_data": "cd util; python createJsonData.py; cd ../public/data_sets/map_data_named; python zipReg.py; cd ../../..",
     "test_generate_kml_data": "cd tests; python TESTcreateKmlData.py; cd ../public/data_sets/TEST_kml_files; python zipkml.py; rm *.kml; cd ../../..",
     "generate_kml_data": "cd util; python createKmlData.py; cd ../public/data_sets/kml_files; python zipkml.py; rm *.kml; cd ../../..",
-    "verify_computed_data": "cd tests; python verifyData.py; cd ../"
+    "data_test": "cd tests; python DatabaseCompleteTest.py; python DatabaseQualityTest.py; cd ../"
   },
   "repository": {
     "type": "git",
