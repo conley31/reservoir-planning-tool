@@ -250,7 +250,7 @@ var colorMap = function(addVariable) {
   }
 
   console.time("regMapLoad");
-  var file = "/data_sets/map_data_named/" + drop + "-" + pondval + "-" + waterval;
+  var file = "/data_sets/map_files/" + drop + "-" + pondval + "-" + waterval;
   rkml = "/data_sets/kml_files/" + drop + "-" + pondval + "-" + waterval;
   if(resultsval == 0){
     file = file + "-AnnualIrrigation.zip";

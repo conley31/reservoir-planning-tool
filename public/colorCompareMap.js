@@ -205,7 +205,7 @@ if(results2val == 4) {
   }
   whatMap = "compare";
   console.time("compMapLoad");
-  var file = "/data_sets/map_data_named/" + dropdownval;
+  var file = "/data_sets/map_files/" + dropdownval;
   ckml = "/data_sets/kml_files/" + dropdownval;
   if(results2val == 0){
     file = file + "-Drainflow.zip";
