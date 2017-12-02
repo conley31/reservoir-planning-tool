@@ -13,8 +13,8 @@
     "db_destroy": "pip2 install -r db/requirements.txt; python db/destroy.py;",
     "test-db-quick": "cd db; nosetests -a '!slow'; cd ../",
     "test-db-complete": "cd db; nosetests -a 'slow'; cd ../",
-    "test_generate_map_data": "python tests/regional_map_tests/TESTcreateJsonData.py; python tests/regional_map_tests/TESTcreateKmlData.py; python public/data_sets/TEST_kml_files/zipkml.py; rm public/data_sets/TEST_kml_files/*.kml; python public/data_sets/TEST_map_files/zipReg.py; rm public/data_sets/TEST_map_files/*.json",
-    "generate_map_data": "python util/regional_map/createJsonData.py; python util/regional_map/createKmlData.py; python public/data_sets/kml_files/zipkml.py; rm public/data_sets/kml_files/*.kml; python public/data_sets/map_files/zipReg.py; rm public/data_sets/map_files/*.json",
+    "test_generate_map_data": "python tests/regional_map_tests/TESTcreateJsonData.py; python tests/regional_map_tests/TESTcreateKmlData.py; cd public/data_sets/TEST_kml_files; for file in `ls *.kml`; do zip `echo $file | cut -f 1 -d '.'` $file; done; rm *.kml; cd ../TEST_map_files; for file in `ls *.json`;do zip `echo $file | cut -f 1 -d '.'` $file;done ;rm *.json",
+    "generate_map_data": "python util/regional_map/createJsonData.py; python util/regional_map/createKmlData.py; cd public/data_sets/kml_files; for file in `ls *.kml`; do zip `echo $file | cut -f 1 -d '.'` $file; done; rm *.kml; cd ../map_files; for file in `ls *.json`;do zip `echo $file | cut -f 1 -d '.'` $file;done ;rm *.json",
     "data_test": "python tests/regional_map_tests/DatabaseCompleteTest.py; python tests/regional_map_tests/DatabaseQualityTest.py"
   },
   "repository": {

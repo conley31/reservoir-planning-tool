@@ -31,7 +31,7 @@ def generateCumulativeKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
   else: 
-    numLocations = 25
+    numLocations = 20
     prefix = "./public/data_sets/TEST_map_files/"
   filesMade = 0
   maxFiles = volTagCount*soilTagCount*len(computed_file_suffixes)
@@ -151,7 +151,8 @@ def generateYearlyKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
   else: 
-    numLocations = 25
+    numLocations = 20
+    prefix = "./public/data_sets/TEST_map_files/"
   earliestYear = 1981
   numYears = 28 + 1
   filesMade = 0
@@ -274,7 +275,10 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
   else: 
-    numLocations = 25
+    numLocations = 20
+    prefix = "./public/data_sets/TEST_map_files/"
+
+    
   filesMade = 0
   maxFiles = len(database_file_suffixes)
   for i in range(len(database_file_suffixes)):
@@ -411,7 +415,8 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
   else: 
-    numLocations = 25
+    numLocations = 20
+    prefix = "./public/data_sets/TEST_map_files/"
   earliestYear = 1981
   numYears = 28 + 1
   filesMade = 0
