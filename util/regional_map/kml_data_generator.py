@@ -17,7 +17,6 @@ with open('./util/regional_map/doc.kml','rw') as stockKml:
   kmlstr = stockKml.read()
 
 root = parser.fromstring(kmlstr)
-prefix = "./public/data_sets/map_files/"
 computed_file_suffixes = ['AnnualIrrigation','PercentAnnualDrainflow','CapturedDrainflow','IrrigationSufficiency']
 database_file_suffixes = ['Drainflow','SurfaceRunoff','Precipitation','Evapotranspiration','OpenWaterEvaporation']
 
@@ -30,6 +29,7 @@ soilTagCount = 3
 def generateCumulativeKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
+    prefix = "./public/data_sets/map_files/"
   else: 
     numLocations = 20
     prefix = "./public/data_sets/TEST_map_files/"
@@ -150,6 +150,7 @@ def generateCumulativeKml(statusQueue,testFlag):
 def generateYearlyKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
+    prefix = "./public/data_sets/map_files/"
   else: 
     numLocations = 20
     prefix = "./public/data_sets/TEST_map_files/"
@@ -274,6 +275,7 @@ def generateYearlyKml(statusQueue,testFlag):
 def generateCumulativeDatabaseKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
+    prefix = "./public/data_sets/map_files/"
   else: 
     numLocations = 20
     prefix = "./public/data_sets/TEST_map_files/"
@@ -414,6 +416,7 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
 def generateYearlyDatabaseKml(statusQueue,testFlag):
   if testFlag == 0:
     numLocations = numLocationsDB
+    prefix = "./public/data_sets/map_files/"
   else: 
     numLocations = 20
     prefix = "./public/data_sets/TEST_map_files/"
