@@ -26,15 +26,13 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 1981-2009, generating the data for these maps is quite time consuming. 
 - Each potential map configuration corresponds to a JSON file that is read by the Google Maps geo-json formatter.
 - The .zip files located in `public/data_sets/map_data_named` and `public/data_sets/kml_files` contain these files, however, if the database is updated then these files will not be up to date without running the following node scripts
-#### Node scripts for updating regional map data:
+#### Node script for updating regional map data:
 - `npm run generate_map_data`
-- `npm run generate_kml_data`
-- Each of these will present you with loading bars to track the progress
+- This will present you with loading bars to track the progress
 - After the files are generated, they will be compressed and ready for use in the live map, and for optional kml download
 - If you would like to preview the generation process, run the test scripts below to get a sample of 25 locations
 - `npm run test_generate_map_data`
-- `npm run test_generate_kml_data`
-- This will NOT override any values. The outputs are located in `public/data_sets/TEST_map_data_named` and `public/data_sets/TEST_kml_files`
+- The test will NOT override any values. The outputs are located in `public/data_sets/TEST_map_data_named` and `public/data_sets/TEST_kml_files`
 
 ## Converting Whitespace Delimited Daily Files into CSVs
 - When exported, the daily data files do not have a common delimiter. One row is delimited a tab and a space and the others are delimited by two spaces.
@@ -78,7 +76,7 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 - `public/app.js`: Code for every event listener in `views/index.ejs`
 - `public/colorCompareMap.js`: Code used to color in each grid of the GeoJSON overlay based on that grid's calculated data - for the comparison map
 - `public/colorMap.js`: Code used to identify which file to load/download, and also to color in each grid of the GeoJSON overlay based on that grid's calculated data - for the regional map
-- `public/data_sets/map_data_named`: Contains all data files and their statistics used in the creation of the regional and comparison maps
+- `public/data_sets/map_files`: Contains all data files and their statistics used in the creation of the regional and comparison maps
 - `public/data_sets/stats_data`: Contains all statistical analyses performed on the data calculated for the regional and comparison maps
 - `public/generateGraphData.js`: Code used to generate the graph data given the results from TDPAlg.js
 - `public/graph.js`: Code used to create the actual google graphs given the final results from generateGraphData.js
@@ -89,6 +87,7 @@ More detailed installation instructions can be found in `docs/ExtraDocumentation
 - `util/TDPAlg.js`: Main Algorithm to calculate reservoir sizing - more information can be found in `docs/ExtraDocumentation`
 - `util/UserParse.js`: Parsing of user-submitted csv files
 - `util/polygons.js`: Function to retrieve the id of a polygon given coordinates
+- `util/regional_map`: Directory contains necessary functions and algorithms to create data used in the regional map
 - `views/`: EJS templates to be used in the website
 - `tests/`: Test scripts for components inside of TDPAlg.js
 
