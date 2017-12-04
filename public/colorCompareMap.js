@@ -271,7 +271,7 @@ function setColorComp(objJson) {
 		  var tempJSON;
 		//Drainflow
     	if(results2val == 0){
-		document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.000000e+00, 1.643583e+00, 8.386946e+00, 5.860012e+14, 6.326299e+16 | Mean = 1.332241e+15, SD = 4.28131e+15";
+		document.getElementById("five-nums2").innerHTML = "Five Number Summary: 0.000000e+00, 1.643583e+00, 8.386946e+00, 5.860012e+14, 6.326299e+16 | Mean = 1.332241e+15, SD = 4.28131e+15";
 		cmpChoice = 0;
         tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 20){
@@ -331,7 +331,7 @@ function setColorComp(objJson) {
 		
 		//SurfaceRunoff
 		else if(results2val == 1){
-			document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.00324803, 1.62379931, 3.20490982, 12.17261884, 622.00229983 | Mean = 34.97021, SD = 77.23314";
+			document.getElementById("five-nums2").innerHTML = "Five Number Summary: 0.00324803, 1.62379931, 3.20490982, 12.17261884, 622.00229983 | Mean = 34.97021, SD = 77.23314";
 			cmpChoice = 1;
       tempJSON = objJson[loc];
 			if(parseInt(tempJSON) > 110){
@@ -392,7 +392,7 @@ function setColorComp(objJson) {
 		
 		//Precipitation
 		else if (results2val == 2){
-			document.getElementById("five-nums").innerHTML = "Five Number Summary: 12.63610, 28.12480, 34.00826, 39.07008, 58.22912 | Mean = 33.4969, SD = 77.23314";
+			document.getElementById("five-nums2").innerHTML = "Five Number Summary: 12.63610, 28.12480, 34.00826, 39.07008, 58.22912 | Mean = 33.4969, SD = 77.23314";
 			cmpChoice = 2;
 			prop = "precipitation";
       tempJSON = objJson[loc];
@@ -455,7 +455,7 @@ function setColorComp(objJson) {
 		
 		//evaporation
 		else if(results2val == 3){
-			document.getElementById("five-nums").innerHTML = "Five Number Summary: 0.4598114, 48.0063976, 52.0118195, 58.4702242, 610.1174979 | Mean = 74.0531, SD = 62.38632";
+			document.getElementById("five-nums2").innerHTML = "Five Number Summary: 0.4598114, 48.0063976, 52.0118195, 58.4702242, 610.1174979 | Mean = 74.0531, SD = 62.38632";
 			cmpChoice = 3;
 			prop = "pet";
       tempJSON = objJson[loc];
@@ -517,7 +517,7 @@ function setColorComp(objJson) {
 		
 		//DEA_PET
 		else if(results2val == 4){
-			document.getElementById("five-nums").innerHTML = "Five Number Summary: 2.0000, 18.06653, 19.19257, 20.74370, 219.79867 | Mean = 19.65112, SD = 2.263488";
+			document.getElementById("five-nums2").innerHTML = "Five Number Summary: 2.0000, 18.06653, 19.19257, 20.74370, 219.79867 | Mean = 19.65112, SD = 2.263488";
 
 			cmpChoice = 4;
 			prop = "dea_pet";
