@@ -1,4 +1,5 @@
 import lxml
+import subprocess
 import json
 import sql_queries as dbQuery
 import MySQLdb as db
@@ -45,9 +46,11 @@ def generateCumulativeKml(statusQueue,testFlag):
         filestr = "0000-" + str(i) + '-' + str(j) + '-' + computed_file_suffixes[k]
         jsonfilestr = prefix + filestr + ".json"
         if testFlag == 0:
-            kmlfilestr ="./public/data_sets/kml_files/" + filestr + ".kml"
+            kmlfilestr = "./public/data_sets/kml_files/" + filestr + ".kml"
+            zipfilestr = "./public/data_sets/kml_files/" + filestr + ".zip"
         else:
-            kmlfilestr ="./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+            kmlfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+            zipfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".zip"
         with open(jsonfilestr) as data_file:
           data = json.load(data_file)
           loc = 0
@@ -143,6 +146,8 @@ def generateCumulativeKml(statusQueue,testFlag):
         new_kml = open(kmlfilestr,'w')
         new_kml.write(etree.tostring(root,pretty_print=True))
         new_kml.close()
+        subprocess.call("zip " + zipfilestr + ' ' + kmlfilestr, shell=True)
+        subprocess.call("rm " + kmlfilestr, shell=True)
         filesMade += 1
 
 
@@ -172,8 +177,10 @@ def generateYearlyKml(statusQueue,testFlag):
           jsonfilestr = prefix + filestr + ".json"
           if testFlag == 0:
             kmlfilestr ="./public/data_sets/kml_files/" + filestr + ".kml"
+            zipfilestr = "./public/data_sets/kml_files/" + filestr + ".zip"
           else:
             kmlfilestr ="./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+            zipfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".zip"
 
           with open(jsonfilestr) as data_file:
             data = json.load(data_file)
@@ -270,6 +277,8 @@ def generateYearlyKml(statusQueue,testFlag):
           new_kml = open(kmlfilestr,'w')
           new_kml.write(etree.tostring(root,pretty_print=True))
           new_kml.close()
+          subprocess.call("zip " + zipfilestr + ' ' + kmlfilestr, shell=True)
+          subprocess.call("rm " + kmlfilestr, shell=True)
           filesMade += 1
 
 def generateCumulativeDatabaseKml(statusQueue,testFlag):
@@ -292,8 +301,11 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     jsonfilestr = prefix + filestr + ".json"
     if testFlag == 0:
         kmlfilestr ="./public/data_sets/kml_files/" + filestr + ".kml"
+        zipfilestr = "./public/data_sets/kml_files/" + filestr + ".zip"
     else:
         kmlfilestr ="./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+        zipfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".zip"
+
     with open(jsonfilestr) as data_file:
       data = json.load(data_file)
     loc = 0
@@ -411,6 +423,8 @@ def generateCumulativeDatabaseKml(statusQueue,testFlag):
     new_kml = open(kmlfilestr,'w')
     new_kml.write(etree.tostring(root,pretty_print=True))
     new_kml.close()
+    subprocess.call("zip " + zipfilestr + ' ' + kmlfilestr, shell=True)
+    subprocess.call("rm " + kmlfilestr, shell=True)
     filesMade += 1
 
 def generateYearlyDatabaseKml(statusQueue,testFlag):
@@ -437,8 +451,10 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       jsonfilestr = prefix + filestr + ".json"
       if testFlag == 0:
         kmlfilestr ="./public/data_sets/kml_files/" + filestr + ".kml"
+        zipfilestr = "./public/data_sets/kml_files/" + filestr + ".zip"
       else:
-        kmlfilestr ="./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+        kmlfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".kml"
+        zipfilestr = "./public/data_sets/TEST_kml_files/" + filestr + ".zip"
       with open(jsonfilestr) as data_file:
         data = json.load(data_file)
       loc = 0
@@ -560,6 +576,8 @@ def generateYearlyDatabaseKml(statusQueue,testFlag):
       new_kml = open(kmlfilestr,'w')
       new_kml.write(etree.tostring(root,pretty_print=True))
       new_kml.close()
+      subprocess.call("zip " + zipfilestr + ' ' + kmlfilestr, shell=True)
+      subprocess.call("rm " + kmlfilestr, shell=True)
       filesMade += 1
 
 
